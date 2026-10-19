@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dig Mission · Archaeology in Tainan</title>
+<link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/en/nanke.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/nanke.html">
+<link rel="alternate" hreflang="en" href="https://tri90035156-debug.github.io/tainan-yo/en/nanke.html">
+<link rel="alternate" hreflang="ja" href="https://tri90035156-debug.github.io/tainan-yo/ja/nanke.html">
+<link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/nanke.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="臺南遊">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/en/nanke.html">
+<meta property="og:title" content="Dig Mission · Archaeology in Tainan">
+<meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/nanke.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&family=Noto+Serif:wght@700;900&display=swap">
+<link rel="stylesheet" href="../core/game.en.css?v=e47f947c">
+</head>
+<body>
+<div class="app">
+  <header>
+    <a class="home" href="index.html" aria-label="Back to the home page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></a>
+    <h1>Dig Mission</h1>
+    <button class="chips" id="chips" type="button" aria-label="See the look-back"></button>
+  </header>
+  <div class="top" id="top"></div>
+  <div class="stage" id="stage">
+    <div class="disc">
+      <svg id="map" class="now" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Picture map of the Southern Taiwan Science Park"></svg>
+      <div id="scene" hidden></div>
+    </div>
+    <div class="era" role="group" aria-label="Switch between 5,000 years ago and today"><button type="button" data-era="past" aria-pressed="false">5,000 yrs ago</button><button type="button" data-era="now" aria-pressed="true">Today</button></div>
+    <button id="peek" type="button" hidden>Map</button>
+  </div>
+  <main id="card" aria-live="polite"></main>
+  <nav class="foot"><button type="button" id="pv">‹ Back</button><span id="pos"></span><button type="button" id="nx">Next ›</button></nav>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Mission card"><div class="in"><div id="sheetDoc"></div><button class="x" type="button" id="sheetX">Close</button></div></div>
+
+<script>
+
+/* ---------- 插畫元件 ---------- */
+var K='#2A2020',NS='http://www.w3.org/2000/svg';
+var SOIL='#B08A60',SOILD='#8A6A48',CLAY='#C88A5A',BONE='#F4EAD2';
+function f1(v){return (Math.round(v*10)/10).toString()}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+// 把幾個點連成圓滑的線
+function smooth(pts){var d='M'+f1(pts[0][0])+' '+f1(pts[0][1]);
+  for(var k=1;k<pts.length-1;k++)d+='Q'+f1(pts[k][0])+' '+f1(pts[k][1])+' '+f1((pts[k][0]+pts[k+1][0])/2)+' '+f1((pts[k][1]+pts[k+1][1])/2);
+  var l=pts[pts.length-1];return d+'L'+f1(l[0])+' '+f1(l[1])}
+// 圓底陶罐的半邊形狀：[離罐口多遠, 半邊多寬]
+var PROF=[[0,30],[10,25],[22,40],[42,58],[66,64],[90,54],[108,32],[118,0]];
+function potW(dy){if(dy<=0)return PROF[0][1];for(var k=1;k<PROF.length;k++)if(dy<=PROF[k][0]){var a=PROF[k-1],b=PROF[k];return a[1]+(b[1]-a[1])*(dy-a[0])/(b[0]-a[0])}return 0}
+function potSide(cx,top,s,dir){return PROF.map(function(p){return [cx+dir*p[1]*s,top+p[0]*s]})}
+function potPath(cx,top,s){var r=potSide(cx,top,s,1),l=potSide(cx,top,s,-1).reverse();return smooth(r)+smooth(l).replace('M','L')+'Z'}
+// 繩紋：斜斜的細線花紋（id 要不一樣，地圖和遊戲圖才不會打架）
+function cordDef(id,c){return '<defs><pattern id="'+id+'" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><rect width="5" height="5" fill="none"/><path d="M0 2.5H5" stroke="'+(c||'#6E3E22')+'" stroke-width="1.5" opacity=".6"/></pattern></defs>'}
+function pot(cx,top,s,cord){var d=potPath(cx,top,s);return '<path d="'+d+'" fill="'+CLAY+'" stroke="#7A4A2E" stroke-width="'+f1(1.6/Math.max(.5,s))+'"/>'+(cord?'<path d="'+d+'" fill="url(#'+cord+')"/>':'')+'<ellipse cx="'+f1(cx)+'" cy="'+f1(top)+'" rx="'+f1(30*s)+'" ry="'+f1(5*s)+'" fill="#7A4A2E"/>'}
+// 小狗的骨頭（頭朝下＝朝南）
+function dogBones(x,y,s){var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')" stroke="#A8906A" stroke-linecap="round" stroke-linejoin="round">';
+  h+='<path d="M0 -50Q7 -43 2 -34" fill="none" stroke-width="2.6"/>';
+  h+='<path d="M-6 -26L-17 -15L-19 -3M6 -26L17 -15L19 -3M-5 14L-16 22L-18 33M5 14L16 22L18 33" fill="none" stroke-width="3.2"/><path d="M-6 -26L-17 -15L-19 -3M6 -26L17 -15L19 -3M-5 14L-16 22L-18 33M5 14L16 22L18 33" fill="none" stroke="'+BONE+'" stroke-width="1.6"/>';
+  h+='<ellipse cy="-26" rx="9" ry="4.5" fill="'+BONE+'" stroke-width="1"/>';
+  for(var k=-8;k<=12;k+=5)h+='<path d="M-1 '+k+'Q-12 '+(k+2)+' -10 '+(k+7)+'M1 '+k+'Q12 '+(k+2)+' 10 '+(k+7)+'" fill="none" stroke-width="1.6"/>';
+  for(var v=-33;v<=19;v+=5)h+='<circle cy="'+v+'" r="2.6" fill="'+BONE+'" stroke-width=".9"/>';
+  h+='<path d="M-9 24Q0 17 9 24L5 41Q0 47 -5 41Z" fill="'+BONE+'" stroke-width="1.2"/><circle cx="-3.5" cy="29" r="1.8" fill="#8A7050" stroke="none"/><circle cx="3.5" cy="29" r="1.8" fill="#8A7050" stroke="none"/>';
+  return h+'</g>'}
+function riceG(x,y,r,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+(r||0)+') scale('+(s||1)+')"><ellipse rx="8" ry="3.6" fill="#2E2622"/><ellipse cx="-2" cy="-1.2" rx="3" ry="1" fill="#6A5A50"/></g>'}
+function milletG(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')"><circle r="4.4" fill="#3A2E28"/><circle cx="-1.4" cy="-1.4" r="1.2" fill="#7A6A60"/></g>'}
+function stoneG(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')"><path d="M-8 3Q-9 -5 -1 -6Q8 -6 8 1Q7 7 0 7Q-6 7 -8 3Z" fill="#9A9AA0" stroke="#6A6A70" stroke-width="1"/></g>'}
+// 考古館（深色石牆、黃色的天井）
+function museum(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')"><path d="M-46 18H46V-12L30 -22H-30L-46 -12Z" fill="#4A4A4E" stroke="#2E2E32" stroke-width="1.4"/><rect x="-10" y="-22" width="20" height="40" fill="#F2C230"/><path d="M-40 -6H-16M-40 2H-16M16 -6H40M16 2H40" stroke="#6A6A70" stroke-width="1.2"/><rect x="-6" y="6" width="12" height="12" fill="#2E2E32"/></g>'}
+var ICON={
+  layers:'<rect x="-11" y="-10" width="22" height="20" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M-11 -4H11M-11 2H11" stroke="#fff" stroke-width="2"/><circle cx="-4" cy="6" r="1.6" fill="#fff"/><circle cx="4" cy="-7" r="1.4" fill="#fff"/>',
+  dog:'<path d="M-6 0H6" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><circle cx="-8" cy="-3" r="2.8" fill="#fff"/><circle cx="-8" cy="3" r="2.8" fill="#fff"/><circle cx="8" cy="-3" r="2.8" fill="#fff"/><circle cx="8" cy="3" r="2.8" fill="#fff"/>',
+  rice:'<ellipse cx="-4" cy="-4" rx="5" ry="2.2" transform="rotate(-30 -4 -4)" fill="#fff"/><ellipse cx="5" cy="-1" rx="5" ry="2.2" transform="rotate(40 5 -1)" fill="#fff"/><ellipse cx="-2" cy="6" rx="5" ry="2.2" fill="#fff"/>',
+  cord:'<rect x="-5" y="-11" width="10" height="14" rx="2" fill="none" stroke="#fff" stroke-width="2"/><path d="M0 3V11" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M-5 -8L5 -5M-5 -3L5 0" stroke="#fff" stroke-width="1.2"/>',
+  pot:'<path d="M-5 -10H5V-7Q10 -4 10 2Q10 10 0 11Q-10 10 -10 2Q-10 -4 -5 -7Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M-6 -1L6 4M-7 4L5 8" stroke="#fff" stroke-width="1"/>',
+  museum:'<path d="M-11 9H11M-9 9V-3H9V9M-11 -3L-6 -9H6L11 -3" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><rect x="-2" y="-9" width="4" height="18" fill="#fff"/>'
+};
+function icon(k){return '<svg viewBox="-12 -12 24 24" aria-hidden="true">'+ICON[k]+'</svg>'}
+
+function idCard(t1,t2,art,C){
+  var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F2EBDD" role="img" aria-label="'+t1+': what it looks like"><rect x="-400" y="170" width="1200" height="60" fill="'+SOIL+'"/>'+art;
+  C.forEach(function(c){s+='<path d="M'+c[3]+' '+c[4]+'L'+c[1]+' '+(c[2]-5)+'" stroke="#8A7A70" stroke-width="1.2"/><circle cx="'+c[3]+'" cy="'+c[4]+'" r="2.6" fill="#DB2E27"/>'+
+    '<text x="'+c[1]+'" y="'+c[2]+'" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#F2EBDD" stroke-width="4" paint-order="stroke">'+c[0]+'</text>'});
+  return s+'<text x="160" y="30" font-size="24" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif,Songti TC,serif" stroke="#F2EBDD" stroke-width="4" paint-order="stroke">'+t1+'</text>'+(t2?'<text x="160" y="188" font-size="14" font-weight="700" fill="#FFF8EC" text-anchor="middle">'+t2+'</text>':'')+'</svg>';
+}
+// 一關做完：說過關的話，有題目就出題，再蓋章
+function lvDone(area,i,l,msg,t){say(msg,t);later(function(){say(msg,l.win);if(l.q)quiz(area,l,function(){finish(i)});else finish(i)},900)}
+
+/* ---------- 地圖 ---------- */
+// 示意圖：南科（新市）。「5000 年前」是村子、稻田和小米田；「今天」是科學園區的工廠和考古館
+var STOPS=[{lv:1,n:'Dig site',x:220,y:200,k:'pit'},{lv:2,n:'Nanguanli',x:400,y:150,k:'dog'},{lv:3,n:'Nanguanli East',x:560,y:240,k:'rice'},{lv:4,n:'Pot making',x:290,y:370,k:'pot'},{lv:5,n:'Lab',x:470,y:400,k:'lab'},{lv:6,n:'Museum',x:640,y:350,k:'museum'}];
+function marker(s){
+  var t='<g transform="translate('+s.x+' '+s.y+')">';
+  if(s.k==='pit')return t+'<rect x="-22" y="-14" width="44" height="28" fill="'+SOILD+'" stroke="#5A3E2B" stroke-width="1.2"/><path d="M-22 -5H22M-22 4H22" stroke="#C8A470" stroke-width="2"/><path d="M14 -24L20 -12" stroke="#5A3E2B" stroke-width="2.4" stroke-linecap="round"/><path d="M18 -14L24 -10L20 -4Z" fill="#9AA6B0"/></g>';
+  if(s.k==='dog')return t+'<rect x="-22" y="-26" width="44" height="50" fill="'+SOILD+'" stroke="#5A3E2B" stroke-width="1.2"/>'+dogBones(0,-2,.46)+'</g>';
+  if(s.k==='rice')return t+'<ellipse rx="22" ry="11" fill="#F4F0E8" stroke="#A89A88" stroke-width="1.2"/>'+riceG(-8,-2,-20,.8)+riceG(6,-3,30,.8)+riceG(0,4,0,.8)+milletG(12,4,.7)+'</g>';
+  if(s.k==='pot')return t+cordDef('cordM')+pot(0,-24,.38,'cordM')+'</g>';
+  if(s.k==='lab')return t+'<rect x="-24" y="2" width="48" height="6" fill="#8A6A3A"/><path d="M-20 8V20M20 8V20" stroke="#5A3E2B" stroke-width="2.4"/>'+pot(-6,-22,.2)+'<circle cx="12" cy="-10" r="8" fill="#DDEFF4" stroke="#5A4E48" stroke-width="2"/><path d="M17 -4L23 2" stroke="#5A4E48" stroke-width="3" stroke-linecap="round"/></g>';
+  return t+museum(0,-4,.62)+'</g>';
+}
+function buildMap(){
+  var h='<rect x="-400" y="-300" width="1600" height="1200" fill="#E6DCC4"/>';
+  h+='<g id="past"><rect x="-400" y="-300" width="1600" height="1200" fill="#D4E4B4"/><path d="M-400 520Q100 470 330 500Q560 540 820 470Q1000 430 1200 460" stroke="#8EC3D8" stroke-width="22" fill="none" stroke-linecap="round"/><g id="frPast"></g><text x="400" y="560" font-size="15" fill="#6C2024" text-anchor="middle" stroke="#D4E4B4" stroke-width="4" paint-order="stroke">5,000 years ago: a village, rice fields and millet fields</text></g>';
+  h+='<g id="now"><rect x="-400" y="-300" width="1600" height="1200" fill="#E4E0D6"/><path d="M-400 90H1200M-400 470H1200M110 -300V900M740 -300V900" stroke="#F8F6F0" stroke-width="18" fill="none"/><g id="frNow"></g><text x="400" y="560" font-size="15" fill="#6C2024" text-anchor="middle" stroke="#E4E0D6" stroke-width="4" paint-order="stroke">Today: a science park full of factories</text></g>';
+  var T=function(t,x,y,sz,c,bg){return '<text x="'+x+'" y="'+y+'" font-size="'+sz+'" fill="'+c+'" text-anchor="middle" stroke="'+(bg||'#E6DCC4')+'" stroke-width="4" paint-order="stroke">'+t+'</text>'};
+  h+=T('Xinshi',400,56,28,'#7A4A2E');
+  h+='<g transform="translate(100 400)"><circle r="16" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -11L5 4L0 1L-5 4Z" fill="#DB2E27"/><text y="12" font-size="9" fill="#5A4E48" text-anchor="middle">N</text></g>';
+  h+=T('Picture map, not to scale',400,584,12,'#8A7A70');
+  STOPS.forEach(function(s){h+='<g class="stop" data-lv="'+s.lv+'" role="button" aria-label="Level '+s.lv+': '+s.n+'">'+marker(s)+'<circle cx="'+(s.x+26)+'" cy="'+(s.y-28)+'" r="10" fill="#fff" stroke="#E2574C" stroke-width="2"/><text x="'+(s.x+26)+'" y="'+(s.y-23.5)+'" font-size="13" fill="#E2574C" text-anchor="middle">'+s.lv+'</text><text x="'+s.x+'" y="'+(s.y+36)+'" font-size="16" font-weight="700" fill="#5A3E2B" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+s.n+'</text></g>'});
+  h+='<g id="pin" style="display:none"><g class="pin"><path d="M0 0C-10 -14 -14 -20 -14 -27A14 14 0 1 1 14 -27C14 -20 10 -14 0 0Z" fill="#E2574C" stroke="#fff" stroke-width="2.5"/><text y="-22" font-size="12" fill="#fff" text-anchor="middle">YOU</text></g></g>';
+  return h;
+}
+function near(x,y,w,hh){return STOPS.some(function(s){return Math.abs(s.x-x)<w&&Math.abs(s.y-y)<hh})}
+function decorate(){
+  var r=rnd(41),p='',q='';
+  for(var x=20;x<820;x+=46)for(var y=30;y<540;y+=42){
+    var cx=x+(r()-.5)*10,cy=y+(r()-.5)*8,a=r(),b=r();
+    if(near(cx,cy,62,66))continue;
+    if(Math.abs(cx-400)<50&&Math.abs(cy-48)<24)continue;
+    if(Math.abs(cx-100)<34&&Math.abs(cy-400)<34)continue;
+    // 5000 年前：茅草屋、稻田、樹（河的旁邊不放）
+    if(cy<488||cy>530){
+      if(a<.16)p+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><rect x="-10" y="-2" width="20" height="12" fill="#C8A878" stroke="#8A6A3A" stroke-width="1"/><path d="M-15 -1L0 -15L15 -1Z" fill="#B89A5A" stroke="#7A6030" stroke-width="1"/></g>';
+      else if(a<.6)p+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><rect x="-17" y="-11" width="34" height="22" fill="'+(b<.5?'#A8CC78':'#C8D888')+'" stroke="#8AAA5A" stroke-width="1"/><path d="M-12 -6V6M-4 -6V6M4 -6V6M12 -6V6" stroke="#6E9A44" stroke-width="1.4" stroke-dasharray="2 2"/></g>';
+      else if(a<.8)p+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><path d="M0 2V10" stroke="#6A4A2A" stroke-width="2.4"/><circle cy="-4" r="9" fill="#6EA048"/></g>';
+    }
+    // 今天：工廠（避開馬路）
+    if(Math.abs(cy-90)<26||Math.abs(cy-470)<26||Math.abs(cx-110)<30||Math.abs(cx-740)<30)continue;
+    if(b<.55)q+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><rect x="-17" y="-8" width="34" height="18" fill="'+(a<.5?'#B8C4CC':'#C8CCD4')+'" stroke="#8A96A0" stroke-width="1"/><path d="M-17 -8L-11 -14V-8L-5 -14V-8L1 -14V-8L7 -14V-8" fill="#9AA6B0" stroke="#8A96A0" stroke-width="1"/></g>';
+    else if(b<.75)q+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><path d="M0 2V9" stroke="#6A4A2A" stroke-width="2.2"/><circle cy="-3" r="7" fill="#7EA858"/></g>';
+  }
+  // 5000 年前：村子裡的人和小狗
+  p+='<g transform="translate(350 250)"><circle cy="-14" r="5" fill="#C8906A"/><path d="M-5 -9H5L6 6H-6Z" fill="#8A6A4A"/><path d="M14 2Q20 -4 28 0Q30 4 26 6H16Z" fill="#B8865A"/><circle cx="29" cy="-1" r="3.4" fill="#B8865A"/><path d="M15 3Q10 -2 12 -6" stroke="#B8865A" stroke-width="2" fill="none"/></g>';
+  map.querySelector('#frPast').innerHTML=p;
+  map.querySelector('#frNow').innerHTML=q;
+}
+
+/* ---------- 關卡 ---------- */
+var LV=[
+  {cam:[60,0,660,660],kick:'Dig Mission',h:'5,000 years under the ground',
+   html:'<p>In <b>Xinshi</b>, part of the city of <b>Tainan</b> in Taiwan, there is a huge <b>science park</b>. People call it <b>Nanke</b>. It is full of high-tech factories.</p><p>About 30 years ago, workers started digging to build it. And guess what? They found lots of things left by people who lived here <b>5,000 years ago</b>! That is about when people in England began building Stonehenge.</p><p class="task">Join a young <b>archaeologist</b> from the Nanke dig team. Dig down layer by layer and find out how people lived 5,000 years ago. Finish each level to get a stamp!</p>',
+   after:'<p class="note">Use the switch at the top right of the map to compare <b>5,000 years ago / Today</b> in the same place.<br>For grown-ups: the Nanke Archaeology Museum (Tainan Branch, National Museum of Prehistory) is at No. 10, Nanke 3rd Road, Xinshi District, Tainan. It is closed on Mondays. Please check the museum’s website for opening hours and tickets.</p>',
+   game:'start'},
+  {cam:[0,0,300,225],kick:'Level 1 · The building site (1995)',h:'The ground has layers',
+   html:'<p>In <b>1995</b>, Taiwan decided to build the science park between <b>Xinshi</b> and <b>Shanhua</b>. First, archaeologists did a test dig at the <b>Daoye site</b>. Just <b>2 meters</b> down, they found lots of <b>broken pottery</b>.</p><p>After that, whenever old things turned up, the building work stopped. The dig team worked fast to dig everything up and write it all down. This is called <b>rescue archaeology</b>.</p><p class="note">For grown-ups: based on The News Lens (1995 site choice, Daoye test dig, pottery found 2 m down, work stopped for rescue digs) and TechNews (project started 1996; 58 sites, 34 dug on a large scale). The four layers are simplified.</p>',
+   task:'Oh no, the layers got mixed up! Tap <b>one layer</b>, then tap <b>another</b>, and they <b>swap</b>. Put the <b>oldest</b> at the <b>bottom</b> and the newest at the top.',game:'swap',stamp:['layers','Layers in order'],
+   win:'Done! <b>The deeper the ground, the older it is.</b> The bottom layer at Nanke is about <b>5,000 years</b> old.',
+   why:['Why is the bottom the oldest?','Dirt <b>piles up</b> a little every year. It is like a stack of books: the first book you put down is at the bottom, and the last one is on top.'],
+   q:{t:'When you dig down in one place, what are the deeper things like?',o:['Older','Newer','All the same'],a:0,hint:'Think of a stack of books. Where is the first one you put down?',
+      e:'Right! <b>Deeper means older.</b> That is how archaeologists tell what came first.'}},
+  {cam:[0,0,300,225],kick:'Level 2 · The Nanguanli site',h:'Taiwan’s first dog',
+   html:'<p>At <b>Nanguanli</b>, the dig team found the <b>bones of several dogs</b>. They are about <b>4,300 to 5,000 years</b> old. They are the <b>oldest dogs</b> ever found in Taiwan.</p><p>Archaeologists split the ground into a <b>grid of squares</b>. Every time they find a bone, they write down <b>which square</b> it was in.</p><p class="note">For grown-ups: based on CNA (2022) and Taiwan’s Ministry of Culture. Four dog skeletons, about 4,300–5,000 years old, were found complete at Nanguanli, heads pointing south like the human burials. The grid labels and bone positions are made up for the game.</p>',
+   task:'Look at the <b>record card</b> on the right (like <b>B3</b>). Find the letter <b>B</b> along the top, then go down to the number <b>3</b>. Tap that square to dig out the bone. Find all <b>6 squares</b>!',game:'grid',stamp:['dog','Found the dog'],
+   win:'All the dog’s bones are uncovered! Its <b>head points south</b>, the same way people were buried.',
+   why:['Why write down which square each bone was in?','Once you dig, the dirt is gone forever. Only the <b>records</b> can tell us how things were lying. Thanks to the records, we know the dog was buried with care, <b>head pointing south</b>.'],
+   q:{t:'The dog was buried with care, head south, just like people. What does that tell us?',o:['People saw the dog as family','The dog was eaten','The dog dug itself in'],a:0,hint:'Leftover bones from a meal would be all jumbled up, not laid out neatly.',
+      e:'Right! Researchers think people 5,000 years ago treated dogs like <b>family</b>.'}},
+  {cam:[0,0,300,225],kick:'Level 3 · The Nanguanli East site',h:'Rice from 5,000 years ago',
+   html:'<p>In the dirt at the <b>Nanguanli East site</b>, the team found tiny black grains. They are <b>rice</b> that was burned in a fire and turned to charcoal. This is called <b>charred rice</b>. It is about <b>4,200 to 4,800 years</b> old.</p><p>They also found <b>millet</b>, a tiny round grain. So people back then already knew how to <b>grow rice</b> and millet!</p><p class="note">For grown-ups: based on Taiwan’s Ministry of Culture and a National Tsing Hua University paper on rice and millet from the Nanke digs. Charred rice from the Nanguanli East site (Dabenkeng culture, about 4,800–4,200 years ago) suggests rice was grown in Taiwan about 5,000 years ago.</p>',
+   task:'The dish has <b>charred rice</b> (long), <b>millet</b> (small and round) and some <b>little stones</b>. The grains are tiny, so use tweezers: <b>double-tap fast</b> on a grain to pick it up. Pick up <b>6 grains</b>!',game:'tweezer',stamp:['rice','Picked ancient rice'],
+   win:'All 6 grains picked! These tiny grains tell us people 5,000 years ago were already <b>farming</b>.',
+   why:['Why did the rice turn black and last thousands of years?','The rice was burned and turned into <b>charcoal</b>. Charcoal does not rot, so it can stay in the ground for thousands of years. Rice that was not burned rotted away long ago.'],
+   q:{t:'Rice from 5,000 years ago was found at Nanke. What does that mean?',o:['People already grew rice back then','There were grocery stores back then','Birds brought the rice'],a:0,hint:'Lots of rice, and millet too. Who grew it all?',
+      e:'Right! People back then already knew how to <b>grow rice</b>.'}},
+  {cam:[0,0,300,225],kick:'Level 4 · A village 5,000 years ago',h:'Pat on a rope pattern',era:'past',
+   html:'<p>Let’s go back <b>5,000 years</b>. The people living here then belonged to the <b>Dabenkeng culture</b>. They are the first people we know of in Taiwan who made pottery.</p><p>They did not use a potter’s wheel. They stacked up <b>coils of clay</b>, round and round. Then they patted the pot with a <b>wooden paddle wrapped in rope</b>. That left a <b>rope pattern</b> on the outside. We call it <b>cord-marked pottery</b>.</p><p class="note">For grown-ups: the Dabenkeng culture is the oldest known Neolithic culture in Taiwan, known for coarse cord-marked pottery. “Coil-building, then paddling with a cord-wrapped paddle” is the general explanation for cord-marked pottery; we found no study specific to Nanke.</p>',
+   task:'The pot is still smooth. <b>Tap</b> the pot and the paddle pats it, leaving a rope pattern. Cover the <b>whole pot</b>!',game:'stamp',stamp:['cord','Patted the pot'],
+   win:'The whole pot has a rope pattern! Patting presses the clay coils tightly together.',
+   why:['Why pat the pot?','Patting makes the <b>clay coils</b> stick together, so the pot is <b>stronger</b> and does not crack easily. The rope pattern is left behind at the same time.']},
+  {cam:[0,0,300,225],kick:'Level 5 · The museum lab',h:'Draw the whole pot',
+   html:'<p>Pots that are dug up are often <b>broken into pieces</b>. Researchers fit the pieces back together, like a jigsaw puzzle.</p><p>Even <b>half a pot</b> is enough. The <b>left and right sides of a pot are almost the same</b>, so from one half you can draw the whole pot.</p><p class="note">For grown-ups: most pottery found in digs is in pieces and must be joined and repaired, which is standard practice. Gallery 3 of the museum is about “science in archaeology.” Drawing the missing half is a game idea.</p>',
+   task:'On the left is half a pot, glued back together. Start your finger at the <b>rim</b> and draw the <b>matching half</b> on the <b>right</b>. Keep going down to the <b>bottom</b>, then let go.',game:'mirror',stamp:['pot','Drew the pot'],
+   win:'You did it! Both sides match, and the whole pot appears: a <b>round belly and a round bottom</b>.',
+   why:['Why are the two sides of a pot the same?','A pot is built from <b>rings</b> of clay, and every ring is round. So from the side, the left and right look almost the same.'],
+   q:{t:'What do pots usually look like when they are dug up?',o:['Broken into pieces','Shiny and new','Still full of food'],a:0,hint:'After thousands of years under the ground, things break easily.',
+      e:'Right! They are often <b>in pieces</b> and have to be put back together slowly.'}},
+  {cam:[0,0,300,225],kick:'Level 6 · Nanke Archaeology Museum',h:'Put the treasures on show',
+   html:'<p>In <b>2019</b>, the <b>Nanke Archaeology Museum</b> opened in Xinshi. More than <b>8 million</b> things have been dug up at Nanke!</p><p>The architect <b>Kris Yao</b> designed the museum around the idea of <b>“digging down.”</b> As you walk in, it feels like going down layer by layer with the dig team, back to 5,000 years ago.</p><p class="note">For grown-ups: based on Newtalk and Yam News reports on the 2019 opening (over 8 million objects, designed by Kris Yao). The museum is closed on Mondays and has a children’s gallery. Please check the National Museum of Prehistory for hours and tickets.</p>',
+   task:'These treasures break easily! Hold one on the cart and drag it <b>slowly</b> into a dotted box in the <b>display case</b> on the right. Too fast and it wobbles back to the cart. Place <b>3 treasures</b>.',game:'slow',stamp:['museum','On display'],
+   win:'All 3 treasures are in the case! Visit the Nanke Archaeology Museum to see what people left behind 5,000 years ago.',
+   why:['Why keep even the broken bits?','Every piece is recorded with <b>where</b> it was found. When new ways of testing come along, scientists can take it out and <b>study it again</b> to learn even more about the past.'],
+   q:{t:'About how many things have been dug up at Nanke?',o:['Over 8 million','8','80'],a:0,hint:'They have been digging for over 20 years. That is a lot!',
+      e:'Right! <b>Over 8 million</b>, dug up over more than 20 years.'}},
+  {cam:[60,0,660,660],kick:'Mission complete',h:'5,000 years under the ground',
+   html:'<p>You put the layers in order, found Taiwan’s first dog on the grid, picked up 5,000-year-old rice with tweezers, patted a cord-marked pot, drew a whole pot, and put the treasures on show. Visit the Nanke Archaeology Museum in Xinshi to see 5,000 years under the ground.</p>',game:'end'}
+];
+
+
+/* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
+var MAPS={"0": [["Nanke Archaeology Museum", "Nanke Archaeology Museum Tainan"]], "6": [["Nanke Archaeology Museum", "Nanke Archaeology Museum Tainan"]]};
+
+/* ---------- 這個遊戲的設定（共用核心會讀） ---------- */
+var KEY='tainan-nanke';
+var NOTE='For grown-ups: the Nanke Archaeology Museum is at No. 10, Nanke 3rd Road, Xinshi District, Tainan, and is closed on Mondays. Please check the National Museum of Prehistory for hours and tickets.<br>Sources (all in Chinese): The News Lens (1995 site choice, Daoye test dig, rescue digs); TechNews 2016 (dig project started 1996, 58 sites, 34 large digs, about 300 to 5,000 years old); Newtalk, Yam News and Smile Taiwan 2019 (museum opening, over 8 million objects, designed by Kris Yao); CNA 2022 and the Ministry of Culture (Taiwan’s first dog at Nanguanli, head south); the Ministry of Culture and a National Tsing Hua University paper (charred rice and millet at Nanguanli East); PTS 2025 (gray-black pottery of the Dahu culture). How cord-marked pots were made and how pieces are joined come from general archaeology sources. The map is a picture map, not to scale.';
+
+var GAMES={
+  start:function(area){
+    var art=cordDef('cordC')+pot(70,74,.62,'cordC')+'<ellipse cx="165" cy="142" rx="32" ry="12" fill="#F4F0E8" stroke="#A89A88" stroke-width="1.2"/>'+riceG(152,140,-20)+riceG(170,137,25)+riceG(162,147,5)+milletG(182,145)+dogBones(252,108,.95);
+    setScene(idCard('Nanke Museum','Found at Nanke: 5,000-year-old things',art,[['Rope pot',62,58,62,92],['Old rice',165,116,165,136],['Dog bones',252,50,252,64]]));
+    var b=el('<button class="big" type="button">Let’s go</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
+
+  /* 第 1 關：點兩層交換位置，把土層排成越下面越老 */
+  swap:function(area,i,l){
+    var L=[{t:'Today’s dirt',c:'#9A7A58'},{t:'1,000 yrs · iron tools',c:'#B58A5A'},{t:'3,000 yrs · gray pots',c:'#8E7E6E'},{t:'5,000 yrs · rope pots',c:'#C49A6A'}],ord=[2,0,3,1],sel=-1,done=false,X0=44,W=232,Y0=10,H=42;
+    function art(k){
+      if(k===0)return '<path d="M-12 8L-10 -6M-5 8L-4 -9M2 8L4 -7M9 8L12 -5" stroke="#4E8A3A" stroke-width="2.4" stroke-linecap="round"/>';
+      if(k===1)return '<path d="M-14 2L8 -5L15 -2L-12 6Z" fill="#7A7A80" stroke="#4A4A50" stroke-width="1"/><rect x="-20" y="2" width="9" height="4" fill="#6A4A2A"/>';
+      if(k===2)return '<path d="M-13 -6Q0 -11 13 -6L10 7Q0 10 -10 7Z" fill="#4A4448" stroke="#2A2428" stroke-width="1"/>';
+      return '<path d="M-13 -6Q0 -11 13 -6L10 7Q0 10 -10 7Z" fill="#C0703E" stroke="#7A4A2E" stroke-width="1"/><path d="M-9 -4L-4 5M-3 -6L2 6M3 -6L8 5" stroke="#7A4A2E" stroke-width="1.2"/>'}
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#DDEFF4"><rect x="-400" y="178" width="1200" height="80" fill="#7A5A3E"/><g id="ly"></g>'+
+      '<path d="M24 34V150" stroke="#6C2024" stroke-width="2"/><path d="M18 144L24 156L30 144" fill="#6C2024"/><text x="24" y="26" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle">New</text><text x="24" y="172" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle">Old</text></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),ly=svg.querySelector('#ly');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){var h='';
+      ord.forEach(function(v,k){var y=Y0+k*H,o=L[v];h+='<rect x="'+X0+'" y="'+y+'" width="'+W+'" height="'+H+'" fill="'+o.c+'"/>';
+        for(var q=0;q<7;q++)h+='<circle cx="'+(X0+20+((q*53+v*29)%(W-30)))+'" cy="'+(y+8+((q*17+v*11)%(H-14)))+'" r="1.6" fill="#fff" opacity=".25"/>';
+        h+='<g transform="translate('+(X0+28)+' '+(y+H/2)+')">'+art(v)+'</g><text x="'+(X0+W/2+18)+'" y="'+(y+H/2+5)+'" font-size="15" font-weight="700" fill="#2A2020" text-anchor="middle" stroke="#FFF8EC" stroke-width="3.5" paint-order="stroke">'+o.t+'</text>';
+        if(k===sel)h+='<rect x="'+(X0+2)+'" y="'+(y+2)+'" width="'+(W-4)+'" height="'+(H-4)+'" fill="#fff" fill-opacity=".2" stroke="#DB2E27" stroke-width="3" stroke-dasharray="7 4"/>'});
+      h+='<rect x="'+X0+'" y="'+Y0+'" width="'+W+'" height="'+(H*4)+'" fill="none" stroke="#5A3E2B" stroke-width="1.6"/>';
+      ly.innerHTML=h;bar.style.width=(ord.filter(function(v,k){return v===k}).length/4*100)+'%'}
+    draw();
+    function check(){if(ord.every(function(v,k){return v===k})){done=true;sel=-1;draw();lvDone(area,i,l,msg,'All in order!')}}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      if(p.x<X0-8||p.x>X0+W+8)return;
+      var k=Math.floor((p.y-Y0)/H);if(k<0||k>3)return;
+      if(sel<0){sel=k;draw();say(msg,'Got it! Now tap <b>another layer</b> to swap them.');return}
+      if(sel===k){sel=-1;draw();say(msg,'Cancelled. Pick a layer again.');return}
+      var tmp=ord[sel];ord[sel]=ord[k];ord[k]=tmp;sel=-1;draw();
+      if(!done)say(msg,'Swapped! <b>Today’s dirt</b> goes on top and the <b>oldest</b> goes at the bottom.');check()
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','Layers of dirt. Press Enter to put them in order');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();ord=[0,1,2,3];check()}});
+    later(function(){if(!done&&sel<0)say(msg,'First <b>tap a layer</b> (a red dotted line appears). Then tap another layer and they swap places.')},9000);
+  },
+
+  /* 第 2 關：看記錄單的方格座標，點出那一格，清出小狗的骨頭 */
+  grid:function(area,i,l){
+    var C=47,OX=50,OY=22,COL='ABCD',SEQ=['C2','B4','B1','C3','B2','B3'],k=0,done=false,open={},miss=0;
+    var s='<svg class="mini" viewBox="0 0 320 216" style="background:#EFE6D2"><rect x="-400" y="212" width="1200" height="80" fill="'+SOILD+'"/><rect x="'+OX+'" y="'+OY+'" width="'+(C*4)+'" height="'+(C*4)+'" fill="#C8A47A"/>'+dogBones(144,116,1.75)+'<g id="cv"></g>';
+    for(var c=0;c<4;c++)s+='<text x="'+(OX+c*C+C/2)+'" y="'+(OY-6)+'" font-size="15" font-weight="900" fill="#6C2024" text-anchor="middle">'+COL[c]+'</text>';
+    for(var r=0;r<4;r++)s+='<text x="'+(OX-12)+'" y="'+(OY+r*C+C/2+5)+'" font-size="15" font-weight="900" fill="#6C2024" text-anchor="middle">'+(r+1)+'</text>';
+    s+='<g transform="translate(18 116)"><circle r="14" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -10L4 3L0 1L-4 3Z" fill="#DB2E27"/><text y="11" font-size="8" fill="#5A4E48" text-anchor="middle">N</text></g>';
+    s+='<rect x="246" y="56" width="66" height="96" rx="6" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><text x="279" y="76" font-size="13" font-weight="700" fill="#5A4E48" text-anchor="middle">Record</text><text id="cd" x="279" y="116" font-size="30" font-weight="900" fill="#DB2E27" text-anchor="middle"></text><text id="cn" x="279" y="140" font-size="13" fill="#5A4E48" text-anchor="middle"></text><g id="hl"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),cv=svg.querySelector('#cv'),hl=svg.querySelector('#hl');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function cell(n){return [COL.indexOf(n[0]),+n[1]-1]}
+    function draw(){var h='';
+      for(var c=0;c<4;c++)for(var r=0;r<4;r++){var n=COL[c]+(r+1),x=OX+c*C,y=OY+r*C;
+        if(!open[n]){h+='<rect x="'+x+'" y="'+y+'" width="'+C+'" height="'+C+'" fill="#9A7550"/>';for(var q=0;q<4;q++)h+='<circle cx="'+(x+6+((q*13+c*7+r*5)%28))+'" cy="'+(y+6+((q*11+c*5+r*9)%28))+'" r="1.5" fill="#7A5A3E"/>'}
+        h+='<rect x="'+x+'" y="'+y+'" width="'+C+'" height="'+C+'" fill="none" stroke="#FFF8EC" stroke-width="1" stroke-dasharray="3 2"/>'}
+      cv.innerHTML=h;
+      svg.querySelector('#cd').textContent=done?'OK':SEQ[k];svg.querySelector('#cn').textContent=done?'':(k+1)+' of 6';
+      bar.style.width=(k/6*100)+'%'}
+    draw();
+    function hit(n){
+      if(n===SEQ[k]){open[n]=1;k++;miss=0;hl.innerHTML='';
+        if(k>=SEQ.length){done=true;'ABCD'.split('').forEach(function(a){for(var r=1;r<=4;r++)open[a+r]=1});draw();
+          hl.innerHTML='<text x="214" y="184" font-size="15" font-weight="900" fill="#DB2E27" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">Head south</text><path d="M214 189V203M209 197L214 204L219 197" stroke="#DB2E27" stroke-width="2" fill="none"/>';
+          lvDone(area,i,l,msg,'All 6 squares are dug! Now clear the rest of the dirt and see the whole dog.')}
+        else{draw();say(msg,'Found it! There is a bone in <b>'+n+'</b>. Check the record card for the next square.')}
+        return}
+      miss++;var g=SEQ[k];
+      say(msg,'You tapped <b>'+n+'</b>. The card says <b>'+g+'</b>: find the letter <b>'+g[0]+'</b> along the top, then go down to the number <b>'+g[1]+'</b>.',1);
+      if(miss>=2){var q=cell(g);hl.innerHTML='<rect x="'+(OX+q[0]*C+2)+'" y="'+(OY+q[1]*C+2)+'" width="'+(C-4)+'" height="'+(C-4)+'" fill="none" stroke="#DB2E27" stroke-width="3" stroke-dasharray="6 4"/>'}
+    }
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      var c=Math.floor((p.x-OX)/C),r=Math.floor((p.y-OY)/C);if(c<0||c>3||r<0||r>3)return;
+      var n=COL[c]+(r+1);if(open[n]){say(msg,'<b>'+n+'</b> is already dug. Check the card: now find <b>'+SEQ[k]+'</b>.',1);return}
+      hit(n)
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','Dig grid. Press Enter to dig the square on the record card');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();hit(SEQ[k])}});
+    later(function(){if(!done&&k===0&&!miss)say(msg,'The card says <b>C2</b>: find the letter <b>C</b> along the top, count down to <b>2</b>, and tap that square.')},8000);
+  },
+
+  /* 第 3 關：用鑷子點兩下，夾起碳化稻米和小米 */
+  tweezer:function(area,i,l){
+    var T=[{k:'r',x:90,y:80,r:20},{k:'r',x:150,y:58,r:-30},{k:'r',x:218,y:92,r:60},{k:'r',x:118,y:134,r:10},{k:'m',x:186,y:140},{k:'m',x:250,y:70},{k:'s',x:62,y:110},{k:'s',x:132,y:96},{k:'s',x:180,y:104},{k:'s',x:242,y:128}],
+      N=6,n=0,done=false,lastK=-1,lastT=0,tm=0;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E8EEF0"><rect x="-400" y="180" width="1200" height="80" fill="#C8BCA8"/><ellipse cx="160" cy="100" rx="134" ry="78" fill="#F4F0E8" stroke="#A89A88" stroke-width="2"/><ellipse cx="160" cy="100" rx="122" ry="68" fill="#D8BC90"/>';
+    var r0=rnd(7);for(var q=0;q<70;q++){var a=r0()*6.283,d=Math.sqrt(r0());s+='<circle cx="'+f1(160+Math.cos(a)*d*114)+'" cy="'+f1(100+Math.sin(a)*d*62)+'" r="'+f1(.8+r0()*1.2)+'" fill="#B89868"/>'}
+    s+='<g id="it"></g><g id="tw"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),it=svg.querySelector('#it'),tw=svg.querySelector('#tw');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){it.innerHTML=T.filter(function(o){return !o.got}).map(function(o){return o.k==='r'?riceG(o.x,o.y,o.r,1.35):o.k==='m'?milletG(o.x,o.y,1.3):stoneG(o.x,o.y,1.3)}).join('');bar.style.width=(n/N*100)+'%'}
+    function tweez(o,shut){if(!o){tw.innerHTML='';return}var g=shut?2:7;
+      tw.innerHTML='<g transform="translate('+o.x+' '+o.y+')"><path d="M2 -3L34 -50M'+g+' 0L44 -44" stroke="#8A96A0" stroke-width="3" stroke-linecap="round"/><path d="M2 -3L34 -50M'+g+' 0L44 -44" stroke="#D8E0E6" stroke-width="1.2" stroke-linecap="round"/></g>'}
+    draw();
+    loops.push(function(){clearTimeout(tm)});
+    function pick(o){o.got=true;n++;tweez(null);draw();
+      if(n>=N){done=true;lvDone(area,i,l,msg,'That’s 6 grains!')}else say(msg,'You got '+(o.k==='r'?'<b>charred rice</b>':'<b>millet</b>')+'! '+(N-n)+' more to go.')}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      var now=performance.now(),best=-1,bd=22;T.forEach(function(o,j){if(o.got)return;var d=Math.hypot(p.x-o.x,p.y-o.y);if(d<bd){bd=d;best=j}});
+      if(best<0){lastK=-1;tweez(null);say(msg,'Tap right on a <b>grain</b>.',1);return}
+      var o=T[best];
+      if(best===lastK&&now-lastT<550){lastK=-1;clearTimeout(tm);
+        if(o.k==='s'){tweez(null);say(msg,'That is a <b>little stone</b>, not rice. Charred rice is <b>black</b>.',1);return}
+        tweez(o,1);later(function(){pick(o)},120);return}
+      lastK=best;lastT=now;tweez(o);clearTimeout(tm);
+      tm=setTimeout(function(){if(lastK===best&&!done)say(msg,'The tweezers are lined up! Tap twice <b>fast</b> to pick it up.',1)},700)
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','A dish of grains. Press Enter to pick up one grain');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var o=T.filter(function(q){return !q.got&&q.k!=='s'})[0];if(o)pick(o)}});
+    later(function(){if(!n&&!done)say(msg,'Find a <b>long black</b> grain and <b>double-tap</b> it fast (like double-clicking a mouse).')},8000);
+  },
+
+  /* 第 4 關：點一下陶罐，木拍拍出繩紋，拍滿整個陶罐 */
+  stamp:function(area,i,l){
+    var TOP=28,S=1.22,CX=160,pts=[],done=false,tm=0,d=potPath(CX,TOP,S),r0=rnd(5);
+    function inPot(x,y){var dy=(y-TOP)/S;return dy>=0&&dy<=118&&Math.abs(x-CX)<=potW(dy)*S}
+    for(var y=TOP+5;y<TOP+118*S-5;y+=8)for(var x=CX-80;x<=CX+80;x+=8){var dy=(y-TOP)/S;if(Math.abs(x-CX)<potW(dy)*S-5)pts.push({x:x,y:y,c:false})}
+    var coil='';for(var cy=TOP+8;cy<TOP+118*S;cy+=9)coil+='<path d="M60 '+cy+'H260" stroke="#B87A4A" stroke-width="1.4"/>';
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EDE4CC"><rect x="-400" y="176" width="1200" height="80" fill="#B8A07A"/>'+cordDef('cordS')+'<defs><clipPath id="potClip"><path d="'+d+'"/></clipPath></defs><path d="'+d+'" fill="'+CLAY+'"/><g clip-path="url(#potClip)">'+coil+'<g id="stp"></g></g><path d="'+d+'" fill="none" stroke="#7A4A2E" stroke-width="2"/><ellipse cx="'+CX+'" cy="'+TOP+'" rx="'+f1(30*S)+'" ry="'+f1(5*S)+'" fill="#7A4A2E"/><g id="dots"></g><g id="pd"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),stp=svg.querySelector('#stp'),dots=svg.querySelector('#dots'),pd=svg.querySelector('#pd');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    loops.push(function(){clearTimeout(tm)});
+    function cov(){return pts.filter(function(q){return q.c}).length/pts.length}
+    function hitAt(x,y){var a=Math.round((r0()-.5)*30);
+      stp.insertAdjacentHTML('beforeend','<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+a+')"><rect x="-21" y="-21" width="42" height="42" fill="#B47444"/><rect x="-21" y="-21" width="42" height="42" fill="url(#cordS)"/></g>');
+      pts.forEach(function(q){if(Math.abs(q.x-x)<=19&&Math.abs(q.y-y)<=19)q.c=true});
+      var c=cov();bar.style.width=f1(Math.min(1,c/.92)*100)+'%';
+      pd.innerHTML='<g transform="translate('+f1(x)+' '+f1(y)+') rotate(-20)"><rect x="-4" y="-40" width="8" height="24" rx="2" fill="#8A5A3A"/><rect x="-16" y="-16" width="32" height="18" rx="3" fill="#A87A4A" stroke="#6A4A2A" stroke-width="1.2"/><path d="M-16 -12L16 -8M-16 -6L16 -2" stroke="#E8D8B0" stroke-width="1.6"/></g>';
+      clearTimeout(tm);tm=setTimeout(function(){pd.innerHTML=''},220);
+      if(c>=.92){done=true;dots.innerHTML='';pts.forEach(function(q){q.c=true});stp.insertAdjacentHTML('beforeend','<rect x="0" y="0" width="320" height="190" fill="#B47444"/><rect x="0" y="0" width="320" height="190" fill="url(#cordS)"/>');bar.style.width='100%';lvDone(area,i,l,msg,'All patted!');return}
+      if(c>.7){dots.innerHTML=pts.filter(function(q){return !q.c}).map(function(q){return '<circle cx="'+q.x+'" cy="'+q.y+'" r="2.2" fill="#FFF8EC"/>'}).join('');say(msg,'Almost! The spots with <b>white dots</b> still need patting.')}
+      else say(msg,'Pat! Now pat the smooth parts.')}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      if(!inPot(p.x,p.y)){say(msg,'Tap on the <b>pot</b>.',1);return}
+      hitAt(p.x,p.y)
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','A clay pot. Press Enter to cover it with the rope pattern');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();pts.forEach(function(q){q.c=true});hitAt(CX,TOP+60)}});
+    later(function(){if(!done&&cov()===0)say(msg,'<b>Tap</b> the pot and the paddle pats it once. Keep tapping different spots until the whole pot is covered.')},7000);
+  },
+
+  /* 第 5 關：看左邊半個陶罐，在右邊畫出對稱的另一半 */
+  mirror:function(area,i,l){
+    var TOP=30,S=1.18,CX=160,HH=118*S,line=[],on=false,done=false,fails=0,TG=[];
+    for(var dy=0;dy<=118;dy+=1)TG.push([CX+potW(dy)*S,TOP+dy*S]);
+    var left=potSide(CX,TOP,S,-1),right=potSide(CX,TOP,S,1);
+    var dl='M'+CX+' '+TOP+smooth(left).replace('M','L')+'Z',dr='M'+CX+' '+TOP+smooth(right).replace('M','L')+'Z';
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F2EEE6"><rect x="-400" y="180" width="1200" height="80" fill="#C8BCA8"/>'+cordDef('cordR')+
+      '<path d="'+dl+'" fill="'+CLAY+'" stroke="#7A4A2E" stroke-width="2"/><path d="'+dl+'" fill="url(#cordR)"/><path d="M140 46L122 80L132 110M98 112L122 128L138 158M112 64L96 86" stroke="#6E3E22" stroke-width="1.4" fill="none"/>'+
+      '<path d="M160 20V182" stroke="#8A7A70" stroke-width="1.4" stroke-dasharray="5 4"/><g id="gd"></g><g id="rt"></g>'+
+      '<circle cx="'+f1(CX+30*S)+'" cy="'+TOP+'" r="5" fill="#DB2E27"/><text x="'+f1(CX+30*S+12)+'" y="'+(TOP-6)+'" font-size="13" font-weight="700" fill="#DB2E27">Start here</text><path id="ln" d="" stroke="#6C2024" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),ln=svg.querySelector('#ln'),gd=svg.querySelector('#gd'),rt=svg.querySelector('#rt');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function show(){ln.setAttribute('d',line.length?'M'+line.map(function(q){return f1(q.x)+' '+f1(q.y)}).join('L'):'')}
+    function dist(q){var m=1e9;TG.forEach(function(g){var d=Math.hypot(q.x-g[0],q.y-g[1]);if(d<m)m=d});return m}
+    function win(){done=true;on=false;gd.innerHTML='';rt.innerHTML='<path d="'+dr+'" fill="'+CLAY+'" stroke="#7A4A2E" stroke-width="2"/><path d="'+dr+'" fill="url(#cordR)"/>';bar.style.width='100%';lvDone(area,i,l,msg,'Both sides match!')}
+    function check(){
+      var err=0;line.forEach(function(q){err+=dist(q)});err/=Math.max(1,line.length);
+      var hitN=0,tot=0;TG.forEach(function(g,k){if(k%4)return;tot++;if(line.some(function(q){return Math.hypot(q.x-g[0],q.y-g[1])<15}))hitN++});
+      var cv=hitN/tot;bar.style.width=f1(Math.min(1,cv)*100)+'%';
+      if(cv>=.8&&err<10){win();return}
+      fails++;line=[];show();
+      if(cv<.8&&err<10)say(msg,'Great shape! But draw all the way from the <b>rim</b> (red dot) to the <b>bottom</b> (the middle dotted line) before you let go.',1);
+      else say(msg,'That does not match the left. Look: the rim is <b>small</b>, the belly <b>bulges out</b>, and the bottom is <b>round</b>. Draw the right side the same way.',1);
+      if(fails>=2){gd.innerHTML='<path d="'+smooth(right)+'" stroke="#DB2E27" stroke-width="2" stroke-dasharray="3 5" fill="none" opacity=".7"/>';say(msg,'Follow the <b>red dotted line</b> from the red dot down to the bottom.',1)}
+    }
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){if(p.x<CX-6){say(msg,'Draw on the <b>right</b>. The left side is already done.',1);on=false;return}on=true;line=[{x:p.x,y:p.y}];show();return}
+      if(!on)return;
+      if(t==='move'){var a=line[line.length-1];if(Math.hypot(p.x-a.x,p.y-a.y)>2){line.push({x:p.x,y:p.y});show()}return}
+      if(t==='up'){on=false;if(line.length<5){line=[];show();say(msg,'<b>Keep your finger down</b> and draw all the way.',1);return}check()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','Half a pot. Press Enter to draw the other half');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();win()}});
+    later(function(){if(!done&&!fails&&!line.length)say(msg,'Put your finger on the <b>red dot</b> at the top right. Without letting go, copy the left side (flipped) all the way to the bottom.')},8000);
+  },
+
+  /* 第 6 關：慢慢把文物拖進展示櫃（太快會晃） */
+  slow:function(area,i,l){
+    var SL=[{x:222,y:72},{x:274,y:72},{x:248,y:128}],IT=[{k:'pot',x:48,y:116},{k:'dog',x:86,y:116},{k:'rice',x:124,y:116}],held=null,off={x:0,y:0},lastP=null,lastT=0,v=0,fast=0,n=0,done=false;
+    IT.forEach(function(o){o.hx=o.x;o.hy=o.y});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F0ECE4"><rect x="-400" y="172" width="1200" height="80" fill="#A8A4A0"/>'+cordDef('cordL')+
+      '<rect x="196" y="38" width="106" height="120" rx="4" fill="#DDEFF4" fill-opacity=".8" stroke="#7A8A90" stroke-width="2"/><path d="M196 100H302" stroke="#7A8A90" stroke-width="2"/><rect x="190" y="158" width="118" height="10" fill="#5A4E48"/><text x="249" y="30" font-size="14" font-weight="700" fill="#5A4E48" text-anchor="middle">Display case</text>'+
+      '<path d="M24 134H148V146H24Z" fill="#8A6A3A" stroke="#5A3E2B" stroke-width="1.2"/><path d="M148 134L160 110" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round"/><circle cx="42" cy="156" r="9" fill="#5A3E2B"/><circle cx="130" cy="156" r="9" fill="#5A3E2B"/><text x="86" y="170" font-size="13" fill="#5A4E48" text-anchor="middle" stroke="#F0ECE4" stroke-width="3" paint-order="stroke">Cart</text><g id="sl"></g><g id="it"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),slg=svg.querySelector('#sl'),itg=svg.querySelector('#it');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function art(o){var x=o.x,y=o.y;
+      if(o.k==='pot')return pot(x,y-17,.28,'cordL');
+      if(o.k==='dog')return '<rect x="'+(x-16)+'" y="'+(y-20)+'" width="32" height="40" rx="3" fill="#C8A47A" stroke="#8A6A48"/>'+dogBones(x,y-1,.36);
+      return '<ellipse cx="'+x+'" cy="'+(y+6)+'" rx="17" ry="8" fill="#F4F0E8" stroke="#A89A88" stroke-width="1.2"/>'+riceG(x-6,y+4,-20,.7)+riceG(x+6,y+3,25,.7)+milletG(x,y+9,.7)}
+    function draw(){
+      slg.innerHTML=SL.map(function(q){return q.o?'':'<rect x="'+(q.x-21)+'" y="'+(q.y-21)+'" width="42" height="42" fill="none" stroke="#DB2E27" stroke-width="2" stroke-dasharray="5 4"/>'}).join('');
+      itg.innerHTML=IT.map(function(o){var w='';
+        if(o===held){var c=v>.3?'#F5A623':'#7BC47F',a=v>.3?Math.sin(performance.now()/40)*10:0;w='<circle cx="'+f1(o.x)+'" cy="'+f1(o.y)+'" r="26" fill="'+c+'" opacity=".35"/>';return w+'<g transform="rotate('+f1(a)+' '+f1(o.x)+' '+f1(o.y+18)+')">'+art(o)+'</g>'}
+        return art(o)}).join('');
+      bar.style.width=(n/3*100)+'%'}
+    draw();
+    function drop(o,t,again){o.x=o.hx;o.y=o.hy;held=null;v=0;fast=0;draw();say(msg,t,again)}
+    function place(o,q){q.o=o;o.on=true;o.x=q.x;o.y=q.y;held=null;n++;draw();
+      if(n>=3){done=true;lvDone(area,i,l,msg,'All 3 are in place!')}else say(msg,'In place! '+(3-n)+' more to go.')}
+    drag(svg,function(t,p){
+      if(done)return;
+      var now=performance.now();
+      if(t==='down'){held=null;var bd=26;IT.forEach(function(o){if(o.on)return;var d=Math.hypot(p.x-o.x,p.y-o.y);if(d<bd){bd=d;held=o}});
+        if(held){off={x:p.x-held.x,y:p.y-held.y};lastP=p;lastT=now;v=0;fast=0;draw()}else say(msg,'Hold a treasure <b>on the cart</b>.',1);return}
+      if(!held)return;
+      if(t==='move'){var dt=Math.max(16,now-lastT),inst=Math.hypot(p.x-lastP.x,p.y-lastP.y)/dt;lastP=p;lastT=now;v=.5*v+.5*inst;
+        if(v>.42)fast++;else fast=Math.max(0,fast-1);
+        if(fast>=4){drop(held,'Too fast! It wobbled and nearly broke. It went back to the cart. Drag it <b>slowly</b>.',1);return}
+        held.x=p.x-off.x;held.y=p.y-off.y;draw();return}
+      if(t==='up'){var o=held,q=null;SL.forEach(function(s2){if(!s2.o&&Math.hypot(o.x-s2.x,o.y-s2.y)<30)q=s2});
+        if(q)place(o,q);else drop(o,'Put it in a red dotted box in the <b>display case</b>.',1)}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','Display case. Press Enter to place one treasure');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var o=IT.filter(function(q){return !q.on})[0],q=SL.filter(function(q){return !q.o})[0];if(o&&q)place(o,q)}});
+    later(function(){if(!n&&!done)say(msg,'Hold a treasure on the cart and drag it <b>slowly</b> up to the right, into a red dotted box in the display case. If the glow turns <b>yellow</b>, you are going too fast.')},8000);
+  }
+};
+</script>
+<script src="../core/game.en.js?v=e47f947c"></script>
+</body>
+</html>

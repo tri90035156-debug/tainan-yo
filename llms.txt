@@ -30,6 +30,13 @@
 - [考古任務・考古・南科考古館](https://tri90035156-debug.github.io/tainan-yo/nanke.html)：跟著考古姊姊往下挖：把土層排成越下面越老、看方格找到臺灣第一隻狗、用鑷子夾起 5000 年前的碳化稻米、拍出繩紋陶罐、照一半畫出整個陶罐，再把寶貝慢慢放進展示櫃。
 - [老樹任務・老樹・臺南公園](https://tri90035156-debug.github.io/tainan-yo/oldtree.html)：跟著樹醫生阿姨認識臺南公園的老樹：一筆畫幫小樹澆水、手牽手圍住百年菩提樹、讓小鳥回到雨豆樹上的巢、在羊蹄甲林聽出是誰在叫、敲一敲找出老樹空心的地方，再幫颱風後新種的小樹綁好繩子。
 
+## 其他語言（Other languages）
+
+- [Play Tainan](https://tri90035156-debug.github.io/tainan-yo/en/)
+- [Dig Mission · Archaeology in Tainan](https://tri90035156-debug.github.io/tainan-yo/en/nanke.html)
+- [台南であそぼう](https://tri90035156-debug.github.io/tainan-yo/ja/)
+- [発掘ミッション・台南の考古学](https://tri90035156-debug.github.io/tainan-yo/ja/nanke.html)
+
 ## 延伸閱讀
 
 - [臺南公園的老樹｜延伸閱讀｜臺南遊](https://tri90035156-debug.github.io/tainan-yo/learn/oldtree.html)：臺南公園的延伸閱讀：燕潭的由來、公園裡的古蹟、全市唯一的白仙丹老樹、怎樣才算受保護的老樹、會讓老樹倒下的褐根病。條列整理，資料都有來源。

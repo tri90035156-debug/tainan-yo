@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>発掘ミッション・台南の考古学</title>
+<link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/ja/nanke.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/nanke.html">
+<link rel="alternate" hreflang="en" href="https://tri90035156-debug.github.io/tainan-yo/en/nanke.html">
+<link rel="alternate" hreflang="ja" href="https://tri90035156-debug.github.io/tainan-yo/ja/nanke.html">
+<link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/nanke.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="臺南遊">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/ja/nanke.html">
+<meta property="og:title" content="発掘ミッション・台南の考古学">
+<meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/nanke.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@700;900&display=swap">
+<link rel="stylesheet" href="../core/game.ja.css?v=e47f947c">
+</head>
+<body>
+<div class="app">
+  <header>
+    <a class="home" href="index.html" aria-label="トップページにもどる"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></a>
+    <h1>発掘ミッション</h1>
+    <button class="chips" id="chips" type="button" aria-label="ふりかえりを見る"></button>
+  </header>
+  <div class="top" id="top"></div>
+  <div class="stage" id="stage">
+    <div class="disc">
+      <svg id="map" class="now" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="南部サイエンスパークのイラスト地図"></svg>
+      <div id="scene" hidden></div>
+    </div>
+    <div class="era" role="group" aria-label="5000年前といまをきりかえる"><button type="button" data-era="past" aria-pressed="false">5000年前</button><button type="button" data-era="now" aria-pressed="true">いま</button></div>
+    <button id="peek" type="button" hidden>地図を見る</button>
+  </div>
+  <main id="card" aria-live="polite"></main>
+  <nav class="foot"><button type="button" id="pv">‹ まえへ</button><span id="pos"></span><button type="button" id="nx">つぎへ ›</button></nav>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="ミッションカード"><div class="in"><div id="sheetDoc"></div><button class="x" type="button" id="sheetX">とじる</button></div></div>
+
+<script>
+
+/* ---------- 插畫元件 ---------- */
+var K='#2A2020',NS='http://www.w3.org/2000/svg';
+var SOIL='#B08A60',SOILD='#8A6A48',CLAY='#C88A5A',BONE='#F4EAD2';
+function f1(v){return (Math.round(v*10)/10).toString()}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+// 把幾個點連成圓滑的線
+function smooth(pts){var d='M'+f1(pts[0][0])+' '+f1(pts[0][1]);
+  for(var k=1;k<pts.length-1;k++)d+='Q'+f1(pts[k][0])+' '+f1(pts[k][1])+' '+f1((pts[k][0]+pts[k+1][0])/2)+' '+f1((pts[k][1]+pts[k+1][1])/2);
+  var l=pts[pts.length-1];return d+'L'+f1(l[0])+' '+f1(l[1])}
+// 圓底陶罐的半邊形狀：[離罐口多遠, 半邊多寬]
+var PROF=[[0,30],[10,25],[22,40],[42,58],[66,64],[90,54],[108,32],[118,0]];
+function potW(dy){if(dy<=0)return PROF[0][1];for(var k=1;k<PROF.length;k++)if(dy<=PROF[k][0]){var a=PROF[k-1],b=PROF[k];return a[1]+(b[1]-a[1])*(dy-a[0])/(b[0]-a[0])}return 0}
+function potSide(cx,top,s,dir){return PROF.map(function(p){return [cx+dir*p[1]*s,top+p[0]*s]})}
+function potPath(cx,top,s){var r=potSide(cx,top,s,1),l=potSide(cx,top,s,-1).reverse();return smooth(r)+smooth(l).replace('M','L')+'Z'}
+// 繩紋：斜斜的細線花紋（id 要不一樣，地圖和遊戲圖才不會打架）
+function cordDef(id,c){return '<defs><pattern id="'+id+'" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><rect width="5" height="5" fill="none"/><path d="M0 2.5H5" stroke="'+(c||'#6E3E22')+'" stroke-width="1.5" opacity=".6"/></pattern></defs>'}
+function pot(cx,top,s,cord){var d=potPath(cx,top,s);return '<path d="'+d+'" fill="'+CLAY+'" stroke="#7A4A2E" stroke-width="'+f1(1.6/Math.max(.5,s))+'"/>'+(cord?'<path d="'+d+'" fill="url(#'+cord+')"/>':'')+'<ellipse cx="'+f1(cx)+'" cy="'+f1(top)+'" rx="'+f1(30*s)+'" ry="'+f1(5*s)+'" fill="#7A4A2E"/>'}
+// 小狗的骨頭（頭朝下＝朝南）
+function dogBones(x,y,s){var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')" stroke="#A8906A" stroke-linecap="round" stroke-linejoin="round">';
+  h+='<path d="M0 -50Q7 -43 2 -34" fill="none" stroke-width="2.6"/>';
+  h+='<path d="M-6 -26L-17 -15L-19 -3M6 -26L17 -15L19 -3M-5 14L-16 22L-18 33M5 14L16 22L18 33" fill="none" stroke-width="3.2"/><path d="M-6 -26L-17 -15L-19 -3M6 -26L17 -15L19 -3M-5 14L-16 22L-18 33M5 14L16 22L18 33" fill="none" stroke="'+BONE+'" stroke-width="1.6"/>';
+  h+='<ellipse cy="-26" rx="9" ry="4.5" fill="'+BONE+'" stroke-width="1"/>';
+  for(var k=-8;k<=12;k+=5)h+='<path d="M-1 '+k+'Q-12 '+(k+2)+' -10 '+(k+7)+'M1 '+k+'Q12 '+(k+2)+' 10 '+(k+7)+'" fill="none" stroke-width="1.6"/>';
+  for(var v=-33;v<=19;v+=5)h+='<circle cy="'+v+'" r="2.6" fill="'+BONE+'" stroke-width=".9"/>';
+  h+='<path d="M-9 24Q0 17 9 24L5 41Q0 47 -5 41Z" fill="'+BONE+'" stroke-width="1.2"/><circle cx="-3.5" cy="29" r="1.8" fill="#8A7050" stroke="none"/><circle cx="3.5" cy="29" r="1.8" fill="#8A7050" stroke="none"/>';
+  return h+'</g>'}
+function riceG(x,y,r,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+(r||0)+') scale('+(s||1)+')"><ellipse rx="8" ry="3.6" fill="#2E2622"/><ellipse cx="-2" cy="-1.2" rx="3" ry="1" fill="#6A5A50"/></g>'}
+function milletG(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')"><circle r="4.4" fill="#3A2E28"/><circle cx="-1.4" cy="-1.4" r="1.2" fill="#7A6A60"/></g>'}
+function stoneG(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')"><path d="M-8 3Q-9 -5 -1 -6Q8 -6 8 1Q7 7 0 7Q-6 7 -8 3Z" fill="#9A9AA0" stroke="#6A6A70" stroke-width="1"/></g>'}
+// 考古館（深色石牆、黃色的天井）
+function museum(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')"><path d="M-46 18H46V-12L30 -22H-30L-46 -12Z" fill="#4A4A4E" stroke="#2E2E32" stroke-width="1.4"/><rect x="-10" y="-22" width="20" height="40" fill="#F2C230"/><path d="M-40 -6H-16M-40 2H-16M16 -6H40M16 2H40" stroke="#6A6A70" stroke-width="1.2"/><rect x="-6" y="6" width="12" height="12" fill="#2E2E32"/></g>'}
+var ICON={
+  layers:'<rect x="-11" y="-10" width="22" height="20" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M-11 -4H11M-11 2H11" stroke="#fff" stroke-width="2"/><circle cx="-4" cy="6" r="1.6" fill="#fff"/><circle cx="4" cy="-7" r="1.4" fill="#fff"/>',
+  dog:'<path d="M-6 0H6" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><circle cx="-8" cy="-3" r="2.8" fill="#fff"/><circle cx="-8" cy="3" r="2.8" fill="#fff"/><circle cx="8" cy="-3" r="2.8" fill="#fff"/><circle cx="8" cy="3" r="2.8" fill="#fff"/>',
+  rice:'<ellipse cx="-4" cy="-4" rx="5" ry="2.2" transform="rotate(-30 -4 -4)" fill="#fff"/><ellipse cx="5" cy="-1" rx="5" ry="2.2" transform="rotate(40 5 -1)" fill="#fff"/><ellipse cx="-2" cy="6" rx="5" ry="2.2" fill="#fff"/>',
+  cord:'<rect x="-5" y="-11" width="10" height="14" rx="2" fill="none" stroke="#fff" stroke-width="2"/><path d="M0 3V11" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M-5 -8L5 -5M-5 -3L5 0" stroke="#fff" stroke-width="1.2"/>',
+  pot:'<path d="M-5 -10H5V-7Q10 -4 10 2Q10 10 0 11Q-10 10 -10 2Q-10 -4 -5 -7Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M-6 -1L6 4M-7 4L5 8" stroke="#fff" stroke-width="1"/>',
+  museum:'<path d="M-11 9H11M-9 9V-3H9V9M-11 -3L-6 -9H6L11 -3" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><rect x="-2" y="-9" width="4" height="18" fill="#fff"/>'
+};
+function icon(k){return '<svg viewBox="-12 -12 24 24" aria-hidden="true">'+ICON[k]+'</svg>'}
+
+function idCard(t1,t2,art,C){
+  var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F2EBDD" role="img" aria-label="'+t1+'のようす"><rect x="-400" y="170" width="1200" height="60" fill="'+SOIL+'"/>'+art;
+  C.forEach(function(c){s+='<path d="M'+c[3]+' '+c[4]+'L'+c[1]+' '+(c[2]-5)+'" stroke="#8A7A70" stroke-width="1.2"/><circle cx="'+c[3]+'" cy="'+c[4]+'" r="2.6" fill="#DB2E27"/>'+
+    '<text x="'+c[1]+'" y="'+c[2]+'" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#F2EBDD" stroke-width="4" paint-order="stroke">'+c[0]+'</text>'});
+  return s+'<text x="160" y="30" font-size="24" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif JP,Hiragino Mincho ProN,serif" stroke="#F2EBDD" stroke-width="4" paint-order="stroke">'+t1+'</text>'+(t2?'<text x="160" y="188" font-size="14" font-weight="700" fill="#FFF8EC" text-anchor="middle">'+t2+'</text>':'')+'</svg>';
+}
+// 一關做完：說過關的話，有題目就出題，再蓋章
+function lvDone(area,i,l,msg,t){say(msg,t);later(function(){say(msg,l.win);if(l.q)quiz(area,l,function(){finish(i)});else finish(i)},900)}
+
+/* ---------- 地圖 ---------- */
+// 示意圖：南科（新市）。「5000 年前」是村子、稻田和小米田；「今天」是科學園區的工廠和考古館
+var STOPS=[{lv:1,n:'工事現場',x:220,y:200,k:'pit'},{lv:2,n:'南関里',x:400,y:150,k:'dog'},{lv:3,n:'南関里東',x:560,y:240,k:'rice'},{lv:4,n:'土器づくり',x:290,y:370,k:'pot'},{lv:5,n:'研究室',x:470,y:400,k:'lab'},{lv:6,n:'考古館',x:640,y:350,k:'museum'}];
+function marker(s){
+  var t='<g transform="translate('+s.x+' '+s.y+')">';
+  if(s.k==='pit')return t+'<rect x="-22" y="-14" width="44" height="28" fill="'+SOILD+'" stroke="#5A3E2B" stroke-width="1.2"/><path d="M-22 -5H22M-22 4H22" stroke="#C8A470" stroke-width="2"/><path d="M14 -24L20 -12" stroke="#5A3E2B" stroke-width="2.4" stroke-linecap="round"/><path d="M18 -14L24 -10L20 -4Z" fill="#9AA6B0"/></g>';
+  if(s.k==='dog')return t+'<rect x="-22" y="-26" width="44" height="50" fill="'+SOILD+'" stroke="#5A3E2B" stroke-width="1.2"/>'+dogBones(0,-2,.46)+'</g>';
+  if(s.k==='rice')return t+'<ellipse rx="22" ry="11" fill="#F4F0E8" stroke="#A89A88" stroke-width="1.2"/>'+riceG(-8,-2,-20,.8)+riceG(6,-3,30,.8)+riceG(0,4,0,.8)+milletG(12,4,.7)+'</g>';
+  if(s.k==='pot')return t+cordDef('cordM')+pot(0,-24,.38,'cordM')+'</g>';
+  if(s.k==='lab')return t+'<rect x="-24" y="2" width="48" height="6" fill="#8A6A3A"/><path d="M-20 8V20M20 8V20" stroke="#5A3E2B" stroke-width="2.4"/>'+pot(-6,-22,.2)+'<circle cx="12" cy="-10" r="8" fill="#DDEFF4" stroke="#5A4E48" stroke-width="2"/><path d="M17 -4L23 2" stroke="#5A4E48" stroke-width="3" stroke-linecap="round"/></g>';
+  return t+museum(0,-4,.62)+'</g>';
+}
+function buildMap(){
+  var h='<rect x="-400" y="-300" width="1600" height="1200" fill="#E6DCC4"/>';
+  h+='<g id="past"><rect x="-400" y="-300" width="1600" height="1200" fill="#D4E4B4"/><path d="M-400 520Q100 470 330 500Q560 540 820 470Q1000 430 1200 460" stroke="#8EC3D8" stroke-width="22" fill="none" stroke-linecap="round"/><g id="frPast"></g><text x="400" y="560" font-size="15" fill="#6C2024" text-anchor="middle" stroke="#D4E4B4" stroke-width="4" paint-order="stroke">5000年前：ここは村と田んぼとアワの畑</text></g>';
+  h+='<g id="now"><rect x="-400" y="-300" width="1600" height="1200" fill="#E4E0D6"/><path d="M-400 90H1200M-400 470H1200M110 -300V900M740 -300V900" stroke="#F8F6F0" stroke-width="18" fill="none"/><g id="frNow"></g><text x="400" y="560" font-size="15" fill="#6C2024" text-anchor="middle" stroke="#E4E0D6" stroke-width="4" paint-order="stroke">いま：南部サイエンスパーク。工場がいっぱい</text></g>';
+  var T=function(t,x,y,sz,c,bg){return '<text x="'+x+'" y="'+y+'" font-size="'+sz+'" fill="'+c+'" text-anchor="middle" stroke="'+(bg||'#E6DCC4')+'" stroke-width="4" paint-order="stroke">'+t+'</text>'};
+  h+=T('新市',400,56,28,'#7A4A2E');
+  h+='<g transform="translate(100 400)"><circle r="16" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -11L5 4L0 1L-5 4Z" fill="#DB2E27"/><text y="12" font-size="9" fill="#5A4E48" text-anchor="middle">北</text></g>';
+  h+=T('イメージ図です（実際の縮尺ではありません）',400,584,12,'#8A7A70');
+  STOPS.forEach(function(s){h+='<g class="stop" data-lv="'+s.lv+'" role="button" aria-label="ステージ'+s.lv+' '+s.n+'">'+marker(s)+'<circle cx="'+(s.x+26)+'" cy="'+(s.y-28)+'" r="10" fill="#fff" stroke="#E2574C" stroke-width="2"/><text x="'+(s.x+26)+'" y="'+(s.y-23.5)+'" font-size="13" fill="#E2574C" text-anchor="middle">'+s.lv+'</text><text x="'+s.x+'" y="'+(s.y+36)+'" font-size="16" font-weight="700" fill="#5A3E2B" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+s.n+'</text></g>'});
+  h+='<g id="pin" style="display:none"><g class="pin"><path d="M0 0C-10 -14 -14 -20 -14 -27A14 14 0 1 1 14 -27C14 -20 10 -14 0 0Z" fill="#E2574C" stroke="#fff" stroke-width="2.5"/><text y="-22" font-size="12" fill="#fff" text-anchor="middle">キミ</text></g></g>';
+  return h;
+}
+function near(x,y,w,hh){return STOPS.some(function(s){return Math.abs(s.x-x)<w&&Math.abs(s.y-y)<hh})}
+function decorate(){
+  var r=rnd(41),p='',q='';
+  for(var x=20;x<820;x+=46)for(var y=30;y<540;y+=42){
+    var cx=x+(r()-.5)*10,cy=y+(r()-.5)*8,a=r(),b=r();
+    if(near(cx,cy,62,66))continue;
+    if(Math.abs(cx-400)<50&&Math.abs(cy-48)<24)continue;
+    if(Math.abs(cx-100)<34&&Math.abs(cy-400)<34)continue;
+    // 5000 年前：茅草屋、稻田、樹（河的旁邊不放）
+    if(cy<488||cy>530){
+      if(a<.16)p+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><rect x="-10" y="-2" width="20" height="12" fill="#C8A878" stroke="#8A6A3A" stroke-width="1"/><path d="M-15 -1L0 -15L15 -1Z" fill="#B89A5A" stroke="#7A6030" stroke-width="1"/></g>';
+      else if(a<.6)p+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><rect x="-17" y="-11" width="34" height="22" fill="'+(b<.5?'#A8CC78':'#C8D888')+'" stroke="#8AAA5A" stroke-width="1"/><path d="M-12 -6V6M-4 -6V6M4 -6V6M12 -6V6" stroke="#6E9A44" stroke-width="1.4" stroke-dasharray="2 2"/></g>';
+      else if(a<.8)p+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><path d="M0 2V10" stroke="#6A4A2A" stroke-width="2.4"/><circle cy="-4" r="9" fill="#6EA048"/></g>';
+    }
+    // 今天：工廠（避開馬路）
+    if(Math.abs(cy-90)<26||Math.abs(cy-470)<26||Math.abs(cx-110)<30||Math.abs(cx-740)<30)continue;
+    if(b<.55)q+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><rect x="-17" y="-8" width="34" height="18" fill="'+(a<.5?'#B8C4CC':'#C8CCD4')+'" stroke="#8A96A0" stroke-width="1"/><path d="M-17 -8L-11 -14V-8L-5 -14V-8L1 -14V-8L7 -14V-8" fill="#9AA6B0" stroke="#8A96A0" stroke-width="1"/></g>';
+    else if(b<.75)q+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><path d="M0 2V9" stroke="#6A4A2A" stroke-width="2.2"/><circle cy="-3" r="7" fill="#7EA858"/></g>';
+  }
+  // 5000 年前：村子裡的人和小狗
+  p+='<g transform="translate(350 250)"><circle cy="-14" r="5" fill="#C8906A"/><path d="M-5 -9H5L6 6H-6Z" fill="#8A6A4A"/><path d="M14 2Q20 -4 28 0Q30 4 26 6H16Z" fill="#B8865A"/><circle cx="29" cy="-1" r="3.4" fill="#B8865A"/><path d="M15 3Q10 -2 12 -6" stroke="#B8865A" stroke-width="2" fill="none"/></g>';
+  map.querySelector('#frPast').innerHTML=p;
+  map.querySelector('#frNow').innerHTML=q;
+}
+
+/* ---------- 關卡 ---------- */
+var LV=[
+  {cam:[60,0,660,660],kick:'発掘ミッション',h:'土の中の5000年',
+   html:'<p>台湾の台南（タイナン）市にある新市（シンシー）という町には、<b>南部サイエンスパーク</b>（みんなは<b>南科（ナンカー）</b>とよびます）という、大きな工場がたくさん集まった場所があります。</p><p>30年ほど前、ここに工場をたてようと土をほったら、なんと<b>5000年前</b>の人がのこしたものが、たくさん出てきました！5000年前は、日本でいうと<b><ruby>縄文<rt>じょうもん</rt></ruby>時代</b>のころです。</p><p class="task">発掘チームの<b>お姉さん</b>といっしょに、土を1つずつほっていって、5000年前の人のくらしを見てみよう。ステージをクリアするたびに、スタンプがもらえるよ！</p>',
+   after:'<p class="note">地図の右上で<b>5000年前／いま</b>をきりかえると、同じ場所のむかしといまがくらべられます。<br>おうちの方へ：南科考古館（台南市新市区南科三路10号）は月曜休館です。開館時間・入館料は国立台湾史前文化博物館の案内でご確認ください。</p>',
+   game:'start'},
+  {cam:[0,0,300,225],kick:'ステージ1・工事現場（1995年）',h:'土は、しましまの層',
+   html:'<p><b>1995年</b>、新市（シンシー）と善化（シャンホア）のあいだにサイエンスパークをつくることが決まりました。考古学者がまず<b>道爺（ダオイエ）<ruby>遺跡<rt>いせき</rt></ruby></b>をためしにほると、地下<b>2メートル</b>で<b>土器のかけら</b>がたくさん出てきました。</p><p>それからは、むかしのものが出てくると工事をいったん止めて、発掘チームが急いでほり、急いで記録しました。日本でもおこなわれている<b><ruby>緊急発掘<rt>きんきゅうはっくつ</rt></ruby></b>です。</p><p class="note">おうちの方へ：関鍵評論網（1995年の用地決定、道爺遺跡の試掘、地下2mで土器片が出土、工事を止めての緊急発掘）、科技新報（1996年に計画開始、遺跡58か所・うち34か所で大規模発掘）を参考にしました。4つの層はわかりやすくした図です。</p>',
+   task:'工事で土の層がバラバラになっちゃった！<b>1つの層</b>をタップして、つぎに<b>べつの層</b>をタップすると、2つが<b>入れかわる</b>よ。<b>いちばん古い層</b>を<b>いちばん下</b>に、新しい層をいちばん上にしよう。',game:'swap',stamp:['layers','層をならべた'],
+   win:'できた！<b>下の土ほど古い</b>んだね。南科のいちばん下の層は、だいたい<b>5000年前</b>のものです。',
+   why:['どうして下ほど古いの？','土は1年ずつ、上へ上へと<b>つもって</b>いきます。本をかさねるのと同じ。さいしょにおいた本はいちばん下、さいごにおいた本はいちばん上だよね。'],
+   q:{t:'同じ場所を下へほっていくと、深いところのものほど、どうなっている？',o:['古い','新しい','どれも同じ'],a:0,hint:'本をかさねるとき、さいしょにおいた本はどこにある？',
+      e:'せいかい！<b>深いほど古い</b>。考古学者は、こうしてどれが先でどれがあとかを見分けます。'}},
+  {cam:[0,0,300,225],kick:'ステージ2・南関里遺跡',h:'台湾でいちばん古いイヌ',
+   html:'<p>発掘チームは<b>南関里（ナングァンリー）</b>で、何びきもの<b>イヌの骨</b>を見つけました。だいたい<b>4300〜5000年前</b>のもので、台湾でいままでに見つかった中で<b>いちばん古いイヌ</b>です。</p><p>考古学者は、地面を<b>マス目</b>に区切ってほります。骨が1つ出るたびに、<b>どのマス</b>から出たかを記録します。</p><p class="note">おうちの方へ：中央社2022、台湾文化部を参考にしました。南関里遺跡から約4300〜5000年前のイヌ4頭の骨が、ほぼ完全な形で、頭を南に向けて（人の埋葬と同じ向き）出土しています。マス目の番号と骨の位置はゲーム用です。</p>',
+   task:'右の<b>きろくカード</b>を見よう（たとえば <b>B3</b>）。まず上のアルファベット <b>B</b> をさがして、そこから下へ数字の <b>3</b> をさがし、そのマスをタップして骨をほり出そう。<b>6マス</b>ぜんぶ見つけてね！',game:'grid',stamp:['dog','イヌを見つけた'],
+   win:'イヌの骨がぜんぶ出てきた！<b>頭は南向き</b>。人がうめられるときと同じ向きです。',
+   why:['どうして骨がどのマスにあったか、記録するの？','ほってしまうと、もとの土はなくなります。ものがどんなふうにおいてあったかは、<b>記録</b>だけが教えてくれます。記録があったから、イヌが<b>頭を南に向けて</b>、ていねいにうめられていたとわかったのです。'],
+   q:{t:'イヌは頭を南に向けて、人と同じようにていねいにうめられていた。これはどういうこと？',o:['人はイヌを家族のように思っていた','イヌは食べられてしまった','イヌが自分で土にもぐった'],a:0,hint:'食べたあとの骨なら、バラバラになっているはず。きれいにならんではいないよね。',
+      e:'せいかい！研究者は、5000年前の人がイヌを<b>家族</b>のように大切にしていたと考えています。'}},
+  {cam:[0,0,300,225],kick:'ステージ3・南関里東遺跡',h:'5000年前のお米',
+   html:'<p>発掘チームは<b>南関里東遺跡</b>の土の中から、黒くて小さなつぶを見つけました。火にやかれて炭になった<b>お米</b>で、<b><ruby>炭化米<rt>たんかまい</rt></ruby></b>といいます。だいたい<b>4800〜4200年前</b>のものです。</p><p>南科では<b>アワ</b>（ヒエににた小さな穀物）も見つかりました。そのころの人は、もう<b>お米</b>やアワを育てていたんだ！</p><p class="note">おうちの方へ：台湾文化部、国立清華大学「南科考古で見つかった稲と粟」を参考にしました。南関里東遺跡（大坌坑文化、約4800〜4200年前）から炭化米が出土し、約5000年前には台湾ですでに稲作がおこなわれていたと考えられています。</p>',
+   task:'お皿には<b>炭化米</b>（細長い）、<b>アワ</b>（小さくてまるい）、それに<b>小石</b>もまざっているよ。とても小さいので、ピンセットを使おう：つぶの上を<b>すばやく2回タップ</b>すると、つまめるよ。<b>6つぶ</b>つまもう！',game:'tweezer',stamp:['rice','古代米をつまんだ'],
+   win:'6つぶ、ぜんぶつまめた！この小さなお米から、5000年前の人がもう<b>田畑で作物を育てていた</b>ことがわかります。',
+   why:['お米はどうして黒くなって、何千年ものこっていたの？','お米が火にやかれて<b>炭</b>になったからです。炭はくさらないので、土の中で何千年ものこります。やかれなかったお米は、とっくにくさってなくなりました。'],
+   q:{t:'南科で5000年前のお米が見つかった。これはどういうこと？',o:['そのころの人は、もうお米を育てていた','そのころ、コンビニがあった','お米は小鳥が運んできた'],a:0,hint:'お米がたくさん、それにアワも。だれが育てたのかな？',
+      e:'せいかい！そのころの人は、もう<b>お米づくり</b>をしていました。'}},
+  {cam:[0,0,300,225],kick:'ステージ4・5000年前の村',h:'なわのもようをつけよう',era:'past',
+   html:'<p><b>5000年前</b>にタイムスリップ！そのころここにくらしていた人たちは<b>大坌坑（ダーベンケン）文化</b>の人びとで、台湾でいちばん早く土器をつくった人たちです。</p><p>ろくろは使いません。<b>ねん土のひも</b>をぐるぐるとつみ上げて、<b>なわをまいた木の板</b>でペタペタたたくと、表面に<b>なわのもよう</b>がのこります。日本の<b>縄文土器</b>と同じように、なわめもようの土器です。</p><p class="note">おうちの方へ：大坌坑文化は台湾で知られている最も古い新石器文化で、粗い縄目文の土器が特徴です。「粘土ひもを積み上げ、縄を巻いた板でたたく」は縄目文土器についての一般的な説明で、南科に限った研究は見つかっていません。</p>',
+   task:'土器はまだつるつる。土器を<b>タップ</b>すると、木の板でペタンとたたいて、なわのもようがつくよ。土器<b>ぜんたい</b>をたたこう！',game:'stamp',stamp:['cord','土器をたたいた'],
+   win:'土器ぜんたいに、なわのもようがついた！たたいた土器は、ねん土のひもがしっかりくっついているよ。',
+   why:['どうしてたたくの？','たたくと、ぐるぐるつんだ<b>ねん土のひも</b>がくっついて、土器が<b>じょうぶ</b>になり、われにくくなります。なわのもようは、そのときに自然にのこるのです。']},
+  {cam:[0,0,300,225],kick:'ステージ5・考古館の研究室',h:'土器のかたちをかこう',
+   html:'<p>ほり出された土器は、たいてい<b>バラバラにわれて</b>います。研究者は、パズルのようにかけらをつなぎ合わせます。</p><p><b>半分</b>しかつながらなくても大丈夫。土器は<b>左と右がだいたい同じ形</b>なので、半分を見れば、ぜんたいの形がかけるのです。</p><p class="note">おうちの方へ：出土した土器の多くは破片で、接合・補強が必要です（一般的な考古学の作業）。南科考古館の第3展示室は「科学の考古学」がテーマです。半分から全体をかくのはゲーム用の遊び方です。</p>',
+   task:'左は、つなぎ合わせた土器の半分。<b>口</b>から指をスタートして、<b>右がわ</b>に<b>同じ形ののこり半分</b>をかこう。<b>底</b>までかいたら指をはなしてね。',game:'mirror',stamp:['pot','土器をかいた'],
+   win:'かけた！左右がそろって、土器のかたちが出てきたよ：<b>まるいおなかに、まるい底</b>。',
+   why:['土器はどうして左右が同じなの？','土器は<b>ぐるぐる</b>とわっかをつんでつくります。どのわっかもまるいので、横から見ると左と右がだいたい同じになるのです。'],
+   q:{t:'ほり出された土器は、たいていどんなようす？',o:['バラバラにわれている','ピカピカの新品','中にごはんが入っている'],a:0,hint:'何千年も土の中にうまっていたら、すぐにわれちゃうよね。',
+      e:'せいかい！たいてい<b>バラバラ</b>なので、ゆっくりつなぎ合わせます。'}},
+  {cam:[0,0,300,225],kick:'ステージ6・南科考古館',h:'お宝を展示ケースへ',
+   html:'<p><b>2019年</b>、新市（シンシー）に<b>南科考古館</b>がオープンしました。南科からほり出されたものは、なんと<b>800万点以上</b>！</p><p>建物は建築家の<b>姚仁喜（ヤオ・レンシー）</b>（クリス・ヤオ）さんの設計で、テーマは「<b>下へさがす</b>」。館の中を歩くと、発掘チームといっしょに1つずつ下へおりて、5000年前へもどっていくような気分になります。</p><p class="note">おうちの方へ：新頭殻、蕃薯藤の2019年開館報道を参考にしました（出土品800万点以上、姚仁喜設計、「下探・回溯・交織」）。南科考古館は月曜休館、子ども向けの展示室があります。開館時間・入館料は国立台湾史前文化博物館の案内でご確認ください。</p>',
+   task:'出土品は落とすとたいへん！台車の上の出土品をおさえて、<b>ゆっくり</b>右の<b>展示ケース</b>の点線のわくまで動かそう。はやすぎるとゆれて、台車にもどっちゃうよ。<b>3つ</b>ならべよう。',game:'slow',stamp:['museum','展示ケースにならべた'],
+   win:'3つのお宝が、ぜんぶ展示ケースに入った！南科考古館で、5000年前の人がのこしたものを見てみよう。',
+   why:['どうして土器のかけらまで、とっておくの？','かけら1つ1つに、<b>どこで</b>見つかったかが記録されています。いつか新しい調べ方ができたら、もういちど出してきて<b>研究</b>できるので、むかしのことがもっとわかるのです。'],
+   q:{t:'南科からほり出されたものは、だいたいいくつ？',o:['800万点以上','8点','80点'],a:0,hint:'20年以上もほりつづけたから、ものすごくたくさん。',
+      e:'せいかい！<b>800万点以上</b>。20年以上かけてほり出しました。'}},
+  {cam:[60,0,660,660],kick:'ミッションクリア',h:'土の中の5000年',
+   html:'<p>地層をならべて、マス目から台湾でいちばん古いイヌを見つけ、ピンセットで5000年前のお米をつまみ、なわめもようの土器をつくって、土器のかたちをかき、さいごにお宝を展示ケースにならべたね。台南・新市の南科考古館で、土の中の5000年を見てみよう。</p>',game:'end'}
+];
+
+
+/* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
+var MAPS={"0": [["南科考古館", "南科考古館"]], "6": [["南科考古館", "南科考古館"]]};
+
+/* ---------- 這個遊戲的設定（共用核心會讀） ---------- */
+var KEY='tainan-nanke';
+var NOTE='おうちの方へ：南科考古館は台南市新市区南科三路10号、月曜休館です。開館時間・入館料は国立台湾史前文化博物館の案内でご確認ください。<br>参考資料（すべて台湾の中国語資料）：関鍵評論網（1995年の用地決定、道爺遺跡の試掘、工事を止めての緊急発掘）、科技新報2016（南科考古計画は1996年開始、遺跡58か所、うち34か所で大規模発掘、約300〜5000年前）、新頭殻・蕃薯藤・微笑台湾2019（南科考古館の開館、出土品800万点以上、姚仁喜設計）、中央社2022・台湾文化部（南関里遺跡の台湾最古のイヌ、頭は南向き）、台湾文化部・国立清華大学の論文（南関里東遺跡の炭化米とアワ）、公共テレビ2025（大湖文化の灰黒色土器）。縄目文土器のつくり方、破片の接合は一般的な考古学の資料によります。地図はイメージ図で、実際の縮尺ではありません。';
+
+var GAMES={
+  start:function(area){
+    var art=cordDef('cordC')+pot(70,74,.62,'cordC')+'<ellipse cx="165" cy="142" rx="32" ry="12" fill="#F4F0E8" stroke="#A89A88" stroke-width="1.2"/>'+riceG(152,140,-20)+riceG(170,137,25)+riceG(162,147,5)+milletG(182,145)+dogBones(252,108,.95);
+    setScene(idCard('南科考古館','南科から5000年前のものが出てきた',art,[['なわめ土器',62,58,62,92],['炭化米',165,116,165,136],['イヌの骨',252,50,252,64]]));
+    var b=el('<button class="big" type="button">出発</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
+
+  /* 第 1 關：點兩層交換位置，把土層排成越下面越老 */
+  swap:function(area,i,l){
+    var L=[{t:'いまの土',c:'#9A7A58'},{t:'約1000年前・鉄器',c:'#B58A5A'},{t:'約3000年前・黒い土器',c:'#8E7E6E'},{t:'約5000年前・なわめ土器',c:'#C49A6A'}],ord=[2,0,3,1],sel=-1,done=false,X0=44,W=232,Y0=10,H=42;
+    function art(k){
+      if(k===0)return '<path d="M-12 8L-10 -6M-5 8L-4 -9M2 8L4 -7M9 8L12 -5" stroke="#4E8A3A" stroke-width="2.4" stroke-linecap="round"/>';
+      if(k===1)return '<path d="M-14 2L8 -5L15 -2L-12 6Z" fill="#7A7A80" stroke="#4A4A50" stroke-width="1"/><rect x="-20" y="2" width="9" height="4" fill="#6A4A2A"/>';
+      if(k===2)return '<path d="M-13 -6Q0 -11 13 -6L10 7Q0 10 -10 7Z" fill="#4A4448" stroke="#2A2428" stroke-width="1"/>';
+      return '<path d="M-13 -6Q0 -11 13 -6L10 7Q0 10 -10 7Z" fill="#C0703E" stroke="#7A4A2E" stroke-width="1"/><path d="M-9 -4L-4 5M-3 -6L2 6M3 -6L8 5" stroke="#7A4A2E" stroke-width="1.2"/>'}
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#DDEFF4"><rect x="-400" y="178" width="1200" height="80" fill="#7A5A3E"/><g id="ly"></g>'+
+      '<path d="M24 34V150" stroke="#6C2024" stroke-width="2"/><path d="M18 144L24 156L30 144" fill="#6C2024"/><text x="24" y="26" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle">上</text><text x="24" y="172" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle">下</text></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),ly=svg.querySelector('#ly');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){var h='';
+      ord.forEach(function(v,k){var y=Y0+k*H,o=L[v];h+='<rect x="'+X0+'" y="'+y+'" width="'+W+'" height="'+H+'" fill="'+o.c+'"/>';
+        for(var q=0;q<7;q++)h+='<circle cx="'+(X0+20+((q*53+v*29)%(W-30)))+'" cy="'+(y+8+((q*17+v*11)%(H-14)))+'" r="1.6" fill="#fff" opacity=".25"/>';
+        h+='<g transform="translate('+(X0+28)+' '+(y+H/2)+')">'+art(v)+'</g><text x="'+(X0+W/2+18)+'" y="'+(y+H/2+5)+'" font-size="15" font-weight="700" fill="#2A2020" text-anchor="middle" stroke="#FFF8EC" stroke-width="3.5" paint-order="stroke">'+o.t+'</text>';
+        if(k===sel)h+='<rect x="'+(X0+2)+'" y="'+(y+2)+'" width="'+(W-4)+'" height="'+(H-4)+'" fill="#fff" fill-opacity=".2" stroke="#DB2E27" stroke-width="3" stroke-dasharray="7 4"/>'});
+      h+='<rect x="'+X0+'" y="'+Y0+'" width="'+W+'" height="'+(H*4)+'" fill="none" stroke="#5A3E2B" stroke-width="1.6"/>';
+      ly.innerHTML=h;bar.style.width=(ord.filter(function(v,k){return v===k}).length/4*100)+'%'}
+    draw();
+    function check(){if(ord.every(function(v,k){return v===k})){done=true;sel=-1;draw();lvDone(area,i,l,msg,'できた！')}}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      if(p.x<X0-8||p.x>X0+W+8)return;
+      var k=Math.floor((p.y-Y0)/H);if(k<0||k>3)return;
+      if(sel<0){sel=k;draw();say(msg,'えらんだね！つぎに<b>べつの層</b>をタップすると、入れかわるよ。');return}
+      if(sel===k){sel=-1;draw();say(msg,'やめたよ。もういちど層をえらんでね。');return}
+      var tmp=ord[sel];ord[sel]=ord[k];ord[k]=tmp;sel=-1;draw();
+      if(!done)say(msg,'入れかえたよ！いちばん上は<b>いまの土</b>、いちばん下は<b>いちばん古い層</b>にしよう。');check()
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','地層の画面。Enter キーですぐにならべます');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();ord=[0,1,2,3];check()}});
+    later(function(){if(!done&&sel<0)say(msg,'まず<b>1つの層</b>をタップ（赤い点線が出るよ）。つぎにべつの層をタップすると、2つが入れかわるよ。')},9000);
+  },
+
+  /* 第 2 關：看記錄單的方格座標，點出那一格，清出小狗的骨頭 */
+  grid:function(area,i,l){
+    var C=47,OX=50,OY=22,COL='ABCD',SEQ=['C2','B4','B1','C3','B2','B3'],k=0,done=false,open={},miss=0;
+    var s='<svg class="mini" viewBox="0 0 320 216" style="background:#EFE6D2"><rect x="-400" y="212" width="1200" height="80" fill="'+SOILD+'"/><rect x="'+OX+'" y="'+OY+'" width="'+(C*4)+'" height="'+(C*4)+'" fill="#C8A47A"/>'+dogBones(144,116,1.75)+'<g id="cv"></g>';
+    for(var c=0;c<4;c++)s+='<text x="'+(OX+c*C+C/2)+'" y="'+(OY-6)+'" font-size="15" font-weight="900" fill="#6C2024" text-anchor="middle">'+COL[c]+'</text>';
+    for(var r=0;r<4;r++)s+='<text x="'+(OX-12)+'" y="'+(OY+r*C+C/2+5)+'" font-size="15" font-weight="900" fill="#6C2024" text-anchor="middle">'+(r+1)+'</text>';
+    s+='<g transform="translate(18 116)"><circle r="14" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -10L4 3L0 1L-4 3Z" fill="#DB2E27"/><text y="11" font-size="8" fill="#5A4E48" text-anchor="middle">北</text></g>';
+    s+='<rect x="246" y="56" width="66" height="96" rx="6" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><text x="279" y="76" font-size="13" font-weight="700" fill="#5A4E48" text-anchor="middle">きろく</text><text id="cd" x="279" y="116" font-size="30" font-weight="900" fill="#DB2E27" text-anchor="middle"></text><text id="cn" x="279" y="140" font-size="13" fill="#5A4E48" text-anchor="middle"></text><g id="hl"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),cv=svg.querySelector('#cv'),hl=svg.querySelector('#hl');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function cell(n){return [COL.indexOf(n[0]),+n[1]-1]}
+    function draw(){var h='';
+      for(var c=0;c<4;c++)for(var r=0;r<4;r++){var n=COL[c]+(r+1),x=OX+c*C,y=OY+r*C;
+        if(!open[n]){h+='<rect x="'+x+'" y="'+y+'" width="'+C+'" height="'+C+'" fill="#9A7550"/>';for(var q=0;q<4;q++)h+='<circle cx="'+(x+6+((q*13+c*7+r*5)%28))+'" cy="'+(y+6+((q*11+c*5+r*9)%28))+'" r="1.5" fill="#7A5A3E"/>'}
+        h+='<rect x="'+x+'" y="'+y+'" width="'+C+'" height="'+C+'" fill="none" stroke="#FFF8EC" stroke-width="1" stroke-dasharray="3 2"/>'}
+      cv.innerHTML=h;
+      svg.querySelector('#cd').textContent=done?'OK':SEQ[k];svg.querySelector('#cn').textContent=done?'':(k+1)+' / 6 マス';
+      bar.style.width=(k/6*100)+'%'}
+    draw();
+    function hit(n){
+      if(n===SEQ[k]){open[n]=1;k++;miss=0;hl.innerHTML='';
+        if(k>=SEQ.length){done=true;'ABCD'.split('').forEach(function(a){for(var r=1;r<=4;r++)open[a+r]=1});draw();
+          hl.innerHTML='<text x="214" y="184" font-size="15" font-weight="900" fill="#DB2E27" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">頭は南</text><path d="M214 189V203M209 197L214 204L219 197" stroke="#DB2E27" stroke-width="2" fill="none"/>';
+          lvDone(area,i,l,msg,'6マス、ぜんぶほれたよ！まわりの土もどけて、イヌのからだぜんたいを見てみよう。')}
+        else{draw();say(msg,'あった！<b>'+n+'</b> に骨があったよ。きろくカードのつぎのマスを見てね。')}
+        return}
+      miss++;var g=SEQ[k];
+      say(msg,'タップしたのは <b>'+n+'</b>。きろくカードは <b>'+g+'</b>：まず上のアルファベット <b>'+g[0]+'</b> をさがして、そこから下へ数字の <b>'+g[1]+'</b> をさがしてね。',1);
+      if(miss>=2){var q=cell(g);hl.innerHTML='<rect x="'+(OX+q[0]*C+2)+'" y="'+(OY+q[1]*C+2)+'" width="'+(C-4)+'" height="'+(C-4)+'" fill="none" stroke="#DB2E27" stroke-width="3" stroke-dasharray="6 4"/>'}
+    }
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      var c=Math.floor((p.x-OX)/C),r=Math.floor((p.y-OY)/C);if(c<0||c>3||r<0||r>3)return;
+      var n=COL[c]+(r+1);if(open[n]){say(msg,'<b>'+n+'</b> はもうほったよ。きろくカードを見て。いまさがすのは <b>'+SEQ[k]+'</b>。',1);return}
+      hit(n)
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','マス目の画面。Enter キーで、きろくカードのマスをほります');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();hit(SEQ[k])}});
+    later(function(){if(!done&&k===0&&!miss)say(msg,'きろくカードは <b>C2</b>：上でアルファベットの <b>C</b> を見つけて、そこから下へ <b>2</b> まで数えて、そのマスをタップしよう。')},8000);
+  },
+
+  /* 第 3 關：用鑷子點兩下，夾起碳化稻米和小米 */
+  tweezer:function(area,i,l){
+    var T=[{k:'r',x:90,y:80,r:20},{k:'r',x:150,y:58,r:-30},{k:'r',x:218,y:92,r:60},{k:'r',x:118,y:134,r:10},{k:'m',x:186,y:140},{k:'m',x:250,y:70},{k:'s',x:62,y:110},{k:'s',x:132,y:96},{k:'s',x:180,y:104},{k:'s',x:242,y:128}],
+      N=6,n=0,done=false,lastK=-1,lastT=0,tm=0;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E8EEF0"><rect x="-400" y="180" width="1200" height="80" fill="#C8BCA8"/><ellipse cx="160" cy="100" rx="134" ry="78" fill="#F4F0E8" stroke="#A89A88" stroke-width="2"/><ellipse cx="160" cy="100" rx="122" ry="68" fill="#D8BC90"/>';
+    var r0=rnd(7);for(var q=0;q<70;q++){var a=r0()*6.283,d=Math.sqrt(r0());s+='<circle cx="'+f1(160+Math.cos(a)*d*114)+'" cy="'+f1(100+Math.sin(a)*d*62)+'" r="'+f1(.8+r0()*1.2)+'" fill="#B89868"/>'}
+    s+='<g id="it"></g><g id="tw"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),it=svg.querySelector('#it'),tw=svg.querySelector('#tw');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){it.innerHTML=T.filter(function(o){return !o.got}).map(function(o){return o.k==='r'?riceG(o.x,o.y,o.r,1.35):o.k==='m'?milletG(o.x,o.y,1.3):stoneG(o.x,o.y,1.3)}).join('');bar.style.width=(n/N*100)+'%'}
+    function tweez(o,shut){if(!o){tw.innerHTML='';return}var g=shut?2:7;
+      tw.innerHTML='<g transform="translate('+o.x+' '+o.y+')"><path d="M2 -3L34 -50M'+g+' 0L44 -44" stroke="#8A96A0" stroke-width="3" stroke-linecap="round"/><path d="M2 -3L34 -50M'+g+' 0L44 -44" stroke="#D8E0E6" stroke-width="1.2" stroke-linecap="round"/></g>'}
+    draw();
+    loops.push(function(){clearTimeout(tm)});
+    function pick(o){o.got=true;n++;tweez(null);draw();
+      if(n>=N){done=true;lvDone(area,i,l,msg,'6つぶ、ぜんぶつまめた！')}else say(msg,(o.k==='r'?'<b>炭化米</b>':'<b>アワ</b>')+'をつまんだ！あと '+(N-n)+' つぶ。')}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      var now=performance.now(),best=-1,bd=22;T.forEach(function(o,j){if(o.got)return;var d=Math.hypot(p.x-o.x,p.y-o.y);if(d<bd){bd=d;best=j}});
+      if(best<0){lastK=-1;tweez(null);say(msg,'<b>つぶ</b>の上をタップしてね。',1);return}
+      var o=T[best];
+      if(best===lastK&&now-lastT<550){lastK=-1;clearTimeout(tm);
+        if(o.k==='s'){tweez(null);say(msg,'それは<b>小石</b>だよ。炭化米は<b>黒い</b>よ。',1);return}
+        tweez(o,1);later(function(){pick(o)},120);return}
+      lastK=best;lastT=now;tweez(o);clearTimeout(tm);
+      tm=setTimeout(function(){if(lastK===best&&!done)say(msg,'ピンセットが合ったよ！<b>すばやく</b>2回タップすると、つまめるよ。',1)},700)
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','お皿の画面。Enter キーで1つぶつまみます');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var o=T.filter(function(q){return !q.got&&q.k!=='s'})[0];if(o)pick(o)}});
+    later(function(){if(!n&&!done)say(msg,'<b>黒くて細長い</b>お米をさがして、その上を<b>すばやく2回タップ</b>しよう（マウスのダブルクリックみたいに）。')},8000);
+  },
+
+  /* 第 4 關：點一下陶罐，木拍拍出繩紋，拍滿整個陶罐 */
+  stamp:function(area,i,l){
+    var TOP=28,S=1.22,CX=160,pts=[],done=false,tm=0,d=potPath(CX,TOP,S),r0=rnd(5);
+    function inPot(x,y){var dy=(y-TOP)/S;return dy>=0&&dy<=118&&Math.abs(x-CX)<=potW(dy)*S}
+    for(var y=TOP+5;y<TOP+118*S-5;y+=8)for(var x=CX-80;x<=CX+80;x+=8){var dy=(y-TOP)/S;if(Math.abs(x-CX)<potW(dy)*S-5)pts.push({x:x,y:y,c:false})}
+    var coil='';for(var cy=TOP+8;cy<TOP+118*S;cy+=9)coil+='<path d="M60 '+cy+'H260" stroke="#B87A4A" stroke-width="1.4"/>';
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EDE4CC"><rect x="-400" y="176" width="1200" height="80" fill="#B8A07A"/>'+cordDef('cordS')+'<defs><clipPath id="potClip"><path d="'+d+'"/></clipPath></defs><path d="'+d+'" fill="'+CLAY+'"/><g clip-path="url(#potClip)">'+coil+'<g id="stp"></g></g><path d="'+d+'" fill="none" stroke="#7A4A2E" stroke-width="2"/><ellipse cx="'+CX+'" cy="'+TOP+'" rx="'+f1(30*S)+'" ry="'+f1(5*S)+'" fill="#7A4A2E"/><g id="dots"></g><g id="pd"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),stp=svg.querySelector('#stp'),dots=svg.querySelector('#dots'),pd=svg.querySelector('#pd');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    loops.push(function(){clearTimeout(tm)});
+    function cov(){return pts.filter(function(q){return q.c}).length/pts.length}
+    function hitAt(x,y){var a=Math.round((r0()-.5)*30);
+      stp.insertAdjacentHTML('beforeend','<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+a+')"><rect x="-21" y="-21" width="42" height="42" fill="#B47444"/><rect x="-21" y="-21" width="42" height="42" fill="url(#cordS)"/></g>');
+      pts.forEach(function(q){if(Math.abs(q.x-x)<=19&&Math.abs(q.y-y)<=19)q.c=true});
+      var c=cov();bar.style.width=f1(Math.min(1,c/.92)*100)+'%';
+      pd.innerHTML='<g transform="translate('+f1(x)+' '+f1(y)+') rotate(-20)"><rect x="-4" y="-40" width="8" height="24" rx="2" fill="#8A5A3A"/><rect x="-16" y="-16" width="32" height="18" rx="3" fill="#A87A4A" stroke="#6A4A2A" stroke-width="1.2"/><path d="M-16 -12L16 -8M-16 -6L16 -2" stroke="#E8D8B0" stroke-width="1.6"/></g>';
+      clearTimeout(tm);tm=setTimeout(function(){pd.innerHTML=''},220);
+      if(c>=.92){done=true;dots.innerHTML='';pts.forEach(function(q){q.c=true});stp.insertAdjacentHTML('beforeend','<rect x="0" y="0" width="320" height="190" fill="#B47444"/><rect x="0" y="0" width="320" height="190" fill="url(#cordS)"/>');bar.style.width='100%';lvDone(area,i,l,msg,'ぜんぶたたけた！');return}
+      if(c>.7){dots.innerHTML=pts.filter(function(q){return !q.c}).map(function(q){return '<circle cx="'+q.x+'" cy="'+q.y+'" r="2.2" fill="#FFF8EC"/>'}).join('');say(msg,'もうすこし！<b>白い点</b>のところが、まだだよ。')}
+      else say(msg,'ペタン！つるつるのところも、たたこう。')}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      if(!inPot(p.x,p.y)){say(msg,'<b>土器</b>の上をタップしてね。',1);return}
+      hitAt(p.x,p.y)
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','土器の画面。Enter キーで、なわのもようをつけます');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();pts.forEach(function(q){q.c=true});hitAt(CX,TOP+60)}});
+    later(function(){if(!done&&cov()===0)say(msg,'土器を<b>タップ</b>すると、木の板でペタンとたたくよ。いろいろなところをタップして、土器ぜんたいをたたこう。')},7000);
+  },
+
+  /* 第 5 關：看左邊半個陶罐，在右邊畫出對稱的另一半 */
+  mirror:function(area,i,l){
+    var TOP=30,S=1.18,CX=160,HH=118*S,line=[],on=false,done=false,fails=0,TG=[];
+    for(var dy=0;dy<=118;dy+=1)TG.push([CX+potW(dy)*S,TOP+dy*S]);
+    var left=potSide(CX,TOP,S,-1),right=potSide(CX,TOP,S,1);
+    var dl='M'+CX+' '+TOP+smooth(left).replace('M','L')+'Z',dr='M'+CX+' '+TOP+smooth(right).replace('M','L')+'Z';
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F2EEE6"><rect x="-400" y="180" width="1200" height="80" fill="#C8BCA8"/>'+cordDef('cordR')+
+      '<path d="'+dl+'" fill="'+CLAY+'" stroke="#7A4A2E" stroke-width="2"/><path d="'+dl+'" fill="url(#cordR)"/><path d="M140 46L122 80L132 110M98 112L122 128L138 158M112 64L96 86" stroke="#6E3E22" stroke-width="1.4" fill="none"/>'+
+      '<path d="M160 20V182" stroke="#8A7A70" stroke-width="1.4" stroke-dasharray="5 4"/><g id="gd"></g><g id="rt"></g>'+
+      '<circle cx="'+f1(CX+30*S)+'" cy="'+TOP+'" r="5" fill="#DB2E27"/><text x="'+f1(CX+30*S+12)+'" y="'+(TOP-6)+'" font-size="13" font-weight="700" fill="#DB2E27">ここから</text><path id="ln" d="" stroke="#6C2024" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),ln=svg.querySelector('#ln'),gd=svg.querySelector('#gd'),rt=svg.querySelector('#rt');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function show(){ln.setAttribute('d',line.length?'M'+line.map(function(q){return f1(q.x)+' '+f1(q.y)}).join('L'):'')}
+    function dist(q){var m=1e9;TG.forEach(function(g){var d=Math.hypot(q.x-g[0],q.y-g[1]);if(d<m)m=d});return m}
+    function win(){done=true;on=false;gd.innerHTML='';rt.innerHTML='<path d="'+dr+'" fill="'+CLAY+'" stroke="#7A4A2E" stroke-width="2"/><path d="'+dr+'" fill="url(#cordR)"/>';bar.style.width='100%';lvDone(area,i,l,msg,'左右がそろった！')}
+    function check(){
+      var err=0;line.forEach(function(q){err+=dist(q)});err/=Math.max(1,line.length);
+      var hitN=0,tot=0;TG.forEach(function(g,k){if(k%4)return;tot++;if(line.some(function(q){return Math.hypot(q.x-g[0],q.y-g[1])<15}))hitN++});
+      var cv=hitN/tot;bar.style.width=f1(Math.min(1,cv)*100)+'%';
+      if(cv>=.8&&err<10){win();return}
+      fails++;line=[];show();
+      if(cv<.8&&err<10)say(msg,'形はそっくり！でも<b>口</b>（赤い点）から<b>底</b>（まん中の点線）まで、ずっとかいてから指をはなしてね。',1);
+      else say(msg,'左とちょっとちがうね。左を見て：口は<b>小さく</b>、おなかは<b>まるくふくらんで</b>、底は<b>まるい</b>よ。右も同じ形にかこう。',1);
+      if(fails>=2){gd.innerHTML='<path d="'+smooth(right)+'" stroke="#DB2E27" stroke-width="2" stroke-dasharray="3 5" fill="none" opacity=".7"/>';say(msg,'<b>赤い点線</b>をなぞって、赤い点から底までかこう。',1)}
+    }
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){if(p.x<CX-6){say(msg,'<b>右がわ</b>にかいてね。左はもうできているよ。',1);on=false;return}on=true;line=[{x:p.x,y:p.y}];show();return}
+      if(!on)return;
+      if(t==='move'){var a=line[line.length-1];if(Math.hypot(p.x-a.x,p.y-a.y)>2){line.push({x:p.x,y:p.y});show()}return}
+      if(t==='up'){on=false;if(line.length<5){line=[];show();say(msg,'指を<b>はなさずに</b>、ずっとかいていこう。',1);return}check()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','土器の画面。Enter キーで、のこり半分をかきます');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();win()}});
+    later(function(){if(!done&&!fails&&!line.length)say(msg,'右上の<b>赤い点</b>に指をおいて、はなさずに、左と同じ形（左右反対）で底までかこう。')},8000);
+  },
+
+  /* 第 6 關：慢慢把文物拖進展示櫃（太快會晃） */
+  slow:function(area,i,l){
+    var SL=[{x:222,y:72},{x:274,y:72},{x:248,y:128}],IT=[{k:'pot',x:48,y:116},{k:'dog',x:86,y:116},{k:'rice',x:124,y:116}],held=null,off={x:0,y:0},lastP=null,lastT=0,v=0,fast=0,n=0,done=false;
+    IT.forEach(function(o){o.hx=o.x;o.hy=o.y});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F0ECE4"><rect x="-400" y="172" width="1200" height="80" fill="#A8A4A0"/>'+cordDef('cordL')+
+      '<rect x="196" y="38" width="106" height="120" rx="4" fill="#DDEFF4" fill-opacity=".8" stroke="#7A8A90" stroke-width="2"/><path d="M196 100H302" stroke="#7A8A90" stroke-width="2"/><rect x="190" y="158" width="118" height="10" fill="#5A4E48"/><text x="249" y="30" font-size="14" font-weight="700" fill="#5A4E48" text-anchor="middle">展示ケース</text>'+
+      '<path d="M24 134H148V146H24Z" fill="#8A6A3A" stroke="#5A3E2B" stroke-width="1.2"/><path d="M148 134L160 110" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round"/><circle cx="42" cy="156" r="9" fill="#5A3E2B"/><circle cx="130" cy="156" r="9" fill="#5A3E2B"/><text x="86" y="170" font-size="13" fill="#5A4E48" text-anchor="middle" stroke="#F0ECE4" stroke-width="3" paint-order="stroke">台車</text><g id="sl"></g><g id="it"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),slg=svg.querySelector('#sl'),itg=svg.querySelector('#it');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function art(o){var x=o.x,y=o.y;
+      if(o.k==='pot')return pot(x,y-17,.28,'cordL');
+      if(o.k==='dog')return '<rect x="'+(x-16)+'" y="'+(y-20)+'" width="32" height="40" rx="3" fill="#C8A47A" stroke="#8A6A48"/>'+dogBones(x,y-1,.36);
+      return '<ellipse cx="'+x+'" cy="'+(y+6)+'" rx="17" ry="8" fill="#F4F0E8" stroke="#A89A88" stroke-width="1.2"/>'+riceG(x-6,y+4,-20,.7)+riceG(x+6,y+3,25,.7)+milletG(x,y+9,.7)}
+    function draw(){
+      slg.innerHTML=SL.map(function(q){return q.o?'':'<rect x="'+(q.x-21)+'" y="'+(q.y-21)+'" width="42" height="42" fill="none" stroke="#DB2E27" stroke-width="2" stroke-dasharray="5 4"/>'}).join('');
+      itg.innerHTML=IT.map(function(o){var w='';
+        if(o===held){var c=v>.3?'#F5A623':'#7BC47F',a=v>.3?Math.sin(performance.now()/40)*10:0;w='<circle cx="'+f1(o.x)+'" cy="'+f1(o.y)+'" r="26" fill="'+c+'" opacity=".35"/>';return w+'<g transform="rotate('+f1(a)+' '+f1(o.x)+' '+f1(o.y+18)+')">'+art(o)+'</g>'}
+        return art(o)}).join('');
+      bar.style.width=(n/3*100)+'%'}
+    draw();
+    function drop(o,t,again){o.x=o.hx;o.y=o.hy;held=null;v=0;fast=0;draw();say(msg,t,again)}
+    function place(o,q){q.o=o;o.on=true;o.x=q.x;o.y=q.y;held=null;n++;draw();
+      if(n>=3){done=true;lvDone(area,i,l,msg,'3つともならべた！')}else say(msg,'おいたよ！あと '+(3-n)+' こ。')}
+    drag(svg,function(t,p){
+      if(done)return;
+      var now=performance.now();
+      if(t==='down'){held=null;var bd=26;IT.forEach(function(o){if(o.on)return;var d=Math.hypot(p.x-o.x,p.y-o.y);if(d<bd){bd=d;held=o}});
+        if(held){off={x:p.x-held.x,y:p.y-held.y};lastP=p;lastT=now;v=0;fast=0;draw()}else say(msg,'<b>台車の上</b>の出土品をおさえてね。',1);return}
+      if(!held)return;
+      if(t==='move'){var dt=Math.max(16,now-lastT),inst=Math.hypot(p.x-lastP.x,p.y-lastP.y)/dt;lastP=p;lastT=now;v=.5*v+.5*inst;
+        if(v>.42)fast++;else fast=Math.max(0,fast-1);
+        if(fast>=4){drop(held,'はやすぎ！ゆれて、もうすこしでわれるところだった。台車にもどったよ。<b>ゆっくり</b>動かそう。',1);return}
+        held.x=p.x-off.x;held.y=p.y-off.y;draw();return}
+      if(t==='up'){var o=held,q=null;SL.forEach(function(s2){if(!s2.o&&Math.hypot(o.x-s2.x,o.y-s2.y)<30)q=s2});
+        if(q)place(o,q);else drop(o,'<b>展示ケース</b>の赤い点線のわくに入れてね。',1)}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','展示ケースの画面。Enter キーで出土品を1つならべます');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var o=IT.filter(function(q){return !q.on})[0],q=SL.filter(function(q){return !q.o})[0];if(o&&q)place(o,q)}});
+    later(function(){if(!n&&!done)say(msg,'台車の上の出土品を1つおさえて、<b>ゆっくり</b>右上へ動かし、展示ケースの赤い点線のわくに入れよう。まわりの光が<b>黄色</b>になったら、はやすぎだよ。')},8000);
+  }
+};
+</script>
+<script src="../core/game.ja.js?v=e47f947c"></script>
+</body>
+</html>
