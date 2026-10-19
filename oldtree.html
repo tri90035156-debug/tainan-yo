@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>老樹任務・臺南公園</title>
+<meta name="description" content="跟著樹醫生阿姨認識臺南公園的老樹：一筆畫幫小樹澆水、手牽手圍住百年菩提樹、讓小鳥回到雨豆樹上的巢、在羊蹄甲林聽出是誰在叫、敲一敲找出老樹空心的地方，再幫颱風後新種的小樹綁好繩子。">
+<link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/oldtree.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/oldtree.html">
+<link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/oldtree.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="臺南遊">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/oldtree.html">
+<meta property="og:title" content="老樹任務（老樹・臺南公園）｜臺南遊">
+<meta property="og:description" content="跟著樹醫生阿姨認識臺南公園的老樹：一筆畫幫小樹澆水、手牽手圍住百年菩提樹、讓小鳥回到雨豆樹上的巢、在羊蹄甲林聽出是誰在叫、敲一敲找出老樹空心的地方，再幫颱風後新種的小樹綁好繩子。">
+<meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/oldtree.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#FFF8EC; --card:#FFFDF7; --ink:#5A3E2B; --muted:#9A7B62; --line:#EBD9BF;
+  --red:#E2574C; --sea:#9ED9EC; --water:#6EC3DD; --blue:#2E93B8; --green:#7BC47F; --sand:#F8E7C2;
+  --f:"Huninn","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:#F3E6CF;color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.7;overflow:hidden}
+.app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
+header{flex:none;display:flex;align-items:center;gap:10px;padding:8px 14px}
+header h1{margin:0;font-size:20px;font-weight:400;flex:1;line-height:1.3}
+.chips{display:flex;gap:3px;background:none;border:0;padding:4px;cursor:pointer;border-radius:8px}
+.chips i{display:grid;place-items:center;width:22px;height:22px;border:1.5px dashed #D9BFA0;border-radius:6px;font:14px/19px var(--f);font-style:normal;text-align:center;color:transparent}
+.chips i.on{border:1.5px solid var(--red);background:var(--red);color:#fff}
+.chips i svg{width:17px;height:17px}
+.chips i.pop{animation:pop .5s cubic-bezier(.2,1.8,.4,1)}
+
+.stage{flex:none;position:relative;height:clamp(250px,50vh,520px);background:var(--sea);overflow:hidden;border-top:3px solid var(--line);transition:height .35s}
+#map{width:100%;height:100%;display:block;touch-action:manipulation}
+[hidden]{display:none!important}
+#scene{position:absolute;inset:0;background:#DFF3F8;animation:fadein .35s}
+#scene svg{display:block;width:100%;height:100%;margin:0;border-radius:0;background:none!important}
+@keyframes fadein{from{opacity:0}}
+#peek{position:absolute;left:8px;top:8px;font:15px var(--f);background:#fff;color:var(--ink);border:0;border-radius:999px;padding:5px 14px;box-shadow:0 2px 6px rgba(90,62,43,.18);cursor:pointer}
+#past,#now{transition:opacity .7s}
+#map.now #past{opacity:0}
+#map:not(.now) #now{opacity:0;pointer-events:none}
+#boat{transition:opacity .7s}#map.now #boat{opacity:0}
+.era{position:absolute;right:8px;top:8px;display:flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 2px 6px rgba(90,62,43,.18)}
+.era button{font:15px var(--f);border:0;background:none;color:var(--muted);padding:4px 12px;border-radius:999px;cursor:pointer}
+.era button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.stop{cursor:pointer}
+.stop.lock{opacity:.55;cursor:default}
+.pin{animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+
+main{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 8px;font-size:19px;background:var(--card);border-radius:18px 18px 0 0;margin-top:-10px;position:relative;box-shadow:0 -3px 10px rgba(90,62,43,.08)}
+.kick{margin:0;font-size:14px;color:var(--red)}
+h2{margin:0 0 4px;font-size:26px;font-weight:400;line-height:1.35}
+main p{margin:0 0 10px}
+.task{background:#FFF0D6;border-radius:12px;padding:8px 12px;font-size:20px}
+main .note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+.big{display:block;width:100%;font:24px var(--f);background:var(--red);color:#fff;border:0;border-radius:16px;padding:12px;cursor:pointer;margin:8px 0;box-shadow:0 4px 0 #B8392F;transition:transform .08s}
+.big:active,.big.down{transform:translateY(3px);box-shadow:0 1px 0 #B8392F}
+.big.blue{background:var(--blue);box-shadow:0 4px 0 #1F6F8C}
+.big.blue:active,.big.blue.down{box-shadow:0 1px 0 #1F6F8C}
+.big:disabled{background:#D9C7B0;box-shadow:none;cursor:default}
+.hold{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none}
+.mini{display:block;width:100%;height:auto;background:#DFF3F8;border-radius:14px;margin:4px 0 8px;touch-action:manipulation}
+.item{transition:transform .55s cubic-bezier(.3,1.4,.5,1);cursor:pointer}
+.item:focus-visible path{stroke:var(--red)}
+.tap{cursor:pointer}
+.tap:focus,.item:focus{outline:none}
+.tap:focus-visible .ring{stroke:var(--red);stroke-width:3}
+.bar{height:12px;background:#F0E2CC;border-radius:999px;overflow:hidden;margin:4px 0 8px}
+.bar b{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width .3s}
+.opt{display:block;width:100%;text-align:left;font:20px/1.5 var(--f);background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 8px;cursor:pointer}
+.opt.no{color:#C3AE97;border-style:dashed;text-decoration:line-through}
+.opt.yes{border-color:var(--green);background:#EEF8EC}
+.opt:disabled{cursor:default}
+.say{background:#EEF8EC;border-radius:12px;padding:8px 12px;font-size:18px}
+.say.again{background:#FDECE8}
+.skip{font:15px var(--f);background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px 0;cursor:pointer}
+.got{display:flex;align-items:center;gap:14px;background:#FFF0D6;border-radius:14px;padding:10px 14px;margin:10px 0}
+.got p{margin:0}
+.why{background:#E6F4FA;border-radius:14px;padding:8px 12px;margin:0 0 10px}
+.why summary{cursor:pointer;color:#1F6F8C;font-size:18px}
+.why p{margin:6px 0 0}
+.seal{display:grid;place-items:center;flex:none;width:56px;height:56px;border:3px solid var(--red);border-radius:12px;background:var(--red);color:#fff;font:32px/50px var(--f);text-align:center;transform:rotate(-6deg)}
+.seal svg{width:74%;height:74%}
+.seal.pop{animation:stamp .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-20deg);opacity:0}100%{transform:rotate(-6deg);opacity:1}}
+@keyframes pop{0%{transform:scale(1.8)}100%{transform:none}}
+.again-btn{font:14px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:3px 14px;color:var(--muted);cursor:pointer}
+
+.foot{flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:2px solid var(--line)}
+.foot button{font:17px var(--f);background:none;border:0;color:var(--ink);padding:6px 10px;cursor:pointer;border-radius:8px}
+.foot #nx{color:var(--red)}
+.foot button:disabled{color:#D9C7B0;cursor:default}
+.foot span{font-size:14px;color:var(--muted)}
+
+.doc{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 14px 8px}
+.doc h3{margin:0 0 8px;font-size:24px;font-weight:400;text-align:center;letter-spacing:.2em}
+.doc dl{margin:0 0 8px;display:grid;grid-template-columns:4em minmax(0,1fr);gap:0 8px;font-size:15px}
+.doc dt{color:var(--muted)}.doc dd{margin:0}
+.doc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:2px dashed var(--line);padding-top:10px}
+.doc li{text-align:center;font-size:13px;color:var(--muted);line-height:1.4}
+.doc li .seal{width:48px;height:48px;margin:0 auto 4px}
+.doc li .seal.empty{background:none;border:2px dashed #D9BFA0;transform:none;color:transparent}
+.doc .fic{margin:8px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.name{font:17px var(--f);border:0;border-bottom:2px solid var(--ink);background:none;width:9em;color:var(--ink);padding:0 2px}
+.sheet{position:fixed;inset:0;z-index:10;background:rgba(90,62,43,.45);display:grid;place-items:center;padding:16px}
+.sheet[hidden]{display:none}
+.sheet .in{width:min(380px,100%);max-height:calc(100% - 32px);overflow-y:auto;background:var(--bg);border-radius:18px;padding:14px}
+.sheet .x{display:block;margin:10px auto 0;font:16px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:4px 18px;cursor:pointer;color:var(--ink)}
+.conf{position:fixed;top:-12px;width:10px;height:14px;border-radius:3px;z-index:20;pointer-events:none;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+main a{color:var(--blue)}
+@media (prefers-reduced-motion:reduce){.stage{transition:none}.pin,.seal.pop,.chips i.pop,.conf{animation:none}.item{transition:none}}
+/* 平板直拿：畫面變寬一點 */
+@media (min-width:700px){.app{max-width:760px}}
+/* 電腦、平板橫拿、手機橫拿：左邊大舞台（地圖／遊戲），右邊文字卡片 */
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EADBC0}
+  .app{max-width:1320px;display:grid;grid-template-columns:minmax(0,1fr) clamp(330px,34vw,470px);grid-template-rows:auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:10px 20px}
+  header h1{font-size:24px}
+  .chips i{width:26px;height:26px}.chips i svg{width:20px;height:20px}
+  .stage{grid-column:1;grid-row:2/4;height:auto;border-top:3px solid var(--line)}
+  main{grid-column:2;grid-row:2;margin-top:0;border-radius:0;box-shadow:none;border-top:3px solid var(--line);border-left:3px solid var(--line);padding:16px 20px 10px}
+  .foot{grid-column:2;grid-row:3;border-left:3px solid var(--line)}
+}
+/* ===== 新版面：上面標題、中間遊戲畫面、下面文字 =====
+   配色取自臺南城市識別：紅 #DB2E27、酒紅 #6C2024、金 #BD9558；插畫裡的水和海維持藍色 */
+:root{
+  --bg:#FBF7F1; --card:#FBF7F1; --paper:#FFFFFF; --ink:#2A2020; --muted:#8A7A70; --line:#EADFD3;
+  --red:#DB2E27; --maroon:#6C2024; --gold:#BD9558; --goldsoft:#F3E8D6; --blue:#6C2024; --green:#BD9558;
+  --f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+}
+body{background:#EFE7DC;color:var(--ink)}
+header{padding:12px 18px 2px}
+header h1{font:700 15px/1.3 var(--f);letter-spacing:.06em;color:var(--ink)}
+.chips{gap:5px}
+.chips i{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--gold)}
+.chips i.on{background:var(--red);border-color:var(--red)}
+.chips i svg{width:14px;height:14px}
+.top{flex:none;padding:6px 18px 14px}
+.top .kick{margin:0 0 2px;font:700 15px/1.4 var(--serif);letter-spacing:.06em;color:var(--red)}
+.top h2{margin:0;font:900 30px/1.25 var(--serif);color:var(--ink);text-wrap:balance}
+.stage{height:clamp(220px,42vh,480px);margin:0 16px;border-top:0;border-radius:26px;box-shadow:0 0 0 8px var(--goldsoft)}
+main{margin-top:0;border-radius:0;box-shadow:none;background:var(--bg);padding:20px 18px 8px}
+main p{line-height:1.75}
+main .kick{font:700 15px var(--serif);letter-spacing:.04em}
+.task{background:var(--goldsoft);border-radius:14px;padding:10px 14px;font-weight:500}
+.big{font:700 22px var(--f);border-radius:14px;box-shadow:none;background:var(--red);letter-spacing:.04em}
+.big:active,.big.down{transform:translateY(2px);box-shadow:none;filter:brightness(.9)}
+.big.blue{background:var(--maroon);box-shadow:none}
+.big.blue:active,.big.blue.down{box-shadow:none}
+.big:disabled{background:#D8CFC4}
+.opt{font:500 20px/1.5 var(--f);border:2px solid var(--line);background:var(--paper);border-radius:14px}
+.opt.yes{border-color:var(--gold);background:#FAF3E6}
+.say{background:#F2ECE2;border-radius:14px}
+.say.again{background:#FBE8E5}
+.why{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.why summary{font:700 18px var(--serif);color:var(--maroon)}
+.got{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.seal{border:0;border-radius:50%;background:var(--red);transform:none;box-shadow:0 0 0 6px var(--goldsoft)}
+@keyframes stamp{0%{transform:scale(1.8);opacity:0}100%{transform:none;opacity:1}}
+.again-btn{border-color:var(--gold);color:var(--maroon)}
+.bar{background:#EFE6D8}.bar b{background:var(--gold)}
+.foot{background:var(--bg);border-top:1px solid var(--line)}
+.foot #nx{color:var(--red);font-weight:700}
+#peek,.era{box-shadow:0 2px 8px rgba(42,32,32,.15)}
+.era button[aria-pressed="true"]{background:var(--maroon)}
+.doc{border:0;border-radius:18px;background:var(--paper);box-shadow:0 0 0 8px var(--goldsoft)}
+.doc h3{font:900 26px var(--serif);letter-spacing:.12em;color:var(--ink)}
+.doc li .seal.empty{border:2px dashed var(--gold);box-shadow:none}
+.sheet .in{background:var(--bg)}
+/* 換關時文字一行一行浮上來 */
+.enter>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.enter>*:nth-child(2){animation-delay:.06s}.enter>*:nth-child(3){animation-delay:.12s}.enter>*:nth-child(4){animation-delay:.18s}.enter>*:nth-child(5){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){.enter>*{animation:none}}
+@media (min-width:700px){.top h2{font-size:34px}.top{padding:8px 24px 16px}.stage{margin:0 24px}}
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EFE7DC}
+  .app{grid-template-rows:auto auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:12px 24px 4px}
+  header h1{font-size:15px}
+  .top{grid-column:1;grid-row:2}
+  .stage{grid-column:1;grid-row:3/5;height:auto;margin:0 24px 24px;border-top:0}
+  main{grid-column:2;grid-row:2/4;border-top:0;border-left:1px solid var(--line);padding:20px 22px 10px}
+  .foot{grid-column:2;grid-row:4;border-left:1px solid var(--line)}
+}
+/* ===== 圓形遊戲框 ===== */
+.stage{display:flex;align-items:center;justify-content:center;background:none;box-shadow:none;border-radius:0;overflow:visible;height:clamp(220px,46vh,460px)}
+.stage{position:relative;min-height:0}
+.disc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;overflow:hidden;background:var(--sea);box-shadow:0 0 0 12px var(--goldsoft)}
+#map{width:100%;height:100%}
+#scene{display:flex;align-items:center;justify-content:center}
+#scene svg{flex:none}
+#scene svg:focus:not(:focus-visible),#scene [tabindex]:focus:not(:focus-visible){outline:none}
+#peek{left:0;top:0}
+.era{right:0;top:0}
+@media (min-width:700px) and (min-aspect-ratio:5/4){.stage{height:auto}}
+/* ===== 不用色塊區分文字：改用粗體和顏色；大按鈕是圓的 ===== */
+.task{background:none;padding:0;border-radius:0;font-weight:700;color:var(--maroon)}
+.say{background:none;padding:0;border-radius:0;font-weight:700;color:#4E7D3A}
+.say.again{background:none;color:var(--red)}
+.why,.got{background:none;border:0;padding:0;border-radius:0}
+.why summary{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+.got{margin:16px 0}
+.opt{border-radius:999px;padding:10px 20px}
+.big{display:grid;place-items:center;width:116px;height:116px;margin:18px auto;padding:10px;border-radius:50%;font:700 20px/1.3 var(--f);text-align:center;box-shadow:0 0 0 8px var(--goldsoft)}
+.big.blue{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:active,.big.down,.big.blue:active,.big.blue.down{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:disabled{box-shadow:0 0 0 8px #EFE8DF}
+.again-btn{border-radius:999px}
+/* ===== 用粗細帶重點：內文細一點、淡一點，重點字粗黑 ===== */
+main p,main li,.doc dd{color:#5A4E48}
+main b,main strong{font-weight:700;color:var(--ink)}
+.task,.task b{color:var(--maroon)}
+.say b{color:inherit}
+.say.again b{color:inherit}
+/* 回饋訊息用一般粗細，只有重點詞粗 */
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say b{font-weight:700}
+/* ===== 手機：地圖和文字在同一頁一起捲，上一關／下一關固定在最下面 ===== */
+@media (max-width:699.98px),(max-aspect-ratio:1249/1000){
+  html,body{height:auto;min-height:100%}
+  body{overflow:visible}
+  .app{height:auto;min-height:100vh}
+  main{flex:none;overflow:visible;min-height:0}
+  .foot{position:sticky;bottom:0;z-index:5}
+  .stage{margin:0 2px}
+  /* 圓黏在畫面上方：往下捲找按鈕時，圓和按鈕一定同時看得到 */
+  .stage{position:sticky;top:0;z-index:4;background:var(--bg)}
+  main *{scroll-margin-bottom:76px}
+  .big{width:96px;height:96px;margin:12px auto;font-size:19px}
+}
+/* ===== 卡片文字角色（使用者定的規則） ===== */
+.task{color:#6C2024;font-weight:700}
+.bar{height:4px;background:#EFE6D8;border-radius:2px;margin:10px 0 12px}
+.bar b{background:#6C2024;border-radius:2px}
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say.again::before{content:"再試試";display:block;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red);margin-bottom:2px}
+main .kick+p{font-weight:700;color:var(--ink)}
+.notes{margin-top:24px;padding-top:12px;border-top:1px solid var(--line)}
+.notes .note{margin:0 0 6px}
+.notes .note b{color:#8A7A70}
+/* ===== 完成頁：一段一段回顧 ===== */
+.recap{min-height:150px}
+.rc{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:start}
+.rc .seal{width:58px;height:58px;margin-top:4px}
+.rc .seal.empty{background:none;border:2px dashed var(--gold);box-shadow:none}
+.rk{margin:0;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red)}
+.rh{margin:0 0 6px;font:900 22px/1.35 var(--serif);color:var(--ink)}
+.rn{margin:-6px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+.pad{display:grid;grid-template-columns:repeat(3,60px);grid-template-rows:repeat(2,60px);gap:8px;justify-content:center;margin:16px auto 12px}
+.pad button{border:0;border-radius:50%;background:var(--maroon);color:#fff;font:700 26px/1 var(--f);box-shadow:0 0 0 5px var(--goldsoft);cursor:pointer;touch-action:manipulation}
+.pad button:active{filter:brightness(.88)}
+.pad button:disabled{background:#D8CFC4}
+.go-row{display:flex;align-items:center;justify-content:center;gap:26px}.go-row .big{margin:12px 0}
+.learn-round{flex:none;display:grid;place-items:center;width:66px;height:66px;border-radius:50%;border:2px solid var(--gold,#BD9558);background:var(--paper,#fff);color:var(--maroon,#6C2024);font:700 15px/1.3 var(--f);text-align:center;text-decoration:none;box-shadow:0 0 0 6px var(--goldsoft,#F3E8D6)}.learn-round:active{background:var(--goldsoft,#F3E8D6)}
+.learn{margin:18px 0 10px}.learn-btn{display:inline-block;padding:8px 20px;border:2px solid var(--gold,#BD9558);border-radius:999px;color:var(--maroon,#6C2024);font-weight:700;font-size:16px;text-decoration:none}.learn-btn:active{background:var(--goldsoft,#F3E8D6)}
+.notes .maps a{color:inherit;text-decoration:underline;text-decoration-color:#C9B8A6;text-underline-offset:3px}
+.recap:empty{min-height:0}
+/* 回到首頁的小房子（每個遊戲左上角都有） */
+.home{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--paper,#fff);color:var(--maroon,#6C2024);text-decoration:none}.home svg{width:20px;height:20px}.home:active{background:var(--goldsoft,#F3E8D6)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <a class="home" href="index.html" aria-label="回到首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></a>
+    <h1>老樹任務</h1>
+    <button class="chips" id="chips" type="button" aria-label="看回顧"></button>
+  </header>
+  <div class="top" id="top"></div>
+  <div class="stage" id="stage">
+    <div class="disc">
+      <svg id="map" class="now" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="臺南公園插畫地圖"></svg>
+      <div id="scene" hidden></div>
+    </div>
+    <div class="era" role="group" aria-label="切換開園時和今天"><button type="button" data-era="past" aria-pressed="false">開園時</button><button type="button" data-era="now" aria-pressed="true">今天</button></div>
+    <button id="peek" type="button" hidden>看地圖</button>
+  </div>
+  <main id="card" aria-live="polite"></main>
+  <nav class="foot"><button type="button" id="pv">‹ 上一關</button><span id="pos"></span><button type="button" id="nx">下一關 ›</button></nav>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="任務單"><div class="in"><div id="sheetDoc"></div><button class="x" type="button" id="sheetX">收起任務單</button></div></div>
+
+<script>
+/* ---------- 插畫元件 ---------- */
+var K='#2A2020',NS='http://www.w3.org/2000/svg';
+var GRASS='#CFE3B0',LEAF='#5E9A44',LEAFD='#3F7A34',BARK='#7A5638',BARKD='#5A3E28';
+function f1(v){return (Math.round(v*10)/10).toString()}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+// 一團一團的樹冠
+function crown(cx,cy,rx,ry,c,c2,seed){var r=rnd(seed||3),h='<ellipse cx="'+f1(cx)+'" cy="'+f1(cy)+'" rx="'+f1(rx)+'" ry="'+f1(ry)+'" fill="'+c+'"/>';
+  for(var k=0;k<7;k++){var a=k/7*6.283+r(),d=.62;h+='<circle cx="'+f1(cx+Math.cos(a)*rx*d)+'" cy="'+f1(cy+Math.sin(a)*ry*d)+'" r="'+f1(Math.min(rx,ry)*(.42+r()*.16))+'" fill="'+(k%2?c:c2)+'"/>'}
+  return h}
+// 從旁邊看的樹：bodhi 菩提樹（圓圓的大樹冠）、rain 雨豆樹（又寬又平像大傘）、bau 羊蹄甲（有粉紅色的花）、young 小樹
+function treeSide(x,y,s,kind,seed){var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')">';
+  if(kind==='young')return h+'<path d="M0 0V-26" stroke="'+BARK+'" stroke-width="3" stroke-linecap="round"/><circle cy="-30" r="9" fill="#7EB85A"/><circle cx="-6" cy="-25" r="6" fill="#8CC46A"/><circle cx="6" cy="-26" r="6" fill="#6EA84C"/></g>';
+  if(kind==='rain')return h+'<path d="M-6 0Q-4 -22 -2 -30L-22 -44M2 -30L24 -46M0 -30Q4 -20 6 0Z" stroke="'+BARK+'" stroke-width="5" fill="'+BARK+'" stroke-linecap="round" stroke-linejoin="round"/>'+crown(0,-52,58,18,'#6EA850','#5A9440',seed)+'</g>';
+  if(kind==='bau'){var r=rnd(seed||5),f='';for(var k=0;k<9;k++)f+='<circle cx="'+f1((r()-.5)*44)+'" cy="'+f1(-44+(r()-.5)*24)+'" r="3.4" fill="#F2A6C8" stroke="#D8709C" stroke-width=".8"/>';
+    return h+'<path d="M-4 0Q-3 -18 0 -28Q3 -18 4 0Z" fill="'+BARK+'"/>'+crown(0,-44,28,20,'#78AE58','#649A48',seed)+f+'</g>'}
+  return h+'<path d="M-12 0Q-8 -10 -7 -30L-18 -44M7 -30L18 -46M7 -30Q8 -10 12 0Z" stroke="'+BARKD+'" stroke-width="4" fill="'+BARK+'" stroke-linejoin="round"/>'+crown(0,-58,40,30,LEAF,LEAFD,seed)+'</g>'}
+// 菩提樹的葉子：像愛心，尾巴尖尖長長（尾巴朝下）
+function bodhiLeaf(x,y,s,rot,c){return '<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+(rot||0)+') scale('+f1(s)+')"><path d="M0 -13C7 -21 17 -12 12 0C9 6 3 10 0 22C-3 10 -9 6 -12 0C-17 -12 -7 -21 0 -13Z" fill="'+(c||'#6EA850')+'" stroke="#3F7A34" stroke-width="1"/><path d="M0 -13V20M0 -4L7 -9M0 -4L-7 -9M0 4L6 0M0 4L-6 0" stroke="#3F7A34" stroke-width=".8" fill="none"/><path d="M0 -13V-19" stroke="#3F7A34" stroke-width="1.4"/></g>'}
+// 羊蹄甲的葉子：前面裂成兩半，像羊的腳蹄（葉柄朝下）
+function bauLeaf(x,y,s,rot,c){return '<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+(rot||0)+') scale('+f1(s)+')"><path d="M0 12C-10 12 -17 4 -16 -5C-15 -13 -7 -14 -2 -7L0 2L2 -7C7 -14 15 -13 16 -5C17 4 10 12 0 12Z" fill="'+(c||'#78AE58')+'" stroke="#3F7A34" stroke-width="1"/><path d="M0 12V2M0 7L-9 -4M0 7L9 -4" stroke="#3F7A34" stroke-width=".8" fill="none"/><path d="M0 12V17" stroke="#3F7A34" stroke-width="1.4"/></g>'}
+// 從上面往下看的小朋友：肩膀＋頭
+function kidTop(x,y,rot,c,hair,sc){return '<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+f1(rot||0)+') scale('+(sc||1)+')"><ellipse rx="11" ry="6.5" fill="'+c+'" stroke="#5A4E48" stroke-width="1"/><circle r="6.4" fill="'+(hair||'#3A2E28')+'"/><circle cy="-3.4" r="2.6" fill="#E8B890"/></g>'}
+// 從旁邊看的小鳥（dir=-1 頭朝左）
+function birdSide(x,y,s,c,dir,belly){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1((dir||1)*s)+' '+f1(s)+')"><path d="M-14 2L-22 -2L-20 6Z" fill="'+c+'"/><ellipse rx="13" ry="9" fill="'+c+'"/><ellipse cx="2" cy="3" rx="8" ry="5" fill="'+(belly||'#F4EEE0')+'"/><circle cx="9" cy="-6" r="6.5" fill="'+c+'"/><circle cx="11" cy="-7" r="1.6" fill="#1A1A1A"/><path d="M15 -6L21 -4L15 -3Z" fill="#E8A030"/><path d="M-2 8V13M3 8V13" stroke="#8A6A4A" stroke-width="1.4"/></g>'}
+var ICON={
+  water:'<path d="M-9 -3H4V9H-9Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M4 0L10 -6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M-9 0Q-14 2 -11 7" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="11" cy="-1" r="1.3" fill="#fff"/><circle cx="12" cy="3.5" r="1.3" fill="#fff"/><circle cx="10" cy="8" r="1.3" fill="#fff"/>',
+  ring:'<circle r="4.2" fill="#fff"/><circle r="9" fill="none" stroke="#fff" stroke-width="1.4"/><circle cy="-9" r="2.6" fill="#fff"/><circle cx="7.8" cy="4.5" r="2.6" fill="#fff"/><circle cx="-7.8" cy="4.5" r="2.6" fill="#fff"/>',
+  nest:'<path d="M-11 0Q0 13 11 0" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M-9 3H9M-7 6H7" stroke="#fff" stroke-width="1.1"/><ellipse cx="-3.4" cy="-2" rx="3.4" ry="2.6" fill="#fff"/><ellipse cx="3.4" cy="-2" rx="3.4" ry="2.6" fill="#fff"/>',
+  bird:'<path d="M-4 6V-8L8 -10V4" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><circle cx="-6.5" cy="6" r="3.2" fill="#fff"/><circle cx="5.5" cy="4" r="3.2" fill="#fff"/>',
+  mallet:'<path d="M-1 -1L9 10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><rect x="-11" y="-6" width="14" height="8" rx="2" transform="rotate(42 -4 -2)" fill="#fff"/>',
+  stake:'<path d="M0 -12L7 0H-7Z" fill="#fff"/><path d="M0 0V9" stroke="#fff" stroke-width="2.4"/><path d="M0 -3L-10 9M0 -3L10 9" stroke="#fff" stroke-width="1.4"/><rect x="-12" y="8" width="4" height="4" fill="#fff"/><rect x="8" y="8" width="4" height="4" fill="#fff"/>'
+};
+function icon(k){return '<svg viewBox="-12 -12 24 24" aria-hidden="true">'+ICON[k]+'</svg>'}
+
+function idCard(t1,t2,art,C){
+  var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EEF4E2" role="img" aria-label="'+t1+'的樣子"><rect x="-400" y="170" width="1200" height="60" fill="#8CB46A"/>'+art;
+  C.forEach(function(c){s+='<path d="M'+c[3]+' '+c[4]+'L'+c[1]+' '+(c[2]-5)+'" stroke="#8A7A70" stroke-width="1.2"/><circle cx="'+c[3]+'" cy="'+c[4]+'" r="2.6" fill="#DB2E27"/>'+
+    '<text x="'+c[1]+'" y="'+c[2]+'" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#EEF4E2" stroke-width="4" paint-order="stroke">'+c[0]+'</text>'});
+  return s+'<text x="160" y="30" font-size="24" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,Songti TC,serif" stroke="#EEF4E2" stroke-width="4" paint-order="stroke">'+t1+'</text>'+(t2?'<text x="160" y="188" font-size="14" font-weight="700" fill="#FFF8EC" text-anchor="middle">'+t2+'</text>':'')+'</svg>';
+}
+// 一關做完：說過關的話，有題目就出題，再蓋章
+function lvDone(area,i,l,msg,t){say(msg,t);later(function(){say(msg,l.win);if(l.q)quiz(area,l,function(){finish(i)});else finish(i)},900)}
+
+/* ---------- 地圖 ---------- */
+// 示意圖：臺南公園（北區）。「開園時」是 1917 年剛種下的小樹林；「今天」是長大的老樹、燕潭和重道崇文坊
+var STOPS=[{lv:1,n:'公園大門',x:180,y:480,k:'gate'},{lv:2,n:'百年菩提樹',x:280,y:220,k:'bodhi'},{lv:3,n:'雨豆樹',x:610,y:190,k:'rain'},{lv:4,n:'羊蹄甲林',x:650,y:410,k:'bau'},{lv:5,n:'老樹檢查',x:440,y:470,k:'doctor'},{lv:6,n:'新的小樹',x:250,y:360,k:'young'}];
+function marker(s){
+  var t='<g transform="translate('+s.x+' '+s.y+')">';
+  if(s.k==='gate')return t+'<rect x="-30" y="-26" width="9" height="34" fill="#E8DCC4" stroke="#8A7A60" stroke-width="1.2"/><rect x="21" y="-26" width="9" height="34" fill="#E8DCC4" stroke="#8A7A60" stroke-width="1.2"/><rect x="-34" y="-32" width="17" height="7" fill="#C8B898"/><rect x="17" y="-32" width="17" height="7" fill="#C8B898"/><path d="M-21 -18Q0 -30 21 -18" stroke="#6A5A40" stroke-width="2.4" fill="none"/></g>';
+  if(s.k==='bodhi')return t+treeSide(0,14,.62,'bodhi',11)+bodhiLeaf(22,-30,.7,20,'#8CC46A')+'</g>';
+  if(s.k==='rain')return t+treeSide(0,14,.56,'rain',12)+'</g>';
+  if(s.k==='bau')return t+treeSide(-16,14,.5,'bau',13)+treeSide(16,16,.5,'bau',14)+'</g>';
+  if(s.k==='doctor')return t+'<path d="M-14 16Q-10 -4 -10 -20H10Q10 -4 14 16Z" fill="'+BARK+'" stroke="'+BARKD+'" stroke-width="1.4"/><ellipse cx="0" cy="-2" rx="4" ry="6" fill="'+BARKD+'"/>'+crown(0,-28,24,12,LEAF,LEAFD,15)+'<path d="M18 4L28 -8" stroke="#8A6A3A" stroke-width="3" stroke-linecap="round"/><rect x="22" y="-16" width="14" height="8" rx="2" transform="rotate(40 29 -12)" fill="#C89A5A" stroke="#7A5A30" stroke-width="1"/></g>';
+  return t+treeSide(0,10,.85,'young')+'<path d="M0 -14L-22 12M0 -14L22 12M0 -14L0 16" stroke="#E8D8A8" stroke-width="1.4"/><rect x="-25" y="9" width="5" height="7" fill="#8A6A3A"/><rect x="20" y="9" width="5" height="7" fill="#8A6A3A"/></g>';
+}
+function buildMap(){
+  var h='<rect x="-400" y="-300" width="1600" height="1200" fill="#E4DCC8"/>';
+  // 公園四周的馬路
+  var road='<path d="M60 90H740V560H60Z" fill="none" stroke="#F8F4EA" stroke-width="22" stroke-linejoin="round"/>';
+  h+='<g id="past"><rect x="-400" y="-300" width="1600" height="1200" fill="#E8E0C8"/>'+road+'<rect x="72" y="102" width="656" height="446" rx="18" fill="#DCE6B8"/><path d="M180 480Q240 400 300 330Q400 260 520 250Q620 260 650 400" stroke="#EADFC0" stroke-width="12" fill="none" stroke-linecap="round"/><g id="frPast"></g><text x="400" y="534" font-size="15" fill="#6C2024" text-anchor="middle" stroke="#DCE6B8" stroke-width="4" paint-order="stroke">1917 年開園：種下好多不同的小樹</text></g>';
+  h+='<g id="now"><rect x="-400" y="-300" width="1600" height="1200" fill="#E4DCC8"/>'+road+'<rect x="72" y="102" width="656" height="446" rx="18" fill="'+GRASS+'"/>'+
+    '<path d="M180 480Q240 400 300 330Q400 260 520 250Q620 260 650 400M440 470Q450 400 450 360" stroke="#F0E6CC" stroke-width="12" fill="none" stroke-linecap="round"/>'+
+    '<ellipse cx="450" cy="315" rx="92" ry="44" fill="#8EC6DC" stroke="#6AA8C0" stroke-width="2"/><path d="M380 318Q410 300 430 322T470 316T520 320" stroke="#C89A6A" stroke-width="5" fill="none"/><g transform="translate(450 312)"><rect x="-10" y="-6" width="20" height="10" fill="#E8DCC4"/><path d="M-15 -6L0 -18L15 -6Z" fill="#B8573E"/></g>'+
+    '<text x="450" y="378" font-size="15" font-weight="700" fill="#3A7A9A" text-anchor="middle" stroke="'+GRASS+'" stroke-width="4" paint-order="stroke">燕潭</text>'+
+    '<g transform="translate(450 232)"><rect x="-26" y="-4" width="5" height="26" fill="#B8B0A0"/><rect x="21" y="-4" width="5" height="26" fill="#B8B0A0"/><rect x="-7" y="-4" width="4" height="26" fill="#B8B0A0"/><rect x="3" y="-4" width="4" height="26" fill="#B8B0A0"/><rect x="-32" y="-12" width="64" height="9" fill="#A8A090"/><path d="M-36 -12L0 -22L36 -12Z" fill="#8A8278"/></g>'+
+    '<text x="450" y="274" font-size="14" fill="#5A4E48" text-anchor="middle" stroke="'+GRASS+'" stroke-width="4" paint-order="stroke">重道崇文坊</text>'+
+    '<g id="frNow"></g><text x="400" y="534" font-size="15" fill="#6C2024" text-anchor="middle" stroke="'+GRASS+'" stroke-width="4" paint-order="stroke">今天：100 歲的老樹，長得好高好大</text></g>';
+  var T=function(t,x,y,sz,c,bg){return '<text x="'+x+'" y="'+y+'" font-size="'+sz+'" fill="'+c+'" text-anchor="middle" stroke="'+(bg||'#E4DCC8')+'" stroke-width="4" paint-order="stroke">'+t+'</text>'};
+  h+=T('臺南公園',400,60,28,'#3F6B2E');
+  h+=T('往臺南火車站',640,594,13,'#8A7A70');
+  h+='<g transform="translate(120 150)"><circle r="16" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -11L5 4L0 1L-5 4Z" fill="#DB2E27"/><text y="12" font-size="9" fill="#5A4E48" text-anchor="middle">北</text></g>';
+  h+=T('示意圖，不是真實比例',260,594,12,'#8A7A70');
+  STOPS.forEach(function(s){h+='<g class="stop" data-lv="'+s.lv+'" role="button" aria-label="第 '+s.lv+' 關 '+s.n+'">'+marker(s)+'<circle cx="'+(s.x+30)+'" cy="'+(s.y-34)+'" r="10" fill="#fff" stroke="#E2574C" stroke-width="2"/><text x="'+(s.x+30)+'" y="'+(s.y-29.5)+'" font-size="13" fill="#E2574C" text-anchor="middle">'+s.lv+'</text><text x="'+s.x+'" y="'+(s.y+36)+'" font-size="16" font-weight="700" fill="#3F5A2A" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+s.n+'</text></g>'});
+  h+='<g id="pin" style="display:none"><g class="pin"><path d="M0 0C-10 -14 -14 -20 -14 -27A14 14 0 1 1 14 -27C14 -20 10 -14 0 0Z" fill="#E2574C" stroke="#fff" stroke-width="2.5"/><text y="-22" font-size="12" fill="#fff" text-anchor="middle">你</text></g></g>';
+  return h;
+}
+function near(x,y,w,hh){return STOPS.some(function(s){return Math.abs(s.x-x)<w&&Math.abs(s.y-y)<hh})}
+function decorate(){
+  var r=rnd(29),p='',q='';
+  for(var x=100;x<720;x+=50)for(var y=130;y<520;y+=46){
+    var cx=x+(r()-.5)*14,cy=y+(r()-.5)*10,a=r(),b=r();
+    if(near(cx,cy,64,70))continue;
+    if(Math.abs(cx-400)<120&&cy>505)continue;
+    if(Math.abs(cx-120)<36&&Math.abs(cy-150)<36)continue;
+    // 開園時：排得整整齊齊的小樹（實驗林）
+    if(a<.7)p+=treeSide(x,y+10,.6,'young');
+    // 今天：長大的樹（避開燕潭和牌坊）
+    if(Math.abs(cx-450)<120&&cy>190&&cy<390)continue;
+    if(b<.5)q+=treeSide(cx,cy+18,.36+r()*.12,b<.2?'rain':(b<.32?'bau':'bodhi'),Math.floor(r()*99));
+    else if(b<.62)q+='<circle cx="'+f1(cx)+'" cy="'+f1(cy)+'" r="7" fill="#9CC878"/>';
+  }
+  map.querySelector('#frPast').innerHTML=p;
+  map.querySelector('#frNow').innerHTML=q;
+}
+
+/* ---------- 關卡 ---------- */
+var LV=[
+  {cam:[60,0,660,660],kick:'老樹任務',h:'臺南公園的老樹',
+   html:'<p>臺南火車站北邊的<b>臺南公園</b>，是臺南<b>最老、最大</b>的公園，<b>1917 年</b>就開園了。</p><p>公園裡有好多 <b>100 歲</b>的<b>老樹</b>。老樹也會生病、也怕颱風，需要有人照顧。</p><p class="task">跟著照顧老樹的<b>樹醫生阿姨</b>，去認識公園裡的老樹。每過一關，就能蓋一個章！</p>',
+   after:'<p class="note">地圖右上角可以切換<b>開園時／今天</b>，看看 100 年前剛種下的小樹，和今天長大的老樹。<br>給大人：臺南公園在臺南市北區，臺南火車站北邊。爬樹、摘葉子會傷到老樹，抱抱、看看就好。</p>',
+   game:'start'},
+  {cam:[0,0,300,225],kick:'第 1 關・公園大門（1917 年）',h:'一筆畫走過小樹林',era:'past',
+   html:'<p><b>1917 年</b>，日本時代的政府在這裡蓋了<b>臺南公園</b>。</p><p>這座公園也是一片<b>熱帶實驗林</b>：從很多地方帶來不同的樹，種下去，看看哪一種在臺南長得好。</p><p class="note">給大人：參考風傳媒 2017（1917 年開園、兼作熱帶實驗林、2017 年初步調查約 2600 株 114 種）。小樹和小路的位置是遊戲示意。</p>',
+   task:'阿姨提著水壺，要幫 <b>6 棵小樹</b>澆水。手指從<b>大門</b>出發、<b>不要放開</b>，沿著小路<b>一筆</b>走過每一棵小樹。每棵樹只能走過<b>一次</b>喔！',game:'oneline',stamp:['water','澆完小樹'],
+   win:'6 棵小樹都澆到水了！100 年後，有的長成了公園裡的<b>老樹</b>。',
+   why:['公園裡為什麼有這麼多種樹？','因為開園的時候，這裡也是<b>熱帶實驗林</b>，種了很多地方來的樹。2017 年數一數，大約有 <b>2600 棵</b>、<b>114 種</b>！'],
+   q:{t:'臺南公園是哪一年開園的？',o:['1917 年','2017 年','1624 年'],a:0,hint:'日本時代，已經 100 多年了。',
+      e:'答對了！<b>1917 年</b>開園，2017 年剛好滿 <b>100 歲</b>。'}},
+  {cam:[0,0,300,225],kick:'第 2 關・百年菩提樹',h:'手牽手圍住老樹',
+   html:'<p>公園裡有一棵 <b>100 歲</b>的<b>菩提樹</b>，樹幹好粗。它的葉子像<b>愛心</b>，尾巴尖尖長長的。</p><p>臺南市有 <b>342 棵</b>老樹被政府登記下來、好好保護，叫<b>列管老樹</b>。</p><p class="note">給大人：參考蕃薯藤 2024（臺南400 老樹巡禮在臺南公園百年菩提樹下開跑，臺南市有 342 株列管老樹）、中央社 2019（移植列管老樹要經過臺南市樹木保護委員會審查）。圍一圈要幾個小朋友是遊戲示意，可以到現場量量看。</p>',
+   task:'這是從<b>樹的上面往下看</b>。小朋友想抱抱老樹：把兩邊的小朋友<b>拖到樹幹旁</b>，每個人都要<b>牽到旁邊的人</b>，圍成<b>一整圈</b>。',game:'ring',stamp:['ring','圍住老樹'],
+   win:'圍成一圈了！要好幾個小朋友手牽手，才抱得住 100 歲的老樹。',
+   why:['為什麼要把老樹登記下來？','老樹要長好久好久，倒了就很難再有。登記下來，政府<b>每年幫它檢查</b>；要搬動它，也要先經過<b>樹木保護委員會</b>同意。'],
+   q:{t:'臺南市大約有幾棵列管老樹？',o:['342 棵','3 棵','3 萬棵'],a:0,hint:'300 多棵。',
+      e:'答對了！大約 <b>342 棵</b>，每一棵都有人照顧。'}},
+  {cam:[0,0,300,225],kick:'第 3 關・雨豆樹',h:'傍晚，葉子闔起來了',
+   html:'<p><b>雨豆樹</b>的樹冠又大又寬，像一把<b>大傘</b>。</p><p>它的小葉子很特別：<b>陰天</b>、<b>快下雨</b>和<b>傍晚</b>的時候會<b>闔起來</b>。現在太陽快下山了，葉子一片一片闔起來，小鳥也要回巢了。</p><p class="note">給大人：參考新加坡國家公園局 NParks（雨豆樹的小葉在陰天、雨前和夜晚闔起來，大約日落前一個半小時開始）、天下雜誌（樹蔭寬闊）。鳥和巢的位置是遊戲示意。</p>',
+   task:'4 隻小鳥要回到<b>同顏色</b>的巢。手指從小鳥開始，<b>一格一格</b>畫到巢。<b>路不能交叉</b>，也不能走進別人的路。',game:'flow',stamp:['nest','小鳥回巢'],
+   win:'4 隻小鳥都回到巢裡了！葉子闔起來，雨豆樹也要睡覺了。',
+   why:['為什麼叫雨豆樹？','快下雨的時候，它的小葉子會<b>闔起來</b>，雨水就從葉子中間<b>落到樹下</b>，澆到樹根。所以英文叫它 <b>Rain Tree</b>，意思是「下雨的樹」。'],
+   q:{t:'雨豆樹的小葉子，什麼時候會闔起來？',o:['傍晚和快下雨的時候','中午太陽最大的時候','永遠不會闔起來'],a:0,hint:'想想它為什麼叫「雨」豆樹。',
+      e:'答對了！<b>傍晚</b>、<b>陰天</b>和<b>快下雨</b>的時候，葉子會闔起來。'}},
+  {cam:[0,0,300,225],kick:'第 4 關・羊蹄甲林',h:'聽，是誰在唱歌？',
+   html:'<p>公園裡有一片<b>羊蹄甲林</b>。羊蹄甲的葉子很好認：前面<b>裂成兩半</b>，像羊的<b>腳蹄</b>。</p><p>樹林裡躲了好多小鳥。看不到牠們的時候，可以<b>用耳朵聽</b>。</p><p class="note">給大人：參考林業及自然保育署《台灣林業》（羊蹄甲的葉片裂開，像羊的偶蹄）。白頭翁、綠繡眼、斑鳩是都市公園常見的鳥，臺南公園的鳥種沒有查到調查資料；叫聲是遊戲做的示意，不是真的鳥叫。手機沒開聲音也能玩：看叫聲的點點。</p>',
+   task:'先點<b>每一隻鳥</b>，聽聽牠怎麼叫，也看看叫聲的<b>點點</b>。再按中間的<b>喇叭</b>，聽出是誰在叫，點那隻鳥。答對 <b>4 次</b>！',game:'listen',stamp:['bird','聽出小鳥'],
+   win:'4 次都聽對了！以後到公園，閉上眼睛聽聽看，樹上有誰。',
+   why:['為什麼叫羊蹄甲？','因為它的葉子前面<b>裂成兩半</b>，形狀像<b>羊的腳蹄</b>。下次撿一片掉在地上的葉子，比比看。'],
+   q:{t:'羊蹄甲的葉子長什麼樣子？',o:['前面裂成兩半','細細的像一根針','圓圓的沒有缺口'],a:0,hint:'想想羊的腳蹄。',
+      e:'答對了！前面<b>裂成兩半</b>，像羊的腳蹄。'}},
+  {cam:[0,0,300,225],kick:'第 5 關・老樹健康檢查',h:'敲一敲，聽聽樹幹',
+   html:'<p>老樹看起來好好的，<b>樹幹裡面</b>卻可能已經<b>爛掉、變空心</b>。空心的樹，颱風一來就容易倒。</p><p>樹醫生有一個方法：用<b>小木槌</b>敲一敲。好的木頭，聲音<b>清脆、紮實</b>；空心的地方，聲音<b>悶悶的、空空的</b>。</p><p class="note">給大人：參考島根縣中山間地域研究中心（公園和行道樹外表健康、樹幹裡面可能腐朽中空，用木槌敲擊聽聲音判斷）、中央社 2019（臺南市農業局每年幫列管老樹做健康檢查、褐根病偵測犬）。空心的位置是遊戲示意。</p>',
+   task:'拿小木槌，<b>點樹幹</b>敲一敲，聽聲音、看字。找出 <b>2 個空心</b>的地方，告訴阿姨。',game:'knock',stamp:['mallet','檢查老樹'],
+   win:'找到 2 個空心的地方了！阿姨會再用機器仔細檢查，想辦法讓老樹站得穩穩的。',
+   why:['老樹也要看醫生嗎？','要！臺南市<b>農業局</b>每年都幫列管老樹做<b>健康檢查</b>。新營有一棵 300 歲的老榕樹，搬家前還請<b>狗狗</b>來聞一聞，看它有沒有生一種叫<b>褐根病</b>的病。'],
+   q:{t:'敲到空心的地方，聲音會怎樣？',o:['悶悶的、空空的','清脆、紮實','完全沒有聲音'],a:0,hint:'空心的地方，裡面的木頭不見了。',
+      e:'答對了！空心的地方，聲音<b>悶悶的、空空的</b>。'}},
+  {cam:[0,0,300,225],kick:'第 6 關・颱風過後',h:'幫小樹綁好繩子',
+   html:'<p>颱風過後，公園種了一棵<b>新的小樹</b>。小樹的根還很短，<b>抓不住土</b>，風一吹就會倒。</p><p>阿姨用<b>繩子</b>把小樹拉住，綁在地上的<b>木樁</b>，等根長好再拆掉。</p><p class="note">給大人：參考美國加州大學 UC Master Gardeners（新種的樹在風大的地方要固定到根長進土裡，通常三根支柱就夠；綁太久反而長不好，要讓樹冠能隨風動）。木樁的位置是遊戲示意。</p>',
+   task:'這是從<b>上面往下看</b>的小樹。手指從<b>樹幹</b>拉一條繩子到<b>木樁</b>，拉 <b>3 條</b>。風會從<b>四面八方</b>吹來，3 條繩子要<b>分開</b>，才拉得住！（點木樁可以拆掉那條繩子）',game:'rope',stamp:['stake','綁好小樹'],
+   win:'3 條繩子往三個方向拉住小樹，風從哪邊吹都不怕了！',
+   why:['為什麼要拉三個方向？','風可能從<b>任何一邊</b>吹來。三條繩子分開綁，不管風從哪邊吹，都有繩子<b>拉住</b>小樹。'],
+   q:{t:'小樹的根長好以後，繩子要怎麼辦？',o:['拆掉，讓小樹自己站','一直綁著','綁得更緊'],a:0,hint:'綁太久，小樹反而長不好。',
+      e:'答對了！根長好就<b>拆掉</b>。小樹要自己跟著風搖一搖，才會長得好。'}},
+  {cam:[60,0,660,660],kick:'任務完成',h:'臺南公園的老樹',
+   html:'<p>你一筆畫幫小樹澆水、手牽手圍住百年菩提樹、讓小鳥回到雨豆樹上的巢、聽出羊蹄甲林裡的鳥、敲出老樹空心的地方，還幫新的小樹綁好繩子。到臺南公園走走，抱抱老樹，聽聽樹上的鳥。</p>',game:'end'}
+];
+
+
+/* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
+/* ---------- 延伸閱讀：給大人的頁面（製作.py 會改成正式網址） ---------- */
+var LEARN='learn/oldtree.html';
+
+var MAPS={"0": [["臺南公園", "台南公園"]], "2": [["臺南公園", "台南公園"]]};
+
+
+/* ---------- 狀態 ---------- */
+var KEY='tainan-oldtree';
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+// 每次打開都從頭開始，不記錄玩到哪裡（使用者 2026-10-17 要求）；順便清掉以前存的進度
+var st={far:0,done:{0:1},name:''};store.set=function(){};try{localStorage.removeItem(KEY)}catch(e){}
+function save(){store.set(KEY,JSON.stringify(st))}
+function nStamps(){var n=0;LV.forEach(function(l,i){if(l.stamp&&st.done[i])n++});return n}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 地圖操作 ---------- */
+var map=document.getElementById('map');map.innerHTML=buildMap();decorate();
+var pinEl=document.getElementById('pin');
+var vb=[0,0,800,600],camRaf=0;
+function cam(t){
+  cancelAnimationFrame(camRaf);var from=vb.slice(),t0=performance.now(),D=reduce?1:900;
+  (function step(now){var q=Math.max(0,Math.min(1,(now-t0)/D)),e=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2;vb=from.map(function(v,k){return v+(t[k]-v)*e});map.setAttribute('viewBox',vb.join(' '));if(q<1)camRaf=requestAnimationFrame(step)})(t0);
+}
+function setEra(e){
+  map.classList.toggle('now',e==='now');
+  document.querySelectorAll('.era button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.era===e)});
+}
+document.querySelectorAll('.era button').forEach(function(b){b.addEventListener('click',function(){setEra(b.dataset.era)})});
+map.querySelectorAll('.stop').forEach(function(g){g.addEventListener('click',function(){var lv=+g.dataset.lv;if(lv<=st.far)go(lv)})});
+
+/* ---------- 上方舞台：地圖或小遊戲畫面 ---------- */
+var sceneEl=document.getElementById('scene'),peek=document.getElementById('peek'),eraBox=document.querySelector('.era'),sceneTimer=0;
+var stage=document.getElementById('stage'),loops=[];
+function stopLoops(){loops.forEach(function(f){f()});loops=[]}
+// 寬螢幕（左右兩欄）時舞台填滿左欄；手機直拿時舞台縮到剛好放得下遊戲圖
+var wide=window.matchMedia?matchMedia('(min-width:700px) and (min-aspect-ratio:5/4)'):{matches:false};
+function fitStage(){
+  // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
+  var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
+  if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
+  else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
+  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';
+  if(!svg)return;
+  // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
+  var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
+  svg.style.width=sw+'px';svg.style.height=sh+'px';
+  // 遊戲圖最下面那條地面或水面，往下延伸到圓的底部
+  [].forEach.call(svg.children,function(r){if(r.tagName!=='rect')return;var x=+r.getAttribute('x')||0,w=+r.getAttribute('width')||0,y=+r.getAttribute('y')||0,h=+r.getAttribute('height')||0;if(x<=0&&x+w>=vb.width&&y>0&&y+h>=vb.height-1&&y>gy){g=r;gy=y}});
+  var sky=svg.style.background||'#DFF3F8';
+  sceneEl.style.background=g?'linear-gradient('+sky+' '+(top+gy*k)+'px,'+g.getAttribute('fill')+' 0)':sky;
+}
+new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
+addEventListener('resize',fitStage);
+function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.textContent='回到遊戲';peek.hidden=!sceneEl.firstChild;fitStage()}
+function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.textContent='看地圖';peek.hidden=false;fitStage()}
+function setScene(html,delay){
+  clearTimeout(sceneTimer);sceneEl.innerHTML=html;var svg=sceneEl.querySelector('svg');
+  if(svg){svg.setAttribute('preserveAspectRatio','xMidYMax meet');sceneEl.style.background=svg.style.background||'#DFF3F8'}
+  if(delay&&!reduce){showMap();peek.hidden=true;sceneTimer=setTimeout(showGame,delay)}else showGame();
+  return sceneEl;
+}
+function clearScene(){clearTimeout(sceneTimer);stopLoops();sceneEl.innerHTML='';showMap()}
+peek.addEventListener('click',function(){if(sceneEl.hidden)showGame();else showMap()});
+
+/* ---------- 卡片 ---------- */
+var card=document.getElementById('card'),cur=0;
+card.addEventListener('click',function(e){if(e.target.closest('.big')&&sceneEl.hidden)showGame()});
+function chips(pop){
+  var h='';LV.forEach(function(l,i){if(l.stamp)h+='<i class="'+(st.done[i]?'on':'')+(pop===i?' pop':'')+'">'+(st.done[i]?icon(l.stamp[0]):'')+'</i>'});
+  document.getElementById('chips').innerHTML=h;
+}
+function el(html){var d=document.createElement('div');d.innerHTML=html;return d}
+function say(box,text,again){box.hidden=false;box.className='say'+(again?' again':'');box.innerHTML=text}
+function later(fn,ms){var t=setTimeout(fn,reduce?0:ms);loops.push(function(){clearTimeout(t)})}
+function into(node){setTimeout(function(){node.scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'})},50)}
+function onKey(node,fn){node.addEventListener('click',fn);node.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})}
+function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;area.appendChild(b);into(b);return b}
+
+function whyHTML(l){return l.why?'<details class="why"><summary>'+l.why[0]+'</summary><p>'+l.why[1]+'</p></details>':''}
+function win(i){
+  if(st.done[i])return;st.done[i]=1;st.far=Math.max(st.far,i+1);save();chips(i);paint();
+  var l=LV[i],box=el('<div class="got"><span class="seal'+(reduce?'':' pop')+'">'+icon(l.stamp[0])+'</span><p>蓋章：'+l.stamp[1]+'！<br>按「下一關」繼續。</p></div>'+whyHTML(l));
+  var nb=card.querySelector('.notes');if(nb)card.insertBefore(box,nb);else card.appendChild(box);into(box);
+}
+function render(i){
+  var l=LV[i];
+  var top=document.getElementById('top');top.innerHTML='<p class="kick">'+l.kick+'</p><h2>'+l.h+'</h2>';
+  card.innerHTML=l.html+(l.task?'<p class="task">'+l.task+'</p>':'');
+  [top,card].forEach(function(n){n.classList.remove('enter');void n.offsetWidth;n.classList.add('enter')});
+  card.scrollTop=0;if(!wide.matches)window.scrollTo(0,0);
+  var area=document.createElement('div');card.appendChild(area);
+  // 提醒、給大人：全部移到卡片最下面
+  var ns=card.querySelectorAll(':scope>p.note');if(ns.length){var nb=document.createElement('div');nb.className='notes';
+    [].forEach.call(ns,function(n){if(!/^\s*給大人/.test(n.textContent))n.insertAdjacentHTML('afterbegin','<b>提醒</b>　');nb.appendChild(n)});card.appendChild(nb)}
+  // 去現場看看：Google 地圖連結放在卡片最下面的小字（完成頁列出全部）
+  var mp=MAPS[i];if(l.game==='end'){var seen={};mp=[];Object.keys(MAPS).forEach(function(k){MAPS[k].forEach(function(m){if(!seen[m[0]]){seen[m[0]]=1;mp.push(m)}})})}
+  if(mp&&mp.length){var nb2=card.querySelector(':scope>.notes');if(!nb2){nb2=document.createElement('div');nb2.className='notes';card.appendChild(nb2)}
+    nb2.insertAdjacentHTML('beforeend','<p class="note maps">去現場看看（Google 地圖）：'+mp.map(function(m){return '<a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(m[1])+'" target="_blank" rel="noopener">'+m[0]+'</a>'}).join('、')+'</p>')}
+  // 延伸閱讀：每一關卡片最下面的小字（另開分頁，遊戲不會中斷）；完成頁另有按鈕
+  if(LEARN&&l.game!=='end'){var nb3=card.querySelector(':scope>.notes');if(!nb3){nb3=document.createElement('div');nb3.className='notes';card.appendChild(nb3)}
+    nb3.insertAdjacentHTML('beforeend','<p class="note maps">給大人：<a href="'+LEARN+'" target="_blank" rel="noopener">延伸閱讀</a>（背景知識、帶小朋友去現場、資料來源）</p>')}
+  if(st.done[i]&&l.stamp){
+    area.innerHTML=(l.win?'<p class="say">'+l.win+'</p>':'')+(l.q?'<p class="say">'+l.q.e+'</p>':'')+whyHTML(l)+'<div class="got"><span class="seal">'+icon(l.stamp[0])+'</span><p>已經蓋章：'+l.stamp[1]+'</p></div><button class="again-btn" type="button">再玩一次這關</button>';
+    area.querySelector('.again-btn').addEventListener('click',function(){var keep=st.done[i];delete st.done[i];render(i);st.done[i]=keep;replay=i;paint()});
+    return;
+  }
+  GAMES[l.game](area,i,l);
+}
+var replay=-1;
+function finish(i){if(replay===i){replay=-1;render(i);return}win(i)}
+
+function quiz(area,l,done){
+  var q=l.q,box=el('<p class="kick" style="margin-top:6px">'+(q.field?'現場找一找':'想一想')+'</p><p>'+q.t+'</p>');
+  var opts=document.createElement('div');
+  q.o.forEach(function(t,j){
+    var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
+    b.addEventListener('click',function(){
+      if(j===q.a){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add('yes');say(msg,q.e);if(sk)sk.remove();done()}
+      else{b.classList.add('no');b.disabled=true;say(msg,q.hint,1)}
+    });opts.appendChild(b)});
+  box.appendChild(opts);var msg=document.createElement('p');msg.hidden=true;box.appendChild(msg);
+  var sk=null;if(q.field){sk=el('<button class="skip" type="button">不在現場，先跳過</button>').firstChild;sk.addEventListener('click',function(){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});say(msg,'先跳過。'+q.e);sk.remove();done()});box.appendChild(sk)}
+  area.appendChild(box);into(box);
+}
+// 把螢幕上的點換成插圖裡的座標
+function toSvg(svg,e){var m=svg.getScreenCTM();if(!m)return {x:-999,y:-999};var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(m.inverse())}
+// 在插圖上拖手指：down、move、up 都換成插圖座標
+function drag(svg,fn){
+  var on=false;svg.style.touchAction='none';
+  svg.addEventListener('pointerdown',function(e){on=true;try{svg.setPointerCapture(e.pointerId)}catch(_){}fn('down',toSvg(svg,e),e)});
+  svg.addEventListener('pointermove',function(e){if(on||e.pointerType==='mouse')fn(on?'move':'hover',toSvg(svg,e),e)});
+  ['pointerup','pointercancel'].forEach(function(t){svg.addEventListener(t,function(e){if(on){on=false;fn('up',toSvg(svg,e),e)}})});
+}
+
+// 聲音：用瀏覽器自己做出來的簡單聲音（手機沒開聲音也能玩，畫面上都有字和點點）
+var AC=null;
+function actx(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
+function beep(f,t0,d,type,vol,f2){var a=actx();if(!a)return;try{var o=a.createOscillator(),g=a.createGain(),t=a.currentTime+t0;o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.2,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.03)}catch(e){}}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+
+var GAMES={
+  start:function(area){
+    var art=bodhiLeaf(64,100,2.2,0)+treeSide(160,152,.95,'rain',8)+bauLeaf(256,104,2.4,0);
+    setScene(idCard('臺南公園的老樹','臺南公園有好多 100 歲的老樹',art,[['菩提樹的葉子',64,58,64,68],['雨豆樹像大傘',160,76,160,88],['羊蹄甲的葉子',256,58,256,70]]));
+    var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});
+    // 出發旁邊：延伸閱讀（玩過的人不用再玩一次就能看；另開分頁）
+    if(LEARN){var row=document.createElement('div');row.className='go-row';row.appendChild(b);row.insertAdjacentHTML('beforeend','<a class="learn-round" href="'+LEARN+'" target="_blank" rel="noopener">延伸<br>閱讀</a>');area.appendChild(row)}else area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
+
+  /* 第 1 關：一筆畫走過 6 棵小樹，每棵只能走一次 */
+  oneline:function(area,i,l){
+    var N=[{x:40,y:150},{x:84,y:62},{x:160,y:40},{x:246,y:60},{x:282,y:130},{x:180,y:152},{x:140,y:102}],
+      E=[[0,1],[0,5],[1,2],[1,6],[2,3],[2,6],[3,4],[3,6],[4,5],[5,6]],seq=[],on=false,done=false,warned=-1,dead=false,fp=null;
+    function adj(a,b){return E.some(function(e){return (e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a)})}
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E9EED6"><rect x="-400" y="180" width="1200" height="80" fill="#C8D89C"/>';
+    E.forEach(function(e){var a=N[e[0]],b=N[e[1]];s+='<path d="M'+a.x+' '+a.y+'L'+b.x+' '+b.y+'" stroke="#E2D2A8" stroke-width="16" stroke-linecap="round"/>'});
+    E.forEach(function(e){var a=N[e[0]],b=N[e[1]];s+='<path d="M'+a.x+' '+a.y+'L'+b.x+' '+b.y+'" stroke="#C8B488" stroke-width="1.4" stroke-dasharray="3 5"/>'});
+    s+='<g transform="translate(40 150)"><rect x="-22" y="-26" width="7" height="30" fill="#E8DCC4" stroke="#8A7A60" stroke-width="1.2"/><rect x="15" y="-26" width="7" height="30" fill="#E8DCC4" stroke="#8A7A60" stroke-width="1.2"/><path d="M-15 -18Q0 -28 15 -18" stroke="#6A5A40" stroke-width="2.4" fill="none"/></g><text x="40" y="178" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle">大門</text>';
+    s+='<g id="tr"></g><g id="ln"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),tr=svg.querySelector('#tr'),ln=svg.querySelector('#ln');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){
+      var pts=seq.map(function(k){return N[k]});if(on&&fp)pts=pts.concat([fp]);
+      ln.innerHTML=pts.length>1?'<path d="M'+pts.map(function(p){return f1(p.x)+' '+f1(p.y)}).join('L')+'" stroke="'+(dead?'#DB2E27':'#3E8ED0')+'" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>':'';
+      tr.innerHTML=treesHTML();
+      bar.style.width=(done?100:Math.max(0,seq.length-1)/6*100)+'%'}
+    function treesHTML(){var h='';for(var k=1;k<N.length;k++){var n=N[k],w=seq.indexOf(k)>=0||done;
+      h+=w?treeSide(n.x,n.y+16,1.35,'young')+'<path d="M'+(n.x+16)+' '+(n.y-30)+'q4 5 0 8q-4 -3 0 -8Z" fill="#3E9AC0"/>':'<g transform="translate('+n.x+' '+(n.y+16)+') scale(1.35)"><path d="M0 0V-18" stroke="'+BARK+'" stroke-width="2.6" stroke-linecap="round"/><circle cy="-22" r="7" fill="#C8B070"/><circle cx="-5" cy="-18" r="4.5" fill="#D4BC7C"/><circle cx="5" cy="-19" r="4.5" fill="#BCA460"/></g>'}
+      if(on||seq.length){var c=N[seq.length?seq[seq.length-1]:0];h+='<g transform="translate('+f1(c.x-14)+' '+f1(c.y-6)+')"><path d="M-8 -4H4V8H-8Z" fill="#9AA6B0" stroke="#5A6670" stroke-width="1"/><path d="M4 -1L10 -7" stroke="#5A6670" stroke-width="2.2" stroke-linecap="round"/></g>'}
+      return h}
+    draw();
+    function hitNode(p){var best=-1,bd=24;N.forEach(function(n,k){var d=dist(p,n);if(d<bd){bd=d;best=k}});return best}
+    function reset(t){on=false;seq=[];fp=null;dead=false;draw();if(t)say(msg,t,1)}
+    function win(){done=true;on=false;fp=null;draw();lvDone(area,i,l,msg,'6 棵小樹都澆好了！')}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){if(dist(p,N[0])<30){on=true;dead=false;seq=[0];fp=p;draw();say(msg,'出發了！手指<b>不要放開</b>，沿著小路走到小樹。')}else say(msg,'要從左下角的<b>大門</b>出發喔。',1);return}
+      if(t==='move'&&on){fp=p;var k=hitNode(p),last=seq[seq.length-1];
+        if(k>=0&&k!==last){
+          if(seq.indexOf(k)>=0){reset('這裡已經走過了！一筆畫<b>不能走回頭</b>。從大門重新出發。');return}
+          if(!adj(last,k)){if(warned!==k){warned=k;say(msg,'這兩個地方中間<b>沒有小路</b>，要沿著小路走。',1)}}
+          else{seq.push(k);warned=-1;
+            if(seq.length===N.length){win();return}
+            var more=E.some(function(e){return (e[0]===k&&seq.indexOf(e[1])<0)||(e[1]===k&&seq.indexOf(e[0])<0)});
+            if(!more){on=false;fp=null;dead=true;draw();say(msg,'走到死路了！這裡沒有小路可以去還沒澆水的小樹。想一想順序，從大門再出發。',1);later(function(){if(!on&&!done)reset()},1400);return}
+            say(msg,'澆好 <b>'+(seq.length-1)+'</b> 棵了！還有 '+(N.length-seq.length)+' 棵。')}}
+        draw();return}
+      if(t==='up'&&on)reset('手指放開了。一筆畫要<b>一口氣</b>畫完，從大門再試一次。');
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','公園小路的畫面，按 Enter 直接澆完小樹');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();seq=[0,1,2,3,4,5,6];win()}});
+    later(function(){if(!done&&!on&&!seq.length)say(msg,'手指按在左下角的<b>大門</b>，不要放開，沿著小路慢慢滑到每一棵小樹。')},9000);
+  },
+
+  /* 第 2 關：把小朋友拖到樹幹旁，手牽手圍成一圈 */
+  ring:function(area,i,l){
+    var CX=160,CY=95,R=54,MIN=28,MAX=62,hold=-1,done=false;
+    var cols=['#E2574C','#3E8ED0','#E8B020','#6AAE50','#9A62C0','#F08A3C','#4AB0B0','#D8709C'],hair=['#3A2E28','#5A3E28','#2A2020','#6A4A30'];
+    var KD=cols.map(function(c,k){var hx=k<4?30:290,hy=46+(k%4)*33;return {c:c,h:hair[k%4],hx:hx,hy:hy,x:hx,y:hy,a:null}});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#D8E8C0"><rect x="-400" y="184" width="1200" height="80" fill="#C8DCA8"/><circle cx="'+CX+'" cy="'+CY+'" r="92" fill="#5E9A44" opacity=".2"/>';
+    var r0=rnd(9);for(var q=0;q<14;q++){var a=q/14*6.283,d=78+r0()*10;s+=bodhiLeaf(CX+Math.cos(a)*d,CY+Math.sin(a)*d*.95,.55,a*57.3+90,'#7EB060')}
+    s+='<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="#BD9558" stroke-width="2" stroke-dasharray="5 6"/>';
+    for(var q2=0;q2<6;q2++){var a2=q2/6*6.283+.3;s+='<path d="M'+f1(CX+Math.cos(a2)*20)+' '+f1(CY+Math.sin(a2)*20)+'Q'+f1(CX+Math.cos(a2+.2)*32)+' '+f1(CY+Math.sin(a2+.2)*32)+' '+f1(CX+Math.cos(a2)*40)+' '+f1(CY+Math.sin(a2)*40)+'" stroke="'+BARK+'" stroke-width="5" fill="none" stroke-linecap="round"/>'}
+    s+='<circle cx="'+CX+'" cy="'+CY+'" r="25" fill="'+BARK+'" stroke="'+BARKD+'" stroke-width="2"/><circle cx="'+CX+'" cy="'+CY+'" r="16" fill="none" stroke="'+BARKD+'" stroke-width="1" opacity=".6"/><circle cx="'+CX+'" cy="'+CY+'" r="8" fill="none" stroke="'+BARKD+'" stroke-width="1" opacity=".6"/>';
+    s+='<text x="'+CX+'" y="'+(CY+5)+'" font-size="13" font-weight="700" fill="#FFF8EC" text-anchor="middle">樹幹</text><g id="arm"></g><g id="kid"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),arm=svg.querySelector('#arm'),kid=svg.querySelector('#kid');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function placed(){return KD.filter(function(o){return o.a!==null}).sort(function(a,b){return a.a-b.a})}
+    function gaps(P){return P.map(function(o,k){var n=P[(k+1)%P.length];var g=n.a-o.a;if(g<=0)g+=360;return {o:o,n:n,g:g}})}
+    function draw(){var P=placed(),h='',links=0;
+      if(P.length>=2)gaps(P).forEach(function(g){if(P.length===2&&g.g>180)return;
+        if(g.g<=MAX){links++;h+='<path d="M'+f1(g.o.x)+' '+f1(g.o.y)+'L'+f1(g.n.x)+' '+f1(g.n.y)+'" stroke="#E8B890" stroke-width="5" stroke-linecap="round"/><path d="M'+f1(g.o.x)+' '+f1(g.o.y)+'L'+f1(g.n.x)+' '+f1(g.n.y)+'" stroke="#C89070" stroke-width="1" stroke-linecap="round"/>'}
+        else{var m=(g.o.a+g.g/2)*Math.PI/180;h+='<text x="'+f1(CX+Math.cos(m)*(R+2))+'" y="'+f1(CY+Math.sin(m)*(R+2)+5)+'" font-size="15" font-weight="900" fill="#DB2E27" text-anchor="middle" stroke="#FFF8EC" stroke-width="3" paint-order="stroke">？</text>'}});
+      arm.innerHTML=h;
+      kid.innerHTML=KD.map(function(o,k){return kidTop(o.x,o.y,o.a===null?0:o.a-90,o.c,o.h,1.45)+(k===hold?'<circle cx="'+f1(o.x)+'" cy="'+f1(o.y)+'" r="20" fill="none" stroke="#DB2E27" stroke-width="2" stroke-dasharray="4 3"/>':'')}).join('');
+      var ok=P.length>=3&&gaps(P).every(function(g){return g.g<=MAX});
+      bar.style.width=(ok?100:Math.min(95,links/7*100))+'%';return ok}
+    draw();
+    function snap(o,a){o.a=(a+360)%360;var r=o.a*Math.PI/180;o.x=CX+Math.cos(r)*R;o.y=CY+Math.sin(r)*R}
+    function home(o){o.a=null;o.x=o.hx;o.y=o.hy}
+    function check(){var P=placed();if(draw()){done=true;lvDone(area,i,l,msg,'圍成一整圈了！')}
+      else if(P.length){var miss=P.length>=2?gaps(P).filter(function(g){return g.g>MAX}).length:1;
+        say(msg,'有 <b>'+P.length+'</b> 個小朋友了。還有 <b>'+miss+'</b> 個地方牽不到手（紅色的？），再拉人過去，或把人挪一挪。')}}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){var best=-1,bd=26;KD.forEach(function(o,k){var d=dist(p,o);if(d<bd){bd=d;best=k}});hold=best;
+        if(best<0){say(msg,'按住旁邊的<b>小朋友</b>，拖到樹幹旁邊的虛線上。',1);return}
+        KD[best].a=null;KD[best].x=p.x;KD[best].y=p.y;draw();return}
+      if(t==='move'&&hold>=0){KD[hold].x=p.x;KD[hold].y=p.y;draw();return}
+      if(t==='up'&&hold>=0){var o=KD[hold],d=Math.hypot(p.x-CX,p.y-CY);hold=-1;
+        if(d<30||d>84){home(o);draw();say(msg,'要放在樹幹旁邊的<b>虛線</b>上喔。',1);return}
+        var a=Math.atan2(p.y-CY,p.x-CX)*180/Math.PI;a=(a+360)%360;
+        var crowd=KD.some(function(q){if(q===o||q.a===null)return false;var g=Math.abs(q.a-a);g=Math.min(g,360-g);return g<MIN});
+        if(crowd){home(o);draw();say(msg,'太擠了！和旁邊的人<b>留一點空間</b>，手才伸得開。',1);return}
+        snap(o,a);check()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','老樹和小朋友的畫面，按 Enter 直接圍成一圈');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();KD.forEach(function(o,k){snap(o,k*45)});check()}});
+    later(function(){if(!done&&!placed().length)say(msg,'按住左邊或右邊的一個<b>小朋友</b>，拖到樹幹旁邊的<b>虛線圈</b>上再放開。')},8000);
+  },
+
+  /* 第 3 關：畫路讓小鳥回到同顏色的巢，路不能交叉 */
+  flow:function(area,i,l){
+    var C=48,H=44,OX=40,OY=20,NC=5,NR=4,cur=-1,done=false;
+    var PR=[{c:'#E2574C',n:'紅',a:[0,0],b:[3,2]},{c:'#3E8ED0',n:'藍',a:[4,0],b:[3,3]},{c:'#E8B020',n:'黃',a:[0,1],b:[1,3]},{c:'#9A62C0',n:'紫',a:[1,2],b:[0,3]}];
+    var path=PR.map(function(){return []}),fin=PR.map(function(){return false});
+    function same(u,v){return u&&v&&u[0]===v[0]&&u[1]===v[1]}
+    function cen(u){return {x:OX+u[0]*C+C/2,y:OY+u[1]*H+H/2}}
+    function owner(u){for(var k=0;k<PR.length;k++){if(same(u,PR[k].a)||same(u,PR[k].b))return {k:k,end:true};for(var j=0;j<path[k].length;j++)if(same(u,path[k][j]))return {k:k,idx:j}}return null}
+    var s='<svg class="mini" viewBox="0 0 320 216" style="background:#F2D4A8"><rect x="-400" y="206" width="1200" height="80" fill="#8CB46A"/><circle cx="270" cy="200" r="26" fill="#F5A04A" opacity=".8"/>'+
+      '<path d="M150 216Q152 150 156 120L120 96M160 120L206 92M156 120Q166 160 172 216Z" stroke="'+BARK+'" stroke-width="10" fill="'+BARK+'" stroke-linejoin="round"/>'+crown(160,80,168,64,'#5E8A44','#4E7A3A',4);
+    var r0=rnd(6);for(var q=0;q<26;q++){var x=20+r0()*280,y=24+r0()*110;s+='<path d="M'+f1(x)+' '+f1(y)+'l7 -3M'+f1(x)+' '+f1(y)+'l7 3" stroke="#8AB060" stroke-width="2" stroke-linecap="round"/>'}
+    for(var c=0;c<NC;c++)for(var r=0;r<NR;r++)s+='<rect x="'+(OX+c*C+2)+'" y="'+(OY+r*H+2)+'" width="'+(C-4)+'" height="'+(H-4)+'" rx="8" fill="#FFF8EC" fill-opacity=".62" stroke="#BD9558" stroke-width="1"/>';
+    s+='<g id="pl"></g><g id="en"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),pl=svg.querySelector('#pl'),en=svg.querySelector('#en');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){var h='',e='';
+      PR.forEach(function(p,k){var P=path[k];if(P.length>1)h+='<path d="M'+P.map(function(u){var q=cen(u);return q.x+' '+q.y}).join('L')+'" stroke="'+p.c+'" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="'+(fin[k]?.9:.6)+'"/>';
+        var A=cen(p.a),B=cen(p.b);
+        e+=birdSide(A.x,A.y+3,.78,p.c,1,'#FFF4E0');
+        e+='<g transform="translate('+B.x+' '+(B.y+4)+')"><circle r="17" fill="none" stroke="'+p.c+'" stroke-width="3"/><path d="M-13 -2Q0 14 13 -2Z" fill="#9A7044" stroke="#6A4A2A" stroke-width="1.2"/><path d="M-11 0H11" stroke="#C89A60" stroke-width="1.2"/>'+(fin[k]?birdSide(0,-8,.5,p.c,1,'#FFF4E0'):'<ellipse cx="-3" cy="-3" rx="3" ry="2.4" fill="#F4EEE0"/><ellipse cx="3" cy="-3" rx="3" ry="2.4" fill="#F4EEE0"/>')+'</g>'});
+      pl.innerHTML=h;en.innerHTML=e;bar.style.width=(fin.filter(Boolean).length/4*100)+'%'}
+    draw();
+    function cellAt(p){var c=Math.floor((p.x-OX)/C),r=Math.floor((p.y-OY)/H);if(c<0||c>=NC||r<0||r>=NR)return null;return [c,r]}
+    function target(k){return same(path[k][0],PR[k].a)?PR[k].b:PR[k].a}
+    var warnT=0;
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='up'){cur=-1;return}
+      var u=cellAt(p);if(!u)return;
+      if(t==='down'){var o=owner(u);
+        if(!o){say(msg,'從一隻<b>小鳥</b>開始畫，一格一格畫到同顏色的<b>巢</b>。',1);return}
+        cur=o.k;fin[cur]=false;
+        if(o.end)path[cur]=[u];else path[cur]=path[cur].slice(0,o.idx+1);
+        draw();return}
+      if(t!=='move'||cur<0)return;
+      var P=path[cur],last=P[P.length-1];if(same(u,last))return;
+      if(Math.abs(u[0]-last[0])+Math.abs(u[1]-last[1])!==1)return;
+      if(P.length>1&&same(u,P[P.length-2])){P.pop();draw();return}
+      var o=owner(u);
+      if(o&&o.k===cur&&!o.end){path[cur]=P.slice(0,o.idx+1);draw();return}
+      if(o&&o.k!==cur){var now=performance.now();if(now-warnT>900){warnT=now;say(msg,'這一格是<b>'+PR[o.k].n+'色</b>小鳥的！路<b>不能交叉</b>，換一條路繞過去。',1)}return}
+      if(o&&o.end&&o.k===cur){if(same(u,target(cur))){P.push(u);fin[cur]=true;var k=cur;cur=-1;draw();
+          if(fin.every(Boolean)){done=true;lvDone(area,i,l,msg,'4 隻小鳥都回家了！')}
+          else say(msg,'<b>'+PR[k].n+'色</b>小鳥回到巢了！還有 '+fin.filter(function(f){return !f}).length+' 隻。')}
+        return}
+      P.push(u);draw();
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','雨豆樹上小鳥和巢的畫面，按 Enter 直接讓小鳥回巢');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();
+      path=[[[0,0],[1,0],[2,0],[3,0],[3,1],[3,2]],[[4,0],[4,1],[4,2],[4,3],[3,3]],[[0,1],[1,1],[2,1],[2,2],[2,3],[1,3]],[[1,2],[0,2],[0,3]]];fin=[true,true,true,true];done=true;draw();lvDone(area,i,l,msg,'4 隻小鳥都回家了！')}});
+    later(function(){if(!done&&!path.some(function(P){return P.length>1}))say(msg,'手指按在<b>紅色小鳥</b>上，不要放開，往右一格一格滑，畫到<b>紅色的巢</b>。')},8000);
+  },
+
+  /* 第 4 關：聽鳥叫（也看點點），點出是哪一隻鳥在叫 */
+  listen:function(area,i,l){
+    var B=[{n:'白頭翁',x:70,y:94,c:'#7A8A50',bl:'#ECE8D4',d:'高高低低，像在說話',s:[[1500,.12],[2000,.1],[1600,.12],[2100,.2]],g:.05},
+           {n:'綠繡眼',x:160,y:52,c:'#A8C040',bl:'#F2F0C4',d:'很高、很快的一串',s:[[2700,.05],[3000,.05],[2700,.05],[3000,.05],[2700,.05],[3000,.05],[2800,.07]],g:.03},
+           {n:'斑鳩',x:250,y:94,c:'#A89080',bl:'#DCCCBC',d:'低低的、慢慢的',s:[[520,.35],[440,.25],[480,.45]],g:.12}];
+    var RD=[2,0,1,0],ok=0,mys=-1,heard={},done=false,SP={x:160,y:140},flash=-1;
+    function play(b){var t=0;b.s.forEach(function(n){beep(n[0],t,n[1],'sine',.22,n[0]*1.06);t+=n[1]+b.g})}
+    function pat(b,x,y,w,c){var T=0;b.s.forEach(function(n){T+=n[1]+b.g});var t=0,h='';
+      b.s.forEach(function(n){var nx=x-w/2+t/T*w,nw=Math.max(5,n[1]/T*w-2),ny=y-(n[0]-400)/2600*16;h+='<rect x="'+f1(nx)+'" y="'+f1(ny-3)+'" width="'+f1(nw)+'" height="6" rx="3" fill="'+(c||'#6C2024')+'"/>';t+=n[1]+b.g});return h}
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAF2DC"><rect x="-400" y="180" width="1200" height="80" fill="#B8D49A"/>'+
+      '<path d="M-10 112Q60 100 110 112M330 112Q260 100 210 112M110 70Q140 64 200 70" stroke="'+BARK+'" stroke-width="6" fill="none" stroke-linecap="round"/>';
+    var r0=rnd(12);for(var q=0;q<18;q++){var x=14+r0()*292,y=18+r0()*118;if(Math.abs(x-160)<40&&y>96)continue;s+=bauLeaf(x,y,.95,(r0()-.5)*80,r0()<.5?'#78AE58':'#8CBE68')}
+    for(var q2=0;q2<7;q2++)s+='<circle cx="'+f1(20+r0()*280)+'" cy="'+f1(20+r0()*80)+'" r="4" fill="#F2A6C8" stroke="#D8709C" stroke-width=".8"/>';
+    s+='<g id="bd"></g><g id="spk"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),bd=svg.querySelector('#bd'),spk=svg.querySelector('#spk');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function all(){return heard[0]&&heard[1]&&heard[2]}
+    function draw(){var h='';
+      B.forEach(function(b,k){var e='';
+        if(k===0)e='<circle cx="'+(b.x+6)+'" cy="'+(b.y-9)+'" r="3" fill="#fff"/>';
+        if(k===1)e='<circle cx="'+(b.x+11)+'" cy="'+(b.y-7)+'" r="3" fill="none" stroke="#fff" stroke-width="1.6"/>';
+        if(k===2)e='<circle cx="'+(b.x+4)+'" cy="'+(b.y-1)+'" r="1.4" fill="#fff"/><circle cx="'+(b.x+7)+'" cy="'+(b.y+1)+'" r="1.4" fill="#fff"/><circle cx="'+(b.x+4)+'" cy="'+(b.y+3)+'" r="1.4" fill="#fff"/>';
+        h+=(flash===k?'<circle cx="'+b.x+'" cy="'+(b.y-2)+'" r="24" fill="#FFF8EC" opacity=".8"/>':'')+birdSide(b.x,b.y,1.15,b.c,1,b.bl)+e+
+          '<text x="'+b.x+'" y="'+(b.y+30)+'" font-size="15" font-weight="700" fill="#3F5A2A" text-anchor="middle" stroke="#EAF2DC" stroke-width="4" paint-order="stroke">'+b.n+'</text>'+(heard[k]?pat(b,b.x,b.y+46,62,'#8A6A3A'):'')});
+      bd.innerHTML=h;
+      var on=all();spk.innerHTML='<circle cx="'+SP.x+'" cy="'+SP.y+'" r="22" fill="'+(on?'#6C2024':'#C8BCB0')+'"/><path d="M'+(SP.x-9)+' '+(SP.y-5)+'H'+(SP.x-3)+'L'+(SP.x+4)+' '+(SP.y-11)+'V'+(SP.y+11)+'L'+(SP.x-3)+' '+(SP.y+5)+'H'+(SP.x-9)+'Z" fill="#fff"/><path d="M'+(SP.x+8)+' '+(SP.y-6)+'Q'+(SP.x+12)+' '+SP.y+' '+(SP.x+8)+' '+(SP.y+6)+'" stroke="#fff" stroke-width="2" fill="none"/>'+
+        (mys>=0?'<rect x="'+(SP.x-44)+'" y="'+(SP.y-58)+'" width="88" height="30" rx="8" fill="#FFF8EC" stroke="#DB2E27" stroke-width="1.5"/>'+pat(B[mys],SP.x,SP.y-38,70,'#DB2E27')+'<text x="'+SP.x+'" y="'+(SP.y-62)+'" font-size="13" font-weight="700" fill="#DB2E27" text-anchor="middle">是誰？</text>':'');
+      bar.style.width=(ok/4*100)+'%'}
+    draw();
+    function nextHint(){say(msg,'三隻都聽過了！按中間的<b>喇叭</b>，聽聽是誰在叫。')}
+    function tapBird(k){var b=B[k];play(b);flash=k;draw();later(function(){flash=-1;draw()},500);
+      if(mys<0){heard[k]=1;draw();if(all()&&!ok)nextHint();else say(msg,'這是<b>'+b.n+'</b>：叫聲<b>'+b.d+'</b>。'+(all()?'按<b>喇叭</b>繼續。':'再點別的鳥聽聽看。'));return}
+      if(k===mys){ok++;mys=-1;draw();
+        if(ok>=4){done=true;lvDone(area,i,l,msg,'答對了，是<b>'+b.n+'</b>！4 次都聽對了。');return}
+        say(msg,'答對了，是<b>'+b.n+'</b>！再按<b>喇叭</b>，聽下一隻。')}
+      else say(msg,'不是<b>'+b.n+'</b>喔。再按喇叭聽一次，比比看點點的<b>高低</b>和<b>長短</b>。',1)}
+    function tapSpk(){if(!all()){say(msg,'先點<b>每一隻鳥</b>，聽聽牠們怎麼叫。',1);return}
+      if(mys<0)mys=RD[ok];play(B[mys]);draw();say(msg,'是誰在叫？看看點點，點那隻鳥。')}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      if(dist(p,SP)<28){tapSpk();return}
+      var best=-1,bd2=30;B.forEach(function(b,k){var d=dist(p,{x:b.x,y:b.y});if(d<bd2){bd2=d;best=k}});
+      if(best>=0)tapBird(best);
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','羊蹄甲林裡三隻鳥的畫面，按 Enter 直接答完');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();heard={0:1,1:1,2:1};ok=4;mys=-1;done=true;draw();lvDone(area,i,l,msg,'4 次都聽對了！')}});
+    later(function(){if(!done&&!heard[0]&&!heard[1]&&!heard[2])say(msg,'先點一隻<b>鳥</b>，聽聽牠怎麼叫，下面會出現牠叫聲的<b>點點</b>。')},8000);
+  },
+
+  /* 第 5 關：用小木槌敲樹幹，找出 2 個空心的地方 */
+  knock:function(area,i,l){
+    var HO=[{x:138,y:58,f:0},{x:190,y:128,f:0}],marks=[],miss=0,done=false,tms=[];
+    loops.push(function(){tms.forEach(clearTimeout)});
+    function inTrunk(p){if(p.y<4||p.y>176)return false;var w=60+(p.y>140?(p.y-140)*.7:0);return Math.abs(p.x-160)<w}
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E4EED8"><rect x="-400" y="176" width="1200" height="80" fill="#9CBC78"/>'+crown(40,20,60,30,'#6EA850','#5A9440',3)+crown(280,24,60,30,'#6EA850','#5A9440',4)+
+      '<path d="M100 -10L100 140Q96 166 72 178H248Q224 166 220 140L220 -10Z" fill="'+BARK+'" stroke="'+BARKD+'" stroke-width="2"/>';
+    var r0=rnd(15);for(var q=0;q<9;q++){var x=110+q*12+(r0()-.5)*4;s+='<path d="M'+f1(x)+' 0Q'+f1(x+(r0()-.5)*10)+' 70 '+f1(x+(r0()-.5)*6)+' 170" stroke="'+BARKD+'" stroke-width="1.6" fill="none" opacity=".7"/>'}
+    s+='<ellipse cx="178" cy="40" rx="5" ry="8" fill="'+BARKD+'"/><ellipse cx="124" cy="150" rx="6" ry="4" fill="'+BARKD+'"/><g id="mk"></g><g id="fx"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),mk=svg.querySelector('#mk'),fx=svg.querySelector('#fx');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){var h='';marks.slice(-40).forEach(function(m){h+='<circle cx="'+f1(m.x)+'" cy="'+f1(m.y)+'" r="3" fill="#E8D8B8" opacity=".75"/>'});
+      HO.forEach(function(o){if(o.f)h+='<circle cx="'+o.x+'" cy="'+o.y+'" r="20" fill="#3A2818" fill-opacity=".35" stroke="#DB2E27" stroke-width="2.4" stroke-dasharray="5 4"/><text x="'+o.x+'" y="'+(o.y+5)+'" font-size="14" font-weight="900" fill="#FFF8EC" text-anchor="middle">空心</text>';
+        else if(o.hint)h+='<circle cx="'+o.x+'" cy="'+o.y+'" r="26" fill="none" stroke="#FFF8EC" stroke-width="1.6" stroke-dasharray="3 5" opacity=".8"/>'});
+      mk.innerHTML=h;bar.style.width=(HO.filter(function(o){return o.f}).length/2*100)+'%'}
+    draw();
+    function pop(p,t,c,big){var g=document.createElementNS(NS,'g');
+      g.innerHTML='<g transform="translate('+f1(p.x+16)+' '+f1(p.y-14)+') rotate(-30)"><path d="M0 0L14 16" stroke="#8A6A3A" stroke-width="3" stroke-linecap="round"/><rect x="-9" y="-6" width="16" height="9" rx="2" fill="#C89A5A" stroke="#7A5A30" stroke-width="1"/></g><text x="'+f1(p.x)+'" y="'+f1(p.y-22)+'" font-size="'+(big?17:15)+'" font-weight="900" fill="'+c+'" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+t+'</text>';
+      fx.appendChild(g);tms.push(setTimeout(function(){g.remove()},700))}
+    drag(svg,function(t,p){
+      if(done||t!=='down')return;
+      if(!inTrunk(p)){say(msg,'要敲在<b>樹幹</b>上喔。',1);return}
+      var o=null;HO.forEach(function(h){if(dist(p,h)<22)o=h});
+      if(o&&o.f){pop(p,'空空～','#DB2E27');say(msg,'這裡已經找到了。再找另一個空心的地方。');return}
+      if(o){o.f=1;o.hint=0;pop(p,'空空～','#DB2E27',1);beep(170,0,.5,'sine',.4,110);beep(260,0,.3,'sine',.15,180);draw();
+        var n=HO.filter(function(h){return h.f}).length;
+        if(n>=2){done=true;lvDone(area,i,l,msg,'<b>空空～</b>2 個空心的地方都找到了！');return}
+        say(msg,'<b>空空～</b>聲音悶悶的！這裡是<b>空心</b>的。還有 1 個。');return}
+      marks.push(p);miss++;pop(p,'叩叩！','#5A3E28');beep(950,0,.05,'triangle',.3);beep(1400,.05,.04,'triangle',.2);draw();
+      if(miss===10)say(msg,'<b>叩叩！</b>還是好的木頭。從上面到下面、<b>一排一排</b>敲過去，不要漏掉。');
+      else if(miss>=18&&!HO.some(function(h){return h.hint})){var h=HO.filter(function(q){return !q.f})[0];h.hint=1;draw();say(msg,'阿姨說：看看白色虛線圈起來的地方，敲那裡試試。')}
+      else say(msg,'<b>叩叩！</b>聲音清脆、紮實，這裡是好的木頭。')
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','老樹樹幹的畫面，按 Enter 找出空心的地方');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();HO.forEach(function(h){h.f=1});done=true;draw();lvDone(area,i,l,msg,'2 個空心的地方都找到了！')}});
+    later(function(){if(!done&&!miss&&!HO.some(function(h){return h.f}))say(msg,'用手指<b>點樹幹</b>，小木槌就會敲一下。聽聽看、看看字：<b>叩叩</b>是好的，<b>空空</b>是空心的。')},8000);
+  },
+
+  /* 第 6 關：從樹幹拉 3 條繩子到木樁，要往三個方向分開 */
+  rope:function(area,i,l){
+    var CX=160,CY=95,on=false,fp=null,done=false,busy=false,tilt={x:0,y:0},wind='',tms=[];
+    loops.push(function(){tms.forEach(clearTimeout)});
+    var ST=[270,320,20,100,160,215].map(function(a){var r=a*Math.PI/180;return {x:CX+108*Math.cos(r),y:CY+68*Math.sin(r),u:false}});
+    ST.forEach(function(s){s.a=(Math.atan2(s.y-CY,s.x-CX)*180/Math.PI+360)%360});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#D8E8C0"><rect x="-400" y="184" width="1200" height="80" fill="#C8DCA8"/>';
+    var r0=rnd(21);for(var q=0;q<30;q++)s+='<path d="M'+f1(r0()*320)+' '+f1(r0()*180)+'l2 -5l2 5" stroke="#A8C890" stroke-width="1.4" fill="none"/>';
+    s+='<g id="rp"></g><g id="tree"></g><g id="stk"></g><g id="wd"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),rp=svg.querySelector('#rp'),wd=svg.querySelector('#wd'),tree=svg.querySelector('#tree'),stk=svg.querySelector('#stk');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function used(){return ST.filter(function(s){return s.u})}
+    function draw(){var h='',T={x:CX+tilt.x,y:CY+tilt.y};
+      used().forEach(function(s){h+='<path d="M'+f1(T.x)+' '+f1(T.y)+'L'+f1(s.x)+' '+f1(s.y)+'" stroke="#8A7040" stroke-width="5" stroke-linecap="round"/><path d="M'+f1(T.x)+' '+f1(T.y)+'L'+f1(s.x)+' '+f1(s.y)+'" stroke="#E8D8A8" stroke-width="2.6" stroke-linecap="round"/>'});
+      if(on&&fp)h+='<path d="M'+CX+' '+CY+'L'+f1(fp.x)+' '+f1(fp.y)+'" stroke="#E8D8A8" stroke-width="3" stroke-dasharray="6 4" stroke-linecap="round"/>';
+      rp.innerHTML=h;
+      tree.innerHTML='<circle cx="'+f1(T.x)+'" cy="'+f1(T.y)+'" r="34" fill="#7EB85A" opacity=".55"/>'+[0,1,2,3,4,5].map(function(k){var a=k/6*6.283;return '<circle cx="'+f1(T.x+Math.cos(a)*20)+'" cy="'+f1(T.y+Math.sin(a)*20)+'" r="12" fill="#6EA84C" opacity=".6"/>'}).join('')+'<circle cx="'+CX+'" cy="'+CY+'" r="8" fill="'+BARK+'" stroke="'+BARKD+'" stroke-width="1.6"/>';
+      stk.innerHTML=ST.map(function(s){return '<g transform="translate('+f1(s.x)+' '+f1(s.y)+')"><rect x="-11" y="-11" width="22" height="22" rx="3" fill="#A8804A" stroke="'+(s.u?'#DB2E27':'#6A4A2A')+'" stroke-width="'+(s.u?2.4:1.4)+'"/><circle r="5" fill="#C8A06A"/></g>'}).join('');
+      wd.innerHTML=wind;bar.style.width=(done?100:used().length/3*95)+'%'}
+    draw();
+    function arrowFrom(a){var r=a*Math.PI/180,x1=CX+Math.cos(r)*150,y1=CY+Math.sin(r)*96,x2=CX+Math.cos(r)*56,y2=CY+Math.sin(r)*40,ang=Math.atan2(y2-y1,x2-x1)*180/Math.PI;
+      return '<g opacity=".85"><path d="M'+f1(x1)+' '+f1(y1)+'L'+f1(x2)+' '+f1(y2)+'" stroke="#6EC3DD" stroke-width="6" stroke-linecap="round"/><path d="M0 -9L14 0L0 9Z" fill="#6EC3DD" transform="translate('+f1(x2)+' '+f1(y2)+') rotate('+f1(ang)+')"/><text x="'+f1(x1+(x2-x1)*.35)+'" y="'+f1(y1+(y2-y1)*.35-8)+'" font-size="14" font-weight="700" fill="#2E7A98" text-anchor="middle" stroke="#FFF8EC" stroke-width="3" paint-order="stroke">風</text></g>'}
+    function later2(fn,ms){tms.push(setTimeout(fn,reduce?0:ms))}
+    function test(){var A=used().map(function(s){return s.a}).sort(function(a,b){return a-b}),best=0,mid=0;
+      A.forEach(function(a,k){var n=A[(k+1)%A.length],g=n-a;if(g<=0)g+=360;if(g>best){best=g;mid=(a+g/2)%360}});
+      busy=true;
+      if(best>170){var from=(mid+180)%360,r=mid*Math.PI/180;wind=arrowFrom(from);tilt={x:Math.cos(r)*26,y:Math.sin(r)*18};draw();
+        say(msg,'風從這邊吹過來，小樹往<b>沒有繩子</b>的那一邊歪了！點一個<b>木樁</b>拆掉繩子，換個方向綁。',1);
+        later2(function(){tilt={x:0,y:0};wind='';busy=false;draw()},1500);return}
+      var D=A.map(function(a){return (a+180)%360}),k=0;
+      (function blow(){if(k>=D.length){wind='';tilt={x:0,y:0};done=true;busy=false;draw();lvDone(area,i,l,msg,'風從三個方向吹來，小樹都<b>站得穩穩的</b>！');return}
+        var r=(D[k]+180)*Math.PI/180;wind=arrowFrom(D[k]);tilt={x:Math.cos(r)*3,y:Math.sin(r)*2};draw();say(msg,'試試看：風吹來了⋯⋯小樹站得住！');k++;later2(blow,700)})();
+    }
+    drag(svg,function(t,p){
+      if(done||busy)return;
+      if(t==='down'){
+        if(Math.hypot(p.x-CX,p.y-CY)<28){if(used().length>=3){say(msg,'已經有 3 條繩子了。點一個<b>木樁</b>可以拆掉那條。',1);return}on=true;fp=p;draw();return}
+        var s0=null;ST.forEach(function(s){if(s.u&&dist(p,s)<24)s0=s});
+        if(s0){s0.u=false;draw();say(msg,'拆掉一條繩子了。再從<b>樹幹</b>拉一條到別的木樁。');return}
+        say(msg,'從中間的<b>樹幹</b>開始，把繩子拉到木樁。',1);return}
+      if(t==='move'&&on){fp=p;draw();return}
+      if(t==='up'&&on){on=false;fp=null;var s1=null,bd=26;ST.forEach(function(s){var d=dist(p,s);if(!s.u&&d<bd){bd=d;s1=s}});
+        if(!s1){draw();say(msg,'繩子要拉到<b>木樁</b>上再放開。',1);return}
+        s1.u=true;draw();var n=used().length;
+        if(n<3)say(msg,'綁好 <b>'+n+'</b> 條了！還要 '+(3-n)+' 條。');else test()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','小樹和木樁的畫面，按 Enter 直接綁好繩子');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done&&!busy){e.preventDefault();ST.forEach(function(s,k){s.u=k%2===0});draw();test()}});
+    later(function(){if(!done&&!used().length)say(msg,'手指按在中間的<b>樹幹</b>，不要放開，拉到一個<b>木樁</b>再放開，就綁好一條繩子。')},8000);
+  },
+
+
+  end:function(area,i,l){
+    // 回顧：每一段把鏡頭飛到那一關的地點，下面講那一關做了什麼
+    var steps=[];LV.forEach(function(v,k){if(v.stamp&&k>0)steps.push(k)});
+    var n=-1,firstTime=nStamps()===steps.length;
+    area.innerHTML='<div class="recap" aria-live="polite"></div><button class="big" type="button">開始<br>回顧</button><p class="rn"></p><p class="learn"><a class="learn-btn" href="'+LEARN+'" target="_blank" rel="noopener">給大人：延伸閱讀</a></p><p><button class="again-btn" type="button">重新開始遊戲</button></p><p class="note" style="margin-top:20px">給大人：臺南公園在臺南市北區，臺南火車站北邊。爬樹、摘葉子、刻字會傷到老樹，抱抱、看看就好。<br>資料來源：風傳媒 2017、台灣英文新聞（1917 年開園、兼作熱帶實驗林、約 2600 株 114 種、2001 年恢復臺南公園的名字）；蕃薯藤 2024（臺南400 老樹巡禮：百年菩提樹、盾柱木、羊蹄甲林，臺南市 342 株列管老樹，日本時代臺南被譽為樹林之都）；中央社 2019（農業局每年幫列管老樹健康檢查、新營榕仔公移植前請褐根病偵測犬、樹木保護委員會）；新加坡國家公園局 NParks、天下雜誌（雨豆樹的小葉在陰天、雨前和傍晚闔起來）；林業及自然保育署《台灣林業》（羊蹄甲的名字）；島根縣中山間地域研究中心（敲擊聲判斷樹幹腐朽中空）；美國加州大學 UC Master Gardeners（新種的樹怎麼綁支撐）。鳥的叫聲、小樹和木樁的位置都是遊戲示意。地圖是示意圖，不是真實比例。</p>';
+    var box=area.querySelector('.recap'),btn=area.querySelector('.big'),cnt=area.querySelector('.rn');
+    function stopOf(k){var s=null;STOPS.forEach(function(t){if(t.lv===k)s=t});if(!s&&LV[k].pin!==undefined)s=STOPS[LV[k].pin];return s}
+    function show(){
+      box.classList.remove('enter');void box.offsetWidth;box.classList.add('enter');
+      if(n<0){cam(camFor(i,l));setEra('now');pinEl.style.display='none';box.innerHTML='';btn.innerHTML='開始<br>回顧';cnt.textContent='';return}
+      var k=steps[n],v=LV[k],s=stopOf(k);
+      cam(camFor(k,v));setEra(v.era||'now');
+      if(s){pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+      var txt=v.win||(v.q&&v.q.e)||(v.why&&v.why[1])||'';
+      box.innerHTML='<div class="rc"><span class="seal'+(st.done[k]?'':' empty')+'">'+(st.done[k]?icon(v.stamp[0]):'')+'</span><div><p class="rk">'+v.kick+'</p><p class="rh">'+v.h+'</p><p>'+txt+'</p></div></div>';
+      btn.innerHTML=n<steps.length-1?'下一段':'從頭<br>再看';
+      cnt.textContent='第 '+(n+1)+' / '+steps.length+' 段';
+    }
+    btn.addEventListener('click',function(){n=n<steps.length-1?n+1:-1;show();into(btn)});
+    area.querySelector('.again-btn').addEventListener('click',function(){st={far:0,done:{0:1},name:''};save();chips();setEra('now');go(0)});
+    show();
+    if(!reduce&&firstTime)confetti();
+  }
+
+};
+
+function confetti(){var cs=['#E2574C','#F5A623','#7BC47F','#6EC3DD','#F7A8C4'];for(var k=0;k<36;k++){var c=document.createElement('i');c.className='conf';c.style.left=(Math.random()*100)+'vw';c.style.background=cs[k%5];c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){return function(){x.remove()}}(c),3600)}}
+
+/* ---------- 換關 ---------- */
+var pv=document.getElementById('pv'),nx=document.getElementById('nx');
+function paint(){
+  nx.disabled=cur===LV.length-1||!st.done[cur];nx.textContent=st.done[cur]||cur===LV.length-1?'下一關 ›':'先完成任務';
+  pv.disabled=cur===0;nx.style.visibility=cur===LV.length-1?'hidden':'';document.getElementById('pos').textContent=cur===0?'開始':(cur===LV.length-1?'完成':'第 '+cur+' / 6 關');
+  map.querySelectorAll('.stop').forEach(function(g){g.classList.toggle('lock',+g.dataset.lv>st.far)});
+}
+// 鏡頭：每一關都把那一關的地點放在圓的正中間；全景（正方形鏡頭）照原樣
+function camFor(i,l){var c=l.cam;if(c[2]===c[3])return c;var s=null;STOPS.forEach(function(t){if(t.lv===i)s=t});if(!s&&l.pin!==undefined)s=STOPS[l.pin];
+  var z=c[3]*1.05,cx=s?s.x:c[0]+c[2]/2,cy=s?s.y-6:c[1]+c[3]/2;return [cx-z/2,cy-z/2,z,z]}
+function go(i){
+  cur=i;if(i>st.far){st.far=i;save()}replay=-1;var l=LV[i];clearScene();
+  cam(camFor(i,l));setEra(l.era||'now');
+  if(l.pin!==undefined){var s=STOPS[l.pin];pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+  render(i);paint();
+}
+pv.addEventListener('click',function(){if(cur>0)go(cur-1)});
+nx.addEventListener('click',function(){if(st.done[cur]&&cur<LV.length-1)go(cur+1)});
+var sheet=document.getElementById('sheet');
+document.getElementById('chips').addEventListener('click',function(){if(st.far>=LV.length-1)go(LV.length-1)});
+function closeSheet(){sheet.hidden=true;document.getElementById('chips').focus()}
+document.getElementById('sheetX').addEventListener('click',closeSheet);
+sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+chips();go(Math.min(st.far,LV.length-1));
+</script>
+</body>
+</html>

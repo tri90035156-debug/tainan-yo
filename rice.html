@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>割稻任務・臺南的稻米</title>
+<meta name="description" content="跟著菁寮種稻的阿公，從老街到稻田：把白布泡進染缸看菁寮名字的由來、托一托找出飽滿的稻穗、開割稻機割完整片田、用摔桶打下稻穀、在稻埕推平穀子曬乾，最後搓出白米。">
+<link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/rice.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/rice.html">
+<link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/rice.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="臺南遊">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/rice.html">
+<meta property="og:title" content="割稻任務（稻米・後壁菁寮）｜臺南遊">
+<meta property="og:description" content="跟著菁寮種稻的阿公，從老街到稻田：把白布泡進染缸看菁寮名字的由來、托一托找出飽滿的稻穗、開割稻機割完整片田、用摔桶打下稻穀、在稻埕推平穀子曬乾，最後搓出白米。">
+<meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/rice.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#FFF8EC; --card:#FFFDF7; --ink:#5A3E2B; --muted:#9A7B62; --line:#EBD9BF;
+  --red:#E2574C; --sea:#9ED9EC; --water:#6EC3DD; --blue:#2E93B8; --green:#7BC47F; --sand:#F8E7C2;
+  --f:"Huninn","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:#F3E6CF;color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.7;overflow:hidden}
+.app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
+header{flex:none;display:flex;align-items:center;gap:10px;padding:8px 14px}
+header h1{margin:0;font-size:20px;font-weight:400;flex:1;line-height:1.3}
+.chips{display:flex;gap:3px;background:none;border:0;padding:4px;cursor:pointer;border-radius:8px}
+.chips i{display:grid;place-items:center;width:22px;height:22px;border:1.5px dashed #D9BFA0;border-radius:6px;font:14px/19px var(--f);font-style:normal;text-align:center;color:transparent}
+.chips i.on{border:1.5px solid var(--red);background:var(--red);color:#fff}
+.chips i svg{width:17px;height:17px}
+.chips i.pop{animation:pop .5s cubic-bezier(.2,1.8,.4,1)}
+
+.stage{flex:none;position:relative;height:clamp(250px,50vh,520px);background:var(--sea);overflow:hidden;border-top:3px solid var(--line);transition:height .35s}
+#map{width:100%;height:100%;display:block;touch-action:manipulation}
+[hidden]{display:none!important}
+#scene{position:absolute;inset:0;background:#DFF3F8;animation:fadein .35s}
+#scene svg{display:block;width:100%;height:100%;margin:0;border-radius:0;background:none!important}
+@keyframes fadein{from{opacity:0}}
+#peek{position:absolute;left:8px;top:8px;font:15px var(--f);background:#fff;color:var(--ink);border:0;border-radius:999px;padding:5px 14px;box-shadow:0 2px 6px rgba(90,62,43,.18);cursor:pointer}
+#past,#now{transition:opacity .7s}
+#map.now #past{opacity:0}
+#map:not(.now) #now{opacity:0;pointer-events:none}
+#boat{transition:opacity .7s}#map.now #boat{opacity:0}
+.era{position:absolute;right:8px;top:8px;display:flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 2px 6px rgba(90,62,43,.18)}
+.era button{font:15px var(--f);border:0;background:none;color:var(--muted);padding:4px 12px;border-radius:999px;cursor:pointer}
+.era button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.stop{cursor:pointer}
+.stop.lock{opacity:.55;cursor:default}
+.pin{animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+
+main{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 8px;font-size:19px;background:var(--card);border-radius:18px 18px 0 0;margin-top:-10px;position:relative;box-shadow:0 -3px 10px rgba(90,62,43,.08)}
+.kick{margin:0;font-size:14px;color:var(--red)}
+h2{margin:0 0 4px;font-size:26px;font-weight:400;line-height:1.35}
+main p{margin:0 0 10px}
+.task{background:#FFF0D6;border-radius:12px;padding:8px 12px;font-size:20px}
+main .note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+.big{display:block;width:100%;font:24px var(--f);background:var(--red);color:#fff;border:0;border-radius:16px;padding:12px;cursor:pointer;margin:8px 0;box-shadow:0 4px 0 #B8392F;transition:transform .08s}
+.big:active,.big.down{transform:translateY(3px);box-shadow:0 1px 0 #B8392F}
+.big.blue{background:var(--blue);box-shadow:0 4px 0 #1F6F8C}
+.big.blue:active,.big.blue.down{box-shadow:0 1px 0 #1F6F8C}
+.big:disabled{background:#D9C7B0;box-shadow:none;cursor:default}
+.hold{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none}
+.mini{display:block;width:100%;height:auto;background:#DFF3F8;border-radius:14px;margin:4px 0 8px;touch-action:manipulation}
+.item{transition:transform .55s cubic-bezier(.3,1.4,.5,1);cursor:pointer}
+.item:focus-visible path{stroke:var(--red)}
+.tap{cursor:pointer}
+.tap:focus,.item:focus{outline:none}
+.tap:focus-visible .ring{stroke:var(--red);stroke-width:3}
+.bar{height:12px;background:#F0E2CC;border-radius:999px;overflow:hidden;margin:4px 0 8px}
+.bar b{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width .3s}
+.opt{display:block;width:100%;text-align:left;font:20px/1.5 var(--f);background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 8px;cursor:pointer}
+.opt.no{color:#C3AE97;border-style:dashed;text-decoration:line-through}
+.opt.yes{border-color:var(--green);background:#EEF8EC}
+.opt:disabled{cursor:default}
+.say{background:#EEF8EC;border-radius:12px;padding:8px 12px;font-size:18px}
+.say.again{background:#FDECE8}
+.skip{font:15px var(--f);background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px 0;cursor:pointer}
+.got{display:flex;align-items:center;gap:14px;background:#FFF0D6;border-radius:14px;padding:10px 14px;margin:10px 0}
+.got p{margin:0}
+.why{background:#E6F4FA;border-radius:14px;padding:8px 12px;margin:0 0 10px}
+.why summary{cursor:pointer;color:#1F6F8C;font-size:18px}
+.why p{margin:6px 0 0}
+.seal{display:grid;place-items:center;flex:none;width:56px;height:56px;border:3px solid var(--red);border-radius:12px;background:var(--red);color:#fff;font:32px/50px var(--f);text-align:center;transform:rotate(-6deg)}
+.seal svg{width:74%;height:74%}
+.seal.pop{animation:stamp .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-20deg);opacity:0}100%{transform:rotate(-6deg);opacity:1}}
+@keyframes pop{0%{transform:scale(1.8)}100%{transform:none}}
+.again-btn{font:14px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:3px 14px;color:var(--muted);cursor:pointer}
+
+.foot{flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:2px solid var(--line)}
+.foot button{font:17px var(--f);background:none;border:0;color:var(--ink);padding:6px 10px;cursor:pointer;border-radius:8px}
+.foot #nx{color:var(--red)}
+.foot button:disabled{color:#D9C7B0;cursor:default}
+.foot span{font-size:14px;color:var(--muted)}
+
+.doc{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 14px 8px}
+.doc h3{margin:0 0 8px;font-size:24px;font-weight:400;text-align:center;letter-spacing:.2em}
+.doc dl{margin:0 0 8px;display:grid;grid-template-columns:4em minmax(0,1fr);gap:0 8px;font-size:15px}
+.doc dt{color:var(--muted)}.doc dd{margin:0}
+.doc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:2px dashed var(--line);padding-top:10px}
+.doc li{text-align:center;font-size:13px;color:var(--muted);line-height:1.4}
+.doc li .seal{width:48px;height:48px;margin:0 auto 4px}
+.doc li .seal.empty{background:none;border:2px dashed #D9BFA0;transform:none;color:transparent}
+.doc .fic{margin:8px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.name{font:17px var(--f);border:0;border-bottom:2px solid var(--ink);background:none;width:9em;color:var(--ink);padding:0 2px}
+.sheet{position:fixed;inset:0;z-index:10;background:rgba(90,62,43,.45);display:grid;place-items:center;padding:16px}
+.sheet[hidden]{display:none}
+.sheet .in{width:min(380px,100%);max-height:calc(100% - 32px);overflow-y:auto;background:var(--bg);border-radius:18px;padding:14px}
+.sheet .x{display:block;margin:10px auto 0;font:16px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:4px 18px;cursor:pointer;color:var(--ink)}
+.conf{position:fixed;top:-12px;width:10px;height:14px;border-radius:3px;z-index:20;pointer-events:none;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+main a{color:var(--blue)}
+@media (prefers-reduced-motion:reduce){.stage{transition:none}.pin,.seal.pop,.chips i.pop,.conf{animation:none}.item{transition:none}}
+/* 平板直拿：畫面變寬一點 */
+@media (min-width:700px){.app{max-width:760px}}
+/* 電腦、平板橫拿、手機橫拿：左邊大舞台（地圖／遊戲），右邊文字卡片 */
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EADBC0}
+  .app{max-width:1320px;display:grid;grid-template-columns:minmax(0,1fr) clamp(330px,34vw,470px);grid-template-rows:auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:10px 20px}
+  header h1{font-size:24px}
+  .chips i{width:26px;height:26px}.chips i svg{width:20px;height:20px}
+  .stage{grid-column:1;grid-row:2/4;height:auto;border-top:3px solid var(--line)}
+  main{grid-column:2;grid-row:2;margin-top:0;border-radius:0;box-shadow:none;border-top:3px solid var(--line);border-left:3px solid var(--line);padding:16px 20px 10px}
+  .foot{grid-column:2;grid-row:3;border-left:3px solid var(--line)}
+}
+/* ===== 新版面：上面標題、中間遊戲畫面、下面文字 =====
+   配色取自臺南城市識別：紅 #DB2E27、酒紅 #6C2024、金 #BD9558；插畫裡的水和海維持藍色 */
+:root{
+  --bg:#FBF7F1; --card:#FBF7F1; --paper:#FFFFFF; --ink:#2A2020; --muted:#8A7A70; --line:#EADFD3;
+  --red:#DB2E27; --maroon:#6C2024; --gold:#BD9558; --goldsoft:#F3E8D6; --blue:#6C2024; --green:#BD9558;
+  --f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+}
+body{background:#EFE7DC;color:var(--ink)}
+header{padding:12px 18px 2px}
+header h1{font:700 15px/1.3 var(--f);letter-spacing:.06em;color:var(--ink)}
+.chips{gap:5px}
+.chips i{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--gold)}
+.chips i.on{background:var(--red);border-color:var(--red)}
+.chips i svg{width:14px;height:14px}
+.top{flex:none;padding:6px 18px 14px}
+.top .kick{margin:0 0 2px;font:700 15px/1.4 var(--serif);letter-spacing:.06em;color:var(--red)}
+.top h2{margin:0;font:900 30px/1.25 var(--serif);color:var(--ink);text-wrap:balance}
+.stage{height:clamp(220px,42vh,480px);margin:0 16px;border-top:0;border-radius:26px;box-shadow:0 0 0 8px var(--goldsoft)}
+main{margin-top:0;border-radius:0;box-shadow:none;background:var(--bg);padding:20px 18px 8px}
+main p{line-height:1.75}
+main .kick{font:700 15px var(--serif);letter-spacing:.04em}
+.task{background:var(--goldsoft);border-radius:14px;padding:10px 14px;font-weight:500}
+.big{font:700 22px var(--f);border-radius:14px;box-shadow:none;background:var(--red);letter-spacing:.04em}
+.big:active,.big.down{transform:translateY(2px);box-shadow:none;filter:brightness(.9)}
+.big.blue{background:var(--maroon);box-shadow:none}
+.big.blue:active,.big.blue.down{box-shadow:none}
+.big:disabled{background:#D8CFC4}
+.opt{font:500 20px/1.5 var(--f);border:2px solid var(--line);background:var(--paper);border-radius:14px}
+.opt.yes{border-color:var(--gold);background:#FAF3E6}
+.say{background:#F2ECE2;border-radius:14px}
+.say.again{background:#FBE8E5}
+.why{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.why summary{font:700 18px var(--serif);color:var(--maroon)}
+.got{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.seal{border:0;border-radius:50%;background:var(--red);transform:none;box-shadow:0 0 0 6px var(--goldsoft)}
+@keyframes stamp{0%{transform:scale(1.8);opacity:0}100%{transform:none;opacity:1}}
+.again-btn{border-color:var(--gold);color:var(--maroon)}
+.bar{background:#EFE6D8}.bar b{background:var(--gold)}
+.foot{background:var(--bg);border-top:1px solid var(--line)}
+.foot #nx{color:var(--red);font-weight:700}
+#peek,.era{box-shadow:0 2px 8px rgba(42,32,32,.15)}
+.era button[aria-pressed="true"]{background:var(--maroon)}
+.doc{border:0;border-radius:18px;background:var(--paper);box-shadow:0 0 0 8px var(--goldsoft)}
+.doc h3{font:900 26px var(--serif);letter-spacing:.12em;color:var(--ink)}
+.doc li .seal.empty{border:2px dashed var(--gold);box-shadow:none}
+.sheet .in{background:var(--bg)}
+/* 換關時文字一行一行浮上來 */
+.enter>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.enter>*:nth-child(2){animation-delay:.06s}.enter>*:nth-child(3){animation-delay:.12s}.enter>*:nth-child(4){animation-delay:.18s}.enter>*:nth-child(5){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){.enter>*{animation:none}}
+@media (min-width:700px){.top h2{font-size:34px}.top{padding:8px 24px 16px}.stage{margin:0 24px}}
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EFE7DC}
+  .app{grid-template-rows:auto auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:12px 24px 4px}
+  header h1{font-size:15px}
+  .top{grid-column:1;grid-row:2}
+  .stage{grid-column:1;grid-row:3/5;height:auto;margin:0 24px 24px;border-top:0}
+  main{grid-column:2;grid-row:2/4;border-top:0;border-left:1px solid var(--line);padding:20px 22px 10px}
+  .foot{grid-column:2;grid-row:4;border-left:1px solid var(--line)}
+}
+/* ===== 圓形遊戲框 ===== */
+.stage{display:flex;align-items:center;justify-content:center;background:none;box-shadow:none;border-radius:0;overflow:visible;height:clamp(220px,46vh,460px)}
+.stage{position:relative;min-height:0}
+.disc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;overflow:hidden;background:var(--sea);box-shadow:0 0 0 12px var(--goldsoft)}
+#map{width:100%;height:100%}
+#scene{display:flex;align-items:center;justify-content:center}
+#scene svg{flex:none}
+#scene svg:focus:not(:focus-visible),#scene [tabindex]:focus:not(:focus-visible){outline:none}
+#peek{left:0;top:0}
+.era{right:0;top:0}
+@media (min-width:700px) and (min-aspect-ratio:5/4){.stage{height:auto}}
+/* ===== 不用色塊區分文字：改用粗體和顏色；大按鈕是圓的 ===== */
+.task{background:none;padding:0;border-radius:0;font-weight:700;color:var(--maroon)}
+.say{background:none;padding:0;border-radius:0;font-weight:700;color:#4E7D3A}
+.say.again{background:none;color:var(--red)}
+.why,.got{background:none;border:0;padding:0;border-radius:0}
+.why summary{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+.got{margin:16px 0}
+.opt{border-radius:999px;padding:10px 20px}
+.big{display:grid;place-items:center;width:116px;height:116px;margin:18px auto;padding:10px;border-radius:50%;font:700 20px/1.3 var(--f);text-align:center;box-shadow:0 0 0 8px var(--goldsoft)}
+.big.blue{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:active,.big.down,.big.blue:active,.big.blue.down{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:disabled{box-shadow:0 0 0 8px #EFE8DF}
+.again-btn{border-radius:999px}
+/* ===== 用粗細帶重點：內文細一點、淡一點，重點字粗黑 ===== */
+main p,main li,.doc dd{color:#5A4E48}
+main b,main strong{font-weight:700;color:var(--ink)}
+.task,.task b{color:var(--maroon)}
+.say b{color:inherit}
+.say.again b{color:inherit}
+/* 回饋訊息用一般粗細，只有重點詞粗 */
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say b{font-weight:700}
+/* ===== 手機：地圖和文字在同一頁一起捲，上一關／下一關固定在最下面 ===== */
+@media (max-width:699.98px),(max-aspect-ratio:1249/1000){
+  html,body{height:auto;min-height:100%}
+  body{overflow:visible}
+  .app{height:auto;min-height:100vh}
+  main{flex:none;overflow:visible;min-height:0}
+  .foot{position:sticky;bottom:0;z-index:5}
+  .stage{margin:0 2px}
+  /* 圓黏在畫面上方：往下捲找按鈕時，圓和按鈕一定同時看得到 */
+  .stage{position:sticky;top:0;z-index:4;background:var(--bg)}
+  main *{scroll-margin-bottom:76px}
+  .big{width:96px;height:96px;margin:12px auto;font-size:19px}
+}
+/* ===== 卡片文字角色（使用者定的規則） ===== */
+.task{color:#6C2024;font-weight:700}
+.bar{height:4px;background:#EFE6D8;border-radius:2px;margin:10px 0 12px}
+.bar b{background:#6C2024;border-radius:2px}
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say.again::before{content:"再試試";display:block;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red);margin-bottom:2px}
+main .kick+p{font-weight:700;color:var(--ink)}
+.notes{margin-top:24px;padding-top:12px;border-top:1px solid var(--line)}
+.notes .note{margin:0 0 6px}
+.notes .note b{color:#8A7A70}
+/* ===== 完成頁：一段一段回顧 ===== */
+.recap{min-height:150px}
+.rc{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:start}
+.rc .seal{width:58px;height:58px;margin-top:4px}
+.rc .seal.empty{background:none;border:2px dashed var(--gold);box-shadow:none}
+.rk{margin:0;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red)}
+.rh{margin:0 0 6px;font:900 22px/1.35 var(--serif);color:var(--ink)}
+.rn{margin:-6px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+.pad{display:grid;grid-template-columns:repeat(3,60px);grid-template-rows:repeat(2,60px);gap:8px;justify-content:center;margin:16px auto 12px}
+.pad button{border:0;border-radius:50%;background:var(--maroon);color:#fff;font:700 26px/1 var(--f);box-shadow:0 0 0 5px var(--goldsoft);cursor:pointer;touch-action:manipulation}
+.pad button:active{filter:brightness(.88)}
+.pad button:disabled{background:#D8CFC4}
+.notes .maps a{color:inherit;text-decoration:underline;text-decoration-color:#C9B8A6;text-underline-offset:3px}
+.recap:empty{min-height:0}
+/* 回到首頁的小房子（每個遊戲左上角都有） */
+.home{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--paper,#fff);color:var(--maroon,#6C2024);text-decoration:none}.home svg{width:20px;height:20px}.home:active{background:var(--goldsoft,#F3E8D6)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <a class="home" href="index.html" aria-label="回到首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></a>
+    <h1>割稻任務</h1>
+    <button class="chips" id="chips" type="button" aria-label="看回顧"></button>
+  </header>
+  <div class="top" id="top"></div>
+  <div class="stage" id="stage">
+    <div class="disc">
+      <svg id="map" class="now" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="後壁菁寮稻田插畫地圖"></svg>
+      <div id="scene" hidden></div>
+    </div>
+    <div class="era" role="group" aria-label="切換插秧時和收割時"><button type="button" data-era="past" aria-pressed="false">插秧時</button><button type="button" data-era="now" aria-pressed="true">收割時</button></div>
+    <button id="peek" type="button" hidden>看地圖</button>
+  </div>
+  <main id="card" aria-live="polite"></main>
+  <nav class="foot"><button type="button" id="pv">‹ 上一關</button><span id="pos"></span><button type="button" id="nx">下一關 ›</button></nav>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="任務單"><div class="in"><div id="sheetDoc"></div><button class="x" type="button" id="sheetX">收起任務單</button></div></div>
+
+<script>
+/* ---------- 插畫元件 ---------- */
+var K='#2A2020',NS='http://www.w3.org/2000/svg';
+var GOLD='#E2B23C',GOLDD='#B98A24',PALE='#DCD39A',LEAFC='#5E9A46',STEM='#A89A3A';
+function f1(v){return (Math.round(v*10)/10).toString()}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+// 一支稻穗：(x,y) 是穗的頂端，ang 是方向（0 往上，越大越往右下垂），full 飽滿
+function ear(x,y,ang,s,full){
+  var dx=Math.sin(ang),dy=-Math.cos(ang),px=-dy,py=dx,L=(full?44:38)*s,h='';
+  h+='<path d="M'+f1(x)+' '+f1(y)+'L'+f1(x+dx*L)+' '+f1(y+dy*L)+'" stroke="'+STEM+'" stroke-width="'+f1(1.4*s)+'"/>';
+  for(var k=1;k<=9;k++){var t=k/9.5,cx=x+dx*L*t,cy=y+dy*L*t,side=k%2?1:-1,o=(full?3.4:2.4)*s,gx=cx+px*o*side,gy=cy+py*o*side,a=Math.atan2(dy,dx)*57.3+side*25;
+    h+='<ellipse cx="'+f1(gx)+'" cy="'+f1(gy)+'" rx="'+f1((full?4:3)*s)+'" ry="'+f1((full?2.3:1.3)*s)+'" fill="'+(full?GOLD:PALE)+'" stroke="'+GOLDD+'" stroke-width="'+f1(.4*s)+'" transform="rotate('+f1(a)+' '+f1(gx)+' '+f1(gy)+')"/>'}
+  return h;
+}
+// 一叢稻子（地圖上的小圖）
+function clump(x,y,s,gold){
+  var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')">';
+  [-6,-2,2,6].forEach(function(d){h+='<path d="M0 0Q'+f1(d*.6)+' -8 '+d+' -16" stroke="'+(gold?STEM:LEAFC)+'" stroke-width="1.4" fill="none"/>';if(gold)h+=ear(d,-16,(d<0?-1.9:1.9),.32,true)});
+  return h+'</g>';
+}
+// 一粒米：st 0 稻穀（有粗糠）、1 糙米、2 白米
+function grain(x,y,s,st){
+  var c=['#D9A93A','#D2B07C','#FBF8F0'][st],k=['#9A7420','#A8875A','#CFC6B2'][st],h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+s+')"><ellipse rx="10" ry="17" fill="'+c+'" stroke="'+k+'" stroke-width="1"/>';
+  if(st===0)h+='<path d="M0 -17V17M-5 -15Q-7.5 0 -5 15M5 -15Q7.5 0 5 15" stroke="'+k+'" stroke-width=".7" fill="none"/><path d="M0 -17V-21" stroke="'+k+'" stroke-width="1.2"/>';
+  if(st===1)h+='<path d="M-4 12Q0 17 4 12Z" fill="#E9D3A6" stroke="#B8945E" stroke-width=".8"/><path d="M-6 -6Q-7 2 -5 8" stroke="#fff" stroke-opacity=".45" stroke-width="1.6" fill="none"/>';
+  if(st===2)h+='<path d="M-5 -8Q-7 0 -5 8" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+  return h+'</g>';
+}
+// 割稻機（往右開，前面黃色的是割刀）
+function combine(x,y,a,s){
+  return '<g transform="translate('+f1(x)+' '+f1(y)+') rotate('+f1(a)+') scale('+(s||1)+')">'+
+    '<rect x="-17" y="-13" width="30" height="5" rx="2" fill="#4A4A4A"/><rect x="-17" y="8" width="30" height="5" rx="2" fill="#4A4A4A"/>'+
+    '<rect x="-16" y="-10" width="28" height="20" rx="3" fill="#E2574C" stroke="#9A2A22" stroke-width="1"/>'+
+    '<rect x="-12" y="-7" width="10" height="9" rx="1.5" fill="#BFE3F0" stroke="#9A2A22" stroke-width=".8"/><circle cx="6" cy="0" r="3" fill="#C9402F"/>'+
+    '<path d="M13 -15H19V15H13Z" fill="#F2C94C" stroke="#A88420" stroke-width="1"/><path d="M19 -13H22M19 -8H22M19 -3H22M19 2H22M19 7H22M19 12H22" stroke="#A88420" stroke-width="1.4"/></g>';
+}
+// 摔桶（木頭桶子）
+function tub(x,y,s){
+  return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')"><path d="M-32 -14H32L26 14H-26Z" fill="#A8774A" stroke="#6E4A2A" stroke-width="1.2"/><path d="M-30 -5H30M-28 6H28" stroke="#6E4A2A" stroke-width="2"/><path d="M-32 -14H32" stroke="#6E4A2A" stroke-width="2.4"/></g>';
+}
+// 稻埕上的穀耙
+function rakeArt(x,y,s){
+  return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')"><path d="M0 0V-34" stroke="#8A6A3A" stroke-width="2.6" stroke-linecap="round"/><path d="M-13 0H13" stroke="#6E4A2A" stroke-width="3.4" stroke-linecap="round"/><path d="M-11 0V5M-5.5 0V5M0 0V5M5.5 0V5M11 0V5" stroke="#6E4A2A" stroke-width="1.8" stroke-linecap="round"/></g>';
+}
+var ICON={
+  cloth:'<path d="M-8 -8H8V7Q4 10 0 7Q-4 4 -8 7Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M-10 -9H10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>',
+  ear:'<path d="M-7 10Q-5 -4 3 -8" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><g fill="#fff"><ellipse cx="0" cy="-5" rx="2.6" ry="1.6" transform="rotate(30 0 -5)"/><ellipse cx="4" cy="-3" rx="2.6" ry="1.6" transform="rotate(70 4 -3)"/><ellipse cx="6" cy="1" rx="2.6" ry="1.6" transform="rotate(80 6 1)"/><ellipse cx="6.5" cy="5.5" rx="2.6" ry="1.6" transform="rotate(95 6.5 5.5)"/><ellipse cx="2" cy="1" rx="2.6" ry="1.6" transform="rotate(60 2 1)"/></g>',
+  combine:'<rect x="-10" y="-3" width="13" height="9" rx="1.5" fill="none" stroke="#fff" stroke-width="2"/><rect x="-7" y="-9" width="6" height="6" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M7 -7V10" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M3 1H7" stroke="#fff" stroke-width="2"/><circle cx="-6" cy="8.5" r="2" fill="#fff"/><circle cx="0" cy="8.5" r="2" fill="#fff"/>',
+  tub:'<path d="M-9 -1H9L6 9H-6Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M-3 -3L3 -11" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="-6" cy="-6" r="1.4" fill="#fff"/><circle cx="7" cy="-5" r="1.4" fill="#fff"/><circle cx="1" cy="-7" r="1.2" fill="#fff"/>',
+  rake:'<path d="M0 -10V4M-8 4H8M-8 4V9M-3 4V9M3 4V9M8 4V9" stroke="#fff" stroke-width="2.1" stroke-linecap="round" fill="none"/>',
+  bowl:'<path d="M-10 0H10A10 9 0 0 1 -10 0Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M-6.5 0Q-4 -6 0 -2.5Q4 -7 6.5 0" fill="none" stroke="#fff" stroke-width="1.8"/>'
+};
+function icon(k){return '<svg viewBox="-12 -12 24 24" aria-hidden="true">'+ICON[k]+'</svg>'}
+
+// 開場的認稻穗圖：大大的稻穗，加上幾個認得出它的特徵
+function idCard(t1,t2,art,C){
+  var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F2F1E4" role="img" aria-label="'+t1+'的樣子"><rect x="-400" y="172" width="1200" height="60" fill="#E4DAB4"/>'+art;
+  C.forEach(function(c){s+='<path d="M'+c[3]+' '+c[4]+'L'+c[1]+' '+(c[2]-5)+'" stroke="#8A7A70" stroke-width="1.2"/><circle cx="'+c[3]+'" cy="'+c[4]+'" r="2.6" fill="#DB2E27"/>'+
+    '<text x="'+c[1]+'" y="'+c[2]+'" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#F2F1E4" stroke-width="4" paint-order="stroke">'+c[0]+'</text>'});
+  return s+'<text x="160" y="34" font-size="24" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,Songti TC,serif" stroke="#F2F1E4" stroke-width="4" paint-order="stroke">'+t1+'</text>'+(t2?'<text x="160" y="190" font-size="14" font-weight="700" fill="#7A5A20" text-anchor="middle">'+t2+'</text>':'')+'</svg>';
+}
+
+/* ---------- 地圖 ---------- */
+// 示意圖：後壁菁寮一帶，老街在十字路口旁邊，四周都是稻田；「插秧時」田裡有水和秧苗，「收割時」一片金黃
+var STOPS=[{lv:1,n:'菁寮老街',x:300,y:200,k:'street'},{lv:2,n:'10 月的稻田',x:530,y:170,k:'ear'},{lv:3,n:'開割稻機',x:630,y:330,k:'combine'},{lv:4,n:'以前的割稻',x:440,y:330,k:'tub'},{lv:5,n:'稻埕曬穀',x:250,y:400,k:'yard'},{lv:6,n:'碾米廠',x:500,y:450,k:'mill'}];
+function marker(s){
+  var t='<g transform="translate('+s.x+' '+s.y+')">';
+  if(s.k==='street'){[-1,0,1].forEach(function(k){t+='<rect x="'+(k*16-7)+'" y="-6" width="14" height="18" fill="#F3E6CC" stroke="#9A7A55" stroke-width="1"/><path d="M'+(k*16-9)+' -6L'+(k*16)+' -14L'+(k*16+9)+' -6Z" fill="#8A5A3A"/><rect x="'+(k*16-3)+'" y="3" width="6" height="9" fill="#9A7A55"/>'});return t+'<path d="M26 -10V14" stroke="#8A6A3A" stroke-width="1.6"/><rect x="27" y="-8" width="10" height="16" fill="#2F5590"/></g>'}
+  if(s.k==='ear')return t+clump(-16,14,1.8,true)+clump(16,14,1.8,true)+clump(0,12,2.2,true)+'</g>';
+  if(s.k==='combine')return t+combine(0,2,0,1.1)+'</g>';
+  if(s.k==='tub')return t+tub(0,6,.8)+'<path d="M-6 -24L2 -6M2 -24L6 -6" stroke="'+STEM+'" stroke-width="2"/>'+ear(2,-6,2.6,.4,true)+'</g>';
+  if(s.k==='yard')return t+'<rect x="-26" y="-6" width="52" height="20" rx="3" fill="#E8C55A" stroke="#B98A24" stroke-width="1"/>'+rakeArt(14,6,.8)+'</g>';
+  return t+'<rect x="-18" y="-10" width="36" height="22" rx="2" fill="#E9E4DA" stroke="#8A8070" stroke-width="1.2"/><path d="M-22 -9L0 -22L22 -9Z" fill="#7A8A96"/><rect x="-5" y="2" width="10" height="10" fill="#8A8070"/><path d="M14 4H24V12H14Z" fill="#F3E6CC" stroke="#9A7A55" stroke-width=".8"/></g>';
+}
+function buildMap(){
+  var h='<defs><pattern id="pSeed" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#A9D3CC"/><path d="M4 6V2.5M4 4.2L2.4 2.6M4 4.2L5.6 2.6" stroke="#4E9A3A" stroke-width="1"/></pattern>'+
+    '<pattern id="pGold" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#E8C55A"/><path d="M2 6Q4 2 6.5 3" stroke="#C4952C" stroke-width="1" fill="none"/></pattern></defs>';
+  h+='<rect x="-400" y="-300" width="1600" height="1200" fill="#E4DBBE"/><g id="trees"></g>';
+  // 十字路口和老街前的路
+  h+='<path d="M-400 262H1200M360 -300V900" stroke="#F3EBD8" stroke-width="16"/>';
+  // 菁寮聖十字架天主堂（尖尖的屋頂）
+  h+='<g transform="translate(170 214)"><rect x="-14" y="-6" width="28" height="18" fill="#F1ECE2" stroke="#9A8C7A" stroke-width="1.2"/><path d="M-16 -6L0 -38L16 -6Z" fill="#8A9AA6" stroke="#6A7A86" stroke-width="1"/><path d="M0 -46V-36M-4 -42H4" stroke="#6A5E50" stroke-width="1.6"/></g>';
+  var T=function(t,x,y,sz,c,bg){return '<text x="'+x+'" y="'+y+'" font-size="'+sz+'" fill="'+c+'" text-anchor="middle" stroke="'+(bg||'#E4DBBE')+'" stroke-width="4" paint-order="stroke">'+t+'</text>'};
+  h+=T('菁寮',390,118,26,'#7A4A2E')+T('菁寮天主堂',170,250,14,'#6A5E50');
+  h+='<g transform="translate(110 476)"><circle r="16" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -11L5 4L0 1L-5 4Z" fill="#DB2E27"/><text y="12" font-size="9" fill="#5A4E48" text-anchor="middle">北</text></g>';
+  h+='<g id="past"><g id="frPast"></g>'+T('插秧時：田裡放水，種下綠綠的秧苗',420,540,15,'#6C2024')+'</g>';
+  h+='<g id="now"><g id="frNow"></g>'+T('收割時：一片金黃色的稻田',420,540,15,'#6C2024')+'</g>';
+  STOPS.forEach(function(s){h+='<g class="stop" data-lv="'+s.lv+'" role="button" aria-label="第 '+s.lv+' 關 '+s.n+'">'+marker(s)+'<circle cx="'+(s.x+24)+'" cy="'+(s.y-26)+'" r="10" fill="#fff" stroke="#E2574C" stroke-width="2"/><text x="'+(s.x+24)+'" y="'+(s.y-21.5)+'" font-size="13" fill="#E2574C" text-anchor="middle">'+s.lv+'</text><text x="'+s.x+'" y="'+(s.y+34)+'" font-size="16" font-weight="700" fill="#5A3E2B" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+s.n+'</text></g>'});
+  h+='<g id="pin" style="display:none"><g class="pin"><path d="M0 0C-10 -14 -14 -20 -14 -27A14 14 0 1 1 14 -27C14 -20 10 -14 0 0Z" fill="#E2574C" stroke="#fff" stroke-width="2.5"/><text y="-22" font-size="12" fill="#fff" text-anchor="middle">你</text></g></g>';
+  return h;
+}
+function near(x,y,w,hh){return STOPS.some(function(s){return Math.abs(s.x-x)<w&&Math.abs(s.y-y)<hh})}
+function decorate(){
+  var t='',p='',q='';
+  for(var x=-40;x<840;x+=50)for(var y=-40;y<620;y+=40){
+    var cx=x+25,cy=y+20;
+    if(near(cx,cy,62,60))continue;
+    if(Math.abs(cy-262)<28||Math.abs(cx-360)<30)continue; // 路
+    if(Math.abs(cx-170)<46&&Math.abs(cy-214)<56)continue; // 天主堂
+    if(Math.abs(cx-390)<62&&Math.abs(cy-110)<26)continue; // 菁寮
+    if(Math.abs(cx-110)<30&&Math.abs(cy-476)<30)continue;
+    if(cy>516&&cy<566&&Math.abs(cx-420)<200)continue; // 季節的字
+    t+='<rect x="'+(x+2)+'" y="'+(y+2)+'" width="46" height="36" rx="3" fill="#C9B98C"/>';
+    p+='<rect x="'+(x+5)+'" y="'+(y+5)+'" width="40" height="30" rx="2" fill="url(#pSeed)"/>';
+    q+='<rect x="'+(x+5)+'" y="'+(y+5)+'" width="40" height="30" rx="2" fill="url(#pGold)"/>';
+  }
+  map.querySelector('#trees').innerHTML=t;
+  map.querySelector('#frPast').innerHTML=p;
+  map.querySelector('#frNow').innerHTML=q;
+}
+
+/* ---------- 關卡 ---------- */
+var LV=[
+  {cam:[100,0,620,620],kick:'割稻任務',h:'稻田變金黃了',
+   html:'<p>秋天，臺南北邊的<b>後壁</b>，田裡一片金黃。這是一年裡第二次種的稻子，叫<b>二期稻</b>。</p><p>後壁的<b>菁寮</b>是一個種稻的老村子，四周都是稻田。你每天吃的白米飯，就是從這樣的稻田來的。</p><p class="task">跟著菁寮種稻的<b>阿公</b>，從稻穗變黃到收割、曬穀、碾米，看一粒米怎麼來到你的碗裡。每過一關，就能蓋一個章！</p>',
+   after:'<p class="note">地圖右上角可以切換<b>插秧時／收割時</b>，看看稻田的兩種樣子。<br>給大人：後壁二期稻大約 10 月出穗，11 月中旬收割，每年看天氣和颱風會提早或延後。稻田是農民的地，請不要走進田裡。</p>',
+   game:'start'},
+  {cam:[0,0,300,225],kick:'第 1 關・菁寮老街',h:'菁寮的名字從哪裡來',
+   html:'<p><b>菁寮老街</b>是一條很老的街，還留著日本時代的木頭房子。以前結婚要用的東西，在這條街上一次就能買齊，所以大家叫它<b>嫁妝街</b>。</p><p>有一說，很久以前這裡的人種一種植物叫<b>菁仔</b>，用它做<b>藍色的染料</b>染布。所以這裡叫<b>菁仔寮</b>，後來變成<b>菁寮</b>。</p><p class="note">老街上有人住，請小聲，不要隨便走進別人家。<br>給大人：「菁仔寮」的地名由來只見於旅遊介紹，還沒找到官方或學術資料。老街附近的<b>菁寮聖十字架天主堂</b>由德國建築師波姆設計，約 1955 到 1960 年建造，2025 年颱風受損，去之前先查開放時間。</p>',
+   task:'按住<b>白布</b>，往下拖進<b>染缸</b>泡一泡，再拉上來。泡 <b>4 次</b>！',game:'dye',stamp:['cloth','染出藍布'],
+   win:'泡了 4 次，白布變成一塊藍布了！以前的菁寮人，就是這樣用菁仔的藍色染布。',
+   why:['為什麼叫嫁妝街？','以前這條街是往<b>府城</b>和<b>嘉義</b>的路，街上有金飾店、喜餅店、布店。要結婚的人來這裡，嫁妝一次就買齊了。'],
+   q:{t:'菁寮的「菁」，有一說是什麼？',o:['做藍色染料的植物','一種魚','一座山'],a:0,hint:'想想你剛剛把布泡進什麼顏色的染缸？',
+      e:'答對了！有一說，<b>菁仔</b>是做藍色染料的植物，以前這裡種很多，所以叫<b>菁仔寮</b>。'}},
+  {cam:[0,0,300,225],kick:'第 2 關・稻田（10 月）',h:'稻穗低頭了',
+   html:'<p>夏天，阿公在田裡放水，插下綠綠的<b>秧苗</b>。到了 <b>10 月</b>，稻子長出<b>稻穗</b>，一粒一粒的<b>稻穀</b>慢慢裝滿，越來越重。</p><p>大家常說：「稻穗越飽滿，越會<b>低頭</b>。」裝滿米的稻穗重重的，會垂下來；空空的稻穗輕輕的，會翹起來。</p><p class="note">給大人：「二期作」指 5 月 1 日到 9 月 30 日之間種下、同一年收穫的稻作。2024 年 10 月底，後壁無米樂社區的二期稻大約七成已經出穗。</p>',
+   task:'把稻穗<b>往上托</b>，再<b>放開</b>，看它重不重。找出 <b>3 支</b>飽滿的稻穗！',game:'lift',stamp:['ear','找到飽滿的稻穗'],
+   win:'3 支飽滿的稻穗都找到了！一放開就重重地垂下去，裡面裝滿了米。',
+   why:['二期稻是什麼？','臺南天氣暖，一年可以種<b>兩次</b>稻。春天種、夏天收的是<b>一期稻</b>；夏天種、秋天收的，就是<b>二期稻</b>。']},
+  {cam:[0,0,300,225],kick:'第 3 關・收割（11 月中）',h:'開割稻機，把整片田割完',
+   html:'<p>11 月中，稻穗金黃、低下頭，可以收割了！阿公請<b>割稻機</b>來幫忙。</p><p>割稻機一邊往前開，一邊把稻子割下來，把<b>稻穀</b>打下來裝進機器裡，<b>稻草</b>留在田裡。</p><p class="note">給大人：2024 年康芮颱風靠近時，後壁有稻農提前搶收，因為怕稻子被風吹倒。</p>',
+   task:'手指按住畫面，割稻機會開到你手指的地方。一行一行來回開，把<b>金黃色的稻子全部割完</b>！',game:'reap',stamp:['combine','割完一片田'],
+   win:'整片田都割完了！機器裡裝滿了稻穀，田裡只剩下短短的稻子頭。',
+   why:['颱風要來，為什麼要趕快割？','稻子快熟的時候很重，被大風一吹就會<b>倒下去</b>泡在水裡，米就壞掉了。所以颱風要來時，農民會<b>提前搶收</b>。'],
+   q:{t:'什麼時候可以割稻？',o:['稻穗變金黃、低下頭','稻子還綠綠的','剛插完秧苗'],a:0,hint:'想想上一關：裝滿米的稻穗會怎樣？',
+      e:'答對了！稻穗變<b>金黃</b>、重重地<b>低下頭</b>，就可以割了。'}},
+  {cam:[0,0,300,225],kick:'第 4 關・以前的割稻',h:'用力摔，稻穀掉下來',
+   html:'<p>以前沒有割稻機，割稻要好多人。鄰居們<b>互相幫忙</b>：今天幫你家割，明天幫他家割，不收工錢，這叫<b>換工</b>。</p><p>大家用手把稻子割下來，再抓著一把稻子，用力摔在<b>摔桶</b>上，稻穀就會掉進桶子裡。</p><p class="note">給大人：摔桶是把稻穀和稻草分開的農具（台灣民俗文物館的館藏）。現在菁寮附近還有餐廳賣「割稻飯」。</p>',
+   task:'按住<b>稻子</b>，<b>用力往下甩</b>，打在桶子邊上。甩 <b>6 次</b>，把稻穀打下來！',game:'slam',stamp:['tub','摔下稻穀'],
+   win:'6 次都打中了！稻穀嘩啦啦掉進桶子裡，手上只剩下稻草。',
+   why:['為什麼要互相幫忙？','以前全部用手割，一家人割不完，稻子熟了又不能等。所以鄰居們<b>換工</b>，大家一起割，一家一家輪流。'],
+   q:{t:'割完稻，主人家煮的「割稻飯」是請誰吃的？',o:['來幫忙割稻的鄰居','路過的人','只給自己家吃'],a:0,hint:'想想是誰來幫忙割稻，又不收工錢？',
+      e:'答對了！割完稻，主人家用扁擔把飯菜挑到田裡，請來幫忙的<b>鄰居</b>一起吃，這就是<b>割稻飯</b>。'}},
+  {cam:[0,0,300,225],kick:'第 5 關・稻埕曬穀',h:'推開穀子，曬太陽',
+   html:'<p>剛收下來的稻穀<b>濕濕的</b>，要趕快弄乾，不然會<b>發霉</b>。</p><p>以前大家把穀子倒在<b>稻埕</b>（曬穀場）上曬太陽，用<b>穀耙</b>把穀子推開、翻面，讓每一粒都曬得到。太陽大的時候，要常常翻。</p><p class="note">給大人：現在大部分的稻穀直接送進烘乾機，烘到含水率 14 到 15%；還有一些小農堅持用太陽曬。</p>',
+   task:'按住畫面拿<b>穀耙</b>，把中間那堆穀子<b>推開、推平</b>。穀子變成亮亮的金黃色，就曬乾了！',game:'rake',stamp:['rake','曬乾稻穀'],
+   win:'穀子推得平平的，每一粒都曬到太陽，變得乾乾的、亮亮的。',
+   why:['為什麼不能堆成一堆曬？','堆得厚厚的，下面的穀子曬不到太陽，一直<b>濕濕的</b>，就會發霉。推得<b>薄薄的</b>、常常翻面，才乾得快。'],
+   q:{t:'稻穀收下來，為什麼要趕快弄乾？',o:['不然會發霉','這樣才會變白','這樣比較重'],a:0,hint:'濕濕的東西放久了會怎樣？',
+      e:'答對了！濕濕的稻穀放著會<b>發霉</b>，所以收下來要趕快曬乾或烘乾。'}},
+  {cam:[0,0,300,225],kick:'第 6 關・碾米廠',h:'從稻穀到白米',
+   html:'<p>乾了的稻穀，送到<b>碾米廠</b>。稻穀外面有一層硬硬的殼，叫<b>粗糠</b>；剝掉殼，裡面是褐色的<b>糙米</b>。</p><p>糙米外面還有一層<b>米糠</b>，用機器慢慢磨掉，才是白白的<b>白米</b>。</p>',
+   task:'手指按在稻穀上，<b>來回搓</b>。先搓掉粗糠，再磨掉米糠。<b>3 粒</b>都要變成白米！',game:'rub',stamp:['bowl','碾出白米'],
+   win:'3 粒都變成白米了！阿公煮了一鍋新米飯，好香。',
+   why:['米糠跑到哪裡去了？','磨下來的<b>米糠</b>沒有丟掉，可以拿去當動物的<b>飼料</b>。'],
+   q:{t:'白米和糙米，差在哪裡？',o:['白米把外面的米糠磨掉了','白米是另一種稻子','糙米是還沒熟的米'],a:0,hint:'你剛剛搓了兩次：第一次搓掉粗糠，第二次磨掉什麼？',
+      e:'答對了！<b>糙米</b>再把外面的<b>米糠</b>磨掉，就變成<b>白米</b>。'}},
+  {cam:[100,0,620,620],kick:'任務完成',h:'一粒米，好多步驟',
+   html:'<p>從菁寮老街出發，你看了飽滿的稻穗、開割稻機割稻、用摔桶打稻穀、在稻埕曬穀，最後碾出白米。下次吃飯的時候，記得一粒米要經過好多人的手喔。</p>',game:'end'}
+];
+
+
+/* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
+var MAPS={"0": [["後壁區", "台南市後壁區"]], "1": [["菁寮老街", "菁寮老街"], ["菁寮聖十字架天主堂", "菁寮聖十字架天主堂"]]};
+
+/* ---------- 狀態 ---------- */
+var KEY='tainan-rice';
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+// 每次打開都從頭開始，不記錄玩到哪裡（使用者 2026-10-17 要求）；順便清掉以前存的進度
+var st={far:0,done:{0:1},name:''};store.set=function(){};try{localStorage.removeItem(KEY)}catch(e){}
+function save(){store.set(KEY,JSON.stringify(st))}
+function nStamps(){var n=0;LV.forEach(function(l,i){if(l.stamp&&st.done[i])n++});return n}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 地圖操作 ---------- */
+var map=document.getElementById('map');map.innerHTML=buildMap();decorate();
+var pinEl=document.getElementById('pin');
+var vb=[0,0,800,600],camRaf=0;
+function cam(t){
+  cancelAnimationFrame(camRaf);var from=vb.slice(),t0=performance.now(),D=reduce?1:900;
+  (function step(now){var q=Math.max(0,Math.min(1,(now-t0)/D)),e=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2;vb=from.map(function(v,k){return v+(t[k]-v)*e});map.setAttribute('viewBox',vb.join(' '));if(q<1)camRaf=requestAnimationFrame(step)})(t0);
+}
+function setEra(e){
+  map.classList.toggle('now',e==='now');
+  document.querySelectorAll('.era button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.era===e)});
+}
+document.querySelectorAll('.era button').forEach(function(b){b.addEventListener('click',function(){setEra(b.dataset.era)})});
+map.querySelectorAll('.stop').forEach(function(g){g.addEventListener('click',function(){var lv=+g.dataset.lv;if(lv<=st.far)go(lv)})});
+
+/* ---------- 上方舞台：地圖或小遊戲畫面 ---------- */
+var sceneEl=document.getElementById('scene'),peek=document.getElementById('peek'),eraBox=document.querySelector('.era'),sceneTimer=0;
+var stage=document.getElementById('stage'),loops=[];
+function stopLoops(){loops.forEach(function(f){f()});loops=[]}
+// 寬螢幕（左右兩欄）時舞台填滿左欄；手機直拿時舞台縮到剛好放得下遊戲圖
+var wide=window.matchMedia?matchMedia('(min-width:700px) and (min-aspect-ratio:5/4)'):{matches:false};
+function fitStage(){
+  // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
+  var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
+  if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
+  else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
+  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';
+  if(!svg)return;
+  // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
+  var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
+  svg.style.width=sw+'px';svg.style.height=sh+'px';
+  // 遊戲圖最下面那條地面或水面，往下延伸到圓的底部
+  [].forEach.call(svg.children,function(r){if(r.tagName!=='rect')return;var x=+r.getAttribute('x')||0,w=+r.getAttribute('width')||0,y=+r.getAttribute('y')||0,h=+r.getAttribute('height')||0;if(x<=0&&x+w>=vb.width&&y>0&&y+h>=vb.height-1&&y>gy){g=r;gy=y}});
+  var sky=svg.style.background||'#DFF3F8';
+  sceneEl.style.background=g?'linear-gradient('+sky+' '+(top+gy*k)+'px,'+g.getAttribute('fill')+' 0)':sky;
+}
+new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
+addEventListener('resize',fitStage);
+function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.textContent='回到遊戲';peek.hidden=!sceneEl.firstChild;fitStage()}
+function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.textContent='看地圖';peek.hidden=false;fitStage()}
+function setScene(html,delay){
+  clearTimeout(sceneTimer);sceneEl.innerHTML=html;var svg=sceneEl.querySelector('svg');
+  if(svg){svg.setAttribute('preserveAspectRatio','xMidYMax meet');sceneEl.style.background=svg.style.background||'#DFF3F8'}
+  if(delay&&!reduce){showMap();peek.hidden=true;sceneTimer=setTimeout(showGame,delay)}else showGame();
+  return sceneEl;
+}
+function clearScene(){clearTimeout(sceneTimer);stopLoops();sceneEl.innerHTML='';showMap()}
+peek.addEventListener('click',function(){if(sceneEl.hidden)showGame();else showMap()});
+
+/* ---------- 卡片 ---------- */
+var card=document.getElementById('card'),cur=0;
+card.addEventListener('click',function(e){if(e.target.closest('.big')&&sceneEl.hidden)showGame()});
+function chips(pop){
+  var h='';LV.forEach(function(l,i){if(l.stamp)h+='<i class="'+(st.done[i]?'on':'')+(pop===i?' pop':'')+'">'+(st.done[i]?icon(l.stamp[0]):'')+'</i>'});
+  document.getElementById('chips').innerHTML=h;
+}
+function el(html){var d=document.createElement('div');d.innerHTML=html;return d}
+function say(box,text,again){box.hidden=false;box.className='say'+(again?' again':'');box.innerHTML=text}
+function later(fn,ms){var t=setTimeout(fn,reduce?0:ms);loops.push(function(){clearTimeout(t)})}
+function into(node){setTimeout(function(){node.scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'})},50)}
+function onKey(node,fn){node.addEventListener('click',fn);node.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})}
+function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;area.appendChild(b);into(b);return b}
+
+function whyHTML(l){return l.why?'<details class="why"><summary>'+l.why[0]+'</summary><p>'+l.why[1]+'</p></details>':''}
+function win(i){
+  if(st.done[i])return;st.done[i]=1;st.far=Math.max(st.far,i+1);save();chips(i);paint();
+  var l=LV[i],box=el('<div class="got"><span class="seal'+(reduce?'':' pop')+'">'+icon(l.stamp[0])+'</span><p>蓋章：'+l.stamp[1]+'！<br>按「下一關」繼續。</p></div>'+whyHTML(l));
+  var nb=card.querySelector('.notes');if(nb)card.insertBefore(box,nb);else card.appendChild(box);into(box);
+}
+function render(i){
+  var l=LV[i];
+  var top=document.getElementById('top');top.innerHTML='<p class="kick">'+l.kick+'</p><h2>'+l.h+'</h2>';
+  card.innerHTML=l.html+(l.task?'<p class="task">'+l.task+'</p>':'');
+  [top,card].forEach(function(n){n.classList.remove('enter');void n.offsetWidth;n.classList.add('enter')});
+  card.scrollTop=0;if(!wide.matches)window.scrollTo(0,0);
+  var area=document.createElement('div');card.appendChild(area);
+  // 提醒、給大人：全部移到卡片最下面
+  var ns=card.querySelectorAll(':scope>p.note');if(ns.length){var nb=document.createElement('div');nb.className='notes';
+    [].forEach.call(ns,function(n){if(!/^\s*給大人/.test(n.textContent))n.insertAdjacentHTML('afterbegin','<b>提醒</b>　');nb.appendChild(n)});card.appendChild(nb)}
+  // 去現場看看：Google 地圖連結放在卡片最下面的小字（完成頁列出全部）
+  var mp=MAPS[i];if(l.game==='end'){var seen={};mp=[];Object.keys(MAPS).forEach(function(k){MAPS[k].forEach(function(m){if(!seen[m[0]]){seen[m[0]]=1;mp.push(m)}})})}
+  if(mp&&mp.length){var nb2=card.querySelector(':scope>.notes');if(!nb2){nb2=document.createElement('div');nb2.className='notes';card.appendChild(nb2)}
+    nb2.insertAdjacentHTML('beforeend','<p class="note maps">去現場看看（Google 地圖）：'+mp.map(function(m){return '<a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(m[1])+'" target="_blank" rel="noopener">'+m[0]+'</a>'}).join('、')+'</p>')}
+  if(st.done[i]&&l.stamp){
+    area.innerHTML=(l.win?'<p class="say">'+l.win+'</p>':'')+(l.q?'<p class="say">'+l.q.e+'</p>':'')+whyHTML(l)+'<div class="got"><span class="seal">'+icon(l.stamp[0])+'</span><p>已經蓋章：'+l.stamp[1]+'</p></div><button class="again-btn" type="button">再玩一次這關</button>';
+    area.querySelector('.again-btn').addEventListener('click',function(){var keep=st.done[i];delete st.done[i];render(i);st.done[i]=keep;replay=i;paint()});
+    return;
+  }
+  GAMES[l.game](area,i,l);
+}
+var replay=-1;
+function finish(i){if(replay===i){replay=-1;render(i);return}win(i)}
+
+function quiz(area,l,done){
+  var q=l.q,box=el('<p class="kick" style="margin-top:6px">'+(q.field?'現場找一找':'想一想')+'</p><p>'+q.t+'</p>');
+  var opts=document.createElement('div');
+  q.o.forEach(function(t,j){
+    var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
+    b.addEventListener('click',function(){
+      if(j===q.a){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add('yes');say(msg,q.e);if(sk)sk.remove();done()}
+      else{b.classList.add('no');b.disabled=true;say(msg,q.hint,1)}
+    });opts.appendChild(b)});
+  box.appendChild(opts);var msg=document.createElement('p');msg.hidden=true;box.appendChild(msg);
+  var sk=null;if(q.field){sk=el('<button class="skip" type="button">不在現場，先跳過</button>').firstChild;sk.addEventListener('click',function(){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});say(msg,'先跳過。'+q.e);sk.remove();done()});box.appendChild(sk)}
+  area.appendChild(box);into(box);
+}
+// 把螢幕上的點換成插圖裡的座標
+function toSvg(svg,e){var m=svg.getScreenCTM();if(!m)return {x:-999,y:-999};var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(m.inverse())}
+// 在插圖上拖手指：down、move、up 都換成插圖座標
+function drag(svg,fn){
+  var on=false;svg.style.touchAction='none';
+  svg.addEventListener('pointerdown',function(e){on=true;try{svg.setPointerCapture(e.pointerId)}catch(_){}fn('down',toSvg(svg,e),e)});
+  svg.addEventListener('pointermove',function(e){if(on||e.pointerType==='mouse')fn(on?'move':'hover',toSvg(svg,e),e)});
+  ['pointerup','pointercancel'].forEach(function(t){svg.addEventListener(t,function(e){if(on){on=false;fn('up',toSvg(svg,e),e)}})});
+}
+
+var GAMES={
+  start:function(area){
+    var art='<path d="M70 190Q78 120 100 52" stroke="#8A9A3A" stroke-width="4" fill="none"/><path d="M74 160Q40 120 30 84Q56 118 78 146Z" fill="'+LEAFC+'"/><path d="M84 120Q112 100 136 104Q110 112 88 130Z" fill="#6FAA52"/>'+ear(100,52,2.1,2,true)+grain(258,104,2,0);
+    setScene(idCard('稻穗','後壁菁寮・二期稻 11 月收割',art,[['熟了會低頭',118,166,150,84],['一粒一粒的稻穀',250,166,258,140],['長長的稻葉',36,70,44,100]]));
+    var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
+
+  /* 第 1 關：把白布往下拖進染缸泡一泡，再拉上來 */
+  dye:function(area,i,l){
+    var C=['#F6F3EA','#C9D7E6','#97B0D0','#6585B4','#2F5590'],n=0,N=4,done=false,held=false,cy=26,off=0,sub=false,rise=false,raf=0,drops=[],last=performance.now();
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EEF2F4"><rect x="-400" y="166" width="1200" height="100" fill="#CDB894"/>'+
+      '<path d="M52 18V166M268 18V166" stroke="#8A6A3A" stroke-width="4"/><path d="M40 18H280" stroke="#8A6A3A" stroke-width="5" stroke-linecap="round"/>'+
+      '<ellipse cx="160" cy="112" rx="56" ry="11" fill="#1F3A66"/><ellipse cx="160" cy="112" rx="50" ry="8" fill="#2C4A7A"/><g id="cl"></g>'+
+      '<path d="M104 112V172Q160 186 216 172V112Q160 126 104 112Z" fill="#A8774A" stroke="#6E4A2A" stroke-width="1.4"/><path d="M106 132Q160 146 214 132M106 154Q160 168 214 154" stroke="#6E4A2A" stroke-width="2.4" fill="none"/>'+
+      '<text x="160" y="150" font-size="16" font-weight="700" fill="#FFF8EC" text-anchor="middle">染缸</text><g id="dr"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),cl=svg.querySelector('#cl'),dr=svg.querySelector('#dr');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){cl.innerHTML='<path d="M160 18V'+f1(cy)+'" stroke="#6E4A2A" stroke-width="1.6"/><rect x="134" y="'+f1(cy)+'" width="52" height="64" rx="2" fill="'+C[n]+'" stroke="#9AA6B0" stroke-width="1"/><path d="M130 '+f1(cy)+'H190" stroke="#8A6A3A" stroke-width="4" stroke-linecap="round"/>'}
+    function check(){
+      if(cy>=88&&!sub){sub=true;for(var k=0;k<8;k++)drops.push({x:120+Math.random()*80,y:110,vx:(Math.random()-.5)*60,vy:-60-Math.random()*50,c:'#4A6FA5'})}
+      if(sub&&cy<=44)dip();
+    }
+    function dip(){
+      sub=false;n++;bar.style.width=(n/N*100)+'%';
+      for(var k=0;k<6;k++)drops.push({x:140+Math.random()*40,y:cy+64,vx:0,vy:10+Math.random()*30,c:C[n]});
+      if(n>=N){done=true;held=false;rise=true;say(msg,'泡了 4 次，染好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},1200)}
+      else say(msg,['泡過一次了，白布變成淡淡的藍色。再泡！','又藍了一點！還有 2 次。','越來越藍了！再泡 1 次。'][n-1]);
+    }
+    (function loop(now){var dt=Math.min(60,now-last)/1000;last=now;
+      if(rise&&!held){cy=Math.max(26,cy-150*dt);check();if(cy<=26)rise=false}
+      drops=drops.filter(function(d){d.vy+=300*dt;d.x+=d.vx*dt;d.y+=d.vy*dt;return d.y<170});
+      dr.innerHTML=drops.map(function(d){return '<circle cx="'+f1(d.x)+'" cy="'+f1(d.y)+'" r="2" fill="'+d.c+'"/>'}).join('');
+      draw();raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){if(p.x>124&&p.x<196&&p.y>cy-12&&p.y<cy+72){held=true;rise=false;off=p.y-cy}else say(msg,'要按住上面的<b>白布</b>，再往下拖。',1);return}
+      if(!held)return;
+      if(t==='move'){cy=Math.max(26,Math.min(100,p.y-off));check();return}
+      if(t==='up'){held=false;rise=true;if(!sub&&cy<80&&cy>30)say(msg,'再往下拖<b>深一點</b>，整塊布都要泡進藍色的水裡。',1)}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','染布的畫面，按 Enter 把布泡進染缸一次');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();cy=26;sub=true;dip()}});
+    later(function(){if(!n&&!done)say(msg,'手指按住<b>白布</b>，一直往下拖，讓它整塊泡進染缸；再往上拉起來。')},8000);
+  },
+
+  /* 第 2 關：把稻穗往上托再放開，飽滿的會重重垂下去 */
+  lift:function(area,i,l){
+    var X=[48,104,160,216,272],F=[1,1,1,0,0].sort(function(){return Math.random()-.5}),n=0,N=3,done=false,held=null,raf=0,last=performance.now();
+    var S=X.map(function(x,k){var f=F[k];return {x:x,full:f,rest:f?2.2:.45,a:f?2.2:.45,v:0,max:0,ok:0}});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAF1F4"><rect x="-400" y="150" width="1200" height="120" fill="#B9A36A"/>';
+    X.forEach(function(x){s+='<path d="M'+x+' 176Q'+(x-22)+' 130 '+(x-30)+' 104Q'+(x-14)+' 132 '+(x+2)+' 170Z" fill="#8FA24E"/><path d="M'+x+' 176Q'+(x+20)+' 136 '+(x+30)+' 116Q'+(x+16)+' 140 '+(x+2)+' 172Z" fill="#9AAE56"/>'});
+    s+='<g id="st"></g><g id="ok"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),stG=svg.querySelector('#st'),okG=svg.querySelector('#ok');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function tip(o){return {x:o.x+Math.sin(o.a)*8,y:66}}
+    (function loop(now){var dt=Math.min(40,now-last)/1000;last=now;var h='';
+      S.forEach(function(o){
+        if(o!==held){var r=o.rest+.04*Math.sin(now/650+o.x),k=o.full?36:90,c=o.full?4.5:7;o.v+=(-k*(o.a-r)-c*o.v)*dt;o.a+=o.v*dt}
+        var t=tip(o);h+='<path d="M'+o.x+' 176Q'+f1(o.x+Math.sin(o.a)*2)+' 120 '+f1(t.x)+' '+t.y+'" stroke="'+STEM+'" stroke-width="2.6" fill="none"/>'+ear(t.x,t.y,o.a,1.4,o.full);
+      });
+      stG.innerHTML=h;raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    function release(o){
+      if(!o.full){say(msg,'這支輕輕的，一放開就<b>翹起來</b>。裡面的稻穀是空的，沒有裝滿米。',1);return}
+      if(o.max<.6){say(msg,'要把稻穗<b>往上托高</b>一點，再放開。',1);return}
+      if(o.full){if(o.ok){say(msg,'這支已經找過了，找找別支。');return}
+        o.ok=1;n++;bar.style.width=(n/N*100)+'%';okG.insertAdjacentHTML('beforeend','<circle cx="'+o.x+'" cy="164" r="9" fill="#fff" stroke="#3F6B2E" stroke-width="2"/><path d="M'+(o.x-4)+' 164L'+(o.x-1)+' 167L'+(o.x+5)+' 160" stroke="#3F6B2E" stroke-width="2.2" fill="none" stroke-linecap="round"/>');
+        if(n>=N){done=true;say(msg,'重重地垂下去了！');later(function(){say(msg,l.win);finish(i)},1200)}
+        else say(msg,'好重！一放開就<b>垂下去</b>，裡面裝滿了米。還有 '+(N-n)+' 支。')}
+    }
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){held=null;S.forEach(function(o){var q=tip(o),L=o.full?62:53,cx=q.x+Math.sin(o.a)*L*.5,cy=q.y-Math.cos(o.a)*L*.5;if(Math.hypot(p.x-cx,p.y-cy)<28||Math.hypot(p.x-q.x,p.y-q.y)<16)held=o});
+        if(held){held.v=0;held.max=0;held.a0=held.a}else say(msg,'要按住<b>稻穗</b>（一粒一粒黃黃的地方），再往上托。',1);return}
+      if(!held)return;
+      if(t==='move'){var q=tip(held),a=Math.atan2(p.x-q.x,-(p.y-q.y));held.a=Math.max(-.3,Math.min(2.6,a));held.max=Math.max(held.max,Math.abs(held.a-held.a0));return}
+      if(t==='up'){var o=held;held=null;o.v=0;release(o)}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','稻田的畫面，按 Enter 托起一支飽滿的稻穗');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var o=S.filter(function(o){return o.full&&!o.ok})[0];if(o){o.max=1;o.a=.3;release(o)}}});
+    later(function(){if(!n&&!done)say(msg,'手指按住一支<b>稻穗</b>，往上推高，再放開手指。看它是重重地垂下去，還是輕輕地翹起來？')},8000);
+  },
+
+  /* 第 3 關：拖著割稻機，把整片田割完 */
+  reap:function(area,i,l){
+    var CO=14,RO=6,X0=20,Y0=40,CW=20,CH=18,cells=[],cut=0,TOT=CO*RO,done=false,pos={x:40,y:168},ang=0,tgt=null,raf=0,last=performance.now();
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E8F0F2"><defs><pattern id="rG" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#E8C55A"/><path d="M2 7Q4 2 6.5 3" stroke="#C4952C" stroke-width="1.1" fill="none"/></pattern>'+
+      '<pattern id="rS" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#D5C48E"/><path d="M2 5V3M4.5 5V3" stroke="#A88E50" stroke-width=".9"/></pattern></defs>'+
+      '<rect x="-400" y="154" width="1200" height="120" fill="#A88E5E"/><rect x="'+(X0-6)+'" y="'+(Y0-6)+'" width="'+(CO*CW+12)+'" height="'+(RO*CH+12)+'" rx="4" fill="#9A845A"/><g id="cl"></g><g id="cb"></g>'+
+      '<text x="160" y="182" font-size="14" font-weight="700" fill="#FFF8EC" text-anchor="middle">田邊的路</text></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),cl=svg.querySelector('#cl'),cb=svg.querySelector('#cb');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    for(var r=0;r<RO;r++)for(var c=0;c<CO;c++){var e=document.createElementNS(NS,'rect');e.setAttribute('x',X0+c*CW);e.setAttribute('y',Y0+r*CH);e.setAttribute('width',CW+.5);e.setAttribute('height',CH+.5);e.setAttribute('fill','url(#rG)');cl.appendChild(e);cells.push({e:e,cut:0})}
+    function cutAt(x,y){var c=Math.floor((x-X0)/CW),r=Math.floor((y-Y0)/CH);if(c<0||c>=CO||r<0||r>=RO)return;var o=cells[r*CO+c];if(o.cut)return;o.cut=1;cut++;o.e.setAttribute('fill','url(#rS)')}
+    function progress(){bar.style.width=Math.min(100,cut/(TOT*.95)*100)+'%';
+      if(!done&&cut>=TOT*.95){done=true;cells.forEach(function(o){if(!o.cut){o.cut=1;o.e.setAttribute('fill','url(#rS)')}});cut=TOT;bar.style.width='100%';say(msg,'割完了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},1000)}}
+    var said=0;
+    (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;
+      if(tgt&&!done){var dx=tgt.x-pos.x,dy=tgt.y-pos.y,d=Math.hypot(dx,dy);
+        if(d>2){var st=Math.min(d,170*dt);pos.x+=dx/d*st;pos.y+=dy/d*st;var want=Math.atan2(dy,dx),da=want-ang;while(da>Math.PI)da-=2*Math.PI;while(da<-Math.PI)da+=2*Math.PI;ang+=da*Math.min(1,dt*10)}
+        pos.x=Math.max(14,Math.min(306,pos.x));pos.y=Math.max(28,Math.min(176,pos.y));
+        var fx=pos.x+Math.cos(ang)*23,fy=pos.y+Math.sin(ang)*23,px=-Math.sin(ang),py=Math.cos(ang);
+        [-17,-8.5,0,8.5,17].forEach(function(o){cutAt(fx+px*o,fy+py*o)});
+        progress();
+        if(!said&&cut>TOT*.4){said=1;say(msg,'割了快一半了！看看還有哪裡是<b>金黃色</b>的。')}
+      }
+      cb.innerHTML=combine(pos.x,pos.y,ang*57.3,1.3);raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'||t==='move')tgt={x:p.x,y:p.y};
+      if(t==='up')tgt=null;
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','稻田的畫面，按 Enter 割完一整行');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();for(var r=0;r<RO;r++){var row=cells.slice(r*CO,r*CO+CO);if(row.some(function(o){return !o.cut})){for(var c=0;c<CO;c++)cutAt(X0+c*CW+5,Y0+r*CH+5);pos={x:X0+CO*CW-10,y:Y0+r*CH+CH/2};break}}progress()}});
+    later(function(){if(!cut&&!done)say(msg,'手指按住<b>田裡</b>不要放開，割稻機就會跟著開過去。像塗顏色一樣，一行一行來回開。')},7000);
+  },
+
+  /* 第 4 關：抓著稻子用力往下甩，打在摔桶上 */
+  slam:function(area,i,l){
+    var n=0,N=6,done=false,held=false,hx=160,hy=40,off=0,armed=true,hist=[],parts=[],raf=0,last=performance.now(),shake=0;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EEF0E6"><rect x="-400" y="168" width="1200" height="100" fill="#C2AA72"/>'+
+            '<g id="tb"><ellipse id="gr" cx="160" cy="124" rx="4" ry="3" fill="'+GOLD+'"/><path d="M92 122H228L214 178H106Z" fill="#A8774A" stroke="#6E4A2A" stroke-width="1.4"/><path d="M98 140H222M102 158H218" stroke="#6E4A2A" stroke-width="2.4"/><path d="M92 122H228" stroke="#6E4A2A" stroke-width="4" stroke-linecap="round"/>'+
+      '<text x="160" y="153" font-size="16" font-weight="700" fill="#FFF8EC" text-anchor="middle">摔桶</text></g><g id="bd"></g><g id="pt"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),bd=svg.querySelector('#bd'),pt=svg.querySelector('#pt'),tb=svg.querySelector('#tb'),gr=svg.querySelector('#gr');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function bundle(){var h='',left=1-n/N;
+      for(var k=-3;k<=3;k++){var x=hx+k*4;h+='<path d="M'+f1(x)+' '+f1(hy-24)+'L'+f1(x+k*2)+' '+f1(hy+22)+'" stroke="#C9B060" stroke-width="2"/>'}
+      h+='<rect x="'+f1(hx-12)+'" y="'+f1(hy-8)+'" width="24" height="7" rx="3" fill="#8A6A3A"/>';
+      for(k=-3;k<=3;k++){if(Math.abs(k)>left*3.5+.5)continue;h+=ear(hx+k*6,hy+20,Math.PI+k*.12,.9,true)}
+      return h+'<circle cx="'+f1(hx)+'" cy="'+f1(hy-4)+'" r="7" fill="#F1C9A5" stroke="#C8946A" stroke-width="1"/>'}
+    function hit(){
+      armed=false;n++;bar.style.width=(n/N*100)+'%';shake=.25;
+      for(var k=0;k<14;k++)parts.push({x:hx+(Math.random()-.5)*30,y:124,vx:(Math.random()-.5)*120,vy:-80-Math.random()*90});
+      gr.setAttribute('rx',f1(6+n*8));gr.setAttribute('ry',f1(3+n*1.2));
+      if(n>=N){done=true;held=false;say(msg,'打完了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},1100)}
+      else say(msg,['打中了！稻穀掉進桶子裡。再<b>舉高</b>，用力甩下來！','好！再一次！','一半了！','手上的稻穀越來越少了。','最後一次！'][n-1]);
+    }
+    (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;
+      if(!held&&!done&&hy>40)hy=Math.max(40,hy-160*dt);
+      if(done&&hy>40)hy=Math.max(40,hy-160*dt);
+      parts=parts.filter(function(p){p.vy+=400*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;return p.y<126||p.vy<0});
+      pt.innerHTML=parts.map(function(p){return '<ellipse cx="'+f1(p.x)+'" cy="'+f1(p.y)+'" rx="2.4" ry="1.4" fill="'+GOLD+'"/>'}).join('');
+      if(shake>0){shake-=dt;tb.setAttribute('transform','translate('+f1(Math.sin(now/20)*2*shake/.25)+' 0)')}else tb.removeAttribute('transform');
+      bd.innerHTML=bundle();raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(t,p,e){
+      if(done)return;
+      if(t==='down'){if(Math.abs(p.x-hx)<34&&p.y>hy-34&&p.y<hy+70){held=true;off=p.y-hy;hist=[{y:hy,t:performance.now()}]}else say(msg,'要按住上面那把<b>稻子</b>，再往下甩。',1);return}
+      if(!held)return;
+      if(t==='move'){var ny=Math.max(24,Math.min(82,p.y-off)),now=performance.now();hx=Math.max(124,Math.min(196,p.x));hy=ny;hist.push({y:hy,t:now});hist=hist.filter(function(h){return now-h.t<120});
+        if(hy<46&&!armed)armed=true;
+        if(armed&&hy+58>=118){var h0=hist[0],v=(hy-h0.y)/Math.max(.016,(now-h0.t)/1000);
+          if(v>260)hit();else{armed=false;say(msg,'太慢了，稻穀打不下來。<b>舉高</b>一點，<b>快快地</b>往下甩！',1)}}
+        return}
+      if(t==='up'){held=false;if(!armed&&!done&&n<N)armed=true}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','摔桶的畫面，按 Enter 把稻子摔在桶子上一次');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();hit()}});
+    later(function(){if(!n&&!done)say(msg,'手指按住上面那把<b>稻子</b>，<b>很快地</b>往下拉，讓稻穗打在桶子的邊上。')},8000);
+  },
+
+  /* 第 5 關：用穀耙把一堆穀子推開、推平，曬乾 */
+  rake:function(area,i,l){
+    var CO=10,RO=4,X0=20,Y0=50,W=28,H=26,a=[],w=[],done=false,raf=0,last=performance.now(),prev=-1,pt=null,held=false,said=0,R=[],M=[];
+    for(var k=0;k<CO*RO;k++){a[k]=0;w[k]=1}
+    [[3,1],[4,1],[5,1],[6,1],[3,2],[4,2],[5,2],[6,2]].forEach(function(c){a[c[1]*CO+c[0]]=5});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F2ECDD"><rect x="-400" y="162" width="1200" height="100" fill="#CBB991"/>'+
+      '<circle cx="290" cy="24" r="13" fill="#F7D35A"/><path d="M290 4V0M290 48V44M270 24H266M314 24H310" stroke="#F7D35A" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<rect x="'+(X0-6)+'" y="'+(Y0-6)+'" width="'+(CO*W+12)+'" height="'+(RO*H+12)+'" rx="4" fill="#DCD3C2" stroke="#BFB39C" stroke-width="1.2"/><g id="gc"></g><g id="mo"></g><g id="rk"></g>'+
+      '<text x="160" y="184" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#CBB991" stroke-width="4" paint-order="stroke">稻埕（曬穀場）</text><text id="dt" x="20" y="34" font-size="14" font-weight="700" fill="#6C2024"></text></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),gc=svg.querySelector('#gc'),mo=svg.querySelector('#mo'),rk=svg.querySelector('#rk'),dtx=svg.querySelector('#dt');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    for(k=0;k<CO*RO;k++){var c=k%CO,r=Math.floor(k/CO),e=document.createElementNS(NS,'rect');e.setAttribute('x',X0+c*W+1);e.setAttribute('y',Y0+r*H+1);e.setAttribute('width',W-2);e.setAttribute('height',H-2);e.setAttribute('rx','4');gc.appendChild(e);R.push(e);
+      var m=document.createElementNS(NS,'ellipse');m.setAttribute('cx',X0+c*W+W/2);m.setAttribute('cy',Y0+r*H+H/2);mo.appendChild(m);M.push(m)}
+    function col(q){var A=[150,118,46],B=[236,198,92];return 'rgb('+A.map(function(v,j){return Math.round(v+(B[j]-v)*q)}).join(',')+')'}
+    function cellAt(p){var c=Math.floor((p.x-X0)/W),r=Math.floor((p.y-Y0)/H);if(c<0||c>=CO||r<0||r>=RO)return -1;return r*CO+c}
+    function stats(){var ok=0,mx=0,sa=0,sw=0,ex=0;for(var k=0;k<CO*RO;k++){if(a[k]>=.3)ok++;mx=Math.max(mx,a[k]);ex+=Math.max(0,a[k]-1.9);sa+=a[k];sw+=a[k]*w[k]}return {ok:ok,mx:mx,ex:ex,wet:sw/sa}}
+    (function loop(now){var dt=Math.min(60,now-last)/1000;last=now;
+      for(var k=0;k<CO*RO;k++){if(a[k]>.05)w[k]=Math.max(0,w[k]-dt*(a[k]<=1.7?.085:.01));
+        R[k].setAttribute('fill',col(1-w[k]));R[k].setAttribute('opacity',f1(a[k]<.05?0:Math.min(1,.3+a[k]*.7)));
+        var big=a[k]>1.7;M[k].setAttribute('rx',f1(big?Math.min(16,6+a[k]*1.1):0));M[k].setAttribute('ry',f1(big?Math.min(12,4+a[k]*.8):0));M[k].setAttribute('fill',col((1-w[k])*.7))}
+      if(!done){var S=stats(),sp=S.ok>=32&&S.mx<=1.9,sf=sp?1:Math.min(.98,.5*Math.min(1,S.ok/32)+.5*(1-S.ex/24.8)),df=Math.max(0,Math.min(1,(1-S.wet)/.88));
+        bar.style.width=f1((sf*.5+(sp?df:0)*.5)*100)+'%';
+        dtx.textContent=S.wet>.6?'穀子：濕濕的':S.wet>.3?'穀子：快乾了':'穀子：乾乾的';
+        if(sp&&!said){said=1;say(msg,'推平了！太陽會把<b>薄薄的</b>穀子曬乾。也可以再耙一耙，幫穀子<b>翻面</b>。')}
+        if(!sp&&said===0&&S.mx>1.9&&S.ok>=26){said=-1;say(msg,'還有幾個地方堆得<b>厚厚的</b>，把它推開。',1)}
+        if(sp&&S.wet<.12){done=true;rk.innerHTML='';say(msg,'穀子乾了，變得亮亮的！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},1100)}}
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){held=true;prev=cellAt(p)}
+      if(t==='up'){held=false;rk.innerHTML='';prev=-1;return}
+      if(t==='hover')return;
+      rk.innerHTML=rakeArt(p.x,p.y+4,1.1);
+      var cur=cellAt(p);
+      if(cur>=0){w[cur]=Math.max(0,w[cur]-.012);
+        if(prev>=0&&cur!==prev&&a[prev]>a[cur]){var d=(a[prev]-a[cur])*.5;a[prev]-=d;a[cur]+=d;w[prev]=Math.max(0,w[prev]-.03)}}
+      prev=cur;
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','曬穀的畫面，按 Enter 把穀子推平');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();for(var k=0;k<CO*RO;k++){a[k]=1;w[k]=Math.min(w[k],.1)}}});
+    later(function(){if(!said&&!done)say(msg,'手指按在中間那堆<b>穀子</b>上，往外<b>拖出去</b>，穀子就會被推開。往不同方向推，推到整片平平的。')},7000);
+  },
+
+  /* 第 6 關：在稻穀上來回搓，搓掉粗糠、磨掉米糠 */
+  rub:function(area,i,l){
+    var G=[{x:80},{x:160},{x:240}],Y=92,NEED=400,n=0,done=false,cur=null,lp=null,acc=0,parts=[],raf=0,last=performance.now(),NAME=['稻穀','糙米','白米'];
+    G.forEach(function(g){g.p=0;g.st=0});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F3EEE4"><rect x="-400" y="152" width="1200" height="120" fill="#C9A774"/><g id="gr"></g><g id="pt"></g><g id="lb"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),grG=svg.querySelector('#gr'),ptG=svg.querySelector('#pt'),lb=svg.querySelector('#lb');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function paintG(){grG.innerHTML=G.map(function(g){var q=g.st<2?g.p/NEED:0,wob=cur===g?Math.sin(performance.now()/30)*1.5:0;
+        return grain(g.x+wob,Y,2.6,g.st)+(q>0?'<circle cx="'+g.x+'" cy="'+Y+'" r="50" fill="none" stroke="#EADFD3" stroke-width="3"/><path d="M'+g.x+' '+(Y-50)+'A50 50 0 '+(q>.5?1:0)+' 1 '+f1(g.x+Math.sin(q*6.283)*50)+' '+f1(Y-Math.cos(q*6.283)*50)+'" stroke="#DB2E27" stroke-width="3" fill="none"/>':'')}).join('');
+      lb.innerHTML=G.map(function(g){return '<text x="'+g.x+'" y="172" font-size="16" font-weight="700" fill="'+(g.st===2?'#3F6B2E':'#6C2024')+'" text-anchor="middle" stroke="#C9A774" stroke-width="4" paint-order="stroke">'+NAME[g.st]+'</text>'}).join('')}
+    function prog(){var t=0;G.forEach(function(g){t+=g.st*NEED+(g.st<2?g.p:0)});bar.style.width=f1(t/(G.length*2*NEED)*100)+'%'}
+    function adv(g){
+      g.st++;g.p=0;
+      if(g.st===1)say(msg,'粗糠搓掉了！裡面是褐色的<b>糙米</b>。再搓，把外面的<b>米糠</b>磨掉。');
+      else{n++;if(n>=N()){done=true;cur=null;say(msg,'3 粒都是白米了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},1100)}
+        else say(msg,'變成白白的<b>白米</b>了！還有 '+(N()-n)+' 粒。')}
+      prog();
+    }
+    function N(){return G.length}
+    (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;
+      parts=parts.filter(function(p){p.vy+=260*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.r+=dt*2;return p.y<154});
+      ptG.innerHTML=parts.map(function(p){return p.k?'<circle cx="'+f1(p.x)+'" cy="'+f1(p.y)+'" r="1.6" fill="#C8A878"/>':'<path d="M'+f1(p.x)+' '+f1(p.y)+'l5 '+f1(Math.sin(p.r)*3)+'" stroke="#C99A2E" stroke-width="2" stroke-linecap="round"/>'}).join('');
+      paintG();raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    function hitG(p){var r=null;G.forEach(function(g){if(g.st<2&&Math.abs(p.x-g.x)<36&&Math.abs(p.y-Y)<54)r=g});return r}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){cur=hitG(p);lp=p;if(!cur)say(msg,G.every(function(g){return g.st===2})?'':'要按在<b>稻穀</b>上，再來回搓。',1);return}
+      if(t==='up'){cur=null;return}
+      if(t!=='move'||!cur)return;
+      if(hitG(p)!==cur){lp=p;return}
+      var d=Math.hypot(p.x-lp.x,p.y-lp.y);lp=p;cur.p+=d;acc+=d;
+      if(acc>14){acc=0;parts.push({x:cur.x+(Math.random()-.5)*30,y:Y+(Math.random()-.5)*50,vx:(Math.random()-.5)*80,vy:-30,r:Math.random()*3,k:cur.st})}
+      if(cur.p>=NEED){var g=cur;adv(g);if(g.st===2)cur=null}
+      prog();
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','碾米的畫面，按 Enter 搓掉一層');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var g=G.filter(function(o){return o.st<2})[0];if(g)adv(g)}});
+    later(function(){if(!n&&!done&&G[0].st+G[1].st+G[2].st===0)say(msg,'手指按住一粒<b>稻穀</b>，在上面<b>左右來回</b>一直搓，紅色的圈圈轉滿就會掉一層。')},7000);
+  },
+
+
+  end:function(area,i,l){
+    // 回顧：每一段把鏡頭飛到那一關的地點，下面講那一關做了什麼
+    var steps=[];LV.forEach(function(v,k){if(v.stamp&&k>0)steps.push(k)});
+    var n=-1,firstTime=nStamps()===steps.length;
+    area.innerHTML='<div class="recap" aria-live="polite"></div><button class="big" type="button">開始<br>回顧</button><p class="rn"></p><p><button class="again-btn" type="button">重新開始遊戲</button></p><p class="note" style="margin-top:20px">給大人：插畫地圖是示意，不是真實比例。每年後壁二期稻的收割時間不一樣；稻田是農民的地，請不要走進田裡。<br>資料來源：後壁二期稻 10 月出穗、11 月中收割、颱風前搶收（公視新聞網 2024/10/29）；二期作的定義（農業部農業知識入口網）；菁寮地名由來「菁仔寮」、藍染（蕃薯藤旅遊；微笑台灣〈新和源餅舖〉）；菁寮老街、嫁妝街、往府城和嘉義的交通要道、《無米樂》（微笑台灣〈無米樂10年後〉）；菁寮聖十字架天主堂（淡江時報 952 期；世界宗教博物館）；割稻機一邊割一邊脫穀（Getty AAT「combine」詞條）；摔桶（台灣數位典藏，台灣民俗文物館館藏）；換工、割稻飯（中時新聞網 2019/9/27；bring-you.info）；稻穀收穫後要立即乾燥、含水率 14 到 15%（農業部農業知識入口網 食米主題）；穀耙翻穀、現在多送烘乾（微笑台灣〈晒穀場上的不死精神〉）；糙米去掉米糠變白米、米糠當飼料（農業部）。</p>';
+    var box=area.querySelector('.recap'),btn=area.querySelector('.big'),cnt=area.querySelector('.rn');
+    function stopOf(k){var s=null;STOPS.forEach(function(t){if(t.lv===k)s=t});if(!s&&LV[k].pin!==undefined)s=STOPS[LV[k].pin];return s}
+    function show(){
+      box.classList.remove('enter');void box.offsetWidth;box.classList.add('enter');
+      if(n<0){cam(camFor(i,l));setEra('now');pinEl.style.display='none';box.innerHTML='';btn.innerHTML='開始<br>回顧';cnt.textContent='';return}
+      var k=steps[n],v=LV[k],s=stopOf(k);
+      cam(camFor(k,v));setEra(v.era||'now');
+      if(s){pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+      var txt=v.win||(v.q&&v.q.e)||(v.why&&v.why[1])||'';
+      box.innerHTML='<div class="rc"><span class="seal'+(st.done[k]?'':' empty')+'">'+(st.done[k]?icon(v.stamp[0]):'')+'</span><div><p class="rk">'+v.kick+'</p><p class="rh">'+v.h+'</p><p>'+txt+'</p></div></div>';
+      btn.innerHTML=n<steps.length-1?'下一段':'從頭<br>再看';
+      cnt.textContent='第 '+(n+1)+' / '+steps.length+' 段';
+    }
+    btn.addEventListener('click',function(){n=n<steps.length-1?n+1:-1;show();into(btn)});
+    area.querySelector('.again-btn').addEventListener('click',function(){st={far:0,done:{0:1},name:''};save();chips();setEra('now');go(0)});
+    show();
+    if(!reduce&&firstTime)confetti();
+  }
+
+};
+
+function confetti(){var cs=['#E2574C','#F5A623','#7BC47F','#6EC3DD','#F7A8C4'];for(var k=0;k<36;k++){var c=document.createElement('i');c.className='conf';c.style.left=(Math.random()*100)+'vw';c.style.background=cs[k%5];c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){return function(){x.remove()}}(c),3600)}}
+
+/* ---------- 換關 ---------- */
+var pv=document.getElementById('pv'),nx=document.getElementById('nx');
+function paint(){
+  nx.disabled=cur===LV.length-1||!st.done[cur];nx.textContent=st.done[cur]||cur===LV.length-1?'下一關 ›':'先完成任務';
+  pv.disabled=cur===0;nx.style.visibility=cur===LV.length-1?'hidden':'';document.getElementById('pos').textContent=cur===0?'開始':(cur===LV.length-1?'完成':'第 '+cur+' / 6 關');
+  map.querySelectorAll('.stop').forEach(function(g){g.classList.toggle('lock',+g.dataset.lv>st.far)});
+}
+// 鏡頭：每一關都把那一關的地點放在圓的正中間；全景（正方形鏡頭）照原樣
+function camFor(i,l){var c=l.cam;if(c[2]===c[3])return c;var s=null;STOPS.forEach(function(t){if(t.lv===i)s=t});if(!s&&l.pin!==undefined)s=STOPS[l.pin];
+  var z=c[3]*1.05,cx=s?s.x:c[0]+c[2]/2,cy=s?s.y-6:c[1]+c[3]/2;return [cx-z/2,cy-z/2,z,z]}
+function go(i){
+  cur=i;if(i>st.far){st.far=i;save()}replay=-1;var l=LV[i];clearScene();
+  cam(camFor(i,l));setEra(l.era||'now');
+  if(l.pin!==undefined){var s=STOPS[l.pin];pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+  render(i);paint();
+}
+pv.addEventListener('click',function(){if(cur>0)go(cur-1)});
+nx.addEventListener('click',function(){if(st.done[cur]&&cur<LV.length-1)go(cur+1)});
+var sheet=document.getElementById('sheet');
+document.getElementById('chips').addEventListener('click',function(){if(st.far>=LV.length-1)go(LV.length-1)});
+function closeSheet(){sheet.hidden=true;document.getElementById('chips').focus()}
+document.getElementById('sheetX').addEventListener('click',closeSheet);
+sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+chips();go(Math.min(st.far,LV.length-1));
+</script>
+</body>
+</html>

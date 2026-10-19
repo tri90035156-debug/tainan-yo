@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>酪梨任務・臺南的水果</title>
+<meta name="description" content="跟著大內種酪梨的阿伯，從 1 月到 10 月：把好吃的品種嫁接上去、幫蜜蜂畫路線送花粉、摘掉多的小酪梨、挖土看淺淺的根、劃過果梗剪下熟酪梨，再找出讓酪梨變軟的地方。">
+<link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/avocado.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/avocado.html">
+<link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/avocado.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="臺南遊">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/avocado.html">
+<meta property="og:title" content="酪梨任務（水果・大內酪梨）｜臺南遊">
+<meta property="og:description" content="跟著大內種酪梨的阿伯，從 1 月到 10 月：把好吃的品種嫁接上去、幫蜜蜂畫路線送花粉、摘掉多的小酪梨、挖土看淺淺的根、劃過果梗剪下熟酪梨，再找出讓酪梨變軟的地方。">
+<meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/avocado.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#FFF8EC; --card:#FFFDF7; --ink:#5A3E2B; --muted:#9A7B62; --line:#EBD9BF;
+  --red:#E2574C; --sea:#9ED9EC; --water:#6EC3DD; --blue:#2E93B8; --green:#7BC47F; --sand:#F8E7C2;
+  --f:"Huninn","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:#F3E6CF;color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.7;overflow:hidden}
+.app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
+header{flex:none;display:flex;align-items:center;gap:10px;padding:8px 14px}
+header h1{margin:0;font-size:20px;font-weight:400;flex:1;line-height:1.3}
+.chips{display:flex;gap:3px;background:none;border:0;padding:4px;cursor:pointer;border-radius:8px}
+.chips i{display:grid;place-items:center;width:22px;height:22px;border:1.5px dashed #D9BFA0;border-radius:6px;font:14px/19px var(--f);font-style:normal;text-align:center;color:transparent}
+.chips i.on{border:1.5px solid var(--red);background:var(--red);color:#fff}
+.chips i svg{width:17px;height:17px}
+.chips i.pop{animation:pop .5s cubic-bezier(.2,1.8,.4,1)}
+
+.stage{flex:none;position:relative;height:clamp(250px,50vh,520px);background:var(--sea);overflow:hidden;border-top:3px solid var(--line);transition:height .35s}
+#map{width:100%;height:100%;display:block;touch-action:manipulation}
+[hidden]{display:none!important}
+#scene{position:absolute;inset:0;background:#DFF3F8;animation:fadein .35s}
+#scene svg{display:block;width:100%;height:100%;margin:0;border-radius:0;background:none!important}
+@keyframes fadein{from{opacity:0}}
+#peek{position:absolute;left:8px;top:8px;font:15px var(--f);background:#fff;color:var(--ink);border:0;border-radius:999px;padding:5px 14px;box-shadow:0 2px 6px rgba(90,62,43,.18);cursor:pointer}
+#past,#now{transition:opacity .7s}
+#map.now #past{opacity:0}
+#map:not(.now) #now{opacity:0;pointer-events:none}
+#boat{transition:opacity .7s}#map.now #boat{opacity:0}
+.era{position:absolute;right:8px;top:8px;display:flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 2px 6px rgba(90,62,43,.18)}
+.era button{font:15px var(--f);border:0;background:none;color:var(--muted);padding:4px 12px;border-radius:999px;cursor:pointer}
+.era button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.stop{cursor:pointer}
+.stop.lock{opacity:.55;cursor:default}
+.pin{animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+
+main{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 8px;font-size:19px;background:var(--card);border-radius:18px 18px 0 0;margin-top:-10px;position:relative;box-shadow:0 -3px 10px rgba(90,62,43,.08)}
+.kick{margin:0;font-size:14px;color:var(--red)}
+h2{margin:0 0 4px;font-size:26px;font-weight:400;line-height:1.35}
+main p{margin:0 0 10px}
+.task{background:#FFF0D6;border-radius:12px;padding:8px 12px;font-size:20px}
+main .note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+.big{display:block;width:100%;font:24px var(--f);background:var(--red);color:#fff;border:0;border-radius:16px;padding:12px;cursor:pointer;margin:8px 0;box-shadow:0 4px 0 #B8392F;transition:transform .08s}
+.big:active,.big.down{transform:translateY(3px);box-shadow:0 1px 0 #B8392F}
+.big.blue{background:var(--blue);box-shadow:0 4px 0 #1F6F8C}
+.big.blue:active,.big.blue.down{box-shadow:0 1px 0 #1F6F8C}
+.big:disabled{background:#D9C7B0;box-shadow:none;cursor:default}
+.hold{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none}
+.mini{display:block;width:100%;height:auto;background:#DFF3F8;border-radius:14px;margin:4px 0 8px;touch-action:manipulation}
+.item{transition:transform .55s cubic-bezier(.3,1.4,.5,1);cursor:pointer}
+.item:focus-visible path{stroke:var(--red)}
+.tap{cursor:pointer}
+.tap:focus,.item:focus{outline:none}
+.tap:focus-visible .ring{stroke:var(--red);stroke-width:3}
+.bar{height:12px;background:#F0E2CC;border-radius:999px;overflow:hidden;margin:4px 0 8px}
+.bar b{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width .3s}
+.opt{display:block;width:100%;text-align:left;font:20px/1.5 var(--f);background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 8px;cursor:pointer}
+.opt.no{color:#C3AE97;border-style:dashed;text-decoration:line-through}
+.opt.yes{border-color:var(--green);background:#EEF8EC}
+.opt:disabled{cursor:default}
+.say{background:#EEF8EC;border-radius:12px;padding:8px 12px;font-size:18px}
+.say.again{background:#FDECE8}
+.skip{font:15px var(--f);background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px 0;cursor:pointer}
+.got{display:flex;align-items:center;gap:14px;background:#FFF0D6;border-radius:14px;padding:10px 14px;margin:10px 0}
+.got p{margin:0}
+.why{background:#E6F4FA;border-radius:14px;padding:8px 12px;margin:0 0 10px}
+.why summary{cursor:pointer;color:#1F6F8C;font-size:18px}
+.why p{margin:6px 0 0}
+.seal{display:grid;place-items:center;flex:none;width:56px;height:56px;border:3px solid var(--red);border-radius:12px;background:var(--red);color:#fff;font:32px/50px var(--f);text-align:center;transform:rotate(-6deg)}
+.seal svg{width:74%;height:74%}
+.seal.pop{animation:stamp .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-20deg);opacity:0}100%{transform:rotate(-6deg);opacity:1}}
+@keyframes pop{0%{transform:scale(1.8)}100%{transform:none}}
+.again-btn{font:14px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:3px 14px;color:var(--muted);cursor:pointer}
+
+.foot{flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:2px solid var(--line)}
+.foot button{font:17px var(--f);background:none;border:0;color:var(--ink);padding:6px 10px;cursor:pointer;border-radius:8px}
+.foot #nx{color:var(--red)}
+.foot button:disabled{color:#D9C7B0;cursor:default}
+.foot span{font-size:14px;color:var(--muted)}
+
+.doc{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 14px 8px}
+.doc h3{margin:0 0 8px;font-size:24px;font-weight:400;text-align:center;letter-spacing:.2em}
+.doc dl{margin:0 0 8px;display:grid;grid-template-columns:4em minmax(0,1fr);gap:0 8px;font-size:15px}
+.doc dt{color:var(--muted)}.doc dd{margin:0}
+.doc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:2px dashed var(--line);padding-top:10px}
+.doc li{text-align:center;font-size:13px;color:var(--muted);line-height:1.4}
+.doc li .seal{width:48px;height:48px;margin:0 auto 4px}
+.doc li .seal.empty{background:none;border:2px dashed #D9BFA0;transform:none;color:transparent}
+.doc .fic{margin:8px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.name{font:17px var(--f);border:0;border-bottom:2px solid var(--ink);background:none;width:9em;color:var(--ink);padding:0 2px}
+.sheet{position:fixed;inset:0;z-index:10;background:rgba(90,62,43,.45);display:grid;place-items:center;padding:16px}
+.sheet[hidden]{display:none}
+.sheet .in{width:min(380px,100%);max-height:calc(100% - 32px);overflow-y:auto;background:var(--bg);border-radius:18px;padding:14px}
+.sheet .x{display:block;margin:10px auto 0;font:16px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:4px 18px;cursor:pointer;color:var(--ink)}
+.conf{position:fixed;top:-12px;width:10px;height:14px;border-radius:3px;z-index:20;pointer-events:none;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+main a{color:var(--blue)}
+@media (prefers-reduced-motion:reduce){.stage{transition:none}.pin,.seal.pop,.chips i.pop,.conf{animation:none}.item{transition:none}}
+/* 平板直拿：畫面變寬一點 */
+@media (min-width:700px){.app{max-width:760px}}
+/* 電腦、平板橫拿、手機橫拿：左邊大舞台（地圖／遊戲），右邊文字卡片 */
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EADBC0}
+  .app{max-width:1320px;display:grid;grid-template-columns:minmax(0,1fr) clamp(330px,34vw,470px);grid-template-rows:auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:10px 20px}
+  header h1{font-size:24px}
+  .chips i{width:26px;height:26px}.chips i svg{width:20px;height:20px}
+  .stage{grid-column:1;grid-row:2/4;height:auto;border-top:3px solid var(--line)}
+  main{grid-column:2;grid-row:2;margin-top:0;border-radius:0;box-shadow:none;border-top:3px solid var(--line);border-left:3px solid var(--line);padding:16px 20px 10px}
+  .foot{grid-column:2;grid-row:3;border-left:3px solid var(--line)}
+}
+/* ===== 新版面：上面標題、中間遊戲畫面、下面文字 =====
+   配色取自臺南城市識別：紅 #DB2E27、酒紅 #6C2024、金 #BD9558；插畫裡的水和海維持藍色 */
+:root{
+  --bg:#FBF7F1; --card:#FBF7F1; --paper:#FFFFFF; --ink:#2A2020; --muted:#8A7A70; --line:#EADFD3;
+  --red:#DB2E27; --maroon:#6C2024; --gold:#BD9558; --goldsoft:#F3E8D6; --blue:#6C2024; --green:#BD9558;
+  --f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+}
+body{background:#EFE7DC;color:var(--ink)}
+header{padding:12px 18px 2px}
+header h1{font:700 15px/1.3 var(--f);letter-spacing:.06em;color:var(--ink)}
+.chips{gap:5px}
+.chips i{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--gold)}
+.chips i.on{background:var(--red);border-color:var(--red)}
+.chips i svg{width:14px;height:14px}
+.top{flex:none;padding:6px 18px 14px}
+.top .kick{margin:0 0 2px;font:700 15px/1.4 var(--serif);letter-spacing:.06em;color:var(--red)}
+.top h2{margin:0;font:900 30px/1.25 var(--serif);color:var(--ink);text-wrap:balance}
+.stage{height:clamp(220px,42vh,480px);margin:0 16px;border-top:0;border-radius:26px;box-shadow:0 0 0 8px var(--goldsoft)}
+main{margin-top:0;border-radius:0;box-shadow:none;background:var(--bg);padding:20px 18px 8px}
+main p{line-height:1.75}
+main .kick{font:700 15px var(--serif);letter-spacing:.04em}
+.task{background:var(--goldsoft);border-radius:14px;padding:10px 14px;font-weight:500}
+.big{font:700 22px var(--f);border-radius:14px;box-shadow:none;background:var(--red);letter-spacing:.04em}
+.big:active,.big.down{transform:translateY(2px);box-shadow:none;filter:brightness(.9)}
+.big.blue{background:var(--maroon);box-shadow:none}
+.big.blue:active,.big.blue.down{box-shadow:none}
+.big:disabled{background:#D8CFC4}
+.opt{font:500 20px/1.5 var(--f);border:2px solid var(--line);background:var(--paper);border-radius:14px}
+.opt.yes{border-color:var(--gold);background:#FAF3E6}
+.say{background:#F2ECE2;border-radius:14px}
+.say.again{background:#FBE8E5}
+.why{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.why summary{font:700 18px var(--serif);color:var(--maroon)}
+.got{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.seal{border:0;border-radius:50%;background:var(--red);transform:none;box-shadow:0 0 0 6px var(--goldsoft)}
+@keyframes stamp{0%{transform:scale(1.8);opacity:0}100%{transform:none;opacity:1}}
+.again-btn{border-color:var(--gold);color:var(--maroon)}
+.bar{background:#EFE6D8}.bar b{background:var(--gold)}
+.foot{background:var(--bg);border-top:1px solid var(--line)}
+.foot #nx{color:var(--red);font-weight:700}
+#peek,.era{box-shadow:0 2px 8px rgba(42,32,32,.15)}
+.era button[aria-pressed="true"]{background:var(--maroon)}
+.doc{border:0;border-radius:18px;background:var(--paper);box-shadow:0 0 0 8px var(--goldsoft)}
+.doc h3{font:900 26px var(--serif);letter-spacing:.12em;color:var(--ink)}
+.doc li .seal.empty{border:2px dashed var(--gold);box-shadow:none}
+.sheet .in{background:var(--bg)}
+/* 換關時文字一行一行浮上來 */
+.enter>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.enter>*:nth-child(2){animation-delay:.06s}.enter>*:nth-child(3){animation-delay:.12s}.enter>*:nth-child(4){animation-delay:.18s}.enter>*:nth-child(5){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){.enter>*{animation:none}}
+@media (min-width:700px){.top h2{font-size:34px}.top{padding:8px 24px 16px}.stage{margin:0 24px}}
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EFE7DC}
+  .app{grid-template-rows:auto auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:12px 24px 4px}
+  header h1{font-size:15px}
+  .top{grid-column:1;grid-row:2}
+  .stage{grid-column:1;grid-row:3/5;height:auto;margin:0 24px 24px;border-top:0}
+  main{grid-column:2;grid-row:2/4;border-top:0;border-left:1px solid var(--line);padding:20px 22px 10px}
+  .foot{grid-column:2;grid-row:4;border-left:1px solid var(--line)}
+}
+/* ===== 圓形遊戲框 ===== */
+.stage{display:flex;align-items:center;justify-content:center;background:none;box-shadow:none;border-radius:0;overflow:visible;height:clamp(220px,46vh,460px)}
+.stage{position:relative;min-height:0}
+.disc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;overflow:hidden;background:var(--sea);box-shadow:0 0 0 12px var(--goldsoft)}
+#map{width:100%;height:100%}
+#scene{display:flex;align-items:center;justify-content:center}
+#scene svg{flex:none}
+#scene svg:focus:not(:focus-visible),#scene [tabindex]:focus:not(:focus-visible){outline:none}
+#peek{left:0;top:0}
+.era{right:0;top:0}
+@media (min-width:700px) and (min-aspect-ratio:5/4){.stage{height:auto}}
+/* ===== 不用色塊區分文字：改用粗體和顏色；大按鈕是圓的 ===== */
+.task{background:none;padding:0;border-radius:0;font-weight:700;color:var(--maroon)}
+.say{background:none;padding:0;border-radius:0;font-weight:700;color:#4E7D3A}
+.say.again{background:none;color:var(--red)}
+.why,.got{background:none;border:0;padding:0;border-radius:0}
+.why summary{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+.got{margin:16px 0}
+.opt{border-radius:999px;padding:10px 20px}
+.big{display:grid;place-items:center;width:116px;height:116px;margin:18px auto;padding:10px;border-radius:50%;font:700 20px/1.3 var(--f);text-align:center;box-shadow:0 0 0 8px var(--goldsoft)}
+.big.blue{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:active,.big.down,.big.blue:active,.big.blue.down{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:disabled{box-shadow:0 0 0 8px #EFE8DF}
+.again-btn{border-radius:999px}
+/* ===== 用粗細帶重點：內文細一點、淡一點，重點字粗黑 ===== */
+main p,main li,.doc dd{color:#5A4E48}
+main b,main strong{font-weight:700;color:var(--ink)}
+.task,.task b{color:var(--maroon)}
+.say b{color:inherit}
+.say.again b{color:inherit}
+/* 回饋訊息用一般粗細，只有重點詞粗 */
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say b{font-weight:700}
+/* ===== 手機：地圖和文字在同一頁一起捲，上一關／下一關固定在最下面 ===== */
+@media (max-width:699.98px),(max-aspect-ratio:1249/1000){
+  html,body{height:auto;min-height:100%}
+  body{overflow:visible}
+  .app{height:auto;min-height:100vh}
+  main{flex:none;overflow:visible;min-height:0}
+  .foot{position:sticky;bottom:0;z-index:5}
+  .stage{margin:0 2px}
+  /* 圓黏在畫面上方：往下捲找按鈕時，圓和按鈕一定同時看得到 */
+  .stage{position:sticky;top:0;z-index:4;background:var(--bg)}
+  main *{scroll-margin-bottom:76px}
+  .big{width:96px;height:96px;margin:12px auto;font-size:19px}
+}
+/* ===== 卡片文字角色（使用者定的規則） ===== */
+.task{color:#6C2024;font-weight:700}
+.bar{height:4px;background:#EFE6D8;border-radius:2px;margin:10px 0 12px}
+.bar b{background:#6C2024;border-radius:2px}
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say.again::before{content:"再試試";display:block;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red);margin-bottom:2px}
+main .kick+p{font-weight:700;color:var(--ink)}
+.notes{margin-top:24px;padding-top:12px;border-top:1px solid var(--line)}
+.notes .note{margin:0 0 6px}
+.notes .note b{color:#8A7A70}
+/* ===== 完成頁：一段一段回顧 ===== */
+.recap{min-height:150px}
+.rc{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:start}
+.rc .seal{width:58px;height:58px;margin-top:4px}
+.rc .seal.empty{background:none;border:2px dashed var(--gold);box-shadow:none}
+.rk{margin:0;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red)}
+.rh{margin:0 0 6px;font:900 22px/1.35 var(--serif);color:var(--ink)}
+.rn{margin:-6px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+.pad{display:grid;grid-template-columns:repeat(3,60px);grid-template-rows:repeat(2,60px);gap:8px;justify-content:center;margin:16px auto 12px}
+.pad button{border:0;border-radius:50%;background:var(--maroon);color:#fff;font:700 26px/1 var(--f);box-shadow:0 0 0 5px var(--goldsoft);cursor:pointer;touch-action:manipulation}
+.pad button:active{filter:brightness(.88)}
+.pad button:disabled{background:#D8CFC4}
+.notes .maps a{color:inherit;text-decoration:underline;text-decoration-color:#C9B8A6;text-underline-offset:3px}
+.recap:empty{min-height:0}
+/* 回到首頁的小房子（每個遊戲左上角都有） */
+.home{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--paper,#fff);color:var(--maroon,#6C2024);text-decoration:none}.home svg{width:20px;height:20px}.home:active{background:var(--goldsoft,#F3E8D6)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <a class="home" href="index.html" aria-label="回到首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></a>
+    <h1>酪梨任務</h1>
+    <button class="chips" id="chips" type="button" aria-label="看回顧"></button>
+  </header>
+  <div class="top" id="top"></div>
+  <div class="stage" id="stage">
+    <div class="disc">
+      <svg id="map" class="now" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="大內酪梨園插畫地圖"></svg>
+      <div id="scene" hidden></div>
+    </div>
+    <div class="era" role="group" aria-label="切換開花時和結果時"><button type="button" data-era="past" aria-pressed="false">開花時</button><button type="button" data-era="now" aria-pressed="true">結果時</button></div>
+    <button id="peek" type="button" hidden>看地圖</button>
+  </div>
+  <main id="card" aria-live="polite"></main>
+  <nav class="foot"><button type="button" id="pv">‹ 上一關</button><span id="pos"></span><button type="button" id="nx">下一關 ›</button></nav>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="任務單"><div class="in"><div id="sheetDoc"></div><button class="x" type="button" id="sheetX">收起任務單</button></div></div>
+
+<script>
+/* ---------- 插畫元件 ---------- */
+var K='#2A2020',NS='http://www.w3.org/2000/svg';
+var SKIN='#4F7A2E',SKIN2='#33521F',RIM='#BFD46A',FLESH='#ECE8A8',SEED='#8A5A36',LEAFC='#4E8A3A',LEAFD='#3C6E2C',STEMG='#5E8A3A',STEMY='#D8B43A';
+function f1(v){return (Math.round(v*10)/10).toString()}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+// 酪梨（西洋梨的形狀）。(x,y) 是果子中間；o：c 皮的顏色、stem 果梗長度、sc 果梗顏色、dots 小黃點幾個、dull 沒光澤、bite 被蟲咬、wr 皺皺的
+var AVP='M0 -13C4 -13 5.5 -8 6.5 -3C10 3 10.5 14 0 14C-10.5 14 -10 3 -6.5 -3C-5.5 -8 -4 -13 0 -13Z';
+function avo(x,y,s,o){
+  o=o||{};var c=o.c||SKIN,L=o.stem==null?5:o.stem,h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+s+')">';
+  if(L>0)h+='<path d="M0 -12V'+f1(-13-L)+'" stroke="'+(o.sc||STEMG)+'" stroke-width="'+(o.sw||2.2)+'" stroke-linecap="round"/>';
+  h+='<path d="'+AVP+'" fill="'+c+'" stroke="#2C461B" stroke-width=".8"/>';
+  if(o.wr)h+='<path d="M-6 -2Q-3 0 -6 3M4 -5Q7 -2 4 1M-3 6Q0 8 -3 11M5 5Q8 8 5 11" stroke="#22301A" stroke-width=".9" fill="none" stroke-linecap="round"/>';
+  if(o.black)h+='<circle cx="-3" cy="2" r="3" fill="#1F2418" opacity=".8"/><circle cx="4" cy="7" r="2.4" fill="#1F2418" opacity=".8"/><circle cx="2" cy="-5" r="1.6" fill="#1F2418" opacity=".8"/>';
+  if(o.dots){var r=rnd(o.seed||3);for(var k=0;k<o.dots;k++){var a=r()*6.28,rr=Math.sqrt(r());h+='<circle cx="'+f1(Math.cos(a)*rr*6.4)+'" cy="'+f1(3+Math.sin(a)*rr*9)+'" r=".8" fill="#EDE27E"/>'}}
+  if(o.bite)h+='<circle cx="3" cy="3" r="2.8" fill="#6E4E28"/><circle cx="3" cy="3" r="1.2" fill="#2A1C10"/><circle cx="-4" cy="8" r="1.8" fill="#6E4E28"/><circle cx="-2" cy="-4" r="1.3" fill="#6E4E28"/>';
+  if(!o.wr&&!o.black)h+='<path d="M-4 -4Q-6 2 -4 8" stroke="#fff" stroke-opacity="'+(o.dull?.12:.45)+'" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+  return h+'</g>';
+}
+// 切開一半的酪梨：黃綠色的果肉和大大的種子
+function avoHalf(x,y,s){
+  return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+s+')"><path d="'+AVP+'" fill="'+SKIN2+'"/><path d="'+AVP+'" transform="translate(0 .8) scale(.86)" fill="'+RIM+'"/><path d="'+AVP+'" transform="translate(0 1.4) scale(.7)" fill="'+FLESH+'"/>'+
+    '<circle cy="5" r="4.8" fill="'+SEED+'"/><path d="M-2.4 2.6Q-3 5 -1.6 7" stroke="#fff" stroke-opacity=".35" stroke-width="1" fill="none" stroke-linecap="round"/></g>';
+}
+// 酪梨樹（地圖上的小樹）。mode：flower 開花、fruit 結果、bag 套袋
+function tree(x,y,s,mode){
+  var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(s||1)+')"><path d="M-2.5 0L-2 -14H2L2.5 0Z" fill="#7A5A3A"/><circle cx="-8" cy="-18" r="9" fill="'+LEAFD+'"/><circle cx="8" cy="-18" r="9" fill="'+LEAFD+'"/><circle cy="-25" r="11" fill="'+LEAFC+'"/><circle cx="-5" cy="-21" r="6" fill="#5E9A46"/>';
+  if(mode==='flower')[[-9,-22],[-2,-31],[6,-26],[11,-17],[-4,-15],[3,-20],[-12,-14]].forEach(function(p){h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="1.9" fill="#F1F2BE"/>'});
+  if(mode==='fruit')[[-7,-11],[6,-10],[0,-19]].forEach(function(p){h+=avo(p[0],p[1],.3,{c:'#9DBB4A',stem:2})});
+  if(mode==='bag')[[-7,-10],[6,-9],[0,-18]].forEach(function(p){h+='<path d="M'+(p[0]-3)+' '+(p[1]-4)+'H'+(p[0]+3)+'L'+(p[0]+4)+' '+(p[1]+5)+'H'+(p[0]-4)+'Z" fill="#F6F0E0" stroke="#C9BC9C" stroke-width=".6"/>'});
+  return h+'</g>';
+}
+// 酪梨的小花：ph='f' 第一次開（媽媽花，花小小的、中間白白的）；'m' 第二次開（爸爸花，開比較大，有黃色花粉）
+function flw(x,y,s,ph){
+  var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+s+')">',len=ph==='m'?4.6:3;
+  for(var k=0;k<6;k++)h+='<ellipse cy="'+f1(-len*.55)+'" rx="1.5" ry="'+f1(len*.55)+'" fill="#E6EAA6" stroke="#AEB65E" stroke-width=".4" transform="rotate('+(k*60+30)+')"/>';
+  if(ph==='m'){h+='<circle r="1.3" fill="#C9D27A"/>';for(var j=0;j<6;j++)h+='<circle cx="'+f1(Math.cos(j*1.047)*2.3)+'" cy="'+f1(Math.sin(j*1.047)*2.3)+'" r=".75" fill="#E8B020"/>'}
+  else h+='<circle r="1.4" fill="#C9D27A"/><circle r=".8" fill="#fff"/>';
+  return h+'</g>';
+}
+// 一串小花
+function flCluster(x,y,s,ph,pol){
+  var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+s+')"><path d="M0 6V-2M0 0L-6 -5M0 0L6 -5M0 -2L-2 -8" stroke="#8FA05A" stroke-width=".9" fill="none"/>';
+  [[0,-9],[-7,-6],[7,-6],[-3,-2],[4,1]].forEach(function(p){h+=flw(p[0],p[1],1,ph)});
+  if(pol)[[0,-9],[-7,-6],[7,-6]].forEach(function(p){h+='<circle cx="'+(p[0]+.6)+'" cy="'+(p[1]-.4)+'" r=".9" fill="#F2B21C"/>'});
+  return h+'</g>';
+}
+// 蜜蜂（臉朝左）
+function bee(x,y,s,flip){
+  return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+(flip?-s:s)+' '+s+')"><ellipse cx="-1" cy="-5" rx="3" ry="4.2" fill="#fff" fill-opacity=".9" stroke="#AFC0C8" stroke-width=".5" transform="rotate(-22 -1 -5)"/><ellipse cx="2.4" cy="-5" rx="2.6" ry="3.8" fill="#fff" fill-opacity=".9" stroke="#AFC0C8" stroke-width=".5" transform="rotate(22 2.4 -5)"/>'+
+    '<ellipse rx="5.4" ry="3.6" fill="#F2C230" stroke="#3A2A10" stroke-width=".6"/><path d="M-1.6 -3.3V3.3M1.6 -3.2V3.2" stroke="#3A2A10" stroke-width="1.3"/><circle cx="-5.6" cy="-.4" r="2.3" fill="#3A2A10"/><circle cx="-6.4" cy="-1" r=".6" fill="#fff"/></g>';
+}
+var ICON={
+  graft:'<path d="M0 11V-1" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M0 -1L-1 -11M-1 -7C-6 -10 -9 -7 -10 -4C-6 -3 -3 -5 -1 -7M0 -3C4 -7 8 -6 9 -3C6 -1 3 -1 0 -3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="-3.6" y="-2.4" width="7.2" height="4.6" rx="1" fill="#fff"/>',
+  bee:'<ellipse cx="-2.4" cy="-5.6" rx="3.2" ry="4.4" fill="none" stroke="#fff" stroke-width="1.8" transform="rotate(-25 -2.4 -5.6)"/><ellipse cx="3" cy="-5.6" rx="3.2" ry="4.4" fill="none" stroke="#fff" stroke-width="1.8" transform="rotate(25 3 -5.6)"/><ellipse cy="3" rx="8.4" ry="5" fill="none" stroke="#fff" stroke-width="2.2"/><path d="M-2 -1.6V7.6M2.6 -1.6V7.6" stroke="#fff" stroke-width="2"/>',
+  bag:'<path d="M-6 -5H6L8 10H-8Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M-4 -5Q0 -9 4 -5M0 -8V-11" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
+  root:'<path d="M-10 -1H10" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M0 -1V-8M0 -8C-3 -12 -7 -11 -8 -9C-5 -7 -2 -7 0 -8M0 -6C3 -10 7 -10 8 -7C5 -5 2 -5 0 -6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M0 -1Q-1 4 -6 8M0 -1Q1 5 5 9M0 -1V10" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  scissors:'<circle cx="-5" cy="6.4" r="3.4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="5" cy="6.4" r="3.4" fill="none" stroke="#fff" stroke-width="2"/><path d="M-3 3.4L6 -10M3 3.4L-6 -10" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>',
+  avo:'<path d="M0 -10C3.6 -10 4.6 -6 5.4 -2C8 2.6 8.4 10.5 0 10.5C-8.4 10.5 -8 2.6 -5.4 -2C-4.6 -6 -3.6 -10 0 -10Z" fill="none" stroke="#fff" stroke-width="2.2"/><circle cy="4" r="3.6" fill="#fff"/>'
+};
+function icon(k){return '<svg viewBox="-12 -12 24 24" aria-hidden="true">'+ICON[k]+'</svg>'}
+
+// 開場的認水果圖：大大的酪梨，加上幾個認得出它的特徵
+function idCard(t1,t2,art,C){
+  var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EEF4EC" role="img" aria-label="'+t1+'的樣子"><rect x="-400" y="172" width="1200" height="60" fill="#DCE7D2"/>'+art;
+  C.forEach(function(c){s+='<path d="M'+c[3]+' '+c[4]+'L'+c[1]+' '+(c[2]-5)+'" stroke="#8A7A70" stroke-width="1.2"/><circle cx="'+c[3]+'" cy="'+c[4]+'" r="2.6" fill="#DB2E27"/>'+
+    '<text x="'+c[1]+'" y="'+c[2]+'" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#EEF4EC" stroke-width="4" paint-order="stroke">'+c[0]+'</text>'});
+  return s+'<text x="160" y="34" font-size="24" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,Songti TC,serif" stroke="#EEF4EC" stroke-width="4" paint-order="stroke">'+t1+'</text>'+(t2?'<text x="160" y="190" font-size="14" font-weight="700" fill="#4E6B3A" text-anchor="middle">'+t2+'</text>':'')+'</svg>';
+}
+
+/* ---------- 地圖 ---------- */
+// 示意圖：曾文溪從右上流到左下，兩岸是一棵一棵的酪梨樹，四周是小山
+var STOPS=[{lv:1,n:'苗圃',x:560,y:150,k:'pots'},{lv:2,n:'開花的果園',x:400,y:190,k:'flower'},{lv:3,n:'套袋',x:290,y:300,k:'bag'},{lv:4,n:'曾文溪河堤',x:540,y:320,k:'bank'},{lv:5,n:'採酪梨',x:420,y:300,k:'pick'},{lv:6,n:'阿伯家',x:250,y:420,k:'house'}];
+var RIVER='M900 100Q720 200 660 300Q610 400 470 420Q330 440 250 600Q220 680 200 760';
+function riverPts(){
+  var S=[[900,100,720,200,660,300],[660,300,610,400,470,420],[470,420,330,440,250,600],[250,600,220,680,200,760]],P=[];
+  S.forEach(function(s){for(var t=0;t<=1;t+=.05){var u=1-t;P.push([u*u*s[0]+2*u*t*s[2]+t*t*s[4],u*u*s[1]+2*u*t*s[3]+t*t*s[5]])}});return P;
+}
+function marker(s){
+  var t='<g transform="translate('+s.x+' '+s.y+')">';
+  if(s.k==='pots'){var h=t;[-16,0,16].forEach(function(dx){h+='<path d="M'+(dx-6)+' 0H'+(dx+6)+'L'+(dx+4)+' 10H'+(dx-4)+'Z" fill="#C9744A" stroke="#8A4A2A" stroke-width="1"/><path d="M'+dx+' 0V-12" stroke="#6E7A3A" stroke-width="2"/><ellipse cx="'+(dx-4)+'" cy="-11" rx="4" ry="2.2" fill="'+LEAFC+'" transform="rotate(-25 '+(dx-4)+' -11)"/><ellipse cx="'+(dx+4)+'" cy="-13" rx="4" ry="2.2" fill="#5E9A46" transform="rotate(25 '+(dx+4)+' -13)"/>'});return h+'</g>'}
+  if(s.k==='flower')return t+tree(0,10,1.15,'flower')+bee(16,-26,1.1)+'</g>';
+  if(s.k==='bag')return t+tree(0,10,1.15,'bag')+'</g>';
+  if(s.k==='bank')return t+'<path d="M-30 12Q-10 4 10 12T40 12" stroke="#8FC7D6" stroke-width="6" fill="none" stroke-linecap="round"/>'+tree(-4,8,1.1,'fruit')+'<path d="M-4 8Q-12 12 -18 11M-4 8Q2 13 8 13" stroke="#7A5A3A" stroke-width="1.4" fill="none"/></g>';
+  if(s.k==='pick')return t+tree(-8,10,1.1,'fruit')+'<path d="M8 2H26L23 12H11Z" fill="#B88A55" stroke="#7A5530" stroke-width="1"/>'+avo(13,0,.32,{stem:0})+avo(19,1,.32,{stem:0})+'</g>';
+  return t+'<rect x="-16" y="-8" width="32" height="20" rx="2" fill="#F3E6CC" stroke="#9A7A55" stroke-width="1.2"/><path d="M-20 -7L0 -22L20 -7Z" fill="#C0583F"/><rect x="-4" y="2" width="8" height="10" fill="#9A7A55"/>'+avo(-9,3,.3,{stem:0})+'</g>';
+}
+function buildMap(){
+  var h='<rect x="-400" y="-300" width="1600" height="1200" fill="#E9E1C6"/>';
+  // 四周的小山
+  [[40,-10,150,80],[380,-60,170,80],[760,-20,120,90],[880,300,90,150],[600,640,200,80],[-60,380,90,170],[90,640,130,60]].forEach(function(e,k){h+='<ellipse cx="'+e[0]+'" cy="'+e[1]+'" rx="'+e[2]+'" ry="'+e[3]+'" fill="'+(k%2?'#BBD198':'#C3D6A0')+'"/>'});
+  h+='<g id="trees"></g>';
+  // 曾文溪和兩岸的河灘
+  h+='<path d="'+RIVER+'" stroke="#E2D9B8" stroke-width="58" fill="none" stroke-linecap="round"/><path d="'+RIVER+'" stroke="#6BB7D6" stroke-width="30" fill="none" stroke-linecap="round"/>';
+  // 南瀛天文館
+  h+='<g transform="translate(690 470)"><rect x="-22" y="-6" width="44" height="18" rx="2" fill="#F1ECE2" stroke="#9A8C7A" stroke-width="1.2"/><path d="M-14 -6A14 14 0 0 1 14 -6Z" fill="#D9DEE4" stroke="#9A8C7A" stroke-width="1.2"/></g>';
+  var T=function(t,x,y,sz,c){return '<text x="'+x+'" y="'+y+'" font-size="'+sz+'" fill="'+c+'" text-anchor="middle" stroke="#E9E1C6" stroke-width="4" paint-order="stroke">'+t+'</text>'};
+  h+=T('大內',200,112,26,'#7A4A2E')+T('曾文溪',748,334,17,'#2E7FA0')+T('南瀛天文館',690,506,14,'#6A5E50');
+  h+='<g transform="translate(110 540)"><circle r="16" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -11L5 4L0 1L-5 4Z" fill="#DB2E27"/><text y="12" font-size="9" fill="#5A4E48" text-anchor="middle">北</text></g>';
+  // 開花時：樹上開滿小花；結果時：樹上掛著酪梨
+  h+='<g id="past"><g id="flPast"></g>'+T('開花時：1 到 4 月開滿小花',425,556,15,'#6C2024')+'</g>';
+  h+='<g id="now"><g id="frNow"></g>'+T('結果時：樹上掛著酪梨',425,556,15,'#6C2024')+'</g>';
+  STOPS.forEach(function(s){h+='<g class="stop" data-lv="'+s.lv+'" role="button" aria-label="第 '+s.lv+' 關 '+s.n+'">'+marker(s)+'<circle cx="'+(s.x+24)+'" cy="'+(s.y-26)+'" r="10" fill="#fff" stroke="#E2574C" stroke-width="2"/><text x="'+(s.x+24)+'" y="'+(s.y-21.5)+'" font-size="13" fill="#E2574C" text-anchor="middle">'+s.lv+'</text><text x="'+s.x+'" y="'+(s.y+34)+'" font-size="16" font-weight="700" fill="#5A3E2B" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+s.n+'</text></g>'});
+  h+='<g id="pin" style="display:none"><g class="pin"><path d="M0 0C-10 -14 -14 -20 -14 -27A14 14 0 1 1 14 -27C14 -20 10 -14 0 0Z" fill="#E2574C" stroke="#fff" stroke-width="2.5"/><text y="-22" font-size="12" fill="#fff" text-anchor="middle">你</text></g></g>';
+  return h;
+}
+function near(x,y,w,hh){return STOPS.some(function(s){return Math.abs(s.x-x)<w&&Math.abs(s.y-y)<hh})}
+function decorate(){
+  var r=rnd(23),RP=riverPts(),t='',p='',q='';
+  for(var x=10;x<800;x+=40)for(var y=-30;y<600;y+=36){
+    var cx=x+(r()-.5)*12,cy=y+(r()-.5)*10;
+    if(near(cx,cy,52,56))continue;
+    if(RP.some(function(a){return Math.hypot(a[0]-cx,a[1]-cy)<40}))continue;
+    if(Math.abs(cx-200)<52&&Math.abs(cy-104)<26)continue; // 大內
+    if(Math.abs(cx-748)<40&&Math.abs(cy-326)<18)continue; // 曾文溪
+    if(Math.abs(cx-690)<56&&Math.abs(cy-484)<40)continue; // 天文館
+    if(Math.abs(cx-110)<28&&Math.abs(cy-540)<28)continue;
+    if(cy>536&&Math.abs(cx-425)<115)continue; // 季節的字
+    if(r()<.22)continue;
+    t+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><circle r="12" fill="'+LEAFD+'"/><circle cx="-2" cy="-3" r="8" fill="'+LEAFC+'"/></g>';
+    p+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><circle cx="-5" cy="-3" r="1.8" fill="#F1F2BE"/><circle cx="3" cy="-6" r="1.8" fill="#F1F2BE"/><circle cx="5" cy="3" r="1.8" fill="#F1F2BE"/><circle cx="-2" cy="5" r="1.8" fill="#F1F2BE"/></g>';
+    q+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><ellipse cx="-4" cy="3" rx="2.4" ry="3.2" fill="#A9C24E" stroke="#2E4A1C" stroke-width=".6"/><ellipse cx="4" cy="1" rx="2.4" ry="3.2" fill="#A9C24E" stroke="#2E4A1C" stroke-width=".6"/></g>';
+  }
+  map.querySelector('#trees').innerHTML=t;
+  map.querySelector('#flPast').innerHTML=p;
+  map.querySelector('#frNow').innerHTML=q;
+}
+
+/* ---------- 關卡 ---------- */
+var LV=[
+  {cam:[105,-10,600,600],kick:'酪梨任務',h:'十月，酪梨熟了',
+   html:'<p>你吃過<b>酪梨</b>嗎？它摸起來硬硬的、綠綠的，切開來，中間有一顆<b>大大的種子</b>。酪梨一百多年前從美洲來到臺灣，臺灣人又叫它<b>幸福果</b>。</p><p>臺灣種最多酪梨的地方，是臺南的<b>大內</b>。很多酪梨園，就在<b>曾文溪</b>旁邊。</p><p class="task">跟著大內種酪梨的<b>阿伯</b>，從 1 月到 10 月，看酪梨怎麼從一棵小樹，變成可以吃的酪梨。每過一關，就能蓋一個章！</p>',
+   after:'<p class="note">地圖右上角可以切換<b>開花時／結果時</b>，看看酪梨樹開花和結果的樣子。<br>給大人：大內酪梨產季大約 6 月到隔年 2 月，10 月採的是比較晚熟的品種。果園是農民的地，請不要自己走進去摘。</p>',
+   game:'start'},
+  {cam:[0,0,300,225],kick:'第 1 關・苗圃（1 月）',h:'把好吃的接上去',era:'past',
+   html:'<p>冬天是<b>嫁接</b>的季節：把好吃酪梨的<b>小樹枝</b>，接到另一棵<b>小樹</b>上，讓它們長成一棵樹。</p><p>阿伯今年要接兩種酪梨：<b>A 型</b>和 <b>B 型</b>。為什麼要兩種？下一關就知道了。</p><p class="note">給大人：農業試驗所建議的嫁接時間是 11 月到隔年 2 月，接上去的枝條用當年長的、頂芽快要發芽的。也可以買苗圃嫁接好的苗（建議買當年嫁接的）。</p>',
+   task:'兩根手指放在<b>小樹枝</b>和<b>小樹</b>上，往中間<b>捏</b>，把它們接起來（電腦上把小樹枝往下拖）。兩棵都要接！',game:'graft',stamp:['graft','嫁接好了'],
+   win:'兩棵都接好了！阿伯用膠帶綁緊。過了幾個星期，接上去的小芽長出了新葉子。',
+   why:['為什麼不直接種種子？','用種子種出來的酪梨樹，結的果子<b>不一定</b>跟原本那棵一樣好吃。把好吃品種的<b>小樹枝</b>接上去，長大以後，結的就是那種好吃的酪梨。']},
+  {cam:[0,0,300,225],kick:'第 2 關・曾文溪邊的果園（2 到 3 月）',h:'一朵花開兩次',era:'past',
+   html:'<p>1 到 4 月，酪梨樹開出一串一串<b>黃綠色的小花</b>。酪梨的花很特別：<b>同一朵花會開兩次</b>。</p><p>第一次開，它是<b>媽媽花</b>，等著接花粉；關起來以後再開第二次，就變成<b>爸爸花</b>，放出花粉。爸爸花的花粉送到媽媽花上，才會長出酪梨。</p><p class="note">給大人：這是酪梨「雌雄同花、雌蕊先熟」的特性。A 型上午是雌花、第二天下午再開成雄花；B 型下午是雌花、第二天上午再開成雄花。寒流來的時候，花會開得亂掉。</p>',
+   task:'手指從<b>蜜蜂</b>開始，畫一條路到<b>媽媽花</b>那棵樹，蜜蜂就會照著你畫的路飛。',game:'bee',stamp:['bee','送花粉'],
+   win:'上午、下午都送到了！媽媽花接到花粉，小小的酪梨就要開始長了。',
+   why:['為什麼果園要種兩種酪梨？','A 型的樹<b>上午</b>開媽媽花，B 型的樹<b>下午</b>才開媽媽花。兩種種在一起，不管上午、下午，都有爸爸花的花粉，可以送給媽媽花。'],
+   q:{t:'酪梨的花粉，靠誰幫忙搬？',o:['蜜蜂這些小蟲','風','下雨'],a:0,hint:'酪梨的花粉<b>黏黏的</b>，風吹不走喔。',
+      e:'答對了！酪梨的花粉黏黏的，風吹不走，要靠<b>蜜蜂</b>這些小蟲幫忙搬。'}},
+  {cam:[0,0,300,225],kick:'第 3 關・酪梨園（4 到 5 月）',h:'一串只留兩顆',
+   html:'<p>花謝了，樹上長出好多<b>小酪梨</b>。可是很多小酪梨會自己掉下來，到了 5、6 月才比較穩定。</p><p>阿伯要做兩件事：<b>疏果</b>（把多的果子摘掉），還有<b>套袋</b>（替留下來的果子套上紙袋）。</p><p class="note">給大人：農業試驗所建議每一串花留 1 到 2 顆果子，可以在套袋時一起疏果；被蟲咬的、生病的、會互相摩擦的果子要摘掉。套袋前要先防病蟲，袋口要綁緊。</p>',
+   task:'點一點，摘掉<b>被蟲咬的</b>、<b>太小的</b>，還有<b>擠在一起會互相磨到的</b>。每一串只留 <b>2 顆</b>最好的！',game:'thin',stamp:['bag','套上紙袋'],
+   win:'每一串都只留下 2 顆最好的，也套上紙袋了。紙袋可以擋住小蟲。',
+   why:['為什麼要摘掉小酪梨？','酪梨開很多很多花，大約<b>一千朵花</b>才有一朵會變成酪梨，小酪梨還會自己掉好幾次。留下來的少一點，每一顆分到的<b>養分</b>就多，才長得又大又好。']},
+  {cam:[0,0,300,225],kick:'第 4 關・曾文溪河堤旁（7 月）',h:'大雨過後，挖開看看',
+   html:'<p>7 月，下了一場好大的雨，果園裡有的地方積水了。阿伯很擔心，他說：「酪梨<b>愛水</b>，又<b>怕水</b>。」</p><p>雨停了。阿伯拿起鏟子，在樹旁邊把土挖開，看看<b>根</b>有沒有泡在水裡。</p><p class="note">給大人：農業試驗所說，酪梨的根 80% 到 90% 在土下 30 公分內，很需要空氣，泡水容易得根腐病；要種在通氣、排水好的砂質壤土或礫質壤土，地下水位要低於 2 公尺。有農民說，大內四面環山、颱風比較少。畫面是示意，不是真實比例。</p>',
+   task:'手指按在土上，<b>一直往下滑</b>，一層一層挖下去，挖到最下面。',game:'dig',stamp:['root','看到根了'],
+   win:'挖到底了！雨水很快就從砂土流下去，淺淺的根沒有泡在水裡。阿伯放心了。',
+   why:['為什麼酪梨怕泡水？','酪梨的根很<b>淺</b>，大部分在土下 <b>30 公分</b>以內，而且根要<b>呼吸</b>空氣。根泡在水裡太久，就會爛掉。所以阿伯除草不用鋤頭，怕挖斷淺淺的根。'],
+   q:{t:'酪梨喜歡種在哪一種地？',o:['水流得走、不會積水的地','一直泡在水裡的田','黏黏的、水排不掉的土'],a:0,hint:'想一想：酪梨的根要呼吸空氣。',
+      e:'答對了！酪梨要種在<b>排水好</b>的地方。大內很多酪梨園，就在<b>曾文溪</b>的河堤旁和小山坡上。'}},
+  {cam:[0,0,300,225],kick:'第 5 關・採酪梨（10 月）',h:'熟了沒？剪下來',
+   html:'<p>10 月，比較晚熟的酪梨可以採了。阿伯把紙袋往上推開，看一看。酪梨熟了沒，不能用捏的，因為酪梨<b>在樹上不會變軟</b>。</p><p>阿伯教你看兩個地方：<b>果梗</b>（連著果子的小柄）變<b>黃</b>了，皮上的<b>小黃點</b>變多了，就是熟了。</p><p class="note">給大人：大內酪梨產季大約 6 月到隔年 2 月；10 月有十月紅、台農 1 號紅甘等晚熟的品種。農民用採果剪採收，留一段果梗，紙袋先不拆。</p>',
+   task:'熟的才剪：手指<b>快快劃過</b>果梗，把它剪下來。記得留<b>一小段蒂頭</b>！採 <b>3 顆</b>。',game:'cut',stamp:['scissors','剪下熟酪梨'],
+   win:'3 顆熟酪梨都剪下來了，每一顆都留著一小段蒂頭。',
+   why:['為什麼要留一小段蒂頭？','如果果梗剪得太短，或是用拔的，細菌會從<b>蒂頭</b>跑進去，酪梨放著放著，就會從蒂頭開始<b>爛掉</b>。'],
+   q:{t:'怎麼看樹上的酪梨熟了沒？',o:['果梗變黃、小黃點變多','捏捏看，軟了就是熟了','用力搖樹，掉下來的就是熟的'],a:0,hint:'酪梨<b>在樹上不會變軟</b>喔！再看看你剪下來的那幾顆，果梗是什麼顏色？',
+      e:'答對了！看<b>果梗</b>和<b>小黃點</b>。可是剛剪下來的酪梨還是硬硬的，要怎麼讓它變軟呢？'}},
+  {cam:[0,0,300,225],kick:'第 6 關・阿伯家',h:'放在哪裡會變軟？',
+   html:'<p>剛採下來的酪梨，硬得像石頭。阿伯說：「酪梨要<b>放幾天</b>，才會變軟、變好吃。」</p><p>可是，要放在哪裡呢？家裡有三個地方：<b>冰箱</b>、<b>窗邊的太陽下</b>，還有<b>陰涼的房間</b>。</p><p class="note">給大人：農業試驗所說，酪梨採下後放在 20 到 25 度，大約 5 到 10 天會變軟；還沒變軟的酪梨不可以放冰箱，太熱（超過 35 度）也軟不起來。有的品種熟了會變紫黑色，有的熟了還是綠色。</p>',
+   task:'按住<b>酪梨</b>，拖到一個地方放放看。哪裡會讓它變軟？',game:'ripen',stamp:['avo','酪梨變軟了'],
+   win:'放在陰涼的房間，第 5 天，大拇指輕輕一壓，軟軟的！切開來，黃綠色的果肉香香的。',
+   why:['為什麼酪梨在樹上不會變軟？','酪梨很特別：掛在樹上，它會越長越<b>香</b>、越<b>油</b>，可是<b>不會變軟</b>。要採下來，放在不冷不熱的地方 5 到 10 天，才會變軟。所以阿伯可以讓熟的酪梨在樹上多掛一陣子，慢慢採。'],
+   q:{t:'怎麼知道酪梨可以吃了？',o:['大拇指輕輕壓，軟軟的','一定要等它變成黑色','搖一搖，聽種子有沒有在動'],a:0,hint:'有的酪梨熟了<b>還是綠色</b>的；種子也不一定會動喔。',
+      e:'答對了！<b>大拇指輕輕壓</b>，有一點軟就可以吃了。可以直接吃，打成<b>酪梨牛奶</b>，做<b>沙拉</b>，或包<b>手卷</b>。'}},
+  {cam:[105,-10,600,600],kick:'任務完成',h:'酪梨可以吃了！',
+   html:'<p>從 1 月到 10 月，你跟著阿伯嫁接小樹、幫蜜蜂送花粉、摘掉多的小酪梨、挖土看根、剪下熟酪梨，還找到讓酪梨變軟的地方。下次看到酪梨，摸摸看它軟了沒，想一想大內的阿伯一年做了多少事。</p>',game:'end'}
+];
+
+
+/* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
+var MAPS={"0": [["大內區", "台南市大內區"]], "4": [["曾文溪（大內）", "台南市大內區 曾文溪"]]};
+
+/* ---------- 狀態 ---------- */
+var KEY='tainan-avocado';
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+// 每次打開都從頭開始，不記錄玩到哪裡（使用者 2026-10-17 要求）；順便清掉以前存的進度
+var st={far:0,done:{0:1},name:''};store.set=function(){};try{localStorage.removeItem(KEY)}catch(e){}
+function save(){store.set(KEY,JSON.stringify(st))}
+function nStamps(){var n=0;LV.forEach(function(l,i){if(l.stamp&&st.done[i])n++});return n}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 地圖操作 ---------- */
+var map=document.getElementById('map');map.innerHTML=buildMap();decorate();
+var pinEl=document.getElementById('pin');
+var vb=[0,0,800,600],camRaf=0;
+function cam(t){
+  cancelAnimationFrame(camRaf);var from=vb.slice(),t0=performance.now(),D=reduce?1:900;
+  (function step(now){var q=Math.max(0,Math.min(1,(now-t0)/D)),e=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2;vb=from.map(function(v,k){return v+(t[k]-v)*e});map.setAttribute('viewBox',vb.join(' '));if(q<1)camRaf=requestAnimationFrame(step)})(t0);
+}
+function setEra(e){
+  map.classList.toggle('now',e==='now');
+  document.querySelectorAll('.era button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.era===e)});
+}
+document.querySelectorAll('.era button').forEach(function(b){b.addEventListener('click',function(){setEra(b.dataset.era)})});
+map.querySelectorAll('.stop').forEach(function(g){g.addEventListener('click',function(){var lv=+g.dataset.lv;if(lv<=st.far)go(lv)})});
+
+/* ---------- 上方舞台：地圖或小遊戲畫面 ---------- */
+var sceneEl=document.getElementById('scene'),peek=document.getElementById('peek'),eraBox=document.querySelector('.era'),sceneTimer=0;
+var stage=document.getElementById('stage'),loops=[];
+function stopLoops(){loops.forEach(function(f){f()});loops=[]}
+// 寬螢幕（左右兩欄）時舞台填滿左欄；手機直拿時舞台縮到剛好放得下遊戲圖
+var wide=window.matchMedia?matchMedia('(min-width:700px) and (min-aspect-ratio:5/4)'):{matches:false};
+function fitStage(){
+  // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
+  var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
+  if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
+  else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
+  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';
+  if(!svg)return;
+  // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
+  var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
+  svg.style.width=sw+'px';svg.style.height=sh+'px';
+  // 遊戲圖最下面那條地面或水面，往下延伸到圓的底部
+  [].forEach.call(svg.children,function(r){if(r.tagName!=='rect')return;var x=+r.getAttribute('x')||0,w=+r.getAttribute('width')||0,y=+r.getAttribute('y')||0,h=+r.getAttribute('height')||0;if(x<=0&&x+w>=vb.width&&y>0&&y+h>=vb.height-1&&y>gy){g=r;gy=y}});
+  var sky=svg.style.background||'#DFF3F8';
+  sceneEl.style.background=g?'linear-gradient('+sky+' '+(top+gy*k)+'px,'+g.getAttribute('fill')+' 0)':sky;
+}
+new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
+addEventListener('resize',fitStage);
+function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.textContent='回到遊戲';peek.hidden=!sceneEl.firstChild;fitStage()}
+function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.textContent='看地圖';peek.hidden=false;fitStage()}
+function setScene(html,delay){
+  clearTimeout(sceneTimer);sceneEl.innerHTML=html;var svg=sceneEl.querySelector('svg');
+  if(svg){svg.setAttribute('preserveAspectRatio','xMidYMax meet');sceneEl.style.background=svg.style.background||'#DFF3F8'}
+  if(delay&&!reduce){showMap();peek.hidden=true;sceneTimer=setTimeout(showGame,delay)}else showGame();
+  return sceneEl;
+}
+function clearScene(){clearTimeout(sceneTimer);stopLoops();sceneEl.innerHTML='';showMap()}
+peek.addEventListener('click',function(){if(sceneEl.hidden)showGame();else showMap()});
+
+/* ---------- 卡片 ---------- */
+var card=document.getElementById('card'),cur=0;
+card.addEventListener('click',function(e){if(e.target.closest('.big')&&sceneEl.hidden)showGame()});
+function chips(pop){
+  var h='';LV.forEach(function(l,i){if(l.stamp)h+='<i class="'+(st.done[i]?'on':'')+(pop===i?' pop':'')+'">'+(st.done[i]?icon(l.stamp[0]):'')+'</i>'});
+  document.getElementById('chips').innerHTML=h;
+}
+function el(html){var d=document.createElement('div');d.innerHTML=html;return d}
+function say(box,text,again){box.hidden=false;box.className='say'+(again?' again':'');box.innerHTML=text}
+function later(fn,ms){var t=setTimeout(fn,reduce?0:ms);loops.push(function(){clearTimeout(t)})}
+function into(node){setTimeout(function(){node.scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'})},50)}
+function onKey(node,fn){node.addEventListener('click',fn);node.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})}
+function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;area.appendChild(b);into(b);return b}
+
+function whyHTML(l){return l.why?'<details class="why"><summary>'+l.why[0]+'</summary><p>'+l.why[1]+'</p></details>':''}
+function win(i){
+  if(st.done[i])return;st.done[i]=1;st.far=Math.max(st.far,i+1);save();chips(i);paint();
+  var l=LV[i],box=el('<div class="got"><span class="seal'+(reduce?'':' pop')+'">'+icon(l.stamp[0])+'</span><p>蓋章：'+l.stamp[1]+'！<br>按「下一關」繼續。</p></div>'+whyHTML(l));
+  var nb=card.querySelector('.notes');if(nb)card.insertBefore(box,nb);else card.appendChild(box);into(box);
+}
+function render(i){
+  var l=LV[i];
+  var top=document.getElementById('top');top.innerHTML='<p class="kick">'+l.kick+'</p><h2>'+l.h+'</h2>';
+  card.innerHTML=l.html+(l.task?'<p class="task">'+l.task+'</p>':'');
+  [top,card].forEach(function(n){n.classList.remove('enter');void n.offsetWidth;n.classList.add('enter')});
+  card.scrollTop=0;if(!wide.matches)window.scrollTo(0,0);
+  var area=document.createElement('div');card.appendChild(area);
+  // 提醒、給大人：全部移到卡片最下面
+  var ns=card.querySelectorAll(':scope>p.note');if(ns.length){var nb=document.createElement('div');nb.className='notes';
+    [].forEach.call(ns,function(n){if(!/^\s*給大人/.test(n.textContent))n.insertAdjacentHTML('afterbegin','<b>提醒</b>　');nb.appendChild(n)});card.appendChild(nb)}
+  // 去現場看看：Google 地圖連結放在卡片最下面的小字（完成頁列出全部）
+  var mp=MAPS[i];if(l.game==='end'){var seen={};mp=[];Object.keys(MAPS).forEach(function(k){MAPS[k].forEach(function(m){if(!seen[m[0]]){seen[m[0]]=1;mp.push(m)}})})}
+  if(mp&&mp.length){var nb2=card.querySelector(':scope>.notes');if(!nb2){nb2=document.createElement('div');nb2.className='notes';card.appendChild(nb2)}
+    nb2.insertAdjacentHTML('beforeend','<p class="note maps">去現場看看（Google 地圖）：'+mp.map(function(m){return '<a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(m[1])+'" target="_blank" rel="noopener">'+m[0]+'</a>'}).join('、')+'</p>')}
+  if(st.done[i]&&l.stamp){
+    area.innerHTML=(l.win?'<p class="say">'+l.win+'</p>':'')+(l.q?'<p class="say">'+l.q.e+'</p>':'')+whyHTML(l)+'<div class="got"><span class="seal">'+icon(l.stamp[0])+'</span><p>已經蓋章：'+l.stamp[1]+'</p></div><button class="again-btn" type="button">再玩一次這關</button>';
+    area.querySelector('.again-btn').addEventListener('click',function(){var keep=st.done[i];delete st.done[i];render(i);st.done[i]=keep;replay=i;paint()});
+    return;
+  }
+  GAMES[l.game](area,i,l);
+}
+var replay=-1;
+function finish(i){if(replay===i){replay=-1;render(i);return}win(i)}
+
+function quiz(area,l,done){
+  var q=l.q,box=el('<p class="kick" style="margin-top:6px">'+(q.field?'現場找一找':'想一想')+'</p><p>'+q.t+'</p>');
+  var opts=document.createElement('div');
+  q.o.forEach(function(t,j){
+    var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
+    b.addEventListener('click',function(){
+      if(j===q.a){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add('yes');say(msg,q.e);if(sk)sk.remove();done()}
+      else{b.classList.add('no');b.disabled=true;say(msg,q.hint,1)}
+    });opts.appendChild(b)});
+  box.appendChild(opts);var msg=document.createElement('p');msg.hidden=true;box.appendChild(msg);
+  var sk=null;if(q.field){sk=el('<button class="skip" type="button">不在現場，先跳過</button>').firstChild;sk.addEventListener('click',function(){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});say(msg,'先跳過。'+q.e);sk.remove();done()});box.appendChild(sk)}
+  area.appendChild(box);into(box);
+}
+// 把螢幕上的點換成插圖裡的座標
+function toSvg(svg,e){var m=svg.getScreenCTM();if(!m)return {x:-999,y:-999};var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(m.inverse())}
+// 在插圖上拖手指：down、move、up 都換成插圖座標
+function drag(svg,fn){
+  var on=false;svg.style.touchAction='none';
+  svg.addEventListener('pointerdown',function(e){on=true;try{svg.setPointerCapture(e.pointerId)}catch(_){}fn('down',toSvg(svg,e),e)});
+  svg.addEventListener('pointermove',function(e){if(on||e.pointerType==='mouse')fn(on?'move':'hover',toSvg(svg,e),e)});
+  ['pointerup','pointercancel'].forEach(function(t){svg.addEventListener(t,function(e){if(on){on=false;fn('up',toSvg(svg,e),e)}})});
+}
+
+var GAMES={
+  start:function(area){
+    var art=avo(100,110,3.5,{stem:4})+[[112,100],[120,118],[92,132],[110,142],[86,114],[118,138],[100,122],[126,128],[96,96]].map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.3" fill="#EDE27E"/>'}).join('')+avoHalf(238,112,3.2);
+    setScene(idCard('酪梨','樟科的樹結的果子・臺灣又叫幸福果',art,[['綠綠的硬皮',52,64,80,104],['小黃點',162,72,120,118],['黃綠色的果肉',238,62,230,100],['大大的種子',238,170,238,136]]));
+    var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
+
+  /* 第 1 關：兩根手指往中間捏，把小樹枝接到小樹上（嫁接） */
+  graft:function(area,i,l){
+    var X=[110,230],TOP=58,J=92,sy=[TOP,TOP],ok=[0,0],n=0,done=false,NAME=['A 型','B 型'];
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EEF3E4"><rect x="-400" y="152" width="1200" height="100" fill="#C7A878"/>';
+    X.forEach(function(x){
+      s+='<path d="M'+(x-24)+' 126H'+(x+24)+'L'+(x+19)+' 156H'+(x-19)+'Z" fill="#C9744A" stroke="#8A4A2A" stroke-width="1.4"/><rect x="'+(x-26)+'" y="122" width="52" height="7" rx="2" fill="#B5643E"/>'+
+        '<text x="'+x+'" y="148" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">'+NAME[X.indexOf(x)]+'</text>'+
+        '<path d="M'+x+' 124V'+J+'" stroke="#7A6A3A" stroke-width="6" stroke-linecap="round"/><ellipse cx="'+(x-12)+'" cy="112" rx="12" ry="4.6" fill="'+LEAFC+'" transform="rotate(-20 '+(x-12)+' 112)"/><ellipse cx="'+(x+12)+'" cy="105" rx="12" ry="4.6" fill="#5E9A46" transform="rotate(20 '+(x+12)+' 105)"/>'+
+        '<path d="M'+(x-2.2)+' '+J+'L'+x+' '+(J+7)+'L'+(x+2.2)+' '+J+'" stroke="#3E3420" stroke-width="1" fill="none"/>';
+    });
+    s+='<text x="52" y="40" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#EEF3E4" stroke-width="4" paint-order="stroke">小樹枝</text><text x="56" y="116" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#EEF3E4" stroke-width="4" paint-order="stroke">小樹</text>'+
+      '<g id="tp"></g><g id="nl"></g><g id="sc0"></g><g id="sc1"></g><g id="hint"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),tp=svg.querySelector('#tp'),nl=svg.querySelector('#nl'),hn=svg.querySelector('#hint'),G=[svg.querySelector('#sc0'),svg.querySelector('#sc1')];
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    G.forEach(function(g,k){g.innerHTML='<path d="M0 0V-32" stroke="#6E7A3A" stroke-width="4.6" stroke-linecap="round"/><path d="M-2.4 -1L0 7L2.4 -1Z" fill="#8A9A4A"/>'+
+      '<ellipse cx="-9" cy="-32" rx="10" ry="4" fill="'+LEAFC+'" transform="rotate(-30 -9 -32)"/><ellipse cx="9" cy="-35" rx="10" ry="4" fill="#5E9A46" transform="rotate(30 9 -35)"/><circle cy="-35" r="2.8" fill="#9DBE5A"/>'});
+    function setS(k,y){if(ok[k])return;sy[k]=Math.max(TOP,Math.min(J,y));G[k].setAttribute('transform','translate('+X[k]+' '+f1(sy[k])+')');if(sy[k]>=J-3)join(k)}
+    function hint(){var k=ok.indexOf(0);if(k<0||done){hn.innerHTML='';return}var x=X[k];
+      hn.innerHTML='<circle cx="'+x+'" cy="'+(TOP-14)+'" r="17" fill="none" stroke="#DB2E27" stroke-width="2" stroke-dasharray="5 4"/><circle cx="'+x+'" cy="114" r="17" fill="none" stroke="#DB2E27" stroke-width="2" stroke-dasharray="5 4"/>'+
+        '<path d="M'+(x+26)+' 52V72M'+(x+21)+' 67L'+(x+26)+' 72L'+(x+31)+' 67M'+(x+26)+' 112V92M'+(x+21)+' 97L'+(x+26)+' 92L'+(x+31)+' 97" stroke="#DB2E27" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'}
+    function join(k){
+      if(ok[k]||done)return;ok[k]=1;n++;sy[k]=J;G[k].setAttribute('transform','translate('+X[k]+' '+J+')');bar.style.width=(n/2*100)+'%';hint();
+      var x=X[k];tp.insertAdjacentHTML('beforeend','<rect x="'+(x-5.5)+'" y="86" width="11" height="13" rx="2" fill="#F7F7F0" stroke="#B8B8A8" stroke-width=".7"/><path d="M'+(x-4.5)+' 89L'+(x+4.5)+' 91.5M'+(x-4.5)+' 94L'+(x+4.5)+' 96.5" stroke="#B8B8A8" stroke-width=".7"/>');
+      later(function(){nl.insertAdjacentHTML('beforeend','<g transform="translate('+x+' 58)"><path d="M0 0Q-2 -10 -12 -15M0 -2Q4 -12 14 -15" stroke="#6E7A3A" stroke-width="2" fill="none"/><ellipse cx="-14" cy="-16" rx="10" ry="4.4" fill="#7DBB55" transform="rotate(-20 -14 -16)"/><ellipse cx="15" cy="-16" rx="10" ry="4.4" fill="#8BC864" transform="rotate(20 15 -16)"/></g>')},700);
+      if(n>=2){done=true;say(msg,'兩棵都接好了！阿伯用<b>膠帶</b>綁緊⋯⋯');later(function(){say(msg,l.win);finish(i)},1500)}
+      else say(msg,'接好一棵了！阿伯用<b>膠帶</b>綁緊。再接另一棵。');
+    }
+    // 兩根手指往中間捏；也可以一根手指把小樹枝往下拖
+    var pts={},grab=-1,gy0=0,gs0=0,pin=-1,d0=0,ps0=0,used=false;
+    svg.style.touchAction='none';
+    function dist(){var a=Object.keys(pts).map(function(k){return pts[k]});return a.length<2?0:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)}
+    svg.addEventListener('pointerdown',function(e){
+      if(done)return;try{svg.setPointerCapture(e.pointerId)}catch(_){}
+      var p=toSvg(svg,e);pts[e.pointerId]={x:e.clientX,y:e.clientY,p:p};var c=Object.keys(pts).length;
+      if(c===1){used=false;grab=-1;X.forEach(function(x,k){if(!ok[k]&&Math.abs(p.x-x)<30&&p.y>sy[k]-50&&p.y<sy[k]+14)grab=k});gy0=p.y;gs0=grab>=0?sy[grab]:0}
+      if(c===2){grab=-1;used=true;var a=Object.keys(pts).map(function(k){return pts[k].p}),mx=(a[0].x+a[1].x)/2;pin=-1;var bd=999;X.forEach(function(x,k){if(!ok[k]&&Math.abs(x-mx)<bd){bd=Math.abs(x-mx);pin=k}});d0=dist();ps0=pin>=0?sy[pin]:0}
+    });
+    svg.addEventListener('pointermove',function(e){
+      if(!pts[e.pointerId]||done)return;pts[e.pointerId].x=e.clientX;pts[e.pointerId].y=e.clientY;
+      if(Object.keys(pts).length>=2&&pin>=0&&d0>0){setS(pin,ps0+(d0-dist())/(d0*.45)*(J-TOP));return}
+      if(grab>=0){var p=toSvg(svg,e);if(Math.abs(p.y-gy0)>2)used=true;setS(grab,gs0+(p.y-gy0))}
+    });
+    ['pointerup','pointercancel'].forEach(function(t){svg.addEventListener(t,function(e){
+      delete pts[e.pointerId];var c=Object.keys(pts).length;if(c<2)pin=-1;
+      if(c===0){if(!used&&grab<0&&!done)say(msg,'手指要按在上面的<b>小樹枝</b>，往下拖；或用兩根手指往中間<b>捏</b>。',1);grab=-1}
+    })});
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','嫁接的畫面，按 Enter 把小樹枝接到小樹上');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var k=ok.indexOf(0);if(k>=0)join(k)}});
+    later(function(){if(!n&&!done)say(msg,'一根手指放在<b>小樹枝</b>上，一根放在<b>小樹</b>上，兩根手指<b>靠近</b>。電腦上，按住小樹枝往下拖。')},8000);
+    G.forEach(function(g,k){setS(k,TOP)});hint();
+  },
+
+  /* 第 2 關：自己畫一條路，讓蜜蜂把爸爸花的花粉送到媽媽花 */
+  bee:function(area,i,l){
+    var T=[{x:80,y:86},{x:240,y:86}],FL=[[-26,-16],[0,-34],[26,-14],[-14,8],[16,10]],round=0,pol=[0,0],B={x:240,y:66},path=[],drawing=false,busy=false,done=false,raf=0,face=0;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E7F2F2"><rect x="-400" y="160" width="1200" height="100" fill="#C9D6A0"/><g id="sun"></g>';
+    T.forEach(function(t){s+='<rect x="'+(t.x-5)+'" y="100" width="10" height="62" fill="#7A5A3A"/><circle cx="'+(t.x-24)+'" cy="'+(t.y)+'" r="27" fill="'+LEAFD+'"/><circle cx="'+(t.x+24)+'" cy="'+(t.y)+'" r="27" fill="'+LEAFD+'"/><circle cx="'+t.x+'" cy="'+(t.y-22)+'" r="30" fill="'+LEAFC+'"/><circle cx="'+t.x+'" cy="'+(t.y+8)+'" r="26" fill="'+LEAFC+'"/>'});
+    s+='<text x="80" y="180" font-size="15" font-weight="700" fill="#fff" text-anchor="middle" stroke="#4E6B3A" stroke-width="3" paint-order="stroke">A 型</text><text x="240" y="180" font-size="15" font-weight="700" fill="#fff" text-anchor="middle" stroke="#4E6B3A" stroke-width="3" paint-order="stroke">B 型</text>'+
+      '<g id="fl"></g><g id="lb"></g><path id="pth" fill="none" stroke="#6C2024" stroke-width="2.4" stroke-dasharray="5 4" stroke-linecap="round"/><g id="bz"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),fl=svg.querySelector('#fl'),lb=svg.querySelector('#lb'),pth=svg.querySelector('#pth'),bz=svg.querySelector('#bz'),sun=svg.querySelector('#sun');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function ph(k){return round===0?(k===0?'f':'m'):(k===0?'m':'f')}
+    function lab(t,x,y,c){return '<text x="'+x+'" y="'+y+'" font-size="15" font-weight="700" fill="'+c+'" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke">'+t+'</text>'}
+    function paintT(){
+      var h='';T.forEach(function(t,k){var p=ph(k);FL.forEach(function(o){h+=flCluster(t.x+o[0],t.y+o[1],1.35,p,p==='f'&&pol[k])})});fl.innerHTML=h;
+      lb.innerHTML=T.map(function(t,k){return ph(k)==='f'?lab('媽媽花',t.x,26,'#DB2E27'):lab('爸爸花',t.x,26,'#6C2024')}).join('');
+      sun.innerHTML=round===0?'<circle cx="160" cy="18" r="10" fill="#F7D35A"/>'+lab('上午',160,48,'#8A6A20'):'<circle cx="160" cy="18" r="10" fill="#F2A04A"/>'+lab('下午',160,48,'#A0522D');
+    }
+    function drawBee(t){bz.innerHTML=bee(B.x,B.y+(busy||drawing?0:Math.sin(t/220)*1.6),2,face>0)}
+    (function loop(t){drawBee(t);raf=requestAnimationFrame(loop)})(performance.now());
+    loops.push(function(){cancelAnimationFrame(raf)});
+    function tg(){return round===0?0:1}
+    function fly(pts){
+      busy=true;var L=[0];for(var k=1;k<pts.length;k++)L.push(L[k-1]+Math.hypot(pts[k].x-pts[k-1].x,pts[k].y-pts[k-1].y));
+      var tot=L[L.length-1],D=reduce?1:Math.max(800,tot/130*1000),t0=performance.now(),j=1;
+      (function f(now){var d=Math.min(1,(now-t0)/D)*tot;while(j<pts.length-1&&L[j]<d)j++;var a=pts[j-1],b=pts[j],q=(d-L[j-1])/Math.max(.001,L[j]-L[j-1]);
+        var nx=a.x+(b.x-a.x)*q,ny=a.y+(b.y-a.y)*q;if(Math.abs(nx-B.x)>.3)face=nx>B.x?1:0;B.x=nx;B.y=ny;
+        if(d<tot){requestAnimationFrame(f);return}
+        busy=false;pth.setAttribute('d','');arrive()})(t0);
+    }
+    function arrive(){
+      var k=tg();pol[k]=1;paintT();bar.style.width=((round+1)/2*100)+'%';
+      if(round===0){busy=true;say(msg,'花粉送到 <b>A 型</b>的媽媽花上了！');
+        later(function(){round=1;busy=false;paintT();say(msg,'到了<b>下午</b>⋯⋯早上那些媽媽花關起來，再打開，變成<b>爸爸花</b>了！這次 <b>B 型</b>的樹開媽媽花。再畫一次，從蜜蜂畫到媽媽花。')},1600)}
+      else{done=true;say(msg,l.win);quiz(area,l,function(){finish(i)})}
+    }
+    drag(svg,function(t,p){
+      if(done||busy)return;
+      if(t==='down'){if(Math.hypot(p.x-B.x,p.y-B.y)<34){drawing=true;path=[{x:B.x,y:B.y}]}else say(msg,'要從<b>蜜蜂</b>開始畫喔。',1);return}
+      if(!drawing)return;
+      if(t==='move'){var q=path[path.length-1];if(Math.hypot(p.x-q.x,p.y-q.y)>3){path.push({x:Math.max(6,Math.min(314,p.x)),y:Math.max(8,Math.min(176,p.y))});pth.setAttribute('d','M'+path.map(function(o){return f1(o.x)+' '+f1(o.y)}).join('L'))}return}
+      if(t==='up'){drawing=false;var e=path[path.length-1],k=tg();
+        var len=0;for(var j=1;j<path.length;j++)len+=Math.hypot(path[j].x-path[j-1].x,path[j].y-path[j-1].y);
+        if(len>40&&Math.hypot(e.x-T[k].x,e.y-(T[k].y-8))<52)fly(path);
+        else{say(msg,'要一直畫到<b>媽媽花</b>那棵樹喔。看看樹上面寫的字。',1);later(function(){if(!busy)pth.setAttribute('d','')},700)}}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','酪梨開花的畫面，按 Enter 讓蜜蜂飛到媽媽花');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done&&!busy){e.preventDefault();var k=tg(),p=[{x:B.x,y:B.y},{x:160,y:60},{x:T[k].x,y:T[k].y-14}];fly(p)}});
+    later(function(){if(!pol[0]&&!done)say(msg,'手指按住<b>蜜蜂</b>不要放開，畫一條線到左邊那棵開<b>媽媽花</b>的樹，再放開。')},8000);
+    paintT();
+  },
+
+  /* 第 3 關：疏果。每一串只留 2 顆最好的，再套上紙袋 */
+  thin:function(area,i,l){
+    var CX=[72,160,248],CL=[
+      [{dx:-20,dy:68,t:'ok'},{dx:-4,dy:116,t:'bite'},{dx:16,dy:70,t:'ok'},{dx:24,dy:116,t:'small'}],
+      [{dx:-24,dy:70,t:'small'},{dx:-8,dy:116,t:'ok'},{dx:10,dy:66,t:'rub'},{dx:24,dy:76,t:'rub'}],
+      [{dx:-22,dy:68,t:'bite'},{dx:-6,dy:116,t:'ok'},{dx:16,dy:68,t:'small'},{dx:24,dy:116,t:'ok'}]],F=[],N=6,cnt=0,done=false;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E6F0E8"><rect x="-400" y="172" width="1200" height="80" fill="#CFDDBF"/>'+
+      '<path d="M-30 26Q80 14 160 22T350 18" stroke="#7A5A3A" stroke-width="8" fill="none" stroke-linecap="round"/>';
+    [[20,14,-20],[118,12,15],[200,26,-10],[300,10,20],[40,32,25],[270,32,-25]].forEach(function(e){s+='<ellipse cx="'+e[0]+'" cy="'+e[1]+'" rx="16" ry="6" fill="'+LEAFC+'" transform="rotate('+e[2]+' '+e[0]+' '+e[1]+')"/>'});
+    CX.forEach(function(x){s+='<path d="M'+x+' 22V42" stroke="#8A7A4A" stroke-width="2.4"/>'});
+    s+='<g id="fr"></g><g id="rub"></g><g id="bags"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),fr=svg.querySelector('#fr'),rb=svg.querySelector('#rub'),bags=svg.querySelector('#bags');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    CL.forEach(function(c,ci){c.forEach(function(o){var f={k:ci,x:CX[ci]+o.dx,y:o.dy,t:o.t,s:o.t==='small'?.85:1.45,gone:0};f.g=document.createElementNS(NS,'g');
+      var top=-13*f.s;f.g.innerHTML='<path d="M'+f1(CX[ci]-f.x)+' '+f1(42-f.y)+'Q'+f1((CX[ci]-f.x)/2)+' '+f1(top-4)+' 0 '+f1(top)+'" stroke="#8A9A4A" stroke-width="1.4" fill="none"/>'+avo(0,0,f.s,{stem:0,bite:f.t==='bite',c:f.t==='small'?'#6E9A3E':SKIN});
+      f.g.setAttribute('transform','translate('+f.x+' '+f.y+')');fr.appendChild(f.g);F.push(f)})});
+    F.forEach(function(f){if(f.t==='rub')f.p=F.filter(function(o){return o.t==='rub'&&o!==f})[0]});
+    rb.innerHTML='<path d="M'+(F[6].x+8)+' '+(F[6].y-12)+'l3 -3l1 4l3 -3" stroke="#DB2E27" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M'+(F[6].x+6)+' '+(F[6].y+16)+'l3 3l1 -4l3 3" stroke="#DB2E27" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    function bad(f){return !f.gone&&(f.t==='bite'||f.t==='small'||(f.t==='rub'&&!f.p.gone))}
+    function bagUp(ci){
+      F.forEach(function(f){if(f.k!==ci||f.gone)return;var h=f1(13*f.s*1.25),w=f1(10*f.s*1.25);
+        bags.insertAdjacentHTML('beforeend','<g transform="translate('+f.x+' '+f.y+')" class="bg"><path d="M-'+w+' -'+h+'H'+w+'L'+f1(w*1.25)+' '+f1(h*1.3)+'H-'+f1(w*1.25)+'Z" fill="#F6F0E0" stroke="#C9BC9C" stroke-width=".9"/><path d="M-'+f1(w*.7)+' -'+h+'H'+f1(w*.7)+'" stroke="#9A7A55" stroke-width="2" stroke-linecap="round"/><path d="M-'+f1(w*.6)+' 0H'+f1(w*.6)+'" stroke="#E2D8C0" stroke-width=".8"/></g>')});
+    }
+    function pick(f){
+      if(done||f.gone)return;
+      if(!bad(f)){say(msg,'這顆又大又好，<b>留著</b>！',1);var t0=performance.now();(function w(now){var q=Math.min(1,(now-t0)/(reduce?1:360));f.g.setAttribute('transform','translate('+f1(f.x+Math.sin(q*Math.PI*4)*2*(1-q))+' '+f.y+')');if(q<1)requestAnimationFrame(w)})(t0);return}
+      f.gone=1;cnt++;bar.style.width=(cnt/N*100)+'%';if(f.t==='rub')rb.innerHTML='';
+      var t1=performance.now(),y0=f.y;(function d(now){var q=Math.min(1,(now-t1)/(reduce?1:600));f.g.setAttribute('transform','translate('+f.x+' '+f1(y0+q*q*110)+')');f.g.setAttribute('opacity',String(1-q));if(q<1)requestAnimationFrame(d);else f.g.remove()})(t1);
+      var left=F.filter(function(o){return o.k===f.k&&bad(o)}).length,M={bite:'被<b>蟲咬</b>的，摘掉。',small:'<b>太小</b>了，摘掉，把養分留給大的。',rub:'這兩顆<b>擠在一起</b>，會互相磨傷，摘掉一顆。'};
+      if(!left){later(function(){bagUp(f.k)},350);say(msg,M[f.t]+'這一串只剩 2 顆好的，套上<b>紙袋</b>！')}else say(msg,M[f.t]);
+      if(cnt>=N){done=true;later(function(){say(msg,l.win);finish(i)},1300)}
+    }
+    svg.addEventListener('pointerdown',function(e){var p=toSvg(svg,e),best=null,bd=26;F.forEach(function(f){if(f.gone)return;var d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;best=f}});if(best)pick(best)});
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','疏果的畫面，按 Enter 摘掉一顆不好的小酪梨');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var f=F.filter(bad)[0];if(f)pick(f)}});
+    later(function(){if(!cnt&&!done)say(msg,'看看每一串：有一顆有<b>咖啡色的洞</b>（被蟲咬了），有一顆<b>特別小</b>。點它們，把它們摘掉。')},8000);
+  },
+
+  /* 第 4 關：一直往下滑，把土挖開，看看根和地下水 */
+  dig:function(area,i,l){
+    var B=[52,80,108,136,163.5],step=0,done=false,ly=0,dug=false;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#DCEBF2">'+
+      '<rect x="204" y="10" width="12" height="44" fill="#7A5A3A"/><circle cx="194" cy="10" r="18" fill="'+LEAFD+'"/><circle cx="226" cy="12" r="16" fill="'+LEAFD+'"/><circle cx="210" cy="2" r="16" fill="'+LEAFC+'"/>'+
+      '<rect x="-400" y="52" width="1200" height="28" fill="#8E6C48"/><rect x="-400" y="80" width="1200" height="28" fill="#C9A774"/><rect x="-400" y="108" width="1200" height="28" fill="#B89868"/><rect x="-400" y="136" width="1200" height="27" fill="#A5865C"/><rect x="-400" y="163" width="1200" height="300" fill="#7FB6D0"/>'+
+      '<path d="M210 52Q190 60 150 64Q120 66 92 72M210 52Q236 62 270 66Q292 68 310 74M210 52Q200 66 180 78M210 52Q220 68 238 80M210 52V86M168 63Q160 70 152 78M252 64Q258 72 262 79M120 66Q110 72 104 78M280 68Q288 74 292 80" stroke="#EAD9B6" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+    var r=rnd(5);for(var k=0;k<60;k++)s+='<circle cx="'+f1(r()*320)+'" cy="'+f1(82+r()*24)+'" r=".9" fill="#E6CFA0"/>';
+    for(k=0;k<16;k++)s+='<ellipse cx="'+f1(r()*320)+'" cy="'+f1(112+r()*20)+'" rx="'+f1(3+r()*3)+'" ry="'+f1(2+r()*1.6)+'" fill="#CFC8BC" stroke="#9A9284" stroke-width=".6"/>';
+    s+='<path d="M10 172q10 -4 20 0t20 0M150 178q10 -4 20 0t20 0M250 174q10 -4 20 0t20 0" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none"/>';
+    B.forEach(function(y,k){s+='<rect class="cv" x="-400" y="'+y+'" width="1200" height="'+(k===4?300:28)+'" fill="#6F5236"/>'});
+    s+='<rect x="-400" y="48" width="1200" height="5" fill="#7FAE4E"/><ellipse id="pud" cx="84" cy="52" rx="38" ry="5" fill="#8FC7DE"/><g id="lb"></g><g id="sh" style="display:none"><path d="M0 -26V-6" stroke="#8A6A48" stroke-width="3" stroke-linecap="round"/><path d="M-6 -8H6L4 4Q0 8 -4 4Z" fill="#A9B2B8" stroke="#6E777D" stroke-width="1"/></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),cv=svg.querySelectorAll('.cv'),lb=svg.querySelector('#lb'),sh=svg.querySelector('#sh'),pud=svg.querySelector('#pud');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function lab(t,x,y,a){return '<text x="'+x+'" y="'+y+'" font-size="15" font-weight="700" fill="#fff" text-anchor="'+(a||'middle')+'" stroke="#3E2A18" stroke-width="3.5" paint-order="stroke">'+t+'</text>'}
+    var LB=[lab('根在很淺的地方',250,74)+'<path d="M4 80H24" stroke="#fff" stroke-width="2"/>'+lab('30 公分',28,86,'start'),lab('砂砂的土',150,101),lab('小石頭',150,129),'',lab('地下水',160,184)+'<path d="M4 163H24" stroke="#fff" stroke-width="2"/>'+lab('2 公尺',28,169,'start')];
+    var MSG=['看到<b>根</b>了！好多細細的根，都在很淺的地方。','下面是<b>砂砂的土</b>。看！積在上面的雨水，很快就流下去了。','還有<b>小石頭</b>，水流得更快。','再挖深一點⋯⋯','挖到<b>地下水</b>了！它在很深的地方，碰不到酪梨的根。'];
+    function fade(node,ms,then){var t0=performance.now();(function f(now){var q=Math.min(1,(now-t0)/(reduce?1:ms));node.setAttribute('opacity',String(1-q));if(q<1)requestAnimationFrame(f);else if(then)then()})(t0)}
+    function dig(){
+      if(done||step>=5)return;var c=cv[step];step++;dug=true;bar.style.width=(step/5*100)+'%';
+      fade(c,260,function(){c.remove();if(step>=5)fitStage()});
+      lb.insertAdjacentHTML('beforeend',LB[step-1]);say(msg,MSG[step-1]);
+      if(step===2)fade(pud,1400);
+      if(step>=5){done=true;sh.style.display='none';later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},1500)}
+    }
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){ly=p.y;dug=false;sh.style.display='';sh.setAttribute('transform','translate('+f1(p.x)+' '+f1(p.y)+')');return}
+      if(t==='move'){sh.setAttribute('transform','translate('+f1(p.x)+' '+f1(p.y)+')');if(p.y-ly>=22){ly=p.y;dig()}else if(p.y<ly)ly=p.y;return}
+      if(t==='up'){sh.style.display='none';if(!dug)say(msg,'要<b>往下滑</b>，才挖得動喔。',1)}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','挖土的畫面，按 Enter 往下挖一層');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();dig()}});
+    later(function(){if(!step&&!done)say(msg,'手指按在土上，像拿鏟子一樣<b>往下滑</b>。滑一次，挖一層。')},8000);
+  },
+
+  /* 第 5 關：看果梗和小黃點，熟的才剪；手指劃過果梗，留一小段蒂頭 */
+  cut:function(area,i,l){
+    var X=[48,104,160,216,272],ST=40,FT=74,S=1.5,FY=FT+13*S,F=[],n=0,N=3,done=false,last=null,trail=[],hitThis={};
+    var ripe=[0,1,2,3,4].sort(function(){return Math.random()-.5}).slice(0,3);
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E8F1EA"><rect x="-400" y="172" width="1200" height="80" fill="#CDBB8E"/>'+
+      '<path d="M-30 24Q80 14 160 22T350 20" stroke="#7A5A3A" stroke-width="8" fill="none" stroke-linecap="round"/>';
+    [[16,12,-20],[76,10,15],[132,30,-12],[190,10,18],[246,30,-20],[306,12,20]].forEach(function(e){s+='<ellipse cx="'+e[0]+'" cy="'+e[1]+'" rx="16" ry="6" fill="'+LEAFC+'" transform="rotate('+e[2]+' '+e[0]+' '+e[1]+')"/>'});
+    s+='<g id="st"></g><g id="fr"></g><path d="M112 146H208L198 178H122Z" fill="#B88A55" stroke="#7A5530" stroke-width="1.4"/><path d="M116 156H204M119 166H201" stroke="#9A7040" stroke-width="1"/><g id="bk"></g><path id="tr" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><g id="fx"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),stG=svg.querySelector('#st'),frG=svg.querySelector('#fr'),bk=svg.querySelector('#bk'),tr=svg.querySelector('#tr'),fx=svg.querySelector('#fx');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    X.forEach(function(x,k){var f={x:x,ripe:ripe.indexOf(k)>=0,cut:0};
+      stG.insertAdjacentHTML('beforeend','<path d="M'+(x-6)+' 27H'+(x+6)+'L'+(x+5)+' '+ST+'H'+(x-5)+'Z" fill="#F6F0E0" stroke="#C9BC9C" stroke-width=".8"/><path d="M'+(x-5)+' 32L'+(x+4)+' 34M'+(x-4)+' 37L'+(x+5)+' 36" stroke="#D6CBB0" stroke-width=".8"/>');
+      f.up=document.createElementNS(NS,'path');f.up.setAttribute('stroke',f.ripe?STEMY:STEMG);f.up.setAttribute('stroke-width','3');f.up.setAttribute('stroke-linecap','round');f.up.setAttribute('d','M'+x+' '+ST+'V'+FT);stG.appendChild(f.up);
+      f.g=document.createElementNS(NS,'g');f.g.innerHTML=avo(0,0,S,f.ripe?{stem:0,dots:18,dull:true,seed:k+2}:{stem:0,dots:3,c:'#5C8A34',seed:k+2});f.g.setAttribute('transform','translate('+x+' '+FY+')');frG.appendChild(f.g);F.push(f)});
+    function cut(f,yy){
+      f.cut=1;n++;bar.style.width=(n/N*100)+'%';f.up.setAttribute('d','M'+f.x+' '+ST+'V'+f1(yy));
+      var stub=document.createElementNS(NS,'path');stub.setAttribute('d','M0 '+f1(yy-FY)+'V'+f1(-13*S));stub.setAttribute('stroke',STEMY);stub.setAttribute('stroke-width','3');stub.setAttribute('stroke-linecap','round');f.g.insertBefore(stub,f.g.firstChild);
+      var tx=136+(n-1)*24,ty=150,t0=performance.now();
+      (function d(now){var q=Math.min(1,(now-t0)/(reduce?1:700)),x=f.x+(tx-f.x)*q,y=FY+(ty-FY)*q-30*Math.sin(Math.PI*q),k=1-.45*q;f.g.setAttribute('transform','translate('+f1(x)+' '+f1(y)+') scale('+f1(k*100)/100+')');if(q<1){requestAnimationFrame(d);return}
+        if(n>=N){done=true;say(msg,'3 顆都剪好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}})(t0);
+      say(msg,n<N?'剪下來了！蒂頭留著一小段。還要 '+(N-n)+' 顆。':'剪下來了！');
+    }
+    function hit(f,yy){
+      if(hitThis[f.x])return;hitThis[f.x]=1;
+      fx.innerHTML='<circle cx="'+f.x+'" cy="'+f1(yy)+'" r="8" fill="none" stroke="'+(f.ripe&&yy<=64?'#fff':'#DB2E27')+'" stroke-width="2"/>';later(function(){fx.innerHTML=''},400);
+      if(!f.ripe){say(msg,'這顆的果梗還是<b>綠的</b>，小黃點也很少，還沒熟。留在樹上！',1);return}
+      if(yy>64){say(msg,'剪得太靠近果子了！要留<b>一小段蒂頭</b>，剪高一點。',1);return}
+      cut(f,yy);
+    }
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){last=p;trail=[p];hitThis={};return}
+      if(t==='move'&&last){
+        F.forEach(function(f){if(f.cut||last.x===p.x)return;if((last.x-f.x)*(p.x-f.x)<=0){var yy=last.y+(p.y-last.y)*(f.x-last.x)/(p.x-last.x);if(yy>ST&&yy<FT+2)hit(f,yy)}});
+        last=p;trail.push(p);if(trail.length>7)trail.shift();tr.setAttribute('d','M'+trail.map(function(o){return f1(o.x)+' '+f1(o.y)}).join('L'));return}
+      if(t==='up'){last=null;later(function(){tr.setAttribute('d','')},150);
+        if(!Object.keys(hitThis).length&&trail.length<3)say(msg,'手指要<b>劃過</b>果梗，像剪刀剪一下。',1)}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','採酪梨的畫面，按 Enter 剪下一顆熟的酪梨');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var f=F.filter(function(o){return o.ripe&&!o.cut})[0];if(f)cut(f,52)}});
+    later(function(){if(!n&&!done)say(msg,'找<b>果梗黃黃的</b>酪梨，手指在果梗的上半段，<b>快快地左右劃過去</b>。')},8000);
+  },
+
+  /* 第 6 關：把剛採的酪梨放到冰箱、太陽下或陰涼的房間，看哪裡會變軟 */
+  ripen:function(area,i,l){
+    var SP=[{n:'冰箱',x:58,y:90,k:'cold'},{n:'太陽下',x:160,y:66,k:'hot'},{n:'陰涼的房間',x:262,y:104,k:'ok'}],H={x:160,y:150},av={x:160,y:150},held=false,busy=false,done=false,tried={};
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F6EEDF"><rect x="-400" y="162" width="1200" height="100" fill="#D9C4A0"/>'+
+      '<rect x="24" y="30" width="68" height="134" rx="6" fill="#F4F7F8" stroke="#AAB4B8" stroke-width="1.6"/><rect x="30" y="72" width="56" height="44" rx="2" fill="#D6ECF3"/><path d="M30 114H86" stroke="#AAB4B8" stroke-width="1.6"/><path d="M24 64H92" stroke="#AAB4B8" stroke-width="1.4"/><rect x="80" y="40" width="4" height="16" rx="2" fill="#AAB4B8"/>'+
+      '<text x="58" y="56" font-size="14" font-weight="700" fill="#2E7FA0" text-anchor="middle">很冷</text>'+
+      '<path d="M124 24H196V64H124Z" fill="#BFE3F2" stroke="#9A7A55" stroke-width="3"/><path d="M160 24V64" stroke="#9A7A55" stroke-width="2"/><circle cx="182" cy="36" r="8" fill="#F7C948"/>'+
+      '<path d="M128 64L120 92H200L192 64Z" fill="#FFE9A0" opacity=".55"/><rect x="116" y="88" width="88" height="6" rx="1" fill="#B88A55"/>'+
+      '<text x="140" y="58" font-size="14" font-weight="700" fill="#C0583F" text-anchor="middle">很熱</text>'+
+      '<rect x="222" y="128" width="80" height="6" rx="1" fill="#A8774A"/><path d="M230 134V162M294 134V162" stroke="#8A5A3A" stroke-width="4"/>'+
+      '<text x="262" y="96" font-size="14" font-weight="700" fill="#4E6B3A" text-anchor="middle">不冷不熱</text>';
+    SP.forEach(function(p){s+='<ellipse cx="'+p.x+'" cy="'+(p.y+21)+'" rx="22" ry="6" fill="none" stroke="#DB2E27" stroke-width="1.8" stroke-dasharray="4 4" class="drop"/>'});
+    s+='<text x="58" y="24" font-size="15" font-weight="700" fill="#2A2020" text-anchor="middle" stroke="#F6EEDF" stroke-width="4" paint-order="stroke">冰箱</text><text x="160" y="18" font-size="15" font-weight="700" fill="#2A2020" text-anchor="middle" stroke="#F6EEDF" stroke-width="4" paint-order="stroke">太陽下</text><text x="262" y="78" font-size="15" font-weight="700" fill="#2A2020" text-anchor="middle" stroke="#F6EEDF" stroke-width="4" paint-order="stroke">陰涼的房間</text>'+
+      '<path d="M138 156H182L178 170H142Z" fill="#B88A55" stroke="#7A5530" stroke-width="1"/><text id="day" x="160" y="124" font-size="17" font-weight="900" fill="#6C2024" text-anchor="middle" stroke="#F6EEDF" stroke-width="4" paint-order="stroke"></text><g id="av"></g><g id="fx"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),avG=svg.querySelector('#av'),day=svg.querySelector('#day'),fx=svg.querySelector('#fx');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    var look={stem:2,sc:STEMY,dots:14,dull:true};
+    function drawAv(o){avG.innerHTML=avo(av.x,av.y,1.6,o||look)}
+    function mix(a,b,q){var A=[parseInt(a.slice(1,3),16),parseInt(a.slice(3,5),16),parseInt(a.slice(5,7),16)],B2=[parseInt(b.slice(1,3),16),parseInt(b.slice(3,5),16),parseInt(b.slice(5,7),16)];return 'rgb('+A.map(function(c,k){return Math.round(c+(B2[k]-c)*q)}).join(',')+')'}
+    function reset(){av.x=H.x;av.y=H.y;busy=false;day.textContent='';drawAv()}
+    function place(p){
+      busy=true;av.x=p.x;av.y=p.y;drawAv();tried[p.k]=1;var N=p.k==='ok'?5:6,d=0;
+      bar.style.width=(Object.keys(tried).length/3*60)+'%';
+      (function tick(){d++;day.textContent='第 '+d+' 天';var q=d/N;
+        if(p.k==='ok')drawAv({stem:2,sc:STEMY,dots:14,dull:true,c:mix('#4F7A2E','#5A3046',q)});
+        else if(p.k==='cold')drawAv({stem:2,sc:STEMY,c:mix('#4F7A2E','#2F3A22',q),black:d>=4});
+        else drawAv({stem:2,sc:'#B89A4A',c:mix('#4F7A2E','#6A7A3A',q),wr:d>=4});
+        if(d<N){later(tick,480);return}
+        if(p.k==='cold'){say(msg,'放在冰箱 6 天，還是<b>硬硬的</b>，皮還變得黑黑的。太冷了！還沒變軟的酪梨，不能放冰箱。阿伯再拿一顆給你，換個地方試試看。',1);later(reset,1800);return}
+        if(p.k==='hot'){say(msg,'曬了 6 天，皮<b>皺皺的</b>，還是軟不起來。太熱了！阿伯再拿一顆給你，換個地方試試看。',1);later(reset,1800);return}
+        // 陰涼的房間：第 5 天，大拇指輕輕壓
+        fx.innerHTML='<circle cx="'+(av.x+6)+'" cy="'+(av.y+4)+'" r="9" fill="#F1C9A5" stroke="#C8946A" stroke-width="1"/>';
+        later(function(){fx.innerHTML='<text x="'+av.x+'" y="'+(av.y-30)+'" font-size="15" font-weight="700" fill="#3F6B2E" text-anchor="middle" stroke="#fff" stroke-width="4" paint-order="stroke">軟軟的！</text>';
+          say(msg,'第 5 天，大拇指輕輕一壓，<b>軟軟的</b>！阿伯把它切開來⋯⋯');
+          later(function(){done=true;bar.style.width='100%';avG.innerHTML=avoHalf(av.x-14,av.y+2,1.5)+avoHalf(av.x+14,av.y+2,1.5).replace('<circle cy="5" r="4.8" fill="'+SEED+'"/>','<ellipse cy="5" rx="4.6" ry="4.4" fill="#C9BE6A"/>');fx.innerHTML='';day.textContent='';
+            say(msg,l.win);quiz(area,l,function(){finish(i)})},1300)},700);
+      })();
+    }
+    drag(svg,function(t,p){
+      if(done||busy)return;
+      if(t==='down'){held=Math.hypot(p.x-av.x,p.y-av.y)<28;if(!held)say(msg,'要按住<b>酪梨</b>（下面籃子裡那顆），再拖過去。',1);return}
+      if(!held)return;
+      if(t==='move'){av.x=Math.max(16,Math.min(304,p.x));av.y=Math.max(20,Math.min(176,p.y));drawAv();return}
+      if(t==='up'){held=false;var best=null,bd=46;SP.forEach(function(s2){var d=Math.hypot(s2.x-av.x,s2.y-av.y);if(d<bd){bd=d;best=s2}});
+        if(best)place(best);else{reset();say(msg,'放到<b>冰箱</b>、<b>太陽下</b>或<b>陰涼的房間</b>試試看。',1)}}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','阿伯家的畫面，按 Enter 把酪梨放到陰涼的房間');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done&&!busy){e.preventDefault();place(SP[2])}});
+    later(function(){if(!Object.keys(tried).length&&!done)say(msg,'手指按住<b>籃子裡的酪梨</b>，拖到冰箱、窗邊的太陽下，或右邊的桌子上。')},8000);
+    reset();
+  },
+
+  end:function(area,i,l){
+    // 回顧：每一段把鏡頭飛到那一關的地點，下面講那一關做了什麼
+    var steps=[];LV.forEach(function(v,k){if(v.stamp&&k>0)steps.push(k)});
+    var n=-1,firstTime=nStamps()===steps.length;
+    area.innerHTML='<div class="recap" aria-live="polite"></div><button class="big" type="button">開始<br>回顧</button><p class="rn"></p><p><button class="again-btn" type="button">重新開始遊戲</button></p><p class="note" style="margin-top:20px">給大人：插畫地圖是示意，不是真實比例。每年酪梨的產季和產量都不一樣；果園是農民的地，請不要自己走進去摘。<br>資料來源：大內是全國最大的酪梨產區、產季大約 6 月到隔年 2 月（自由時報、聯合報 2026；公視新聞網 2026）；很多酪梨園在曾文溪河堤旁（大內區公所電子報 2017）；酪梨原產中美洲、臺灣又叫幸福果、1918 年從美國引進（農業試驗所資料）；嫁接保持品種的特性、11 月到隔年 2 月嫁接、結果率約千分之一、每一串留 1 到 2 顆、疏果和套袋、根大多在 30 公分內、怕積水、要排水好的土、用採果剪留果梗、在樹上不會變軟、放在 20 到 25 度 5 到 10 天會變軟、還沒變軟不能放冰箱、太熱軟不起來、酪梨牛奶和沙拉等吃法（農業試驗所嘉義分所 蔡惠文〈酪梨入門栽培管理技術〉2018、〈酪梨果實成熟度指標與採收期〉2021）；一朵花開兩次、A 型和 B 型、靠蜜蜂傳花粉、1 到 4 月開花（臺大園藝所 陸明德〈低溫對酪梨開花行為的影響〉，農業知識入口網）；「酪梨愛水又怕水」（自由時報 2026）；大拇指輕壓看熟了沒（農業部資料）。</p>';
+    var box=area.querySelector('.recap'),btn=area.querySelector('.big'),cnt=area.querySelector('.rn');
+    function stopOf(k){var s=null;STOPS.forEach(function(t){if(t.lv===k)s=t});if(!s&&LV[k].pin!==undefined)s=STOPS[LV[k].pin];return s}
+    function show(){
+      box.classList.remove('enter');void box.offsetWidth;box.classList.add('enter');
+      if(n<0){cam(camFor(i,l));setEra('now');pinEl.style.display='none';box.innerHTML='';btn.innerHTML='開始<br>回顧';cnt.textContent='';return}
+      var k=steps[n],v=LV[k],s=stopOf(k);
+      cam(camFor(k,v));setEra(v.era||'now');
+      if(s){pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+      var txt=v.win||(v.q&&v.q.e)||(v.why&&v.why[1])||'';
+      box.innerHTML='<div class="rc"><span class="seal'+(st.done[k]?'':' empty')+'">'+(st.done[k]?icon(v.stamp[0]):'')+'</span><div><p class="rk">'+v.kick+'</p><p class="rh">'+v.h+'</p><p>'+txt+'</p></div></div>';
+      btn.innerHTML=n<steps.length-1?'下一段':'從頭<br>再看';
+      cnt.textContent='第 '+(n+1)+' / '+steps.length+' 段';
+    }
+    btn.addEventListener('click',function(){n=n<steps.length-1?n+1:-1;show();into(btn)});
+    area.querySelector('.again-btn').addEventListener('click',function(){st={far:0,done:{0:1},name:''};save();chips();setEra('now');go(0)});
+    show();
+    if(!reduce&&firstTime)confetti();
+  }
+
+};
+
+function confetti(){var cs=['#E2574C','#F5A623','#7BC47F','#6EC3DD','#F7A8C4'];for(var k=0;k<36;k++){var c=document.createElement('i');c.className='conf';c.style.left=(Math.random()*100)+'vw';c.style.background=cs[k%5];c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){return function(){x.remove()}}(c),3600)}}
+
+/* ---------- 換關 ---------- */
+var pv=document.getElementById('pv'),nx=document.getElementById('nx');
+function paint(){
+  nx.disabled=cur===LV.length-1||!st.done[cur];nx.textContent=st.done[cur]||cur===LV.length-1?'下一關 ›':'先完成任務';
+  pv.disabled=cur===0;nx.style.visibility=cur===LV.length-1?'hidden':'';document.getElementById('pos').textContent=cur===0?'開始':(cur===LV.length-1?'完成':'第 '+cur+' / 6 關');
+  map.querySelectorAll('.stop').forEach(function(g){g.classList.toggle('lock',+g.dataset.lv>st.far)});
+}
+// 鏡頭：每一關都把那一關的地點放在圓的正中間；全景（正方形鏡頭）照原樣
+function camFor(i,l){var c=l.cam;if(c[2]===c[3])return c;var s=null;STOPS.forEach(function(t){if(t.lv===i)s=t});if(!s&&l.pin!==undefined)s=STOPS[l.pin];
+  var z=c[3]*1.05,cx=s?s.x:c[0]+c[2]/2,cy=s?s.y-6:c[1]+c[3]/2;return [cx-z/2,cy-z/2,z,z]}
+function go(i){
+  cur=i;if(i>st.far){st.far=i;save()}replay=-1;var l=LV[i];clearScene();
+  cam(camFor(i,l));setEra(l.era||'now');
+  if(l.pin!==undefined){var s=STOPS[l.pin];pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+  render(i);paint();
+}
+pv.addEventListener('click',function(){if(cur>0)go(cur-1)});
+nx.addEventListener('click',function(){if(st.done[cur]&&cur<LV.length-1)go(cur+1)});
+var sheet=document.getElementById('sheet');
+document.getElementById('chips').addEventListener('click',function(){if(st.far>=LV.length-1)go(LV.length-1)});
+function closeSheet(){sheet.hidden=true;document.getElementById('chips').focus()}
+document.getElementById('sheetX').addEventListener('click',closeSheet);
+sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+chips();go(Math.min(st.far,LV.length-1));
+</script>
+</body>
+</html>

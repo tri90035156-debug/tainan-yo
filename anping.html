@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>古堡任務・臺南的古蹟</title>
+<meta name="description" content="跟著古堡的志工伯伯回到 400 年前：在沙洲上圍出熱蘭遮城、接住材料調灰漿、在倉庫推箱子、看清朝的兵把磚搬去蓋億載金城、讓老榕樹的根長進南牆，再幫劍獅找到自己的門。">
+<link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/anping.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/anping.html">
+<link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/anping.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="臺南遊">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/anping.html">
+<meta property="og:title" content="古堡任務（古蹟・安平古堡）｜臺南遊">
+<meta property="og:description" content="跟著古堡的志工伯伯回到 400 年前：在沙洲上圍出熱蘭遮城、接住材料調灰漿、在倉庫推箱子、看清朝的兵把磚搬去蓋億載金城、讓老榕樹的根長進南牆，再幫劍獅找到自己的門。">
+<meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/anping.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#FFF8EC; --card:#FFFDF7; --ink:#5A3E2B; --muted:#9A7B62; --line:#EBD9BF;
+  --red:#E2574C; --sea:#9ED9EC; --water:#6EC3DD; --blue:#2E93B8; --green:#7BC47F; --sand:#F8E7C2;
+  --f:"Huninn","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:#F3E6CF;color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.7;overflow:hidden}
+.app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
+header{flex:none;display:flex;align-items:center;gap:10px;padding:8px 14px}
+header h1{margin:0;font-size:20px;font-weight:400;flex:1;line-height:1.3}
+.chips{display:flex;gap:3px;background:none;border:0;padding:4px;cursor:pointer;border-radius:8px}
+.chips i{display:grid;place-items:center;width:22px;height:22px;border:1.5px dashed #D9BFA0;border-radius:6px;font:14px/19px var(--f);font-style:normal;text-align:center;color:transparent}
+.chips i.on{border:1.5px solid var(--red);background:var(--red);color:#fff}
+.chips i svg{width:17px;height:17px}
+.chips i.pop{animation:pop .5s cubic-bezier(.2,1.8,.4,1)}
+
+.stage{flex:none;position:relative;height:clamp(250px,50vh,520px);background:var(--sea);overflow:hidden;border-top:3px solid var(--line);transition:height .35s}
+#map{width:100%;height:100%;display:block;touch-action:manipulation}
+[hidden]{display:none!important}
+#scene{position:absolute;inset:0;background:#DFF3F8;animation:fadein .35s}
+#scene svg{display:block;width:100%;height:100%;margin:0;border-radius:0;background:none!important}
+@keyframes fadein{from{opacity:0}}
+#peek{position:absolute;left:8px;top:8px;font:15px var(--f);background:#fff;color:var(--ink);border:0;border-radius:999px;padding:5px 14px;box-shadow:0 2px 6px rgba(90,62,43,.18);cursor:pointer}
+#past,#now{transition:opacity .7s}
+#map.now #past{opacity:0}
+#map:not(.now) #now{opacity:0;pointer-events:none}
+#boat{transition:opacity .7s}#map.now #boat{opacity:0}
+.era{position:absolute;right:8px;top:8px;display:flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 2px 6px rgba(90,62,43,.18)}
+.era button{font:15px var(--f);border:0;background:none;color:var(--muted);padding:4px 12px;border-radius:999px;cursor:pointer}
+.era button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.stop{cursor:pointer}
+.stop.lock{opacity:.55;cursor:default}
+.pin{animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+
+main{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 8px;font-size:19px;background:var(--card);border-radius:18px 18px 0 0;margin-top:-10px;position:relative;box-shadow:0 -3px 10px rgba(90,62,43,.08)}
+.kick{margin:0;font-size:14px;color:var(--red)}
+h2{margin:0 0 4px;font-size:26px;font-weight:400;line-height:1.35}
+main p{margin:0 0 10px}
+.task{background:#FFF0D6;border-radius:12px;padding:8px 12px;font-size:20px}
+main .note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+.big{display:block;width:100%;font:24px var(--f);background:var(--red);color:#fff;border:0;border-radius:16px;padding:12px;cursor:pointer;margin:8px 0;box-shadow:0 4px 0 #B8392F;transition:transform .08s}
+.big:active,.big.down{transform:translateY(3px);box-shadow:0 1px 0 #B8392F}
+.big.blue{background:var(--blue);box-shadow:0 4px 0 #1F6F8C}
+.big.blue:active,.big.blue.down{box-shadow:0 1px 0 #1F6F8C}
+.big:disabled{background:#D9C7B0;box-shadow:none;cursor:default}
+.hold{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none}
+.mini{display:block;width:100%;height:auto;background:#DFF3F8;border-radius:14px;margin:4px 0 8px;touch-action:manipulation}
+.item{transition:transform .55s cubic-bezier(.3,1.4,.5,1);cursor:pointer}
+.item:focus-visible path{stroke:var(--red)}
+.tap{cursor:pointer}
+.tap:focus,.item:focus{outline:none}
+.tap:focus-visible .ring{stroke:var(--red);stroke-width:3}
+.bar{height:12px;background:#F0E2CC;border-radius:999px;overflow:hidden;margin:4px 0 8px}
+.bar b{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width .3s}
+.opt{display:block;width:100%;text-align:left;font:20px/1.5 var(--f);background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 8px;cursor:pointer}
+.opt.no{color:#C3AE97;border-style:dashed;text-decoration:line-through}
+.opt.yes{border-color:var(--green);background:#EEF8EC}
+.opt:disabled{cursor:default}
+.say{background:#EEF8EC;border-radius:12px;padding:8px 12px;font-size:18px}
+.say.again{background:#FDECE8}
+.skip{font:15px var(--f);background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px 0;cursor:pointer}
+.got{display:flex;align-items:center;gap:14px;background:#FFF0D6;border-radius:14px;padding:10px 14px;margin:10px 0}
+.got p{margin:0}
+.why{background:#E6F4FA;border-radius:14px;padding:8px 12px;margin:0 0 10px}
+.why summary{cursor:pointer;color:#1F6F8C;font-size:18px}
+.why p{margin:6px 0 0}
+.seal{display:grid;place-items:center;flex:none;width:56px;height:56px;border:3px solid var(--red);border-radius:12px;background:var(--red);color:#fff;font:32px/50px var(--f);text-align:center;transform:rotate(-6deg)}
+.seal svg{width:74%;height:74%}
+.seal.pop{animation:stamp .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-20deg);opacity:0}100%{transform:rotate(-6deg);opacity:1}}
+@keyframes pop{0%{transform:scale(1.8)}100%{transform:none}}
+.again-btn{font:14px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:3px 14px;color:var(--muted);cursor:pointer}
+
+.foot{flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:2px solid var(--line)}
+.foot button{font:17px var(--f);background:none;border:0;color:var(--ink);padding:6px 10px;cursor:pointer;border-radius:8px}
+.foot #nx{color:var(--red)}
+.foot button:disabled{color:#D9C7B0;cursor:default}
+.foot span{font-size:14px;color:var(--muted)}
+
+.doc{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 14px 8px}
+.doc h3{margin:0 0 8px;font-size:24px;font-weight:400;text-align:center;letter-spacing:.2em}
+.doc dl{margin:0 0 8px;display:grid;grid-template-columns:4em minmax(0,1fr);gap:0 8px;font-size:15px}
+.doc dt{color:var(--muted)}.doc dd{margin:0}
+.doc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:2px dashed var(--line);padding-top:10px}
+.doc li{text-align:center;font-size:13px;color:var(--muted);line-height:1.4}
+.doc li .seal{width:48px;height:48px;margin:0 auto 4px}
+.doc li .seal.empty{background:none;border:2px dashed #D9BFA0;transform:none;color:transparent}
+.doc .fic{margin:8px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.name{font:17px var(--f);border:0;border-bottom:2px solid var(--ink);background:none;width:9em;color:var(--ink);padding:0 2px}
+.sheet{position:fixed;inset:0;z-index:10;background:rgba(90,62,43,.45);display:grid;place-items:center;padding:16px}
+.sheet[hidden]{display:none}
+.sheet .in{width:min(380px,100%);max-height:calc(100% - 32px);overflow-y:auto;background:var(--bg);border-radius:18px;padding:14px}
+.sheet .x{display:block;margin:10px auto 0;font:16px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:4px 18px;cursor:pointer;color:var(--ink)}
+.conf{position:fixed;top:-12px;width:10px;height:14px;border-radius:3px;z-index:20;pointer-events:none;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+main a{color:var(--blue)}
+@media (prefers-reduced-motion:reduce){.stage{transition:none}.pin,.seal.pop,.chips i.pop,.conf{animation:none}.item{transition:none}}
+/* 平板直拿：畫面變寬一點 */
+@media (min-width:700px){.app{max-width:760px}}
+/* 電腦、平板橫拿、手機橫拿：左邊大舞台（地圖／遊戲），右邊文字卡片 */
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EADBC0}
+  .app{max-width:1320px;display:grid;grid-template-columns:minmax(0,1fr) clamp(330px,34vw,470px);grid-template-rows:auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:10px 20px}
+  header h1{font-size:24px}
+  .chips i{width:26px;height:26px}.chips i svg{width:20px;height:20px}
+  .stage{grid-column:1;grid-row:2/4;height:auto;border-top:3px solid var(--line)}
+  main{grid-column:2;grid-row:2;margin-top:0;border-radius:0;box-shadow:none;border-top:3px solid var(--line);border-left:3px solid var(--line);padding:16px 20px 10px}
+  .foot{grid-column:2;grid-row:3;border-left:3px solid var(--line)}
+}
+/* ===== 新版面：上面標題、中間遊戲畫面、下面文字 =====
+   配色取自臺南城市識別：紅 #DB2E27、酒紅 #6C2024、金 #BD9558；插畫裡的水和海維持藍色 */
+:root{
+  --bg:#FBF7F1; --card:#FBF7F1; --paper:#FFFFFF; --ink:#2A2020; --muted:#8A7A70; --line:#EADFD3;
+  --red:#DB2E27; --maroon:#6C2024; --gold:#BD9558; --goldsoft:#F3E8D6; --blue:#6C2024; --green:#BD9558;
+  --f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+}
+body{background:#EFE7DC;color:var(--ink)}
+header{padding:12px 18px 2px}
+header h1{font:700 15px/1.3 var(--f);letter-spacing:.06em;color:var(--ink)}
+.chips{gap:5px}
+.chips i{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--gold)}
+.chips i.on{background:var(--red);border-color:var(--red)}
+.chips i svg{width:14px;height:14px}
+.top{flex:none;padding:6px 18px 14px}
+.top .kick{margin:0 0 2px;font:700 15px/1.4 var(--serif);letter-spacing:.06em;color:var(--red)}
+.top h2{margin:0;font:900 30px/1.25 var(--serif);color:var(--ink);text-wrap:balance}
+.stage{height:clamp(220px,42vh,480px);margin:0 16px;border-top:0;border-radius:26px;box-shadow:0 0 0 8px var(--goldsoft)}
+main{margin-top:0;border-radius:0;box-shadow:none;background:var(--bg);padding:20px 18px 8px}
+main p{line-height:1.75}
+main .kick{font:700 15px var(--serif);letter-spacing:.04em}
+.task{background:var(--goldsoft);border-radius:14px;padding:10px 14px;font-weight:500}
+.big{font:700 22px var(--f);border-radius:14px;box-shadow:none;background:var(--red);letter-spacing:.04em}
+.big:active,.big.down{transform:translateY(2px);box-shadow:none;filter:brightness(.9)}
+.big.blue{background:var(--maroon);box-shadow:none}
+.big.blue:active,.big.blue.down{box-shadow:none}
+.big:disabled{background:#D8CFC4}
+.opt{font:500 20px/1.5 var(--f);border:2px solid var(--line);background:var(--paper);border-radius:14px}
+.opt.yes{border-color:var(--gold);background:#FAF3E6}
+.say{background:#F2ECE2;border-radius:14px}
+.say.again{background:#FBE8E5}
+.why{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.why summary{font:700 18px var(--serif);color:var(--maroon)}
+.got{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.seal{border:0;border-radius:50%;background:var(--red);transform:none;box-shadow:0 0 0 6px var(--goldsoft)}
+@keyframes stamp{0%{transform:scale(1.8);opacity:0}100%{transform:none;opacity:1}}
+.again-btn{border-color:var(--gold);color:var(--maroon)}
+.bar{background:#EFE6D8}.bar b{background:var(--gold)}
+.foot{background:var(--bg);border-top:1px solid var(--line)}
+.foot #nx{color:var(--red);font-weight:700}
+#peek,.era{box-shadow:0 2px 8px rgba(42,32,32,.15)}
+.era button[aria-pressed="true"]{background:var(--maroon)}
+.doc{border:0;border-radius:18px;background:var(--paper);box-shadow:0 0 0 8px var(--goldsoft)}
+.doc h3{font:900 26px var(--serif);letter-spacing:.12em;color:var(--ink)}
+.doc li .seal.empty{border:2px dashed var(--gold);box-shadow:none}
+.sheet .in{background:var(--bg)}
+/* 換關時文字一行一行浮上來 */
+.enter>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.enter>*:nth-child(2){animation-delay:.06s}.enter>*:nth-child(3){animation-delay:.12s}.enter>*:nth-child(4){animation-delay:.18s}.enter>*:nth-child(5){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){.enter>*{animation:none}}
+@media (min-width:700px){.top h2{font-size:34px}.top{padding:8px 24px 16px}.stage{margin:0 24px}}
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EFE7DC}
+  .app{grid-template-rows:auto auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:12px 24px 4px}
+  header h1{font-size:15px}
+  .top{grid-column:1;grid-row:2}
+  .stage{grid-column:1;grid-row:3/5;height:auto;margin:0 24px 24px;border-top:0}
+  main{grid-column:2;grid-row:2/4;border-top:0;border-left:1px solid var(--line);padding:20px 22px 10px}
+  .foot{grid-column:2;grid-row:4;border-left:1px solid var(--line)}
+}
+/* ===== 圓形遊戲框 ===== */
+.stage{display:flex;align-items:center;justify-content:center;background:none;box-shadow:none;border-radius:0;overflow:visible;height:clamp(220px,46vh,460px)}
+.stage{position:relative;min-height:0}
+.disc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;overflow:hidden;background:var(--sea);box-shadow:0 0 0 12px var(--goldsoft)}
+#map{width:100%;height:100%}
+#scene{display:flex;align-items:center;justify-content:center}
+#scene svg{flex:none}
+#scene svg:focus:not(:focus-visible),#scene [tabindex]:focus:not(:focus-visible){outline:none}
+#peek{left:0;top:0}
+.era{right:0;top:0}
+@media (min-width:700px) and (min-aspect-ratio:5/4){.stage{height:auto}}
+/* ===== 不用色塊區分文字：改用粗體和顏色；大按鈕是圓的 ===== */
+.task{background:none;padding:0;border-radius:0;font-weight:700;color:var(--maroon)}
+.say{background:none;padding:0;border-radius:0;font-weight:700;color:#4E7D3A}
+.say.again{background:none;color:var(--red)}
+.why,.got{background:none;border:0;padding:0;border-radius:0}
+.why summary{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+.got{margin:16px 0}
+.opt{border-radius:999px;padding:10px 20px}
+.big{display:grid;place-items:center;width:116px;height:116px;margin:18px auto;padding:10px;border-radius:50%;font:700 20px/1.3 var(--f);text-align:center;box-shadow:0 0 0 8px var(--goldsoft)}
+.big.blue{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:active,.big.down,.big.blue:active,.big.blue.down{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:disabled{box-shadow:0 0 0 8px #EFE8DF}
+.again-btn{border-radius:999px}
+/* ===== 用粗細帶重點：內文細一點、淡一點，重點字粗黑 ===== */
+main p,main li,.doc dd{color:#5A4E48}
+main b,main strong{font-weight:700;color:var(--ink)}
+.task,.task b{color:var(--maroon)}
+.say b{color:inherit}
+.say.again b{color:inherit}
+/* 回饋訊息用一般粗細，只有重點詞粗 */
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say b{font-weight:700}
+/* ===== 手機：地圖和文字在同一頁一起捲，上一關／下一關固定在最下面 ===== */
+@media (max-width:699.98px),(max-aspect-ratio:1249/1000){
+  html,body{height:auto;min-height:100%}
+  body{overflow:visible}
+  .app{height:auto;min-height:100vh}
+  main{flex:none;overflow:visible;min-height:0}
+  .foot{position:sticky;bottom:0;z-index:5}
+  .stage{margin:0 2px}
+  /* 圓黏在畫面上方：往下捲找按鈕時，圓和按鈕一定同時看得到 */
+  .stage{position:sticky;top:0;z-index:4;background:var(--bg)}
+  main *{scroll-margin-bottom:76px}
+  .big{width:96px;height:96px;margin:12px auto;font-size:19px}
+}
+/* ===== 卡片文字角色（使用者定的規則） ===== */
+.task{color:#6C2024;font-weight:700}
+.bar{height:4px;background:#EFE6D8;border-radius:2px;margin:10px 0 12px}
+.bar b{background:#6C2024;border-radius:2px}
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say.again::before{content:"再試試";display:block;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red);margin-bottom:2px}
+main .kick+p{font-weight:700;color:var(--ink)}
+.notes{margin-top:24px;padding-top:12px;border-top:1px solid var(--line)}
+.notes .note{margin:0 0 6px}
+.notes .note b{color:#8A7A70}
+/* ===== 完成頁：一段一段回顧 ===== */
+.recap{min-height:150px}
+.rc{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:start}
+.rc .seal{width:58px;height:58px;margin-top:4px}
+.rc .seal.empty{background:none;border:2px dashed var(--gold);box-shadow:none}
+.rk{margin:0;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red)}
+.rh{margin:0 0 6px;font:900 22px/1.35 var(--serif);color:var(--ink)}
+.rn{margin:-6px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+.pad{display:grid;grid-template-columns:repeat(3,60px);grid-template-rows:repeat(2,60px);gap:8px;justify-content:center;margin:16px auto 12px}
+.pad button{border:0;border-radius:50%;background:var(--maroon);color:#fff;font:700 26px/1 var(--f);box-shadow:0 0 0 5px var(--goldsoft);cursor:pointer;touch-action:manipulation}
+.pad button:active{filter:brightness(.88)}
+.pad button:disabled{background:#D8CFC4}
+.notes .maps a{color:inherit;text-decoration:underline;text-decoration-color:#C9B8A6;text-underline-offset:3px}
+.recap:empty{min-height:0}
+/* 回到首頁的小房子（每個遊戲左上角都有） */
+.home{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--paper,#fff);color:var(--maroon,#6C2024);text-decoration:none}.home svg{width:20px;height:20px}.home:active{background:var(--goldsoft,#F3E8D6)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <a class="home" href="index.html" aria-label="回到首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></a>
+    <h1>古堡任務</h1>
+    <button class="chips" id="chips" type="button" aria-label="看回顧"></button>
+  </header>
+  <div class="top" id="top"></div>
+  <div class="stage" id="stage">
+    <div class="disc">
+      <svg id="map" class="now" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="安平古堡插畫地圖"></svg>
+      <div id="scene" hidden></div>
+    </div>
+    <div class="era" role="group" aria-label="切換荷蘭時代和今天"><button type="button" data-era="past" aria-pressed="false">以前</button><button type="button" data-era="now" aria-pressed="true">今天</button></div>
+    <button id="peek" type="button" hidden>看地圖</button>
+  </div>
+  <main id="card" aria-live="polite"></main>
+  <nav class="foot"><button type="button" id="pv">‹ 上一關</button><span id="pos"></span><button type="button" id="nx">下一關 ›</button></nav>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="任務單"><div class="in"><div id="sheetDoc"></div><button class="x" type="button" id="sheetX">收起任務單</button></div></div>
+
+<script>
+/* ---------- 插畫元件 ---------- */
+var K='#2A2020',NS='http://www.w3.org/2000/svg';
+var BRICK='#B8573E',BRICKD='#8A3A2A',SAND='#EBD9A8',SEA='#7FB8D0';
+function f1(v){return (Math.round(v*10)/10).toString()}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+// 一段紅磚牆（磚塊上下錯開）
+function bricks(x,y,w,h,c){var s='<rect x="'+f1(x)+'" y="'+f1(y)+'" width="'+f1(w)+'" height="'+f1(h)+'" fill="'+(c||BRICK)+'"/>';for(var r=0;r*6<h;r++){s+='<path d="M'+f1(x)+' '+f1(y+r*6)+'H'+f1(x+w)+'" stroke="#E8C8A8" stroke-width=".6"/>';for(var q=(r%2)*6;q<w;q+=12)s+='<path d="M'+f1(x+q)+' '+f1(y+r*6)+'v6" stroke="#E8C8A8" stroke-width=".6"/>'}return s}
+// 今天的安平古堡：白色城牆和紅頂瞭望台
+function fortNow(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')"><path d="M-40 10H40V24H-40Z" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><path d="M-40 10V6H-34V10M-28 10V6H-22V10M-16 10V6H-10V10M-4 10V6H2V10M8 10V6H14V10M20 10V6H26V10M32 10V6H38V10" fill="#F4EFE6" stroke="#B8A890" stroke-width=".8"/><rect x="-8" y="-18" width="16" height="28" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="-3" y="-10" width="6" height="8" fill="#8AA6B8"/><path d="M-11 -18L0 -34L11 -18Z" fill="#C8483A" stroke="#8A2A20" stroke-width="1"/></g>'}
+// 荷蘭時代的熱蘭遮城（俯看，四個角有突出的稜堡）
+function fortOld(x,y,s){var b=function(cx,cy){return '<path d="M'+(cx-9)+' '+cy+'L'+cx+' '+(cy-9)+'L'+(cx+9)+' '+cy+'L'+cx+' '+(cy+9)+'Z" fill="'+BRICK+'" stroke="'+BRICKD+'" stroke-width="1"/>'};
+  return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')"><rect x="-24" y="-18" width="48" height="36" fill="#D8A888" stroke="'+BRICKD+'" stroke-width="3"/>'+b(-24,-18)+b(24,-18)+b(-24,18)+b(24,18)+'<rect x="-8" y="-8" width="16" height="12" fill="#F3E6CC" stroke="'+BRICKD+'" stroke-width="1"/><path d="M0 -8V-20" stroke="#5A3E2B" stroke-width="1"/><path d="M0 -20H8V-16H0Z" fill="#F07A3A"/></g>'}
+// 劍獅（門楣上的獅頭咬著一把劍）；k 換不同樣子
+function jianshi(x,y,s,k,sil){var c=sil?'#5A4E48':'#E8A030',d=sil?'#5A4E48':'#8A4A1A';
+  var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')">';
+  h+=k===1?'<path d="M-12 -2Q-14 -14 0 -14Q14 -14 12 -2Q14 10 0 12Q-14 10 -12 -2Z" fill="'+c+'"/>':k===2?'<path d="M-13 -12H13V8Q13 12 9 12H-9Q-13 12 -13 8Z" fill="'+c+'"/>':k===3?'<circle r="13" fill="'+c+'"/><path d="M-13 -6L-17 -12L-9 -10M13 -6L17 -12L9 -10" fill="'+c+'"/>':'<path d="M0 -15L13 -5L9 12H-9L-13 -5Z" fill="'+c+'"/>';
+  if(!sil)h+='<circle cx="-5" cy="-4" r="2.2" fill="#2A2020"/><circle cx="5" cy="-4" r="2.2" fill="#2A2020"/><path d="M-3 2Q0 4 3 2" stroke="'+d+'" stroke-width="1.2" fill="none"/>';
+  h+='<path d="'+(k===2||k===4?'M-20 6L20 2':'M-20 2L20 6')+'" stroke="'+(sil?'#5A4E48':'#9AA6B0')+'" stroke-width="3" stroke-linecap="round"/>';
+  if(!sil)h+='<path d="M-20 2L-22 0M-20 2L-22 4" stroke="#5A3E2B" stroke-width="1.4"/>';
+  return h+'</g>'}
+var ICON={
+  frame:'<path d="M-10 -8H10V8H-10Z" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="3 2"/><path d="M-12 -10l4 0l-4 4zM12 10l-4 0l4 -4z" fill="#fff"/>',
+  bucket:'<path d="M-8 -6H8L6 9H-6Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M-8 -6Q0 -14 8 -6" stroke="#fff" stroke-width="1.6" fill="none"/><circle cx="-2" cy="2" r="1.6" fill="#fff"/><circle cx="3" cy="4" r="1.6" fill="#fff"/>',
+  crate:'<rect x="-9" y="-8" width="18" height="16" fill="none" stroke="#fff" stroke-width="2"/><path d="M-9 -8L9 8M9 -8L-9 8" stroke="#fff" stroke-width="1.4"/>',
+  brick:'<rect x="-10" y="-7" width="9" height="6" fill="#fff"/><rect x="1" y="-7" width="9" height="6" fill="#fff"/><rect x="-5" y="1" width="10" height="6" fill="#fff"/>',
+  root:'<path d="M0 -10V-2M0 -2Q-6 2 -8 10M0 -2Q2 4 0 10M0 -2Q6 2 8 9" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M-6 -12Q0 -16 6 -12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>',
+  lion:'<circle r="8" fill="none" stroke="#fff" stroke-width="2"/><circle cx="-3" cy="-2" r="1.4" fill="#fff"/><circle cx="3" cy="-2" r="1.4" fill="#fff"/><path d="M-11 4L11 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'
+};
+function icon(k){return '<svg viewBox="-12 -12 24 24" aria-hidden="true">'+ICON[k]+'</svg>'}
+
+function idCard(t1,t2,art,C){
+  var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAF2F4" role="img" aria-label="'+t1+'的樣子"><rect x="-400" y="170" width="1200" height="60" fill="#D8CDB4"/>'+art;
+  C.forEach(function(c){s+='<path d="M'+c[3]+' '+c[4]+'L'+c[1]+' '+(c[2]-5)+'" stroke="#8A7A70" stroke-width="1.2"/><circle cx="'+c[3]+'" cy="'+c[4]+'" r="2.6" fill="#DB2E27"/>'+
+    '<text x="'+c[1]+'" y="'+c[2]+'" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#EAF2F4" stroke-width="4" paint-order="stroke">'+c[0]+'</text>'});
+  return s+'<text x="160" y="30" font-size="24" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,Songti TC,serif" stroke="#EAF2F4" stroke-width="4" paint-order="stroke">'+t1+'</text>'+(t2?'<text x="160" y="188" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle">'+t2+'</text>':'')+'</svg>';
+}
+
+/* ---------- 地圖 ---------- */
+// 示意圖：安平古堡和旁邊。「以前」是荷蘭時代，古堡蓋在海邊的沙洲上（大員），東邊是台江內海；「今天」海變成陸地和街道
+var STOPS=[{lv:1,n:'沙洲上的城',x:420,y:250,k:'none'},{lv:2,n:'調灰漿',x:230,y:300,k:'bucket'},{lv:3,n:'城裡的倉庫',x:470,y:170,k:'crate'},{lv:4,n:'拆磚',x:560,y:300,k:'brick'},{lv:5,n:'南牆和老榕樹',x:380,y:360,k:'wall'},{lv:6,n:'劍獅埕',x:200,y:180,k:'lion'}];
+function marker(s){
+  var t='<g transform="translate('+s.x+' '+s.y+')">';
+  if(s.k==='none')return t+'</g>';
+  if(s.k==='bucket')return t+'<path d="M-12 -8H12L9 12H-9Z" fill="#9AA6B0" stroke="#5E676C" stroke-width="1.2"/><ellipse cy="-8" rx="12" ry="3" fill="#E8DCC0"/></g>';
+  if(s.k==='crate')return t+'<rect x="-14" y="-10" width="20" height="18" fill="#C8A060" stroke="#7A5530" stroke-width="1.2"/><rect x="2" y="-4" width="16" height="14" fill="#B88A50" stroke="#7A5530" stroke-width="1.2"/><path d="M-14 -10L6 8M6 -10L-14 8" stroke="#7A5530" stroke-width="1"/></g>';
+  if(s.k==='brick')return t+'<path d="M-18 4H18V12H-18Z" fill="#8A6A3A"/><circle cx="-12" cy="14" r="5" fill="#5A3E2B"/><circle cx="12" cy="14" r="5" fill="#5A3E2B"/>'+bricks(-14,-8,28,12)+'</g>';
+  if(s.k==='wall')return t+bricks(-26,-10,52,24)+'<path d="M-20 -10Q-24 0 -18 14M-8 -10Q-12 2 -6 14M6 -10Q2 0 8 14" stroke="#6E5A3A" stroke-width="2.4" fill="none"/><ellipse cx="-6" cy="-18" rx="24" ry="12" fill="#4E8A3A"/></g>';
+  return t+'<rect x="-22" y="-16" width="44" height="30" fill="#F3E2C8" stroke="#8A6A3A" stroke-width="1.2"/>'+jianshi(0,-2,.8,1)+'</g>';
+}
+function buildMap(){
+  var h='<rect x="-400" y="-300" width="1600" height="1200" fill="#E6DCC4"/>';
+  h+='<g id="past"><rect x="-400" y="-300" width="1600" height="1200" fill="'+SEA+'"/><path d="M60 120Q200 80 420 110Q620 140 700 260Q720 380 600 420Q400 460 200 420Q60 380 40 260Q30 160 60 120Z" fill="'+SAND+'"/><g id="frPast"></g>'+'<text x="420" y="560" font-size="15" fill="#6C2024" text-anchor="middle" stroke="'+SEA+'" stroke-width="4" paint-order="stroke">以前（荷蘭時代）：古堡蓋在海邊的沙洲上</text></g>';
+  h+='<g id="now"><path d="M-400 520Q200 480 820 520V900H-400Z" fill="#E0D4B8"/><path d="M-400 70H1200M330 -300V560M-400 420Q300 400 1200 440" stroke="#F8F3E8" stroke-width="16" fill="none"/><g id="frNow"></g><text x="420" y="560" font-size="15" fill="#6C2024" text-anchor="middle" stroke="#E0D4B8" stroke-width="4" paint-order="stroke">今天：海變成陸地，古堡在街道中間</text></g>';
+  var T=function(t,x,y,sz,c,bg){return '<text x="'+x+'" y="'+y+'" font-size="'+sz+'" fill="'+c+'" text-anchor="middle" stroke="'+(bg||'#E6DCC4')+'" stroke-width="4" paint-order="stroke">'+t+'</text>'};
+  h+=T('安平',580,110,28,'#7A4A2E');
+  h+='<g transform="translate(90 400)"><circle r="16" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -11L5 4L0 1L-5 4Z" fill="#DB2E27"/><text y="12" font-size="9" fill="#5A4E48" text-anchor="middle">北</text></g>';
+  h+=T('示意圖，不是真實比例',420,584,12,'#8A7A70');
+  STOPS.forEach(function(s){h+='<g class="stop" data-lv="'+s.lv+'" role="button" aria-label="第 '+s.lv+' 關 '+s.n+'">'+marker(s)+'<circle cx="'+(s.x+24)+'" cy="'+(s.y-26)+'" r="10" fill="#fff" stroke="#E2574C" stroke-width="2"/><text x="'+(s.x+24)+'" y="'+(s.y-21.5)+'" font-size="13" fill="#E2574C" text-anchor="middle">'+s.lv+'</text><text x="'+s.x+'" y="'+(s.y+34)+'" font-size="16" font-weight="700" fill="#5A3E2B" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+s.n+'</text></g>'});
+  h+='<g id="pin" style="display:none"><g class="pin"><path d="M0 0C-10 -14 -14 -20 -14 -27A14 14 0 1 1 14 -27C14 -20 10 -14 0 0Z" fill="#E2574C" stroke="#fff" stroke-width="2.5"/><text y="-22" font-size="12" fill="#fff" text-anchor="middle">你</text></g></g>';
+  return h;
+}
+function near(x,y,w,hh){return STOPS.some(function(s){return Math.abs(s.x-x)<w&&Math.abs(s.y-y)<hh})}
+function decorate(){
+  var r=rnd(29),p='',q='';
+  // 今天：古堡（白牆紅頂）在中間，旁邊是老街的房子；以前：沙洲上的城和小屋，海上有帆船
+  q+=fortNow(420,236,1.2);p+=fortOld(420,236,1.2);
+  for(var x=20;x<820;x+=44)for(var y=40;y<480;y+=40){
+    var cx=x+(r()-.5)*10,cy=y+(r()-.5)*8;
+    if(near(cx,cy,60,64))continue;
+    if(Math.abs(cx-420)<80&&Math.abs(cy-245)<50)continue;
+    if(Math.abs(cy-70)<16||Math.abs(cx-330)<16||Math.abs(cy-420)<18)continue;
+    if(Math.abs(cx-580)<54&&Math.abs(cy-102)<24)continue;
+    if(Math.abs(cx-90)<34&&Math.abs(cy-400)<34)continue;
+    if(r()<.35)continue;
+    q+='<g transform="translate('+f1(cx)+' '+f1(cy)+')"><rect x="-13" y="-7" width="26" height="16" fill="'+(r()<.5?'#F3E2C8':'#E8C8A8')+'" stroke="#B8A080" stroke-width="1"/><path d="M-15 -7L0 -16L15 -7Z" fill="#B8634A"/></g>';
+  }
+  for(var k=0;k<5;k++){var sx=[60,700,760,120,520][k],sy=[60,80,460,480,500][k];p+='<g transform="translate('+sx+' '+sy+')"><path d="M-14 4H14L10 10H-10Z" fill="#8A5A3A"/><path d="M0 4V-18L12 0Z" fill="#fff" stroke="#B8A890"/></g>'}
+  map.querySelector('#frPast').innerHTML=p;
+  map.querySelector('#frNow').innerHTML=q;
+}
+
+/* ---------- 關卡 ---------- */
+var LV=[
+  {cam:[60,0,660,660],kick:'古堡任務',h:'臺南最老的城堡',
+   html:'<p>臺南的<b>安平</b>，有一座<b>安平古堡</b>。它最早叫<b>熱蘭遮城</b>，是大約 400 年前<b>荷蘭人</b>蓋的。</p><p>那時候，這裡還是海邊的一塊<b>沙洲</b>，四周都是海水。</p><p class="task">跟著古堡的<b>志工伯伯</b>，回到 400 年前，看古堡怎麼蓋、怎麼變成今天的樣子。每過一關，就能蓋一個章！</p>',
+   after:'<p class="note">地圖右上角可以切換<b>以前／今天</b>，看看古堡以前在海邊、今天在街道中間。<br>給大人：安平古堡要買票入園，臺南市民憑證件免費；開放時間以臺南市政府公告為準。</p>',
+   game:'start'},
+  {cam:[0,0,300,225],kick:'第 1 關・沙洲上的城（1624 年）',h:'先圍出城堡',era:'past',
+   html:'<p><b>1624 年</b>，荷蘭人來到這裡的沙洲（那時候叫<b>大員</b>），開始蓋城堡。</p><p>一開始沒有磚頭，只好先用<b>沙、竹子和木頭</b>蓋。後來才慢慢換成<b>磚</b>，城堡的名字也改成<b>熱蘭遮城</b>，蓋了大約 10 年才蓋好。</p><p class="note">給大人：臺南市政府資料：1624 年佔據大員後興建、1627 年定名熱蘭遮城、1634 年完工（另有資料寫 1632、1633 年）；初期因缺磚石，先用砂土、竹、木構築。</p>',
+   task:'用手指在沙洲上<b>從一個角拖到對面的角</b>，拉出一個<b>方框</b>，圍出城堡的位置。方框要<b>夠大</b>，但不能超出沙洲！',game:'rect',stamp:['frame','圍出城堡'],
+   win:'城堡的位置圍好了！四個角還多了尖尖突出來的<b>稜堡</b>，守城的人可以從旁邊看到敵人。',
+   why:['為什麼要蓋在沙洲上？','沙洲在海邊，船可以開進來<b>停靠</b>、搬貨，從海上來的人也看得清楚。'],
+   q:{t:'熱蘭遮城剛開始蓋的時候，用什麼材料？',o:['沙、竹子和木頭','鋼筋和水泥','玻璃'],a:0,hint:'一開始還沒有磚頭喔。',
+      e:'答對了！一開始先用<b>沙、竹子和木頭</b>，後來才換成磚。'}},
+  {cam:[0,0,300,225],kick:'第 2 關・調灰漿',h:'把磚黏起來',era:'past',
+   html:'<p>磚頭和磚頭中間，要用<b>灰漿</b>黏起來。</p><p><b>有一說</b>，熱蘭遮城的灰漿是用<b>糖</b>、<b>糯米</b>、<b>磨碎的貝殼</b>和<b>沙</b>混在一起做的。</p><p class="note">給大人：「糖、沙、磨碎的貝殼和糯米」出自英文維基百科等資料，臺灣常說「糖水、糯米、蚵殼灰」，沒有找到官方考古報告寫明配方，所以寫「有一說」。</p>',
+   task:'左右拖動下面的<b>木桶</b>，接住掉下來的<b>糖、糯米、貝殼和沙</b>。<b>石頭</b>和<b>樹葉</b>不要接！接到 <b>8 樣</b>對的。',game:'catch',stamp:['bucket','調好灰漿'],
+   win:'灰漿調好了！黏黏的灰漿把紅磚一塊一塊黏起來，城牆好堅固。',
+   why:['灰漿裡為什麼要放貝殼？','貝殼<b>磨成粉</b>，可以讓灰漿變硬，把磚黏得更牢。安平靠海，<b>貝殼</b>很多。']},
+  {cam:[0,0,300,225],kick:'第 3 關・城裡的倉庫',h:'把貨推進倉庫',era:'past',
+   html:'<p>荷蘭人把熱蘭遮城當作做生意的<b>轉運站</b>：從各地運來的貨，先放在城裡的<b>倉庫</b>，再用船運到別的地方。</p><p>倉庫的走道很窄，箱子只能<b>用推的</b>。</p><p class="note">給大人：「各地貨物暫存在大員熱蘭遮城的倉庫」參考臺大論文摘要；推箱子是遊戲玩法。</p>',
+   task:'在畫面上<b>往上、下、左、右滑</b>，讓工人走路、<b>推</b>箱子。把 <b>2 個箱子</b>都推到<b>虛線格</b>上！推錯了可以按「重來」。',game:'push',stamp:['crate','貨放好了'],
+   win:'兩個箱子都推進去了！倉庫整整齊齊，船來了就可以搬上去。',
+   why:['什麼是轉運站？','就像<b>轉車</b>一樣：東西先從很遠的地方運來這裡放，再換一條船，運到另一個地方。'],
+   q:{t:'荷蘭人蓋的城堡，那時候叫什麼名字？',o:['熱蘭遮城','億載金城','赤崁樓'],a:0,hint:'第一關說過喔。',
+      e:'答對了！叫<b>熱蘭遮城</b>，今天叫安平古堡。'}},
+  {cam:[0,0,300,225],kick:'第 4 關・後來的城堡（1662 年以後）',h:'磚頭被搬走了',
+   html:'<p><b>1662 年</b>，<b>鄭成功</b>把城堡收回來，把這裡改名叫<b>安平</b>。</p><p>到了<b>清朝</b>，旁邊的海慢慢被<b>泥沙</b>填滿，城堡變得不重要。清朝的兵還把城牆的<b>磚</b>拆下來，拿去蓋<b>億載金城</b>。</p><p class="note">給大人：參考臺南市政府觀光旅遊局：1662 年鄭成功收回並改名安平；清代台江淤積、兵士拆取建材興建億載金城。</p>',
+   task:'工人把磚塊從城牆上拆下來。按住<b>磚塊</b>，拖到<b>走來走去的推車</b>上！裝 <b>6 塊</b>。',game:'cart',stamp:['brick','看城牆變矮'],
+   win:'6 塊磚都裝上車了！城牆越來越矮，只剩下一小段。',
+   why:['海為什麼會不見？','河流一直把<b>泥沙</b>帶到海裡，一年一年堆起來，海就慢慢變成<b>陸地</b>。切換地圖的「以前／今天」看看！'],
+   q:{t:'1662 年，誰把城堡收回來，把這裡改名叫安平？',o:['鄭成功','荷蘭人','日本人'],a:0,hint:'第一句就寫了。',
+      e:'答對了！是<b>鄭成功</b>。'}},
+  {cam:[0,0,300,225],kick:'第 5 關・南牆和老榕樹',h:'400 年前的牆',
+   html:'<p>今天的安平古堡，白色的牆和紅色尖頂的<b>瞭望台</b>，是後來才蓋的。</p><p>荷蘭時代留下來的，只剩古堡大門外面那一段<b>紅磚南牆</b>。<b>老榕樹</b>的根爬滿了牆，好像把牆抱住了。</p><p class="note">給大人：參考臺南市政府觀光旅遊局：荷蘭時期留下的只有古堡前門外的南面磚牆，老榕樹的根盤在牆上；1975 年整修時瞭望台加了尖頂、城牆漆成白色。</p>',
+   task:'<b>按住</b>一條樹根，它會往下<b>長長</b>。長到<b>磚縫</b>（綠色的地方）時<b>放開</b>！長太長會碰到地上。4 條根都要長好。',game:'grow',stamp:['root','看到老城牆'],
+   win:'4 條樹根都長進磚縫了！老榕樹和老城牆，一起站在這裡好多年。',
+   why:['樹根會不會把牆弄壞？','樹根長進<b>磚縫</b>，會把牆撐開；可是有時候，樹根也會把磚<b>抓住</b>。所以古蹟要有人照顧，看看樹和牆好不好。'],
+   q:{t:'安平古堡哪一段牆，是荷蘭時代留下來的？',o:['大門外面的紅磚南牆','白色的牆','紅色尖頂的瞭望台'],a:0,hint:'老榕樹抱住的是什麼顏色的牆？',
+      e:'答對了！是大門外面那段<b>紅磚南牆</b>。'}},
+  {cam:[0,0,300,225],kick:'第 6 關・劍獅埕',h:'咬著劍的獅子',
+   html:'<p>走出古堡，安平老街的房子門上，常常有一隻<b>咬著劍的獅子</b>，叫<b>劍獅</b>。</p><p><b>傳說</b>鄭成功的軍隊練完兵，把盾牌和劍放在門口，小偷就不敢進來。後來大家就在門上做劍獅，保護家裡。</p><p class="note">給大人：劍獅由來是民間傳說，沒有史料；另有說法是安平巷子窄，居民放各種辟邪物。延平街和安平路之間有「安平劍獅埕」。</p>',
+   task:'每一隻<b>劍獅</b>的樣子都不一樣！按住下面的劍獅，拖到門上<b>形狀一樣的影子</b>上。',game:'shadow',stamp:['lion','找到劍獅'],
+   win:'4 隻劍獅都回到自己的門上了！每一家的劍獅都長得不一樣。',
+   why:['為什麼每一家的劍獅都不一樣？','劍獅是<b>手做</b>的，每一家請的師傅不同，劍的方向、獅子的臉都不一樣。<b>有一說</b>，以前沒有門牌，看劍獅就知道是誰家。'],
+   q:{t:'劍獅的嘴巴咬著什麼？',o:['一把劍','一顆球','一根骨頭'],a:0,hint:'它的名字就是答案。',
+      e:'答對了！咬著<b>一把劍</b>，所以叫<b>劍獅</b>。'}},
+  {cam:[60,0,660,660],kick:'任務完成',h:'400 年的古堡',
+   html:'<p>你在沙洲上圍出城堡、接住材料調灰漿、在倉庫推箱子、看清朝的兵把磚搬走、讓老榕樹的根長進老城牆，最後幫劍獅回到門上。到安平，記得去摸摸那段 400 年前的紅磚牆。</p>',game:'end'}
+];
+
+
+/* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
+var MAPS={"0": [["安平古堡", "安平古堡"]], "4": [["億載金城", "億載金城"]], "5": [["熱蘭遮城城垣暨城內建築遺構", "熱蘭遮城城垣暨城內建築遺構"]], "6": [["安平劍獅埕", "安平劍獅埕"], ["延平老街", "延平老街 安平"]]};
+
+/* ---------- 狀態 ---------- */
+var KEY='tainan-anping';
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+// 每次打開都從頭開始，不記錄玩到哪裡（使用者 2026-10-17 要求）；順便清掉以前存的進度
+var st={far:0,done:{0:1},name:''};store.set=function(){};try{localStorage.removeItem(KEY)}catch(e){}
+function save(){store.set(KEY,JSON.stringify(st))}
+function nStamps(){var n=0;LV.forEach(function(l,i){if(l.stamp&&st.done[i])n++});return n}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 地圖操作 ---------- */
+var map=document.getElementById('map');map.innerHTML=buildMap();decorate();
+var pinEl=document.getElementById('pin');
+var vb=[0,0,800,600],camRaf=0;
+function cam(t){
+  cancelAnimationFrame(camRaf);var from=vb.slice(),t0=performance.now(),D=reduce?1:900;
+  (function step(now){var q=Math.max(0,Math.min(1,(now-t0)/D)),e=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2;vb=from.map(function(v,k){return v+(t[k]-v)*e});map.setAttribute('viewBox',vb.join(' '));if(q<1)camRaf=requestAnimationFrame(step)})(t0);
+}
+function setEra(e){
+  map.classList.toggle('now',e==='now');
+  document.querySelectorAll('.era button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.era===e)});
+}
+document.querySelectorAll('.era button').forEach(function(b){b.addEventListener('click',function(){setEra(b.dataset.era)})});
+map.querySelectorAll('.stop').forEach(function(g){g.addEventListener('click',function(){var lv=+g.dataset.lv;if(lv<=st.far)go(lv)})});
+
+/* ---------- 上方舞台：地圖或小遊戲畫面 ---------- */
+var sceneEl=document.getElementById('scene'),peek=document.getElementById('peek'),eraBox=document.querySelector('.era'),sceneTimer=0;
+var stage=document.getElementById('stage'),loops=[];
+function stopLoops(){loops.forEach(function(f){f()});loops=[]}
+// 寬螢幕（左右兩欄）時舞台填滿左欄；手機直拿時舞台縮到剛好放得下遊戲圖
+var wide=window.matchMedia?matchMedia('(min-width:700px) and (min-aspect-ratio:5/4)'):{matches:false};
+function fitStage(){
+  // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
+  var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
+  if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
+  else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
+  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';
+  if(!svg)return;
+  // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
+  var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
+  svg.style.width=sw+'px';svg.style.height=sh+'px';
+  // 遊戲圖最下面那條地面或水面，往下延伸到圓的底部
+  [].forEach.call(svg.children,function(r){if(r.tagName!=='rect')return;var x=+r.getAttribute('x')||0,w=+r.getAttribute('width')||0,y=+r.getAttribute('y')||0,h=+r.getAttribute('height')||0;if(x<=0&&x+w>=vb.width&&y>0&&y+h>=vb.height-1&&y>gy){g=r;gy=y}});
+  var sky=svg.style.background||'#DFF3F8';
+  sceneEl.style.background=g?'linear-gradient('+sky+' '+(top+gy*k)+'px,'+g.getAttribute('fill')+' 0)':sky;
+}
+new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
+addEventListener('resize',fitStage);
+function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.textContent='回到遊戲';peek.hidden=!sceneEl.firstChild;fitStage()}
+function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.textContent='看地圖';peek.hidden=false;fitStage()}
+function setScene(html,delay){
+  clearTimeout(sceneTimer);sceneEl.innerHTML=html;var svg=sceneEl.querySelector('svg');
+  if(svg){svg.setAttribute('preserveAspectRatio','xMidYMax meet');sceneEl.style.background=svg.style.background||'#DFF3F8'}
+  if(delay&&!reduce){showMap();peek.hidden=true;sceneTimer=setTimeout(showGame,delay)}else showGame();
+  return sceneEl;
+}
+function clearScene(){clearTimeout(sceneTimer);stopLoops();sceneEl.innerHTML='';showMap()}
+peek.addEventListener('click',function(){if(sceneEl.hidden)showGame();else showMap()});
+
+/* ---------- 卡片 ---------- */
+var card=document.getElementById('card'),cur=0;
+card.addEventListener('click',function(e){if(e.target.closest('.big')&&sceneEl.hidden)showGame()});
+function chips(pop){
+  var h='';LV.forEach(function(l,i){if(l.stamp)h+='<i class="'+(st.done[i]?'on':'')+(pop===i?' pop':'')+'">'+(st.done[i]?icon(l.stamp[0]):'')+'</i>'});
+  document.getElementById('chips').innerHTML=h;
+}
+function el(html){var d=document.createElement('div');d.innerHTML=html;return d}
+function say(box,text,again){box.hidden=false;box.className='say'+(again?' again':'');box.innerHTML=text}
+function later(fn,ms){var t=setTimeout(fn,reduce?0:ms);loops.push(function(){clearTimeout(t)})}
+function into(node){setTimeout(function(){node.scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'})},50)}
+function onKey(node,fn){node.addEventListener('click',fn);node.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})}
+function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;area.appendChild(b);into(b);return b}
+
+function whyHTML(l){return l.why?'<details class="why"><summary>'+l.why[0]+'</summary><p>'+l.why[1]+'</p></details>':''}
+function win(i){
+  if(st.done[i])return;st.done[i]=1;st.far=Math.max(st.far,i+1);save();chips(i);paint();
+  var l=LV[i],box=el('<div class="got"><span class="seal'+(reduce?'':' pop')+'">'+icon(l.stamp[0])+'</span><p>蓋章：'+l.stamp[1]+'！<br>按「下一關」繼續。</p></div>'+whyHTML(l));
+  var nb=card.querySelector('.notes');if(nb)card.insertBefore(box,nb);else card.appendChild(box);into(box);
+}
+function render(i){
+  var l=LV[i];
+  var top=document.getElementById('top');top.innerHTML='<p class="kick">'+l.kick+'</p><h2>'+l.h+'</h2>';
+  card.innerHTML=l.html+(l.task?'<p class="task">'+l.task+'</p>':'');
+  [top,card].forEach(function(n){n.classList.remove('enter');void n.offsetWidth;n.classList.add('enter')});
+  card.scrollTop=0;if(!wide.matches)window.scrollTo(0,0);
+  var area=document.createElement('div');card.appendChild(area);
+  // 提醒、給大人：全部移到卡片最下面
+  var ns=card.querySelectorAll(':scope>p.note');if(ns.length){var nb=document.createElement('div');nb.className='notes';
+    [].forEach.call(ns,function(n){if(!/^\s*給大人/.test(n.textContent))n.insertAdjacentHTML('afterbegin','<b>提醒</b>　');nb.appendChild(n)});card.appendChild(nb)}
+  // 去現場看看：Google 地圖連結放在卡片最下面的小字（完成頁列出全部）
+  var mp=MAPS[i];if(l.game==='end'){var seen={};mp=[];Object.keys(MAPS).forEach(function(k){MAPS[k].forEach(function(m){if(!seen[m[0]]){seen[m[0]]=1;mp.push(m)}})})}
+  if(mp&&mp.length){var nb2=card.querySelector(':scope>.notes');if(!nb2){nb2=document.createElement('div');nb2.className='notes';card.appendChild(nb2)}
+    nb2.insertAdjacentHTML('beforeend','<p class="note maps">去現場看看（Google 地圖）：'+mp.map(function(m){return '<a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(m[1])+'" target="_blank" rel="noopener">'+m[0]+'</a>'}).join('、')+'</p>')}
+  if(st.done[i]&&l.stamp){
+    area.innerHTML=(l.win?'<p class="say">'+l.win+'</p>':'')+(l.q?'<p class="say">'+l.q.e+'</p>':'')+whyHTML(l)+'<div class="got"><span class="seal">'+icon(l.stamp[0])+'</span><p>已經蓋章：'+l.stamp[1]+'</p></div><button class="again-btn" type="button">再玩一次這關</button>';
+    area.querySelector('.again-btn').addEventListener('click',function(){var keep=st.done[i];delete st.done[i];render(i);st.done[i]=keep;replay=i;paint()});
+    return;
+  }
+  GAMES[l.game](area,i,l);
+}
+var replay=-1;
+function finish(i){if(replay===i){replay=-1;render(i);return}win(i)}
+
+function quiz(area,l,done){
+  var q=l.q,box=el('<p class="kick" style="margin-top:6px">'+(q.field?'現場找一找':'想一想')+'</p><p>'+q.t+'</p>');
+  var opts=document.createElement('div');
+  q.o.forEach(function(t,j){
+    var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
+    b.addEventListener('click',function(){
+      if(j===q.a){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add('yes');say(msg,q.e);if(sk)sk.remove();done()}
+      else{b.classList.add('no');b.disabled=true;say(msg,q.hint,1)}
+    });opts.appendChild(b)});
+  box.appendChild(opts);var msg=document.createElement('p');msg.hidden=true;box.appendChild(msg);
+  var sk=null;if(q.field){sk=el('<button class="skip" type="button">不在現場，先跳過</button>').firstChild;sk.addEventListener('click',function(){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});say(msg,'先跳過。'+q.e);sk.remove();done()});box.appendChild(sk)}
+  area.appendChild(box);into(box);
+}
+// 把螢幕上的點換成插圖裡的座標
+function toSvg(svg,e){var m=svg.getScreenCTM();if(!m)return {x:-999,y:-999};var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(m.inverse())}
+// 在插圖上拖手指：down、move、up 都換成插圖座標
+function drag(svg,fn){
+  var on=false;svg.style.touchAction='none';
+  svg.addEventListener('pointerdown',function(e){on=true;try{svg.setPointerCapture(e.pointerId)}catch(_){}fn('down',toSvg(svg,e),e)});
+  svg.addEventListener('pointermove',function(e){if(on||e.pointerType==='mouse')fn(on?'move':'hover',toSvg(svg,e),e)});
+  ['pointerup','pointercancel'].forEach(function(t){svg.addEventListener(t,function(e){if(on){on=false;fn('up',toSvg(svg,e),e)}})});
+}
+
+var GAMES={
+  start:function(area){
+    var art=fortNow(110,118,1.7)+bricks(204,108,96,44)+'<path d="M210 108Q204 128 212 152M236 108Q230 130 238 152M266 108Q262 126 270 152" stroke="#6E5A3A" stroke-width="3" fill="none"/><ellipse cx="248" cy="96" rx="58" ry="22" fill="#4E8A3A"/><ellipse cx="226" cy="88" rx="26" ry="12" fill="#5E9A46"/>';
+    setScene(idCard('安平古堡','以前叫熱蘭遮城，大約 400 年前荷蘭人蓋的',art,[['紅色尖頂的瞭望台',100,52,110,66],['白色的牆',70,166,80,150],['荷蘭時代的紅磚牆',250,176,236,140]]));
+    var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
+
+  /* 第 1 關：在沙洲上拉出一個方框，圍出城堡的位置 */
+  rect:function(area,i,l){
+    var CX=160,CY=100,RX=130,RY=62,a=null,b=null,done=false;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:'+SEA+'"><rect x="-400" y="176" width="1200" height="80" fill="'+SEA+'"/><ellipse cx="'+CX+'" cy="'+CY+'" rx="'+RX+'" ry="'+RY+'" fill="'+SAND+'" stroke="#D8C08A" stroke-width="2"/>'+
+      '<g transform="translate(40 168)"><path d="M-14 4H14L10 10H-10Z" fill="#8A5A3A"/><path d="M0 4V-18L12 0Z" fill="#fff" stroke="#B8A890"/></g><g transform="translate(282 30)"><path d="M-14 4H14L10 10H-10Z" fill="#8A5A3A"/><path d="M0 4V-18L12 0Z" fill="#fff" stroke="#B8A890"/></g>'+
+      [[110,80],[200,120],[150,124],[226,84]].map(function(p){return '<path d="M'+p[0]+' '+p[1]+'l4 -12l4 12" stroke="#7A9A4A" stroke-width="1.4" fill="none"/>'}).join('')+'<g id="fr"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),fr=svg.querySelector('#fr');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function box(){return {x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(a.x-b.x),h:Math.abs(a.y-b.y)}}
+    function inside(x,y){return Math.pow((x-CX)/RX,2)+Math.pow((y-CY)/RY,2)<=1}
+    function draw(ok){if(!a||!b){fr.innerHTML='';return}var r=box();
+      if(ok){var bs=function(x,y){return '<path d="M'+(x-12)+' '+y+'L'+x+' '+(y-12)+'L'+(x+12)+' '+y+'L'+x+' '+(y+12)+'Z" fill="'+BRICK+'" stroke="'+BRICKD+'" stroke-width="1.4"/>'};
+        fr.innerHTML='<rect x="'+f1(r.x)+'" y="'+f1(r.y)+'" width="'+f1(r.w)+'" height="'+f1(r.h)+'" fill="#D8A888" stroke="'+BRICKD+'" stroke-width="5"/>'+bs(r.x,r.y)+bs(r.x+r.w,r.y)+bs(r.x,r.y+r.h)+bs(r.x+r.w,r.y+r.h)+'<text x="'+f1(r.x+r.w/2)+'" y="'+f1(r.y+r.h/2+6)+'" font-size="16" font-weight="900" fill="#6C2024" text-anchor="middle">熱蘭遮城</text>';return}
+      var c=[[r.x,r.y],[r.x+r.w,r.y],[r.x,r.y+r.h],[r.x+r.w,r.y+r.h]].every(function(q){return inside(q[0],q[1])});
+      fr.innerHTML='<rect x="'+f1(r.x)+'" y="'+f1(r.y)+'" width="'+f1(r.w)+'" height="'+f1(r.h)+'" fill="#fff" fill-opacity=".25" stroke="'+(c?'#6C2024':'#DB2E27')+'" stroke-width="2.4" stroke-dasharray="6 4"/>';
+      bar.style.width=f1(Math.min(1,(r.w*r.h)/(100*50))*100)+'%'}
+    function check(){var r=box(),c=[[r.x,r.y],[r.x+r.w,r.y],[r.x,r.y+r.h],[r.x+r.w,r.y+r.h]].every(function(q){return inside(q[0],q[1])});
+      if(!c){say(msg,'方框<b>超出沙洲</b>，跑到海裡了！再拉一次。',1);a=b=null;draw();return}
+      if(r.w<100||r.h<50){say(msg,'方框<b>太小</b>了，城堡要住好多人、放好多貨。再拉大一點。',1);a=b=null;draw();return}
+      done=true;bar.style.width='100%';draw(true);say(msg,'圍好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},1000)}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){a={x:p.x,y:p.y};b={x:p.x,y:p.y};draw();return}
+      if(!a)return;
+      if(t==='move'){b={x:p.x,y:p.y};draw();return}
+      if(t==='up'){b={x:p.x,y:p.y};check()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','沙洲的畫面，按 Enter 圍出城堡');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();a={x:90,y:72};b={x:230,y:128};check()}});
+    later(function(){if(!done)say(msg,'手指按在沙洲上方框的一個角（例如左上），<b>不要放開</b>，斜斜拖到對面的角（右下）再放開。')},8000);
+  },
+
+  /* 第 2 關：左右移動木桶，接住做灰漿的材料 */
+  catch:function(area,i,l){
+    var TY=[{k:'sugar',n:'糖',g:1},{k:'rice',n:'糯米',g:1},{k:'shell',n:'貝殼',g:1},{k:'sand',n:'沙',g:1},{k:'stone',n:'石頭',g:0},{k:'leaf',n:'樹葉',g:0}],F=[],bx=160,N=8,n=0,done=false,raf=0,last=performance.now(),sp=0,r=rnd(13),seq=0;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAF2F4"><rect x="-400" y="172" width="1200" height="80" fill="'+SAND+'"/><g id="fl"></g><g id="bk"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),fl=svg.querySelector('#fl'),bk=svg.querySelector('#bk');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function art(k,x,y){var t='<g transform="translate('+f1(x)+' '+f1(y)+')">';
+      if(k==='sugar')return t+'<rect x="-9" y="-7" width="8" height="8" rx="1.5" fill="#fff" stroke="#B8B0A0"/><rect x="1" y="-5" width="8" height="8" rx="1.5" fill="#fff" stroke="#B8B0A0"/><rect x="-4" y="1" width="8" height="8" rx="1.5" fill="#fff" stroke="#B8B0A0"/></g>';
+      if(k==='rice')return t+[[-6,-3],[0,-5],[6,-2],[-3,3],[4,4]].map(function(q){return '<ellipse cx="'+q[0]+'" cy="'+q[1]+'" rx="3.4" ry="2.2" fill="#FBF8F0" stroke="#C8C0B0" stroke-width=".8"/>'}).join('')+'</g>';
+      if(k==='shell')return t+'<path d="M0 8L-10 -2Q-6 -10 0 -10Q6 -10 10 -2Z" fill="#F4E2D4" stroke="#B8907A" stroke-width="1"/><path d="M0 8L-5 -8M0 8L0 -10M0 8L5 -8" stroke="#B8907A" stroke-width=".8"/></g>';
+      if(k==='sand')return t+'<path d="M-12 8Q-6 -8 0 -8Q6 -8 12 8Z" fill="#E0C88A" stroke="#B8A060" stroke-width="1"/></g>';
+      if(k==='stone')return t+'<path d="M-10 4Q-12 -6 -2 -8Q10 -8 11 2Q10 9 0 9Q-8 9 -10 4Z" fill="#9A9AA0" stroke="#6A6A70" stroke-width="1"/></g>';
+      return t+'<path d="M-10 6Q-8 -10 10 -8Q8 8 -10 6Z" fill="#6AA84A" stroke="#3C6E2C" stroke-width="1"/><path d="M-8 4L8 -6" stroke="#3C6E2C" stroke-width=".8"/></g>'}
+    (function loop(now){var d=Math.min(50,now-last)/1000;last=now;
+      if(!done){sp-=d;if(sp<=0){sp=.85;seq++;var g=r()<.72,pool=TY.filter(function(t){return !!t.g===g}),ty=pool[Math.floor(r()*pool.length)];F.push({t:ty,x:36+r()*248,y:-10,v:62+r()*26})}}
+      F=F.filter(function(o){o.y+=o.v*d;
+        if(!done&&o.y>146&&o.y<166&&Math.abs(o.x-bx)<30){
+          if(o.t.g){n++;bar.style.width=(n/N*100)+'%';if(n>=N){done=true;say(msg,'接滿了！');later(function(){say(msg,l.win);finish(i)},900)}else say(msg,'接到<b>'+o.t.n+'</b>了！還要 '+(N-n)+' 樣。')}
+          else say(msg,'<b>'+o.t.n+'</b>不能放進灰漿！下次閃開它。',1);
+          return false}
+        return o.y<200});
+      fl.innerHTML=F.map(function(o){return art(o.t.k,o.x,o.y)+'<text x="'+f1(o.x)+'" y="'+f1(o.y+24)+'" font-size="13" font-weight="700" fill="#5A3E2B" text-anchor="middle" stroke="#EAF2F4" stroke-width="3" paint-order="stroke">'+o.t.n+'</text>'}).join('');
+      bk.innerHTML='<g transform="translate('+f1(bx)+' 166)"><path d="M-30 -14H30L24 12H-24Z" fill="#B88A55" stroke="#7A5530" stroke-width="1.6"/><path d="M-28 -6H28M-26 4H26" stroke="#7A5530" stroke-width="1.2"/><ellipse cy="-14" rx="30" ry="5" fill="#E8DCC0" stroke="#7A5530" stroke-width="1.2"/></g>';
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(t,p){if(done||t==='up')return;if(t==='hover'||t==='down'||t==='move')bx=Math.max(34,Math.min(286,p.x))});
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','接材料的畫面，左右鍵移動木桶，按 Enter 接滿');
+    svg.addEventListener('keydown',function(e){if(done)return;if(e.key==='ArrowLeft')bx=Math.max(34,bx-24);else if(e.key==='ArrowRight')bx=Math.min(286,bx+24);else if(e.key==='Enter'||e.key===' '){e.preventDefault();n=N-1;F.push({t:TY[0],x:bx,y:140,v:60})}});
+    later(function(){if(!n&&!done)say(msg,'手指按住畫面<b>左右移動</b>，木桶會跟著你。站到材料的<b>正下方</b>接住它。')},6000);
+  },
+
+  /* 第 3 關：推箱子，把 2 個箱子推到虛線格 */
+  push:function(area,i,l){
+    var MAP=['#######','#     #','#     #','#     #','#######'],G=[[2,1],[5,3]],S0={p:[3,3],b:[[2,2],[4,2]]},st0=null,done=false,C=32,OX=48,OY=12,me,bx;
+    function reset(){me=S0.p.slice();bx=S0.b.map(function(q){return q.slice()})}
+    reset();
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E8DCC4"><rect x="-400" y="174" width="1200" height="80" fill="#C8B490"/><g id="gd"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),gd=svg.querySelector('#gd');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    var rb=el('<button class="skip" type="button">重來</button>').firstChild;rb.addEventListener('click',function(){if(done)return;reset();draw();say(msg,'重來一次！')});area.appendChild(rb);
+    function wall(x,y){return MAP[y][x]==='#'}
+    function boxAt(x,y){var k=-1;bx.forEach(function(q,j){if(q[0]===x&&q[1]===y)k=j});return k}
+    function onGoal(q){return G.some(function(g){return g[0]===q[0]&&g[1]===q[1]})}
+    function draw(){var h='';
+      for(var y=0;y<5;y++)for(var x=0;x<7;x++){var X=OX+x*C,Y=OY+y*C;h+=wall(x,y)?bricks(X,Y,C,C):'<rect x="'+X+'" y="'+Y+'" width="'+C+'" height="'+C+'" fill="#D8C8A0" stroke="#C8B488" stroke-width=".8"/>'}
+      G.forEach(function(g){h+='<rect x="'+(OX+g[0]*C+3)+'" y="'+(OY+g[1]*C+3)+'" width="'+(C-6)+'" height="'+(C-6)+'" fill="none" stroke="#DB2E27" stroke-width="2" stroke-dasharray="4 3"/>'});
+      bx.forEach(function(q){var X=OX+q[0]*C,Y=OY+q[1]*C,ok=onGoal(q);h+='<rect x="'+(X+3)+'" y="'+(Y+3)+'" width="'+(C-6)+'" height="'+(C-6)+'" fill="'+(ok?'#D8A050':'#C8A060')+'" stroke="'+(ok?'#3F6B2E':'#7A5530')+'" stroke-width="'+(ok?2.4:1.4)+'"/><path d="M'+(X+3)+' '+(Y+3)+'L'+(X+C-3)+' '+(Y+C-3)+'M'+(X+C-3)+' '+(Y+3)+'L'+(X+3)+' '+(Y+C-3)+'" stroke="#7A5530" stroke-width="1"/>'});
+      var X=OX+me[0]*C+C/2,Y=OY+me[1]*C+C/2;h+='<g transform="translate('+X+' '+Y+')"><circle cy="-5" r="5" fill="#F2C8A0"/><path d="M-6 -1H6V9H-6Z" fill="#4A6A9A"/><path d="M-7 -9H7L0 -14Z" fill="#2A2020"/></g>';
+      gd.innerHTML=h;var k=bx.filter(onGoal).length;bar.style.width=(k/2*100)+'%'}
+    draw();
+    function step(dx,dy){if(done)return;var nx=me[0]+dx,ny=me[1]+dy;if(wall(nx,ny)){say(msg,'前面是<b>牆</b>，走不過去。',1);return}
+      var k=boxAt(nx,ny);if(k>=0){var bx2=nx+dx,by2=ny+dy;if(wall(bx2,by2)||boxAt(bx2,by2)>=0){say(msg,'箱子推不動了，後面擋住了。卡住的話按「<b>重來</b>」。',1);return}bx[k]=[bx2,by2]}
+      me=[nx,ny];draw();
+      if(bx.every(onGoal)){done=true;rb.remove();say(msg,'都推好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){st0=p;return}
+      if(t==='up'&&st0){var dx=p.x-st0.x,dy=p.y-st0.y;st0=null;
+        if(Math.max(Math.abs(dx),Math.abs(dy))<12){var mx=OX+me[0]*C+C/2,my=OY+me[1]*C+C/2;dx=p.x-mx;dy=p.y-my;if(Math.max(Math.abs(dx),Math.abs(dy))<C/2)return}
+        if(Math.abs(dx)>Math.abs(dy))step(dx>0?1:-1,0);else step(0,dy>0?1:-1)}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','倉庫的畫面，用方向鍵走路推箱子，按 Enter 直接完成');
+    svg.addEventListener('keydown',function(e){if(done)return;var m={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.key];if(m){e.preventDefault();step(m[0],m[1])}else if(e.key==='Enter'){e.preventDefault();bx=G.map(function(g){return g.slice()});draw();done=true;say(msg,l.win);quiz(area,l,function(){finish(i)})}});
+    later(function(){if(!done&&me[0]===3&&me[1]===3)say(msg,'先往<b>左</b>滑一下，再往<b>上</b>滑，把左邊的箱子推上去。也可以<b>點</b>工人旁邊的格子走過去。')},8000);
+  },
+
+  /* 第 4 關：把磚塊拖到走來走去的推車上 */
+  cart:function(area,i,l){
+    var B=[],cx=80,dir=1,held=null,off={x:0,y:0},n=0,N=6,done=false,raf=0,last=performance.now();
+    for(var k=0;k<N;k++)B.push({x:62+k*39,y:58,on:false});
+    B.forEach(function(b){b.hx=b.x;b.hy=b.y});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAE4D8"><rect x="-400" y="168" width="1200" height="80" fill="#C8B490"/><g id="wl"></g><g id="ct"></g><g id="bk"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),wl=svg.querySelector('#wl'),ct=svg.querySelector('#ct'),bk=svg.querySelector('#bk');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    (function loop(now){var d=Math.min(50,now-last)/1000;last=now;
+      if(!done){cx+=dir*44*d;if(cx>250){cx=250;dir=-1}if(cx<70){cx=70;dir=1}}
+      var top=70+n*8;wl.innerHTML=bricks(36,top,248,168-top);
+      ct.innerHTML='<g transform="translate('+f1(cx)+' 150)"><path d="M-30 -10H30V6H-30Z" fill="#8A6A3A" stroke="#5A3E2B" stroke-width="1.4"/><circle cx="-18" cy="10" r="7" fill="#5A3E2B"/><circle cx="18" cy="10" r="7" fill="#5A3E2B"/><path d="M30 -6L44 -16" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round"/>'+(n?bricks(-26,-10-Math.min(3,n)*4,52,Math.min(3,n)*4):'')+'</g>';
+      bk.innerHTML=B.filter(function(b){return !b.on}).map(function(b){return '<g'+(b===held?' opacity=".9"':'')+'>'+bricks(b.x-16,b.y-7,32,12)+'<rect x="'+f1(b.x-16)+'" y="'+f1(b.y-7)+'" width="32" height="12" fill="none" stroke="'+BRICKD+'" stroke-width="1.4"/></g>'}).join('');
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    function load(b){b.on=true;n++;bar.style.width=(n/N*100)+'%';
+      if(n>=N){done=true;say(msg,'6 塊都裝好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}else say(msg,'裝上車了！還有 '+(N-n)+' 塊。')}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){held=null;var bd=24;B.forEach(function(b){if(b.on)return;var d=Math.hypot(p.x-b.x,p.y-b.y);if(d<bd){bd=d;held=b}});if(held)off={x:p.x-held.x,y:p.y-held.y};else say(msg,'要按住城牆上面<b>鬆掉的磚塊</b>。',1);return}
+      if(!held)return;
+      if(t==='move'){held.x=p.x-off.x;held.y=p.y-off.y;return}
+      if(t==='up'){var b=held;held=null;if(Math.abs(b.x-cx)<38&&b.y>116&&b.y<170)load(b);else{b.x=b.hx;b.y=b.hy;say(msg,'要放在<b>推車</b>上喔！推車會走來走去，等它過來再放。',1)}}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','拆磚的畫面，按 Enter 裝一塊磚');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var b=B.filter(function(q){return !q.on})[0];if(b)load(b)}});
+    later(function(){if(!n&&!done)say(msg,'按住城牆上面的一塊<b>磚</b>，拖到下面的<b>推車</b>上再放開。')},7000);
+  },
+
+  /* 第 5 關：按住讓樹根往下長，長到磚縫時放開 */
+  grow:function(area,i,l){
+    var R=[{x:78,t:104},{x:132,t:130},{x:188,t:96},{x:242,t:146}],Y0=66,GND=168,held=null,n=0,done=false,raf=0,last=performance.now();
+    R.forEach(function(r){r.len=0;r.ok=false});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E6EEE2"><rect x="-400" y="168" width="1200" height="80" fill="#B8A890"/>'+bricks(40,Y0,240,GND-Y0)+
+      '<ellipse cx="160" cy="40" rx="150" ry="34" fill="#4E8A3A"/><ellipse cx="110" cy="32" rx="60" ry="18" fill="#5E9A46"/><ellipse cx="220" cy="36" rx="50" ry="16" fill="#5E9A46"/><g id="ck"></g><g id="rt"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),ck=svg.querySelector('#ck'),rt=svg.querySelector('#rt');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    (function loop(now){var d=Math.min(50,now-last)/1000;last=now;
+      if(held&&!held.ok){held.len+=38*d;if(Y0+held.len>=GND){held.len=0;held=null;say(msg,'長太長，碰到地上了！再按一次，看到<b>綠色的磚縫</b>就放開。',1)}}
+      ck.innerHTML=R.map(function(r){return r.ok?'':'<rect x="'+(r.x-14)+'" y="'+(r.t-5)+'" width="28" height="10" rx="2" fill="#7ACB5A" opacity=".85"/>'}).join('');
+      rt.innerHTML=R.map(function(r){var y1=Y0+r.len,w=Math.sin(r.x)*4;return '<path d="M'+r.x+' '+(Y0-8)+'Q'+f1(r.x+w)+' '+f1((Y0+y1)/2)+' '+r.x+' '+f1(y1)+'" stroke="'+(r.ok?'#5A4A2A':'#7A6440')+'" stroke-width="'+(r===held?5:4)+'" fill="none" stroke-linecap="round"/>'+(r.ok?'<path d="M'+(r.x-10)+' '+r.t+'H'+(r.x+10)+'" stroke="#5A4A2A" stroke-width="3" stroke-linecap="round"/>':'')}).join('');
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    function fix(r){r.ok=true;r.len=r.t-Y0;n++;bar.style.width=(n/4*100)+'%';
+      if(n>=4){done=true;say(msg,'4 條都長好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}else say(msg,'長進磚縫了！還有 '+(4-n)+' 條。')}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){held=null;R.forEach(function(r){if(!r.ok&&Math.abs(p.x-r.x)<26)held=r});if(!held)say(msg,'按住一條<b>還沒長好</b>的樹根（看上面的樹）。',1);return}
+      if(t==='up'&&held){var r=held;held=null;var tip=Y0+r.len;if(Math.abs(tip-r.t)<=7)fix(r);else if(tip<r.t)say(msg,'還沒到磚縫，再<b>按住</b>讓它長長一點。',1);else{r.len=0;say(msg,'長過頭了，樹根縮回去了。到<b>綠色</b>的地方就要放開喔！',1)}}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','樹根的畫面，按 Enter 長好一條');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var r=R.filter(function(q){return !q.ok})[0];if(r)fix(r)}});
+    later(function(){if(!n&&!done)say(msg,'手指<b>按住</b>一條樹根不要放開，它會往下長；長到<b>綠色的磚縫</b>時，馬上放開。')},7000);
+  },
+
+  /* 第 6 關：把劍獅拖到門上形狀一樣的影子 */
+  shadow:function(area,i,l){
+    var D=[{x:50,k:3},{x:123,k:1},{x:197,k:4},{x:270,k:2}],J=[1,2,3,4].map(function(k,j){return {k:k,x:50+j*73.3,y:150,on:false}}),held=null,off={x:0,y:0},n=0,done=false;
+    J.forEach(function(o){o.hx=o.x;o.hy=o.y});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F4EADA"><rect x="-400" y="178" width="1200" height="80" fill="#C8B490"/>';
+    D.forEach(function(d){s+='<rect x="'+(d.x-32)+'" y="26" width="64" height="100" fill="#F3E2C8" stroke="#B8A080" stroke-width="1"/><rect x="'+(d.x-18)+'" y="70" width="36" height="56" fill="#8A5A3A" stroke="#5A3E2B" stroke-width="1.2"/><path d="M'+d.x+' 70V126" stroke="#5A3E2B" stroke-width="1"/><path d="M'+(d.x-34)+' 26L'+d.x+' 12L'+(d.x+34)+' 26Z" fill="#B8634A"/>'});
+    s+='<g id="sh"></g><g id="jl"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),sh=svg.querySelector('#sh'),jl=svg.querySelector('#jl');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){sh.innerHTML=D.map(function(d){return d.got?jianshi(d.x,48,1.05,d.k):'<g opacity=".55">'+jianshi(d.x,48,1.05,d.k,1)+'</g>'}).join('');
+      jl.innerHTML=J.filter(function(o){return !o.on&&o!==held}).concat(held?[held]:[]).map(function(o){return '<circle cx="'+f1(o.x)+'" cy="'+f1(o.y)+'" r="'+(o===held?0:24)+'" fill="#fff" stroke="#E2D4BC"/>'+jianshi(o.x,o.y,1.05,o.k)}).join('')}
+    draw();
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){held=null;var bd=26;J.forEach(function(o){if(o.on)return;var d=Math.hypot(p.x-o.x,p.y-o.y);if(d<bd){bd=d;held=o}});if(held)off={x:p.x-held.x,y:p.y-held.y};else say(msg,'要按住下面的一隻<b>劍獅</b>。',1);draw();return}
+      if(!held)return;
+      if(t==='move'){held.x=p.x-off.x;held.y=p.y-off.y;draw();return}
+      if(t==='up'){var o=held;held=null;var dd=null;D.forEach(function(d){if(!d.got&&Math.abs(o.x-d.x)<32&&Math.abs(o.y-48)<34)dd=d});
+        if(dd&&dd.k===o.k){dd.got=true;o.on=true;n++;bar.style.width=(n/4*100)+'%';
+          if(n>=4){done=true;say(msg,'全部回家了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}else say(msg,'形狀一樣！這隻劍獅回家了。還有 '+(4-n)+' 隻。')}
+        else{o.x=o.hx;o.y=o.hy;if(dd)say(msg,'形狀不一樣喔！看看<b>頭的形狀</b>和<b>劍的方向</b>。',1)}
+        draw()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','劍獅的畫面，按 Enter 放好一隻');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var o=J.filter(function(q){return !q.on})[0];if(!o)return;var d=D.filter(function(q){return q.k===o.k})[0];d.got=true;o.on=true;n++;draw();if(n>=4){done=true;say(msg,l.win);quiz(area,l,function(){finish(i)})}}});
+    later(function(){if(!n&&!done)say(msg,'按住下面的一隻劍獅，拖到門上<b>灰色影子</b>形狀一樣的地方。')},7000);
+  },
+
+  end:function(area,i,l){
+    // 回顧：每一段把鏡頭飛到那一關的地點，下面講那一關做了什麼
+    var steps=[];LV.forEach(function(v,k){if(v.stamp&&k>0)steps.push(k)});
+    var n=-1,firstTime=nStamps()===steps.length;
+    area.innerHTML='<div class="recap" aria-live="polite"></div><button class="big" type="button">開始<br>回顧</button><p class="rn"></p><p><button class="again-btn" type="button">重新開始遊戲</button></p><p class="note" style="margin-top:20px">給大人：安平古堡要買票入園（臺南市民憑證件免費），開放時間以臺南市政府公告為準。荷蘭時代留下的城牆在古堡大門外的南牆。<br>資料來源：臺南市政府觀光旅遊局（臺南旅遊網：1624 年興建、1634 年完工、1662 年鄭成功收回改名安平、清代淤積與拆取建材建億載金城、1975 年整修加尖頂、只剩南面磚牆、老榕樹）；臺南市政府文化局資料（1627 年定名熱蘭遮城、初期用砂土竹木構築、紅頂瞭望塔 1944 年興建）；英文維基百科 Fort Zeelandia（灰漿用糖、沙、磨碎貝殼和糯米，有一說）；臺大論文摘要（大員熱蘭遮城倉庫是轉運站）；劍獅傳說（安平劍獅埕相關介紹，屬民間傳說）。地圖是示意圖，不是真實比例。</p>';
+    var box=area.querySelector('.recap'),btn=area.querySelector('.big'),cnt=area.querySelector('.rn');
+    function stopOf(k){var s=null;STOPS.forEach(function(t){if(t.lv===k)s=t});if(!s&&LV[k].pin!==undefined)s=STOPS[LV[k].pin];return s}
+    function show(){
+      box.classList.remove('enter');void box.offsetWidth;box.classList.add('enter');
+      if(n<0){cam(camFor(i,l));setEra('now');pinEl.style.display='none';box.innerHTML='';btn.innerHTML='開始<br>回顧';cnt.textContent='';return}
+      var k=steps[n],v=LV[k],s=stopOf(k);
+      cam(camFor(k,v));setEra(v.era||'now');
+      if(s){pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+      var txt=v.win||(v.q&&v.q.e)||(v.why&&v.why[1])||'';
+      box.innerHTML='<div class="rc"><span class="seal'+(st.done[k]?'':' empty')+'">'+(st.done[k]?icon(v.stamp[0]):'')+'</span><div><p class="rk">'+v.kick+'</p><p class="rh">'+v.h+'</p><p>'+txt+'</p></div></div>';
+      btn.innerHTML=n<steps.length-1?'下一段':'從頭<br>再看';
+      cnt.textContent='第 '+(n+1)+' / '+steps.length+' 段';
+    }
+    btn.addEventListener('click',function(){n=n<steps.length-1?n+1:-1;show();into(btn)});
+    area.querySelector('.again-btn').addEventListener('click',function(){st={far:0,done:{0:1},name:''};save();chips();setEra('now');go(0)});
+    show();
+    if(!reduce&&firstTime)confetti();
+  }
+
+};
+
+function confetti(){var cs=['#E2574C','#F5A623','#7BC47F','#6EC3DD','#F7A8C4'];for(var k=0;k<36;k++){var c=document.createElement('i');c.className='conf';c.style.left=(Math.random()*100)+'vw';c.style.background=cs[k%5];c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){return function(){x.remove()}}(c),3600)}}
+
+/* ---------- 換關 ---------- */
+var pv=document.getElementById('pv'),nx=document.getElementById('nx');
+function paint(){
+  nx.disabled=cur===LV.length-1||!st.done[cur];nx.textContent=st.done[cur]||cur===LV.length-1?'下一關 ›':'先完成任務';
+  pv.disabled=cur===0;nx.style.visibility=cur===LV.length-1?'hidden':'';document.getElementById('pos').textContent=cur===0?'開始':(cur===LV.length-1?'完成':'第 '+cur+' / 6 關');
+  map.querySelectorAll('.stop').forEach(function(g){g.classList.toggle('lock',+g.dataset.lv>st.far)});
+}
+// 鏡頭：每一關都把那一關的地點放在圓的正中間；全景（正方形鏡頭）照原樣
+function camFor(i,l){var c=l.cam;if(c[2]===c[3])return c;var s=null;STOPS.forEach(function(t){if(t.lv===i)s=t});if(!s&&l.pin!==undefined)s=STOPS[l.pin];
+  var z=c[3]*1.05,cx=s?s.x:c[0]+c[2]/2,cy=s?s.y-6:c[1]+c[3]/2;return [cx-z/2,cy-z/2,z,z]}
+function go(i){
+  cur=i;if(i>st.far){st.far=i;save()}replay=-1;var l=LV[i];clearScene();
+  cam(camFor(i,l));setEra(l.era||'now');
+  if(l.pin!==undefined){var s=STOPS[l.pin];pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+  render(i);paint();
+}
+pv.addEventListener('click',function(){if(cur>0)go(cur-1)});
+nx.addEventListener('click',function(){if(st.done[cur]&&cur<LV.length-1)go(cur+1)});
+var sheet=document.getElementById('sheet');
+document.getElementById('chips').addEventListener('click',function(){if(st.far>=LV.length-1)go(LV.length-1)});
+function closeSheet(){sheet.hidden=true;document.getElementById('chips').focus()}
+document.getElementById('sheetX').addEventListener('click',closeSheet);
+sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+chips();go(Math.min(st.far,LV.length-1));
+</script>
+</body>
+</html>

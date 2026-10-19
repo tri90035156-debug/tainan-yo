@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tri90035156-debug.github.io/tainan-yo/sitemap.xml

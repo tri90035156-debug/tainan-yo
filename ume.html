@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>梅子任務・臺南的水果</title>
+<meta name="description" content="跟著梅嶺種梅子的阿伯：把「香蕉山」的招牌換成梅嶺、拖著冷空氣吹開滿山梅花、幫梅花撐傘躲雨、輕輕採下青梅不折樹枝、照熟度做成脆梅和果醬，再煮一鍋梅子雞。">
+<link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/ume.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/ume.html">
+<link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/ume.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="臺南遊">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/ume.html">
+<meta property="og:title" content="梅子任務（水果・楠西梅嶺）｜臺南遊">
+<meta property="og:description" content="跟著梅嶺種梅子的阿伯：把「香蕉山」的招牌換成梅嶺、拖著冷空氣吹開滿山梅花、幫梅花撐傘躲雨、輕輕採下青梅不折樹枝、照熟度做成脆梅和果醬，再煮一鍋梅子雞。">
+<meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/ume.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#FFF8EC; --card:#FFFDF7; --ink:#5A3E2B; --muted:#9A7B62; --line:#EBD9BF;
+  --red:#E2574C; --sea:#9ED9EC; --water:#6EC3DD; --blue:#2E93B8; --green:#7BC47F; --sand:#F8E7C2;
+  --f:"Huninn","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:#F3E6CF;color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.7;overflow:hidden}
+.app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
+header{flex:none;display:flex;align-items:center;gap:10px;padding:8px 14px}
+header h1{margin:0;font-size:20px;font-weight:400;flex:1;line-height:1.3}
+.chips{display:flex;gap:3px;background:none;border:0;padding:4px;cursor:pointer;border-radius:8px}
+.chips i{display:grid;place-items:center;width:22px;height:22px;border:1.5px dashed #D9BFA0;border-radius:6px;font:14px/19px var(--f);font-style:normal;text-align:center;color:transparent}
+.chips i.on{border:1.5px solid var(--red);background:var(--red);color:#fff}
+.chips i svg{width:17px;height:17px}
+.chips i.pop{animation:pop .5s cubic-bezier(.2,1.8,.4,1)}
+
+.stage{flex:none;position:relative;height:clamp(250px,50vh,520px);background:var(--sea);overflow:hidden;border-top:3px solid var(--line);transition:height .35s}
+#map{width:100%;height:100%;display:block;touch-action:manipulation}
+[hidden]{display:none!important}
+#scene{position:absolute;inset:0;background:#DFF3F8;animation:fadein .35s}
+#scene svg{display:block;width:100%;height:100%;margin:0;border-radius:0;background:none!important}
+@keyframes fadein{from{opacity:0}}
+#peek{position:absolute;left:8px;top:8px;font:15px var(--f);background:#fff;color:var(--ink);border:0;border-radius:999px;padding:5px 14px;box-shadow:0 2px 6px rgba(90,62,43,.18);cursor:pointer}
+#past,#now{transition:opacity .7s}
+#map.now #past{opacity:0}
+#map:not(.now) #now{opacity:0;pointer-events:none}
+#boat{transition:opacity .7s}#map.now #boat{opacity:0}
+.era{position:absolute;right:8px;top:8px;display:flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 2px 6px rgba(90,62,43,.18)}
+.era button{font:15px var(--f);border:0;background:none;color:var(--muted);padding:4px 12px;border-radius:999px;cursor:pointer}
+.era button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.stop{cursor:pointer}
+.stop.lock{opacity:.55;cursor:default}
+.pin{animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+
+main{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 8px;font-size:19px;background:var(--card);border-radius:18px 18px 0 0;margin-top:-10px;position:relative;box-shadow:0 -3px 10px rgba(90,62,43,.08)}
+.kick{margin:0;font-size:14px;color:var(--red)}
+h2{margin:0 0 4px;font-size:26px;font-weight:400;line-height:1.35}
+main p{margin:0 0 10px}
+.task{background:#FFF0D6;border-radius:12px;padding:8px 12px;font-size:20px}
+main .note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+.big{display:block;width:100%;font:24px var(--f);background:var(--red);color:#fff;border:0;border-radius:16px;padding:12px;cursor:pointer;margin:8px 0;box-shadow:0 4px 0 #B8392F;transition:transform .08s}
+.big:active,.big.down{transform:translateY(3px);box-shadow:0 1px 0 #B8392F}
+.big.blue{background:var(--blue);box-shadow:0 4px 0 #1F6F8C}
+.big.blue:active,.big.blue.down{box-shadow:0 1px 0 #1F6F8C}
+.big:disabled{background:#D9C7B0;box-shadow:none;cursor:default}
+.hold{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:none}
+.mini{display:block;width:100%;height:auto;background:#DFF3F8;border-radius:14px;margin:4px 0 8px;touch-action:manipulation}
+.item{transition:transform .55s cubic-bezier(.3,1.4,.5,1);cursor:pointer}
+.item:focus-visible path{stroke:var(--red)}
+.tap{cursor:pointer}
+.tap:focus,.item:focus{outline:none}
+.tap:focus-visible .ring{stroke:var(--red);stroke-width:3}
+.bar{height:12px;background:#F0E2CC;border-radius:999px;overflow:hidden;margin:4px 0 8px}
+.bar b{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width .3s}
+.opt{display:block;width:100%;text-align:left;font:20px/1.5 var(--f);background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 8px;cursor:pointer}
+.opt.no{color:#C3AE97;border-style:dashed;text-decoration:line-through}
+.opt.yes{border-color:var(--green);background:#EEF8EC}
+.opt:disabled{cursor:default}
+.say{background:#EEF8EC;border-radius:12px;padding:8px 12px;font-size:18px}
+.say.again{background:#FDECE8}
+.skip{font:15px var(--f);background:none;border:0;color:var(--muted);text-decoration:underline;padding:4px 0;cursor:pointer}
+.got{display:flex;align-items:center;gap:14px;background:#FFF0D6;border-radius:14px;padding:10px 14px;margin:10px 0}
+.got p{margin:0}
+.why{background:#E6F4FA;border-radius:14px;padding:8px 12px;margin:0 0 10px}
+.why summary{cursor:pointer;color:#1F6F8C;font-size:18px}
+.why p{margin:6px 0 0}
+.seal{display:grid;place-items:center;flex:none;width:56px;height:56px;border:3px solid var(--red);border-radius:12px;background:var(--red);color:#fff;font:32px/50px var(--f);text-align:center;transform:rotate(-6deg)}
+.seal svg{width:74%;height:74%}
+.seal.pop{animation:stamp .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-20deg);opacity:0}100%{transform:rotate(-6deg);opacity:1}}
+@keyframes pop{0%{transform:scale(1.8)}100%{transform:none}}
+.again-btn{font:14px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:3px 14px;color:var(--muted);cursor:pointer}
+
+.foot{flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:2px solid var(--line)}
+.foot button{font:17px var(--f);background:none;border:0;color:var(--ink);padding:6px 10px;cursor:pointer;border-radius:8px}
+.foot #nx{color:var(--red)}
+.foot button:disabled{color:#D9C7B0;cursor:default}
+.foot span{font-size:14px;color:var(--muted)}
+
+.doc{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 14px 8px}
+.doc h3{margin:0 0 8px;font-size:24px;font-weight:400;text-align:center;letter-spacing:.2em}
+.doc dl{margin:0 0 8px;display:grid;grid-template-columns:4em minmax(0,1fr);gap:0 8px;font-size:15px}
+.doc dt{color:var(--muted)}.doc dd{margin:0}
+.doc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:2px dashed var(--line);padding-top:10px}
+.doc li{text-align:center;font-size:13px;color:var(--muted);line-height:1.4}
+.doc li .seal{width:48px;height:48px;margin:0 auto 4px}
+.doc li .seal.empty{background:none;border:2px dashed #D9BFA0;transform:none;color:transparent}
+.doc .fic{margin:8px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.name{font:17px var(--f);border:0;border-bottom:2px solid var(--ink);background:none;width:9em;color:var(--ink);padding:0 2px}
+.sheet{position:fixed;inset:0;z-index:10;background:rgba(90,62,43,.45);display:grid;place-items:center;padding:16px}
+.sheet[hidden]{display:none}
+.sheet .in{width:min(380px,100%);max-height:calc(100% - 32px);overflow-y:auto;background:var(--bg);border-radius:18px;padding:14px}
+.sheet .x{display:block;margin:10px auto 0;font:16px var(--f);background:none;border:1.5px solid var(--line);border-radius:999px;padding:4px 18px;cursor:pointer;color:var(--ink)}
+.conf{position:fixed;top:-12px;width:10px;height:14px;border-radius:3px;z-index:20;pointer-events:none;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+main a{color:var(--blue)}
+@media (prefers-reduced-motion:reduce){.stage{transition:none}.pin,.seal.pop,.chips i.pop,.conf{animation:none}.item{transition:none}}
+/* 平板直拿：畫面變寬一點 */
+@media (min-width:700px){.app{max-width:760px}}
+/* 電腦、平板橫拿、手機橫拿：左邊大舞台（地圖／遊戲），右邊文字卡片 */
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EADBC0}
+  .app{max-width:1320px;display:grid;grid-template-columns:minmax(0,1fr) clamp(330px,34vw,470px);grid-template-rows:auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:10px 20px}
+  header h1{font-size:24px}
+  .chips i{width:26px;height:26px}.chips i svg{width:20px;height:20px}
+  .stage{grid-column:1;grid-row:2/4;height:auto;border-top:3px solid var(--line)}
+  main{grid-column:2;grid-row:2;margin-top:0;border-radius:0;box-shadow:none;border-top:3px solid var(--line);border-left:3px solid var(--line);padding:16px 20px 10px}
+  .foot{grid-column:2;grid-row:3;border-left:3px solid var(--line)}
+}
+/* ===== 新版面：上面標題、中間遊戲畫面、下面文字 =====
+   配色取自臺南城市識別：紅 #DB2E27、酒紅 #6C2024、金 #BD9558；插畫裡的水和海維持藍色 */
+:root{
+  --bg:#FBF7F1; --card:#FBF7F1; --paper:#FFFFFF; --ink:#2A2020; --muted:#8A7A70; --line:#EADFD3;
+  --red:#DB2E27; --maroon:#6C2024; --gold:#BD9558; --goldsoft:#F3E8D6; --blue:#6C2024; --green:#BD9558;
+  --f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+}
+body{background:#EFE7DC;color:var(--ink)}
+header{padding:12px 18px 2px}
+header h1{font:700 15px/1.3 var(--f);letter-spacing:.06em;color:var(--ink)}
+.chips{gap:5px}
+.chips i{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--gold)}
+.chips i.on{background:var(--red);border-color:var(--red)}
+.chips i svg{width:14px;height:14px}
+.top{flex:none;padding:6px 18px 14px}
+.top .kick{margin:0 0 2px;font:700 15px/1.4 var(--serif);letter-spacing:.06em;color:var(--red)}
+.top h2{margin:0;font:900 30px/1.25 var(--serif);color:var(--ink);text-wrap:balance}
+.stage{height:clamp(220px,42vh,480px);margin:0 16px;border-top:0;border-radius:26px;box-shadow:0 0 0 8px var(--goldsoft)}
+main{margin-top:0;border-radius:0;box-shadow:none;background:var(--bg);padding:20px 18px 8px}
+main p{line-height:1.75}
+main .kick{font:700 15px var(--serif);letter-spacing:.04em}
+.task{background:var(--goldsoft);border-radius:14px;padding:10px 14px;font-weight:500}
+.big{font:700 22px var(--f);border-radius:14px;box-shadow:none;background:var(--red);letter-spacing:.04em}
+.big:active,.big.down{transform:translateY(2px);box-shadow:none;filter:brightness(.9)}
+.big.blue{background:var(--maroon);box-shadow:none}
+.big.blue:active,.big.blue.down{box-shadow:none}
+.big:disabled{background:#D8CFC4}
+.opt{font:500 20px/1.5 var(--f);border:2px solid var(--line);background:var(--paper);border-radius:14px}
+.opt.yes{border-color:var(--gold);background:#FAF3E6}
+.say{background:#F2ECE2;border-radius:14px}
+.say.again{background:#FBE8E5}
+.why{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.why summary{font:700 18px var(--serif);color:var(--maroon)}
+.got{background:var(--paper);border:2px solid var(--goldsoft);border-radius:14px}
+.seal{border:0;border-radius:50%;background:var(--red);transform:none;box-shadow:0 0 0 6px var(--goldsoft)}
+@keyframes stamp{0%{transform:scale(1.8);opacity:0}100%{transform:none;opacity:1}}
+.again-btn{border-color:var(--gold);color:var(--maroon)}
+.bar{background:#EFE6D8}.bar b{background:var(--gold)}
+.foot{background:var(--bg);border-top:1px solid var(--line)}
+.foot #nx{color:var(--red);font-weight:700}
+#peek,.era{box-shadow:0 2px 8px rgba(42,32,32,.15)}
+.era button[aria-pressed="true"]{background:var(--maroon)}
+.doc{border:0;border-radius:18px;background:var(--paper);box-shadow:0 0 0 8px var(--goldsoft)}
+.doc h3{font:900 26px var(--serif);letter-spacing:.12em;color:var(--ink)}
+.doc li .seal.empty{border:2px dashed var(--gold);box-shadow:none}
+.sheet .in{background:var(--bg)}
+/* 換關時文字一行一行浮上來 */
+.enter>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.enter>*:nth-child(2){animation-delay:.06s}.enter>*:nth-child(3){animation-delay:.12s}.enter>*:nth-child(4){animation-delay:.18s}.enter>*:nth-child(5){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){.enter>*{animation:none}}
+@media (min-width:700px){.top h2{font-size:34px}.top{padding:8px 24px 16px}.stage{margin:0 24px}}
+@media (min-width:700px) and (min-aspect-ratio:5/4){
+  body{background:#EFE7DC}
+  .app{grid-template-rows:auto auto minmax(0,1fr) auto}
+  header{grid-column:1/-1;padding:12px 24px 4px}
+  header h1{font-size:15px}
+  .top{grid-column:1;grid-row:2}
+  .stage{grid-column:1;grid-row:3/5;height:auto;margin:0 24px 24px;border-top:0}
+  main{grid-column:2;grid-row:2/4;border-top:0;border-left:1px solid var(--line);padding:20px 22px 10px}
+  .foot{grid-column:2;grid-row:4;border-left:1px solid var(--line)}
+}
+/* ===== 圓形遊戲框 ===== */
+.stage{display:flex;align-items:center;justify-content:center;background:none;box-shadow:none;border-radius:0;overflow:visible;height:clamp(220px,46vh,460px)}
+.stage{position:relative;min-height:0}
+.disc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;overflow:hidden;background:var(--sea);box-shadow:0 0 0 12px var(--goldsoft)}
+#map{width:100%;height:100%}
+#scene{display:flex;align-items:center;justify-content:center}
+#scene svg{flex:none}
+#scene svg:focus:not(:focus-visible),#scene [tabindex]:focus:not(:focus-visible){outline:none}
+#peek{left:0;top:0}
+.era{right:0;top:0}
+@media (min-width:700px) and (min-aspect-ratio:5/4){.stage{height:auto}}
+/* ===== 不用色塊區分文字：改用粗體和顏色；大按鈕是圓的 ===== */
+.task{background:none;padding:0;border-radius:0;font-weight:700;color:var(--maroon)}
+.say{background:none;padding:0;border-radius:0;font-weight:700;color:#4E7D3A}
+.say.again{background:none;color:var(--red)}
+.why,.got{background:none;border:0;padding:0;border-radius:0}
+.why summary{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+.got{margin:16px 0}
+.opt{border-radius:999px;padding:10px 20px}
+.big{display:grid;place-items:center;width:116px;height:116px;margin:18px auto;padding:10px;border-radius:50%;font:700 20px/1.3 var(--f);text-align:center;box-shadow:0 0 0 8px var(--goldsoft)}
+.big.blue{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:active,.big.down,.big.blue:active,.big.blue.down{box-shadow:0 0 0 8px var(--goldsoft)}
+.big:disabled{box-shadow:0 0 0 8px #EFE8DF}
+.again-btn{border-radius:999px}
+/* ===== 用粗細帶重點：內文細一點、淡一點，重點字粗黑 ===== */
+main p,main li,.doc dd{color:#5A4E48}
+main b,main strong{font-weight:700;color:var(--ink)}
+.task,.task b{color:var(--maroon)}
+.say b{color:inherit}
+.say.again b{color:inherit}
+/* 回饋訊息用一般粗細，只有重點詞粗 */
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say b{font-weight:700}
+/* ===== 手機：地圖和文字在同一頁一起捲，上一關／下一關固定在最下面 ===== */
+@media (max-width:699.98px),(max-aspect-ratio:1249/1000){
+  html,body{height:auto;min-height:100%}
+  body{overflow:visible}
+  .app{height:auto;min-height:100vh}
+  main{flex:none;overflow:visible;min-height:0}
+  .foot{position:sticky;bottom:0;z-index:5}
+  .stage{margin:0 2px}
+  /* 圓黏在畫面上方：往下捲找按鈕時，圓和按鈕一定同時看得到 */
+  .stage{position:sticky;top:0;z-index:4;background:var(--bg)}
+  main *{scroll-margin-bottom:76px}
+  .big{width:96px;height:96px;margin:12px auto;font-size:19px}
+}
+/* ===== 卡片文字角色（使用者定的規則） ===== */
+.task{color:#6C2024;font-weight:700}
+.bar{height:4px;background:#EFE6D8;border-radius:2px;margin:10px 0 12px}
+.bar b{background:#6C2024;border-radius:2px}
+.say{font-weight:400;color:#3F6B2E}
+.say.again{font-weight:400;color:#B8261F}
+.say.again::before{content:"再試試";display:block;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red);margin-bottom:2px}
+main .kick+p{font-weight:700;color:var(--ink)}
+.notes{margin-top:24px;padding-top:12px;border-top:1px solid var(--line)}
+.notes .note{margin:0 0 6px}
+.notes .note b{color:#8A7A70}
+/* ===== 完成頁：一段一段回顧 ===== */
+.recap{min-height:150px}
+.rc{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:start}
+.rc .seal{width:58px;height:58px;margin-top:4px}
+.rc .seal.empty{background:none;border:2px dashed var(--gold);box-shadow:none}
+.rk{margin:0;font:700 13px var(--serif);letter-spacing:.08em;color:var(--red)}
+.rh{margin:0 0 6px;font:900 22px/1.35 var(--serif);color:var(--ink)}
+.rn{margin:-6px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+.pad{display:grid;grid-template-columns:repeat(3,60px);grid-template-rows:repeat(2,60px);gap:8px;justify-content:center;margin:16px auto 12px}
+.pad button{border:0;border-radius:50%;background:var(--maroon);color:#fff;font:700 26px/1 var(--f);box-shadow:0 0 0 5px var(--goldsoft);cursor:pointer;touch-action:manipulation}
+.pad button:active{filter:brightness(.88)}
+.pad button:disabled{background:#D8CFC4}
+.notes .maps a{color:inherit;text-decoration:underline;text-decoration-color:#C9B8A6;text-underline-offset:3px}
+.recap:empty{min-height:0}
+/* 回到首頁的小房子（每個遊戲左上角都有） */
+.home{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--paper,#fff);color:var(--maroon,#6C2024);text-decoration:none}.home svg{width:20px;height:20px}.home:active{background:var(--goldsoft,#F3E8D6)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <a class="home" href="index.html" aria-label="回到首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></a>
+    <h1>梅子任務</h1>
+    <button class="chips" id="chips" type="button" aria-label="看回顧"></button>
+  </header>
+  <div class="top" id="top"></div>
+  <div class="stage" id="stage">
+    <div class="disc">
+      <svg id="map" class="now" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="楠西梅嶺插畫地圖"></svg>
+      <div id="scene" hidden></div>
+    </div>
+    <div class="era" role="group" aria-label="切換梅花季和梅子季"><button type="button" data-era="now" aria-pressed="true">梅花季</button><button type="button" data-era="past" aria-pressed="false">梅子季</button></div>
+    <button id="peek" type="button" hidden>看地圖</button>
+  </div>
+  <main id="card" aria-live="polite"></main>
+  <nav class="foot"><button type="button" id="pv">‹ 上一關</button><span id="pos"></span><button type="button" id="nx">下一關 ›</button></nav>
+</div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="任務單"><div class="in"><div id="sheetDoc"></div><button class="x" type="button" id="sheetX">收起任務單</button></div></div>
+
+<script>
+/* ---------- 插畫元件 ---------- */
+var K='#2A2020',NS='http://www.w3.org/2000/svg';
+var BARK='#6E4A3A',PINKW='#FFFFFF',GPLUM='#9CC25A',GPLUMD='#5E8A30',YPLUM='#E8C84A',LEAFC='#5E9A46';
+function f1(v){return (Math.round(v*10)/10).toString()}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+// 一朵梅花（5 片圓圓的花瓣）；o 0 花苞、1 開了
+function ume(x,y,s,o){if(!o)return '<circle cx="'+f1(x)+'" cy="'+f1(y)+'" r="'+f1(2.6*s)+'" fill="#F6E4E8" stroke="#D8B0B8" stroke-width="'+f1(.5*s)+'"/>';
+  var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')">';for(var k=0;k<5;k++){var a=-Math.PI/2+k*1.2566;h+='<circle cx="'+f1(Math.cos(a)*3.2)+'" cy="'+f1(Math.sin(a)*3.2)+'" r="3" fill="'+PINKW+'" stroke="#E2CDD2" stroke-width=".4"/>'}
+  for(k=0;k<8;k++){var b=k*.785;h+='<path d="M0 0L'+f1(Math.cos(b)*3)+' '+f1(Math.sin(b)*3)+'" stroke="#E8B830" stroke-width=".5"/>'}return h+'<circle r="1.1" fill="#C8902E"/></g>'}
+// 一顆梅子：r 熟度 0（青）到 1（黃）
+function plum(x,y,s,r){var a=[156,194,90],b=[232,200,74],c='rgb('+a.map(function(v,k){return Math.round(v+(b[k]-v)*(r||0))}).join(',')+')';
+  return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s)+')"><circle r="7" fill="'+c+'" stroke="#6E8A30" stroke-width=".7"/><path d="M0 -7Q-2 0 0 7" stroke="#6E8A30" stroke-width=".6" fill="none" opacity=".6"/><path d="M-3 -3Q-4 0 -3 3" stroke="#fff" stroke-opacity=".5" stroke-width="1.4" fill="none" stroke-linecap="round"/></g>'}
+// 梅樹（地圖上的小樹）；mode flower 開花、fruit 結果
+function umetree(x,y,s,mode){var h='<g transform="translate('+f1(x)+' '+f1(y)+') scale('+f1(s||1)+')"><path d="M0 0Q-2 -10 2 -18M1 -12Q-8 -18 -12 -24M2 -16Q10 -20 12 -26M2 -18Q0 -26 -2 -30" stroke="'+BARK+'" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
+  if(mode==='flower')[[-12,-24],[12,-26],[-2,-30],[-6,-20],[8,-21],[4,-27]].forEach(function(p){h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.6" fill="#fff" stroke="#E2CDD2" stroke-width=".4"/>'});
+  else{h+='<ellipse cx="0" cy="-24" rx="15" ry="9" fill="'+LEAFC+'" opacity=".9"/>';[[-8,-22],[6,-24],[0,-19]].forEach(function(p){h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2" fill="'+GPLUM+'"/>'})}
+  return h+'</g>'}
+var ICON={
+  sign:'<rect x="-10" y="-8" width="20" height="11" rx="1.5" fill="none" stroke="#fff" stroke-width="2"/><path d="M-6 3V10M6 3V10" stroke="#fff" stroke-width="2"/><path d="M-6 -3H6" stroke="#fff" stroke-width="1.6"/>',
+  ume:'<g fill="none" stroke="#fff" stroke-width="1.8"><circle cy="-5.5" r="3.4"/><circle cx="5.2" cy="-1.7" r="3.4"/><circle cx="3.2" cy="4.5" r="3.4"/><circle cx="-3.2" cy="4.5" r="3.4"/><circle cx="-5.2" cy="-1.7" r="3.4"/></g><circle r="1.6" fill="#fff"/>',
+  umbrella:'<path d="M-10 0Q-10 -10 0 -10Q10 -10 10 0Q7 -2 5 0Q2 -2 0 0Q-2 -2 -5 0Q-7 -2 -10 0Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M0 0V8Q0 10 -3 10" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>',
+  plum:'<circle cy="2" r="8" fill="none" stroke="#fff" stroke-width="2"/><path d="M0 -6V-10M0 -8Q4 -11 7 -8" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
+  jar:'<path d="M-7 -6H7V8Q7 10 5 10H-5Q-7 10 -7 8Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M-8 -9H8V-6H-8Z" fill="#fff"/><circle cx="-2" cy="3" r="2" fill="#fff"/><circle cx="3" cy="5" r="2" fill="#fff"/>',
+  pot:'<path d="M-10 -2H10V5Q10 10 0 10Q-10 10 -10 5Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M-12 -2H12M-4 -6q-1 -2 0 -4M2 -6q-1 -2 0 -4" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+};
+function icon(k){return '<svg viewBox="-12 -12 24 24" aria-hidden="true">'+ICON[k]+'</svg>'}
+
+function idCard(t1,t2,art,C){
+  var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F0F2EA" role="img" aria-label="'+t1+'的樣子"><rect x="-400" y="170" width="1200" height="60" fill="#D2D8BE"/>'+art;
+  C.forEach(function(c){s+='<path d="M'+c[3]+' '+c[4]+'L'+c[1]+' '+(c[2]-5)+'" stroke="#8A7A70" stroke-width="1.2"/><circle cx="'+c[3]+'" cy="'+c[4]+'" r="2.6" fill="#DB2E27"/>'+
+    '<text x="'+c[1]+'" y="'+c[2]+'" font-size="15" font-weight="700" fill="#6C2024" text-anchor="middle" stroke="#F0F2EA" stroke-width="4" paint-order="stroke">'+c[0]+'</text>'});
+  return s+'<text x="160" y="34" font-size="24" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,Songti TC,serif" stroke="#F0F2EA" stroke-width="4" paint-order="stroke">'+t1+'</text>'+(t2?'<text x="160" y="188" font-size="14" font-weight="700" fill="#5E7A30" text-anchor="middle">'+t2+'</text>':'')+'</svg>';
+}
+
+/* ---------- 地圖 ---------- */
+// 示意圖：楠西梅嶺的山上，滿山梅樹，南邊看得到曾文水庫；「梅花季」白白一片、「梅子季」綠綠的梅子
+var STOPS=[{lv:1,n:'梅嶺的招牌',x:200,y:180,k:'sign'},{lv:2,n:'梅花開了',x:450,y:150,k:'flower'},{lv:3,n:'花期下雨',x:640,y:250,k:'rain'},{lv:4,n:'採青梅',x:500,y:350,k:'pick'},{lv:5,n:'做梅子',x:280,y:360,k:'jar'},{lv:6,n:'梅子雞',x:140,y:300,k:'pot'}];
+function marker(s){
+  var t='<g transform="translate('+s.x+' '+s.y+')">';
+  if(s.k==='sign')return t+'<rect x="-26" y="-14" width="52" height="20" rx="3" fill="#F3E6CC" stroke="#7A5A3A" stroke-width="1.4"/><text y="1" font-size="11" font-weight="700" fill="#6C2024" text-anchor="middle">梅嶺</text><path d="M-16 6V16M16 6V16" stroke="#7A5A3A" stroke-width="2.4"/></g>';
+  if(s.k==='flower')return t+umetree(0,14,1.5,'flower')+'</g>';
+  if(s.k==='rain')return t+umetree(0,16,1.3,'flower')+'<g transform="translate(6 -34)"><ellipse rx="18" ry="8" fill="#9AA6B0"/></g><path d="M-6 -24l-2 6M4 -24l-2 6M14 -24l-2 6" stroke="#5E8EB4" stroke-width="1.4"/></g>';
+  if(s.k==='pick')return t+umetree(-6,14,1.3,'fruit')+'<path d="M12 4H30L27 14H15Z" fill="#B88A55"/>'+plum(18,2,.5,0)+plum(25,3,.5,.1)+'</g>';
+  if(s.k==='jar')return t+[-14,0,14].map(function(x,k){return '<path d="M'+(x-6)+' -8H'+(x+6)+'V8Q'+(x+6)+' 10 '+(x+4)+' 10H'+(x-4)+'Q'+(x-6)+' 10 '+(x-6)+' 8Z" fill="#EAF2F4" stroke="#8A9AA6" stroke-width="1"/>'+plum(x,3,.45,k*.5)}).join('')+'</g>';
+  return t+'<path d="M-18 -4H18V6Q18 14 0 14Q-18 14 -18 6Z" fill="#8A949A" stroke="#5E676C" stroke-width="1.2"/><path d="M-22 -4H22" stroke="#5E676C" stroke-width="2.4"/>'+plum(-6,-6,.4,.3)+plum(6,-6,.4,.3)+'</g>';
+}
+function buildMap(){
+  var h='<rect x="-400" y="-300" width="1600" height="1200" fill="#C8D6A8"/><path d="M-400 200Q0 80 300 140Q500 40 800 110Q1000 60 1200 100V-300H-400Z" fill="#B0C490"/><g id="trees"></g>';
+  // 曾文水庫
+  h+='<path d="M-400 470Q0 430 220 460Q420 500 600 470Q820 440 1200 480V900H-400Z" fill="#7FB8D0"/><path d="M-400 470Q0 430 220 460Q420 500 600 470Q820 440 1200 480" stroke="#5E9AB8" stroke-width="3" fill="none"/>';
+  h+='<path d="M90 300Q150 250 200 200Q320 160 440 160Q560 170 640 240Q600 320 500 340Q400 360 290 360" stroke="#F3EBD8" stroke-width="10" fill="none"/>';
+  var T=function(t,x,y,sz,c,bg){return '<text x="'+x+'" y="'+y+'" font-size="'+sz+'" fill="'+c+'" text-anchor="middle" stroke="'+(bg||'#C8D6A8')+'" stroke-width="4" paint-order="stroke">'+t+'</text>'};
+  h+=T('梅嶺',360,260,26,'#7A4A2E')+T('曾文水庫',420,520,18,'#2E6A80','#7FB8D0')+T('伍龍步道',600,300,13,'#6A5E50');
+  h+='<g transform="translate(110 420)"><circle r="16" fill="#FFF8EC" stroke="#BD9558" stroke-width="1.5"/><path d="M0 -11L5 4L0 1L-5 4Z" fill="#DB2E27"/><text y="12" font-size="9" fill="#5A4E48" text-anchor="middle">北</text></g>';
+  h+='<g id="past"><g id="frPast"></g>'+T('梅子季：3 月底到 4 月底，滿樹青梅',420,575,15,'#6C2024','#7FB8D0')+'</g>';
+  h+='<g id="now"><g id="frNow"></g>'+T('梅花季：12 月到 1 月，滿山白白的梅花',420,575,15,'#6C2024','#7FB8D0')+'</g>';
+  STOPS.forEach(function(s){h+='<g class="stop" data-lv="'+s.lv+'" role="button" aria-label="第 '+s.lv+' 關 '+s.n+'">'+marker(s)+'<circle cx="'+(s.x+24)+'" cy="'+(s.y-26)+'" r="10" fill="#fff" stroke="#E2574C" stroke-width="2"/><text x="'+(s.x+24)+'" y="'+(s.y-21.5)+'" font-size="13" fill="#E2574C" text-anchor="middle">'+s.lv+'</text><text x="'+s.x+'" y="'+(s.y+34)+'" font-size="16" font-weight="700" fill="#5A3E2B" text-anchor="middle" stroke="#FFF8EC" stroke-width="4" paint-order="stroke">'+s.n+'</text></g>'});
+  h+='<g id="pin" style="display:none"><g class="pin"><path d="M0 0C-10 -14 -14 -20 -14 -27A14 14 0 1 1 14 -27C14 -20 10 -14 0 0Z" fill="#E2574C" stroke="#fff" stroke-width="2.5"/><text y="-22" font-size="12" fill="#fff" text-anchor="middle">你</text></g></g>';
+  return h;
+}
+function near(x,y,w,hh){return STOPS.some(function(s){return Math.abs(s.x-x)<w&&Math.abs(s.y-y)<hh})}
+function decorate(){
+  var r=rnd(41),p='',q='';
+  for(var x=10;x<820;x+=36)for(var y=30;y<450;y+=32){
+    var cx=x+(r()-.5)*12,cy=y+(r()-.5)*10;
+    if(near(cx,cy,60,60))continue;
+    if(Math.abs(cx-360)<50&&Math.abs(cy-252)<24)continue;
+    if(Math.abs(cx-600)<44&&Math.abs(cy-296)<16)continue;
+    if(Math.abs(cx-110)<30&&Math.abs(cy-420)<30)continue;
+    if(r()<.35)continue;
+    q+=umetree(cx,cy+12,.9,'flower');p+=umetree(cx,cy+12,.9,'fruit');
+  }
+  map.querySelector('#frPast').innerHTML=p;
+  map.querySelector('#frNow').innerHTML=q;
+}
+
+/* ---------- 關卡 ---------- */
+var LV=[
+  {cam:[60,20,660,660],kick:'梅子任務',h:'山上的梅花雪',
+   html:'<p>臺南東邊的<b>楠西</b>，有一座山叫<b>梅嶺</b>，滿山都是<b>梅樹</b>。冬天一冷，白白的<b>梅花</b>開滿山，像下了雪。</p><p>梅花謝了以後，春天就長出綠綠的<b>梅子</b>。</p><p class="task">跟著在梅嶺種梅子的<b>阿伯</b>，從冬天的梅花，到春天的梅子。每過一關，就能蓋一個章！</p>',
+   after:'<p class="note">地圖右上角可以切換<b>梅花季／梅子季</b>，看看梅嶺冬天和春天的樣子。<br>給大人：梅花大約 12 月到 1 月，梅子大約 3 月底到 4 月底，每年不同，出發前先查花況。梅園是農民的地，不要折梅枝。</p>',
+   game:'start'},
+  {cam:[0,0,300,225],kick:'第 1 關・梅嶺的名字',h:'以前叫香蕉山',
+   html:'<p>梅嶺以前不叫梅嶺！日本時代，這裡種了好多<b>香蕉</b>，賣到日本，所以叫<b>香蕉山</b>。</p><p>後來香蕉沒落了，山上改種<b>梅樹</b>。有一年冬天，有人上山看到滿山的梅花，就把這裡改名叫<b>梅嶺</b>。</p><p class="note">給大人：農業部的文章說，日治時期鼓勵種香蕉、梅樹和咖啡；民國 70 年謝東閔副總統來遊玩，看到滿山梅花，改名梅嶺。</p>',
+   task:'招牌上的「香蕉山」要換新名字了！把下面的<b>字卡</b>拖到招牌的<b>空格</b>裡，拼出新名字。',game:'word',stamp:['sign','換上新招牌'],
+   win:'招牌換好了：梅嶺！滿山的梅樹，冬天開出白白的梅花。',
+   why:['「嶺」是什麼意思？','「嶺」就是<b>山</b>、山頂的意思。梅嶺，就是長滿<b>梅樹</b>的山。'],
+   q:{t:'梅嶺以前叫什麼名字？',o:['香蕉山','鳳梨山','西瓜山'],a:0,hint:'日本時代，這裡種了很多什麼？',
+      e:'答對了！以前種很多香蕉，叫<b>香蕉山</b>；後來改種梅樹，才叫<b>梅嶺</b>。'}},
+  {cam:[0,0,300,225],kick:'第 2 關・冬天，梅花開了（12 月到 1 月）',h:'冷空氣來了',
+   html:'<p>冬天，梅樹的枝頭冒出一顆一顆粉粉的<b>花苞</b>。</p><p>新聞常說，<b>冷空氣</b>一來，梅嶺的梅花就「一下子全開了」！梅花有 <b>5 片</b>圓圓的花瓣。</p><p class="note">給大人：「冷氣團助攻，梅花一夕爆開」是聯合報的報導用語；花期每年不同，觀光旅遊局會公布花況。</p>',
+   task:'按住左上角的<b>冷空氣</b>，從左邊<b>拖過整座山</b>，讓梅花一朵一朵開出來！',game:'cold',stamp:['ume','梅花開滿山'],
+   win:'冷空氣吹過，梅花全開了！滿山白白的，像下了一場雪。',
+   why:['梅花為什麼在冬天開？','很多花喜歡溫暖，梅花卻在<b>冬天</b>最冷的時候開。冷空氣一來，梅花就開得特別多。'],
+   q:{t:'梅花有幾片花瓣？',o:['5 片','3 片','10 片'],a:0,hint:'數數看剛剛開出來的花。',
+      e:'答對了！梅花有 <b>5 片</b>圓圓的花瓣。'}},
+  {cam:[0,0,300,225],kick:'第 3 關・花期下雨',h:'幫梅花撐傘',
+   html:'<p>梅花開的時候，最怕<b>下雨</b>。雨下太多，花就結不出梅子。</p><p>有一年梅花開的時候一直下雨，梅子比前一年少了三、四成。</p><p class="note">給大人：中央社 2018 年報導，楠西區農會總幹事說花期遇雨，結果率不如預期，產量減少三到四成。真的果園沒辦法替整棵樹撐傘，這一關是讓小朋友知道「花期怕雨」。</p>',
+   task:'下雨了！按住<b>雨傘</b>，移到正在淋雨的<b>梅花</b>上面，保護梅花。要保護到雨停！',game:'umbrella',stamp:['umbrella','保護梅花'],
+   win:'雨停了，太陽出來了！梅花保護得好好的，花謝了以後，會長出小小的梅子。',
+   why:['為什麼下雨，梅子會變少？','梅花要靠<b>花粉</b>，才會結出梅子。雨一直下，花被打壞、花粉也不好傳，能結成梅子的花就變少了。']},
+  {cam:[0,0,300,225],kick:'第 4 關・採青梅（3 月底到 4 月底）',h:'輕輕拉，不要折斷樹枝',
+   html:'<p>春天，梅子長大了！梅嶺大約在 <b>3 月底到 4 月底</b>採梅子，只有 40 天左右。</p><p>沒熟透、綠綠的叫<b>青梅</b>。採的時候要很小心：以前有人採梅子時<b>折斷樹枝</b>，梅園就不再開放讓大家自己採了。</p><p class="note">提醒：到梅園一定要聽梅農的話，<b>不能折梅枝</b>。</p>',
+   task:'按住一顆<b>梅子</b>，<b>輕輕往下拉</b>一點點，它就會掉下來。太用力，樹枝會受傷喔！採 <b>5 顆</b>。',game:'gentle',stamp:['plum','採到青梅'],
+   win:'採到 5 顆青梅了，樹枝一根也沒斷！阿伯說你的手好輕。',
+   why:['為什麼不能折樹枝？','樹枝斷了，明年那裡就<b>不會再開花、結梅子</b>。梅樹要照顧好多年，才結得出梅子。'],
+   q:{t:'在梅園採梅子，哪一個做法是對的？',o:['輕輕採，不折斷樹枝','用力把樹枝折下來','爬到樹上搖'],a:0,hint:'想想阿伯說的話。',
+      e:'答對了！要<b>輕輕採</b>，<b>不能折樹枝</b>。'}},
+  {cam:[0,0,300,225],kick:'第 5 關・做梅子',h:'熟度不一樣，做的東西不一樣',
+   html:'<p>梅子的<b>熟度</b>不一樣，可以做成不同的東西：</p><p><b>6、7 分熟</b>的青梅，做<b>脆梅</b>和<b>梅精</b>；<b>8、9 分熟</b>的，做<b>紫蘇梅</b>和 <b>Q 梅</b>；完全熟、變<b>黃</b>的黃梅，做<b>果醬</b>。</p>',
+   task:'看梅子的<b>顏色</b>，把它拖進對的<b>罐子</b>：很綠的→脆梅；黃綠色的→紫蘇梅；黃色的→果醬。每一種裝 <b>2 顆</b>！',game:'jars',stamp:['jar','做好梅子'],
+   win:'6 顆梅子都放對罐子了！脆梅、紫蘇梅、黃梅果醬，阿伯說可以拿去分給鄰居了。',
+   why:['梅子為什麼要醃，不直接吃？','新鮮的梅子<b>又酸又澀</b>，很少人直接吃。醃過、做成果醬以後，才變得好吃。'],
+   q:{t:'完全熟、變黃的梅子，適合做什麼？',o:['果醬','脆梅','什麼都不能做'],a:0,hint:'脆梅要用很綠、很脆的青梅喔。',
+      e:'答對了！完全熟的<b>黃梅</b>適合做<b>果醬</b>、果汁。'}},
+  {cam:[0,0,300,225],kick:'第 6 關・梅子雞',h:'暖暖的一鍋梅子雞',
+   html:'<p>到梅嶺，大家都會吃一鍋<b>梅子雞</b>：用醃過的梅子和雞肉一起煮，湯酸酸甜甜的。</p><p>阿伯在鍋子裡放好雞肉了，請你幫忙放<b>醃梅子</b>。</p><p class="note">給大人：梅嶺附近有伍龍步道，沿途梅園很多，可以眺望曾文水庫。</p>',
+   task:'按住罐子裡的<b>醃梅子</b>，一顆一顆拖進<b>鍋子</b>裡。放 <b>4 顆</b>！',game:'pot',stamp:['pot','煮好梅子雞'],
+   win:'梅子放好了！咕嘟咕嘟，酸酸甜甜的梅子雞煮好了，好香。',
+   why:['梅嶺為什麼有很多梅子料理？','梅嶺種了好多梅樹，梅子多，大家就想出很多吃法：<b>脆梅</b>、<b>梅子雞</b>、<b>果醬</b>⋯⋯'],
+   q:{t:'梅子雞是用什麼煮的？',o:['醃過的梅子和雞肉','香蕉和魚','草莓和牛奶'],a:0,hint:'你剛剛放進鍋子裡的是什麼？',
+      e:'答對了！用<b>醃梅子</b>和<b>雞肉</b>一起煮。'}},
+  {cam:[60,20,660,660],kick:'任務完成',h:'從梅花到梅子',
+   html:'<p>你幫香蕉山換上梅嶺的新招牌、讓冷空氣吹開滿山梅花、幫梅花撐傘、輕輕採下青梅、照熟度做成脆梅和果醬，最後煮了一鍋梅子雞。冬天來楠西看梅花，春天再來看梅子吧。</p>',game:'end'}
+];
+
+
+/* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
+var MAPS={"0": [["梅嶺", "梅嶺 台南市楠西區"]], "6": [["伍龍步道", "伍龍步道 梅嶺"], ["曾文水庫", "曾文水庫"]]};
+
+/* ---------- 狀態 ---------- */
+var KEY='tainan-ume';
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+// 每次打開都從頭開始，不記錄玩到哪裡（使用者 2026-10-17 要求）；順便清掉以前存的進度
+var st={far:0,done:{0:1},name:''};store.set=function(){};try{localStorage.removeItem(KEY)}catch(e){}
+function save(){store.set(KEY,JSON.stringify(st))}
+function nStamps(){var n=0;LV.forEach(function(l,i){if(l.stamp&&st.done[i])n++});return n}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 地圖操作 ---------- */
+var map=document.getElementById('map');map.innerHTML=buildMap();decorate();
+var pinEl=document.getElementById('pin');
+var vb=[0,0,800,600],camRaf=0;
+function cam(t){
+  cancelAnimationFrame(camRaf);var from=vb.slice(),t0=performance.now(),D=reduce?1:900;
+  (function step(now){var q=Math.max(0,Math.min(1,(now-t0)/D)),e=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2;vb=from.map(function(v,k){return v+(t[k]-v)*e});map.setAttribute('viewBox',vb.join(' '));if(q<1)camRaf=requestAnimationFrame(step)})(t0);
+}
+function setEra(e){
+  map.classList.toggle('now',e==='now');
+  document.querySelectorAll('.era button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.era===e)});
+}
+document.querySelectorAll('.era button').forEach(function(b){b.addEventListener('click',function(){setEra(b.dataset.era)})});
+map.querySelectorAll('.stop').forEach(function(g){g.addEventListener('click',function(){var lv=+g.dataset.lv;if(lv<=st.far)go(lv)})});
+
+/* ---------- 上方舞台：地圖或小遊戲畫面 ---------- */
+var sceneEl=document.getElementById('scene'),peek=document.getElementById('peek'),eraBox=document.querySelector('.era'),sceneTimer=0;
+var stage=document.getElementById('stage'),loops=[];
+function stopLoops(){loops.forEach(function(f){f()});loops=[]}
+// 寬螢幕（左右兩欄）時舞台填滿左欄；手機直拿時舞台縮到剛好放得下遊戲圖
+var wide=window.matchMedia?matchMedia('(min-width:700px) and (min-aspect-ratio:5/4)'):{matches:false};
+function fitStage(){
+  // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
+  var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
+  if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
+  else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
+  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';
+  if(!svg)return;
+  // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
+  var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
+  svg.style.width=sw+'px';svg.style.height=sh+'px';
+  // 遊戲圖最下面那條地面或水面，往下延伸到圓的底部
+  [].forEach.call(svg.children,function(r){if(r.tagName!=='rect')return;var x=+r.getAttribute('x')||0,w=+r.getAttribute('width')||0,y=+r.getAttribute('y')||0,h=+r.getAttribute('height')||0;if(x<=0&&x+w>=vb.width&&y>0&&y+h>=vb.height-1&&y>gy){g=r;gy=y}});
+  var sky=svg.style.background||'#DFF3F8';
+  sceneEl.style.background=g?'linear-gradient('+sky+' '+(top+gy*k)+'px,'+g.getAttribute('fill')+' 0)':sky;
+}
+new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
+addEventListener('resize',fitStage);
+function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.textContent='回到遊戲';peek.hidden=!sceneEl.firstChild;fitStage()}
+function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.textContent='看地圖';peek.hidden=false;fitStage()}
+function setScene(html,delay){
+  clearTimeout(sceneTimer);sceneEl.innerHTML=html;var svg=sceneEl.querySelector('svg');
+  if(svg){svg.setAttribute('preserveAspectRatio','xMidYMax meet');sceneEl.style.background=svg.style.background||'#DFF3F8'}
+  if(delay&&!reduce){showMap();peek.hidden=true;sceneTimer=setTimeout(showGame,delay)}else showGame();
+  return sceneEl;
+}
+function clearScene(){clearTimeout(sceneTimer);stopLoops();sceneEl.innerHTML='';showMap()}
+peek.addEventListener('click',function(){if(sceneEl.hidden)showGame();else showMap()});
+
+/* ---------- 卡片 ---------- */
+var card=document.getElementById('card'),cur=0;
+card.addEventListener('click',function(e){if(e.target.closest('.big')&&sceneEl.hidden)showGame()});
+function chips(pop){
+  var h='';LV.forEach(function(l,i){if(l.stamp)h+='<i class="'+(st.done[i]?'on':'')+(pop===i?' pop':'')+'">'+(st.done[i]?icon(l.stamp[0]):'')+'</i>'});
+  document.getElementById('chips').innerHTML=h;
+}
+function el(html){var d=document.createElement('div');d.innerHTML=html;return d}
+function say(box,text,again){box.hidden=false;box.className='say'+(again?' again':'');box.innerHTML=text}
+function later(fn,ms){var t=setTimeout(fn,reduce?0:ms);loops.push(function(){clearTimeout(t)})}
+function into(node){setTimeout(function(){node.scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'})},50)}
+function onKey(node,fn){node.addEventListener('click',fn);node.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})}
+function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;area.appendChild(b);into(b);return b}
+
+function whyHTML(l){return l.why?'<details class="why"><summary>'+l.why[0]+'</summary><p>'+l.why[1]+'</p></details>':''}
+function win(i){
+  if(st.done[i])return;st.done[i]=1;st.far=Math.max(st.far,i+1);save();chips(i);paint();
+  var l=LV[i],box=el('<div class="got"><span class="seal'+(reduce?'':' pop')+'">'+icon(l.stamp[0])+'</span><p>蓋章：'+l.stamp[1]+'！<br>按「下一關」繼續。</p></div>'+whyHTML(l));
+  var nb=card.querySelector('.notes');if(nb)card.insertBefore(box,nb);else card.appendChild(box);into(box);
+}
+function render(i){
+  var l=LV[i];
+  var top=document.getElementById('top');top.innerHTML='<p class="kick">'+l.kick+'</p><h2>'+l.h+'</h2>';
+  card.innerHTML=l.html+(l.task?'<p class="task">'+l.task+'</p>':'');
+  [top,card].forEach(function(n){n.classList.remove('enter');void n.offsetWidth;n.classList.add('enter')});
+  card.scrollTop=0;if(!wide.matches)window.scrollTo(0,0);
+  var area=document.createElement('div');card.appendChild(area);
+  // 提醒、給大人：全部移到卡片最下面
+  var ns=card.querySelectorAll(':scope>p.note');if(ns.length){var nb=document.createElement('div');nb.className='notes';
+    [].forEach.call(ns,function(n){if(!/^\s*給大人/.test(n.textContent))n.insertAdjacentHTML('afterbegin','<b>提醒</b>　');nb.appendChild(n)});card.appendChild(nb)}
+  // 去現場看看：Google 地圖連結放在卡片最下面的小字（完成頁列出全部）
+  var mp=MAPS[i];if(l.game==='end'){var seen={};mp=[];Object.keys(MAPS).forEach(function(k){MAPS[k].forEach(function(m){if(!seen[m[0]]){seen[m[0]]=1;mp.push(m)}})})}
+  if(mp&&mp.length){var nb2=card.querySelector(':scope>.notes');if(!nb2){nb2=document.createElement('div');nb2.className='notes';card.appendChild(nb2)}
+    nb2.insertAdjacentHTML('beforeend','<p class="note maps">去現場看看（Google 地圖）：'+mp.map(function(m){return '<a href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(m[1])+'" target="_blank" rel="noopener">'+m[0]+'</a>'}).join('、')+'</p>')}
+  if(st.done[i]&&l.stamp){
+    area.innerHTML=(l.win?'<p class="say">'+l.win+'</p>':'')+(l.q?'<p class="say">'+l.q.e+'</p>':'')+whyHTML(l)+'<div class="got"><span class="seal">'+icon(l.stamp[0])+'</span><p>已經蓋章：'+l.stamp[1]+'</p></div><button class="again-btn" type="button">再玩一次這關</button>';
+    area.querySelector('.again-btn').addEventListener('click',function(){var keep=st.done[i];delete st.done[i];render(i);st.done[i]=keep;replay=i;paint()});
+    return;
+  }
+  GAMES[l.game](area,i,l);
+}
+var replay=-1;
+function finish(i){if(replay===i){replay=-1;render(i);return}win(i)}
+
+function quiz(area,l,done){
+  var q=l.q,box=el('<p class="kick" style="margin-top:6px">'+(q.field?'現場找一找':'想一想')+'</p><p>'+q.t+'</p>');
+  var opts=document.createElement('div');
+  q.o.forEach(function(t,j){
+    var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
+    b.addEventListener('click',function(){
+      if(j===q.a){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add('yes');say(msg,q.e);if(sk)sk.remove();done()}
+      else{b.classList.add('no');b.disabled=true;say(msg,q.hint,1)}
+    });opts.appendChild(b)});
+  box.appendChild(opts);var msg=document.createElement('p');msg.hidden=true;box.appendChild(msg);
+  var sk=null;if(q.field){sk=el('<button class="skip" type="button">不在現場，先跳過</button>').firstChild;sk.addEventListener('click',function(){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});say(msg,'先跳過。'+q.e);sk.remove();done()});box.appendChild(sk)}
+  area.appendChild(box);into(box);
+}
+// 把螢幕上的點換成插圖裡的座標
+function toSvg(svg,e){var m=svg.getScreenCTM();if(!m)return {x:-999,y:-999};var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(m.inverse())}
+// 在插圖上拖手指：down、move、up 都換成插圖座標
+function drag(svg,fn){
+  var on=false;svg.style.touchAction='none';
+  svg.addEventListener('pointerdown',function(e){on=true;try{svg.setPointerCapture(e.pointerId)}catch(_){}fn('down',toSvg(svg,e),e)});
+  svg.addEventListener('pointermove',function(e){if(on||e.pointerType==='mouse')fn(on?'move':'hover',toSvg(svg,e),e)});
+  ['pointerup','pointercancel'].forEach(function(t){svg.addEventListener(t,function(e){if(on){on=false;fn('up',toSvg(svg,e),e)}})});
+}
+
+var GAMES={
+  start:function(area){
+    var art='<path d="M20 120Q80 100 150 104Q200 96 240 70" stroke="'+BARK+'" stroke-width="5" fill="none" stroke-linecap="round"/>'+ume(70,98,3,1)+ume(120,90,2.6,1)+ume(170,92,1.2,0)+ume(205,82,2.4,1)+plum(270,130,3.4,0);
+    setScene(idCard('梅花和梅子','楠西梅嶺・冬天開花、春天結果',art,[['白白的梅花，5 片花瓣',100,150,96,110],['冬天的花苞',176,64,170,88],['春天的青梅',266,76,266,104]]));
+    var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
+
+  /* 第 1 關：把字卡拖到招牌的空格，拼出「梅嶺」 */
+  word:function(area,i,l){
+    var SL=[{x:136,y:96,c:'梅',f:null},{x:184,y:96,c:'嶺',f:null}],TL=['蕉','嶺','山','梅'].map(function(c,k){return {c:c,x:70+k*60,y:154,hx:70+k*60,hy:154,in:null}}),held=null,off={x:0,y:0},done=false,n=0;
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAF0E2"><rect x="-400" y="176" width="1200" height="80" fill="#B0C490"/>'+
+      '<path d="M104 120V176M216 120V176" stroke="#7A5A3A" stroke-width="6"/><rect x="92" y="28" width="136" height="98" rx="8" fill="#F3E6CC" stroke="#7A5A3A" stroke-width="2.4"/>'+
+      '<text x="160" y="60" font-size="22" font-weight="900" fill="#9A8A7A" text-anchor="middle" font-family="Noto Serif TC,serif">香蕉山</text><path d="M118 54H202" stroke="#DB2E27" stroke-width="3"/><g id="sl"></g><g id="tl"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),sl=svg.querySelector('#sl'),tl=svg.querySelector('#tl');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function tile(t){return '<g transform="translate('+f1(t.x)+' '+f1(t.y)+')"><rect x="-21" y="-21" width="42" height="42" rx="6" fill="#fff" stroke="#BD9558" stroke-width="2"/><text y="9" font-size="26" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,serif">'+t.c+'</text></g>'}
+    function draw(){sl.innerHTML=SL.map(function(q){return q.f?'':'<rect x="'+(q.x-21)+'" y="'+(q.y-21)+'" width="42" height="42" rx="6" fill="#FFF8EC" stroke="#DB2E27" stroke-width="2" stroke-dasharray="5 4"/>'}).join('');tl.innerHTML=TL.map(tile).join('')}
+    draw();
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){held=null;TL.forEach(function(o){if(!o.in&&Math.abs(p.x-o.x)<24&&Math.abs(p.y-o.y)<24)held=o});if(held)off={x:p.x-held.x,y:p.y-held.y};else say(msg,'要按住下面的<b>字卡</b>。',1);return}
+      if(!held)return;
+      if(t==='move'){held.x=p.x-off.x;held.y=p.y-off.y;draw();return}
+      if(t==='up'){var o=held;held=null;var q=null;SL.forEach(function(s2){if(!s2.f&&Math.hypot(o.x-s2.x,o.y-s2.y)<28)q=s2});
+        if(q&&q.c===o.c){q.f=o;o.in=q;o.x=q.x;o.y=q.y;n++;bar.style.width=(n/2*100)+'%';
+          if(n>=2){done=true;say(msg,'梅嶺！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}else say(msg,'對了！再找另一個字。')}
+        else{o.x=o.hx;o.y=o.hy;if(q)say(msg,'這個字不對喔。新名字和<b>梅樹</b>、<b>山</b>有關，「嶺」就是山。',1)}
+        draw()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','招牌的畫面，按 Enter 拼出梅嶺');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();SL.forEach(function(q){var o=TL.filter(function(t){return t.c===q.c})[0];q.f=o;o.in=q;o.x=q.x;o.y=q.y});n=2;done=true;draw();say(msg,l.win);quiz(area,l,function(){finish(i)})}});
+    later(function(){if(!n&&!done)say(msg,'按住一張<b>字卡</b>，拖到招牌上的紅色<b>虛線格子</b>。第一個字是梅樹的「梅」。')},8000);
+  },
+
+  /* 第 2 關：把冷空氣拖過整座山，梅花一朵一朵開 */
+  cold:function(area,i,l){
+    var cx=40,held=false,off=0,done=false,raf=0,last=performance.now(),B=[];
+    var r=rnd(5);for(var k=0;k<14;k++)B.push({x:40+k*18+(r()-.5)*8,y:96+Math.sin(k*1.3)*16+(r()-.5)*10,o:0});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E8EEF2"><rect x="-400" y="160" width="1200" height="100" fill="#B0C490"/><path d="M-20 170Q60 90 140 120Q200 70 260 110Q300 130 340 120V200H-20Z" fill="#C8D6A8"/>'+
+      '<path d="M20 150Q80 120 140 118Q200 108 300 96M80 128Q90 104 110 90M180 112Q190 90 220 80M240 104Q250 120 280 124" stroke="'+BARK+'" stroke-width="4" fill="none" stroke-linecap="round"/><g id="bd"></g><g id="cd"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),bd=svg.querySelector('#bd'),cd=svg.querySelector('#cd');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;var n=0;
+      B.forEach(function(b){if(b.x<cx+20&&b.o<1)b.o=Math.min(1,b.o+dt*3);if(b.o>=1)n++});
+      bd.innerHTML=B.map(function(b){return b.o>0?ume(b.x,b.y,.9+b.o*1.1,1):ume(b.x,b.y,1.6,0)}).join('');
+      cd.innerHTML='<g transform="translate('+f1(cx)+' 40)"><ellipse rx="34" ry="16" fill="#CFE3F0" stroke="#8AB0C8" stroke-width="1.4"/><ellipse cx="-16" cy="5" rx="16" ry="10" fill="#BFD8EA"/><ellipse cx="16" cy="6" rx="16" ry="10" fill="#BFD8EA"/><text y="6" font-size="14" font-weight="700" fill="#2E6A80" text-anchor="middle">冷空氣</text>'+[-18,0,18].map(function(x,k){return '<path d="M'+x+' 22l-6 12M'+(x+4)+' 24l-6 12" stroke="#8AB0C8" stroke-width="1.6" stroke-linecap="round" opacity="'+f1(.5+.5*Math.sin(now/150+k))+'"/>'}).join('')+'</g>';
+      if(!done){bar.style.width=f1(n/B.length*100)+'%';if(n>=B.length){done=true;say(msg,'全開了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}}
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){if(Math.abs(p.x-cx)<44&&p.y<80){held=true;off=p.x-cx}else say(msg,'要按住上面藍藍的<b>冷空氣</b>，再往右拖。',1);return}
+      if(!held)return;
+      if(t==='move'){cx=Math.max(cx,Math.min(300,p.x-off));return}
+      if(t==='up')held=false;
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','梅樹的畫面，按 Enter 讓冷空氣吹過');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();cx=300}});
+    later(function(){if(cx<60&&!done)say(msg,'按住左上角的<b>冷空氣</b>，手指不要放開，一路往<b>右</b>拖。')},8000);
+  },
+
+  /* 第 3 關：按住雨傘，移到淋雨的梅花上面 */
+  umbrella:function(area,i,l){
+    var C=[{x:80,y:116},{x:160,y:108},{x:240,y:116}],ux=160,held=false,tgt=0,switchT=0,T=0,DUR=14,done=false,raf=0,last=performance.now(),drops=[],good=0,tot=0;
+    C.forEach(function(c){c.w=0});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E2E8EC"><rect x="-400" y="160" width="1200" height="100" fill="#B0C490"/>'+
+      '<path d="M20 150Q80 130 160 126Q240 130 300 150M80 140Q80 126 80 120M160 128V112M240 140V120" stroke="'+BARK+'" stroke-width="4" fill="none" stroke-linecap="round"/><g id="fl"></g><g id="dr"></g><g id="cl"></g><g id="um"></g><text id="tx" x="160" y="184" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle"></text></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),flG=svg.querySelector('#fl'),dr=svg.querySelector('#dr'),cl=svg.querySelector('#cl'),um=svg.querySelector('#um'),tx=svg.querySelector('#tx');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;
+      if(!done){T+=dt;switchT+=dt;if(switchT>2.6){switchT=0;var nt=Math.floor(Math.random()*3);if(nt===tgt)nt=(tgt+1)%3;tgt=nt}
+        var c=C[tgt],cov=Math.abs(ux-c.x)<30;tot+=dt;if(cov)good+=dt;else c.w=Math.min(1,c.w+dt*.35);
+        for(var k=0;k<2;k++)drops.push({x:c.x-26+Math.random()*52,y:56,v:150});
+        tx.textContent=cov?'保護住了！':'梅花淋到雨了！';
+        bar.style.width=f1(Math.min(1,T/DUR)*100)+'%';
+        if(T>=DUR){done=true;tx.textContent='雨停了';say(msg,good/tot>.6?'雨停了！你把梅花保護得很好。':'雨停了！有些花淋濕了，不過大部分都還在。');later(function(){say(msg,l.win);finish(i)},1100)}}
+      drops=drops.filter(function(d){d.y+=d.v*dt;var blocked=Math.abs(d.x-ux)<30&&d.y>66&&d.y<74;return d.y<112&&!blocked});
+      dr.innerHTML=drops.map(function(d){return '<path d="M'+f1(d.x)+' '+f1(d.y)+'l-1.5 6" stroke="#5E8EB4" stroke-width="1.6"/>'}).join('');
+      cl.innerHTML=done?'<circle cx="270" cy="34" r="14" fill="#F7D35A"/>':'<g transform="translate('+C[tgt].x+' 44)"><ellipse rx="32" ry="12" fill="#9AA6B0"/><ellipse cx="-16" cy="4" rx="16" ry="9" fill="#8C98A2"/><ellipse cx="16" cy="5" rx="16" ry="9" fill="#8C98A2"/></g>';
+      flG.innerHTML=C.map(function(c){var s2=1-c.w*.4;return ume(c.x-10,c.y,1.6*s2,1)+ume(c.x+8,c.y-6,1.5*s2,1)+ume(c.x,c.y+6,1.4*s2,1)}).join('');
+      um.innerHTML='<g transform="translate('+f1(ux)+' 70)"><path d="M-32 0Q-32 -22 0 -22Q32 -22 32 0Q24 -5 16 0Q8 -5 0 0Q-8 -5 -16 0Q-24 -5 -32 0Z" fill="#DB2E27" stroke="#9A1E1A" stroke-width="1.2"/><path d="M0 0V22Q0 26 -5 26" stroke="#5A3E2B" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>';
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(t,p){if(done||t==='hover'||t==='up')return;ux=Math.max(40,Math.min(280,p.x))});
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','下雨的畫面，按 Enter 讓雨停');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();T=DUR;good=tot=1}});
+    later(function(){if(T<3&&!done)say(msg,'手指按住畫面<b>左右移動</b>，雨傘會跟著你。看<b>烏雲</b>在哪一朵花上面，就把傘移過去。')},5000);
+  },
+
+  /* 第 4 關：按住梅子輕輕往下拉一點點，太用力樹枝會受傷 */
+  gentle:function(area,i,l){
+    var F=[{x:60,y:86},{x:100,y:100},{x:140,y:88},{x:180,y:102},{x:220,y:90},{x:260,y:100},{x:120,y:118}],N=5,n=0,held=null,st0=null,pull=0,done=false,raf=0,last=performance.now(),fly=[],crack=0;
+    F.forEach(function(f){f.on=1});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAF1E6"><rect x="-400" y="164" width="1200" height="100" fill="#B0C490"/><path id="br" d="M-10 60Q160 40 330 62" stroke="'+BARK+'" stroke-width="7" fill="none" stroke-linecap="round"/>';
+    [[40,52],[120,46],[200,46],[280,54],[80,48],[240,50]].forEach(function(p){s+='<ellipse cx="'+p[0]+'" cy="'+(p[1]-6)+'" rx="14" ry="6" fill="'+LEAFC+'" transform="rotate(-15 '+p[0]+' '+(p[1]-6)+')"/>'});
+    s+='<g id="fr"></g><path d="M132 166H188L182 186H138Z" fill="#B88A55" stroke="#7A5530" stroke-width="1.2"/><g id="fl"></g><g id="ms"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),frG=svg.querySelector('#fr'),flG=svg.querySelector('#fl'),ms=svg.querySelector('#ms'),br=svg.querySelector('#br');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;crack=Math.max(0,crack-dt*2);
+      br.setAttribute('d','M-10 60Q160 '+f1(40+(held?pull*.6:0))+' 330 62');br.setAttribute('stroke',crack?'#C0583F':BARK);
+      frG.innerHTML=F.filter(function(f){return f.on}).map(function(f){var dy=f===held?pull:0;return '<path d="M'+f.x+' 56L'+f.x+' '+f1(f.y-8+dy)+'" stroke="#6E7A3A" stroke-width="1.6"/>'+plum(f.x,f.y+dy,1.5,0)}).join('');
+      ms.innerHTML=held?'<g transform="translate('+(held.x+20)+' '+(held.y-10)+')"><rect width="10" height="44" rx="3" fill="#EFE6D8" stroke="#BD9558"/><rect y="'+f1(44*16/48)+'" width="10" height="'+f1(44*(34-16)/48)+'" fill="#CFE3B5"/><rect x="2" y="'+f1(44*Math.min(1,pull/48)-2)+'" width="6" height="4" fill="#DB2E27"/></g>':'';
+      fly=fly.filter(function(o){o.t+=dt/.5;return o.t<1});
+      flG.innerHTML=fly.map(function(o){var q=o.t;return plum(o.x+(160-o.x)*q,o.y+(166-o.y)*q,1.5*(1-q*.4),0)}).join('');
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    function take(f){f.on=0;fly.push({x:f.x,y:f.y,t:0});n++;bar.style.width=(n/N*100)+'%';
+      if(n>=N){done=true;say(msg,'採好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}else say(msg,'輕輕一拉，梅子掉進籃子了！還有 '+(N-n)+' 顆。')}
+    drag(svg,function(t,p){
+      if(done)return;
+      if(t==='down'){held=null;var bd=20;F.forEach(function(f){if(!f.on)return;var d=Math.hypot(p.x-f.x,p.y-f.y);if(d<bd){bd=d;held=f}});st0=p;pull=0;if(!held)say(msg,'要按住一顆<b>梅子</b>。',1);return}
+      if(!held)return;
+      if(t==='move'){pull=Math.max(0,p.y-st0.y);if(pull>40){crack=1;held=null;pull=0;say(msg,'太用力了！樹枝快斷了。要<b>輕輕</b>拉一點點就好。',1)}return}
+      if(t==='up'){var f=held;held=null;if(pull>=14&&pull<=40)take(f);else if(pull<14)say(msg,'再往下拉<b>一點點</b>，讓旁邊的紅線到<b>綠色</b>的地方再放開。',1);pull=0}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','採梅子的畫面，按 Enter 輕輕採一顆');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var f=F.filter(function(o){return o.on})[0];if(f)take(f)}});
+    later(function(){if(!n&&!done)say(msg,'按住一顆梅子，往下拉<b>一點點</b>（旁邊的紅線到綠色），再放開。')},8000);
+  },
+
+  /* 第 5 關：看梅子的顏色，拖進對的罐子 */
+  jars:function(area,i,l){
+    var J=[{x:74,r:0,n:'脆梅'},{x:160,r:.5,n:'紫蘇梅'},{x:246,r:1,n:'果醬'}],R=[1,0,.5,0,1,.5],P=R.map(function(r,k){return {r:r,x:60+k*40,y:156,hx:60+k*40,hy:156,in:null}}),held=null,off={x:0,y:0},done=false,n=0;
+    J.forEach(function(j){j.c=0});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F3EEE4"><rect x="-400" y="172" width="1200" height="80" fill="#C9B29A"/><g id="jr"></g><g id="pl"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),jr=svg.querySelector('#jr'),pl=svg.querySelector('#pl');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    function draw(){
+      jr.innerHTML=J.map(function(j){return '<g transform="translate('+j.x+' 76)"><path d="M-28 -30H28V34Q28 40 22 40H-22Q-28 40 -28 34Z" fill="#EAF2F4" fill-opacity=".9" stroke="#8A9AA6" stroke-width="1.6"/><rect x="-30" y="-38" width="60" height="10" rx="2" fill="#8A6A3A"/><text y="-44" font-size="15" font-weight="900" fill="#6C2024" text-anchor="middle">'+j.n+'</text>'+plum(0,-14,.9,j.r)+'</g>'}).join('');
+      pl.innerHTML=P.map(function(p){return plum(p.x,p.y,1.9,p.r)}).join('');bar.style.width=(n/6*100)+'%';
+    }
+    draw();
+    drag(svg,function(t,q){
+      if(done)return;
+      if(t==='down'){held=null;P.forEach(function(p){if(!p.in&&Math.hypot(q.x-p.x,q.y-p.y)<18)held=p});if(held)off={x:q.x-held.x,y:q.y-held.y};else say(msg,'要按住下面的一顆<b>梅子</b>。',1);return}
+      if(!held)return;
+      if(t==='move'){held.x=q.x-off.x;held.y=q.y-off.y;draw();return}
+      if(t==='up'){var p=held;held=null;var j=null;J.forEach(function(o){if(Math.abs(p.x-o.x)<32&&p.y>36&&p.y<120)j=o});
+        if(j&&j.r===p.r){p.in=j;p.x=j.x-10+j.c*20;p.y=94+(j.c?-4:0);j.c++;n++;
+          if(n>=6){done=true;draw();say(msg,'都放對了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900);return}
+          say(msg,['很綠的青梅，做<b>脆梅</b>。','黃綠色、八九分熟，做<b>紫蘇梅</b>。','黃黃的黃梅，做<b>果醬</b>。'][J.indexOf(j)]+'還有 '+(6-n)+' 顆。')}
+        else{p.x=p.hx;p.y=p.hy;if(j)say(msg,p.r===0?'這顆<b>很綠</b>、還很脆，適合做<b>脆梅</b>。':p.r===1?'這顆<b>黃黃的</b>、熟透了，適合做<b>果醬</b>。':'這顆<b>黃綠色</b>，八九分熟，適合做<b>紫蘇梅</b>。',1)}
+        draw()}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','做梅子的畫面，按 Enter 把一顆梅子放進對的罐子');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var p=P.filter(function(o){return !o.in})[0];if(!p)return;var j=J.filter(function(o){return o.r===p.r})[0];p.in=j;p.x=j.x-10+j.c*20;p.y=94;j.c++;n++;draw();if(n>=6){done=true;say(msg,l.win);quiz(area,l,function(){finish(i)})}}});
+    later(function(){if(!n&&!done)say(msg,'看梅子的<b>顏色</b>：很綠的拖到<b>脆梅</b>、黃綠色的拖到<b>紫蘇梅</b>、黃色的拖到<b>果醬</b>。')},8000);
+  },
+
+  /* 第 6 關：把醃梅子一顆一顆拖進鍋子 */
+  pot:function(area,i,l){
+    var P=[{x:56,y:104},{x:76,y:108},{x:60,y:126},{x:80,y:128},{x:68,y:90}],N=4,n=0,held=null,off={x:0,y:0},done=false,raf=0,last=performance.now(),t=0;
+    P.forEach(function(p){p.hx=p.x;p.hy=p.y;p.in=0});
+    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#F3EEE4"><rect x="-400" y="166" width="1200" height="80" fill="#C9B29A"/>'+
+      '<path d="M36 80H100V146Q100 154 92 154H44Q36 154 36 146Z" fill="#E8DCC0" fill-opacity=".8" stroke="#9A8A6A" stroke-width="1.6"/><rect x="32" y="72" width="72" height="10" rx="2" fill="#8A6A3A"/><text x="68" y="64" font-size="14" font-weight="700" fill="#6C2024" text-anchor="middle">醃梅子</text>'+
+      '<path d="M160 100H290V140Q290 160 225 160Q160 160 160 140Z" fill="#8A949A" stroke="#5E676C" stroke-width="2"/><path d="M152 100H298" stroke="#5E676C" stroke-width="4" stroke-linecap="round"/><ellipse cx="225" cy="104" rx="62" ry="8" fill="#E8D8A8"/><g id="ck"></g><g id="st"></g><path d="M170 160Q225 172 280 160" stroke="#F29A3A" stroke-width="6" fill="none" opacity=".8"/>'+
+      '<g id="pp"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),pp=svg.querySelector('#pp'),stG=svg.querySelector('#st'),ck=svg.querySelector('#ck');
+    area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
+    var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
+    ck.innerHTML='<ellipse cx="205" cy="104" rx="16" ry="5" fill="#F2E2C2"/><ellipse cx="240" cy="106" rx="14" ry="4" fill="#F2E2C2"/>';
+    (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;t+=dt;
+      stG.innerHTML=[195,225,255].map(function(x,k){return '<path d="M'+x+' 92q-4 -8 0 -16t0 -16" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity="'+f1(.4+.3*Math.sin(t*3+k))+'"/>'}).join('');
+      pp.innerHTML=P.map(function(p){return p.in?'':plum(p.x,p.y,1.5,.55)}).join('')+P.filter(function(p){return p.in}).map(function(p,k){return plum(200+k*14,104,1.1,.55)}).join('');
+      raf=requestAnimationFrame(loop)})(last);
+    loops.push(function(){cancelAnimationFrame(raf)});
+    drag(svg,function(tp,q){
+      if(done)return;
+      if(tp==='down'){held=null;P.forEach(function(p){if(!p.in&&Math.hypot(q.x-p.x,q.y-p.y)<16)held=p});if(held)off={x:q.x-held.x,y:q.y-held.y};else say(msg,'要按住罐子裡的<b>醃梅子</b>。',1);return}
+      if(!held)return;
+      if(tp==='move'){held.x=q.x-off.x;held.y=q.y-off.y;return}
+      if(tp==='up'){var p=held;held=null;if(p.x>160&&p.x<290&&p.y>70&&p.y<160){p.in=1;n++;bar.style.width=(n/N*100)+'%';
+          if(n>=N){done=true;say(msg,'放好了！');later(function(){say(msg,l.win);quiz(area,l,function(){finish(i)})},900)}else say(msg,'噗通！放進去了。還有 '+(N-n)+' 顆。')}
+        else{p.x=p.hx;p.y=p.hy;say(msg,'要拖進右邊的<b>鍋子</b>裡。',1)}}
+    });
+    svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','煮梅子雞的畫面，按 Enter 放一顆梅子進鍋子');
+    svg.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&!done){e.preventDefault();var p=P.filter(function(o){return !o.in})[0];if(p){p.in=1;n++;bar.style.width=(n/N*100)+'%';if(n>=N){done=true;say(msg,l.win);quiz(area,l,function(){finish(i)})}}}});
+    later(function(){if(!n&&!done)say(msg,'按住左邊罐子裡的<b>醃梅子</b>，拖到右邊冒熱氣的<b>鍋子</b>裡放開。')},8000);
+  },
+
+
+  end:function(area,i,l){
+    // 回顧：每一段把鏡頭飛到那一關的地點，下面講那一關做了什麼
+    var steps=[];LV.forEach(function(v,k){if(v.stamp&&k>0)steps.push(k)});
+    var n=-1,firstTime=nStamps()===steps.length;
+    area.innerHTML='<div class="recap" aria-live="polite"></div><button class="big" type="button">開始<br>回顧</button><p class="rn"></p><p><button class="again-btn" type="button">重新開始遊戲</button></p><p class="note" style="margin-top:20px">給大人：插畫地圖是示意，不是真實比例。花期和採收期每年不同，出發前先查花況。梅園是農民的地，不要折梅枝。<br>資料來源：梅嶺原名香蕉山、日治種香蕉梅樹咖啡、民國 70 年改名（農業部）；梅樹超過 300 公頃、產量全國第 4、3 月底到 4 月底採收、花期遇雨結果率差、青梅黃梅和加工分級（中央社 2018/4/3）；冷氣團來梅花一夕爆開、12 月到 1 月賞梅（聯合報；公視）；遊客折枝後取消自採（中時新聞網 2026/3/14）；梅子雞、伍龍步道（旅遊網站）。</p>';
+    var box=area.querySelector('.recap'),btn=area.querySelector('.big'),cnt=area.querySelector('.rn');
+    function stopOf(k){var s=null;STOPS.forEach(function(t){if(t.lv===k)s=t});if(!s&&LV[k].pin!==undefined)s=STOPS[LV[k].pin];return s}
+    function show(){
+      box.classList.remove('enter');void box.offsetWidth;box.classList.add('enter');
+      if(n<0){cam(camFor(i,l));setEra('now');pinEl.style.display='none';box.innerHTML='';btn.innerHTML='開始<br>回顧';cnt.textContent='';return}
+      var k=steps[n],v=LV[k],s=stopOf(k);
+      cam(camFor(k,v));setEra(v.era||'now');
+      if(s){pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+      var txt=v.win||(v.q&&v.q.e)||(v.why&&v.why[1])||'';
+      box.innerHTML='<div class="rc"><span class="seal'+(st.done[k]?'':' empty')+'">'+(st.done[k]?icon(v.stamp[0]):'')+'</span><div><p class="rk">'+v.kick+'</p><p class="rh">'+v.h+'</p><p>'+txt+'</p></div></div>';
+      btn.innerHTML=n<steps.length-1?'下一段':'從頭<br>再看';
+      cnt.textContent='第 '+(n+1)+' / '+steps.length+' 段';
+    }
+    btn.addEventListener('click',function(){n=n<steps.length-1?n+1:-1;show();into(btn)});
+    area.querySelector('.again-btn').addEventListener('click',function(){st={far:0,done:{0:1},name:''};save();chips();setEra('now');go(0)});
+    show();
+    if(!reduce&&firstTime)confetti();
+  }
+
+};
+
+function confetti(){var cs=['#E2574C','#F5A623','#7BC47F','#6EC3DD','#F7A8C4'];for(var k=0;k<36;k++){var c=document.createElement('i');c.className='conf';c.style.left=(Math.random()*100)+'vw';c.style.background=cs[k%5];c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){return function(){x.remove()}}(c),3600)}}
+
+/* ---------- 換關 ---------- */
+var pv=document.getElementById('pv'),nx=document.getElementById('nx');
+function paint(){
+  nx.disabled=cur===LV.length-1||!st.done[cur];nx.textContent=st.done[cur]||cur===LV.length-1?'下一關 ›':'先完成任務';
+  pv.disabled=cur===0;nx.style.visibility=cur===LV.length-1?'hidden':'';document.getElementById('pos').textContent=cur===0?'開始':(cur===LV.length-1?'完成':'第 '+cur+' / 6 關');
+  map.querySelectorAll('.stop').forEach(function(g){g.classList.toggle('lock',+g.dataset.lv>st.far)});
+}
+// 鏡頭：每一關都把那一關的地點放在圓的正中間；全景（正方形鏡頭）照原樣
+function camFor(i,l){var c=l.cam;if(c[2]===c[3])return c;var s=null;STOPS.forEach(function(t){if(t.lv===i)s=t});if(!s&&l.pin!==undefined)s=STOPS[l.pin];
+  var z=c[3]*1.05,cx=s?s.x:c[0]+c[2]/2,cy=s?s.y-6:c[1]+c[3]/2;return [cx-z/2,cy-z/2,z,z]}
+function go(i){
+  cur=i;if(i>st.far){st.far=i;save()}replay=-1;var l=LV[i];clearScene();
+  cam(camFor(i,l));setEra(l.era||'now');
+  if(l.pin!==undefined){var s=STOPS[l.pin];pinEl.style.display='';pinEl.setAttribute('transform','translate('+s.x+' '+(s.y-18)+')')}else pinEl.style.display='none';
+  render(i);paint();
+}
+pv.addEventListener('click',function(){if(cur>0)go(cur-1)});
+nx.addEventListener('click',function(){if(st.done[cur]&&cur<LV.length-1)go(cur+1)});
+var sheet=document.getElementById('sheet');
+document.getElementById('chips').addEventListener('click',function(){if(st.far>=LV.length-1)go(LV.length-1)});
+function closeSheet(){sheet.hidden=true;document.getElementById('chips').focus()}
+document.getElementById('sheetX').addEventListener('click',closeSheet);
+sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+chips();go(Math.min(st.far,LV.length-1));
+</script>
+</body>
+</html>
