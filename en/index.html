@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Play Tainan</title>
+<title>Tainan Yo | Play Tainan with the map</title>
 <link rel="canonical" href="https://tri90035156-debug.github.io/tainan-yo/en/">
 <link rel="alternate" hreflang="zh-Hant" href="https://tri90035156-debug.github.io/tainan-yo/">
 <link rel="alternate" hreflang="en" href="https://tri90035156-debug.github.io/tainan-yo/en/">
 <link rel="alternate" hreflang="ja" href="https://tri90035156-debug.github.io/tainan-yo/ja/">
 <link rel="alternate" hreflang="x-default" href="https://tri90035156-debug.github.io/tainan-yo/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="臺南遊">
+<meta property="og:site_name" content="臺南yo">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://tri90035156-debug.github.io/tainan-yo/en/">
-<meta property="og:title" content="Play Tainan">
+<meta property="og:title" content="Tainan Yo | Play Tainan with the map">
 <meta property="og:image" content="https://tri90035156-debug.github.io/tainan-yo/img/index.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&family=Noto+Serif:wght@700;900&display=swap">
 <style>
-/* 版面：上面「臺南遊」總標題和臺南圓形地圖，下面每個主題一區（主題標題、說明，再接遊戲卡）（圖示和開始玩都是圓的；不用色塊，用粗體和顏色區分）
+/* 版面：上面「臺南yo」總標題和臺南圓形地圖，下面每個主題一區（主題標題、說明，再接遊戲卡）（圖示和開始玩都是圓的；不用色塊，用粗體和顏色區分）
    手機一欄；寬 700px 以上卡片兩欄；寬 1080px 以上三欄
    配色取自臺南城市識別：紅 #DB2E27、酒紅 #6C2024、金 #BD9558 */
 :root{
@@ -34,10 +34,14 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:17px;l
 .app{max-width:520px;margin:0 auto;min-height:100vh;background:var(--bg);padding:24px 18px 40px;display:flex;flex-direction:column;gap:22px}
 p{margin:0}
 .by{font-size:14px;font-weight:700;letter-spacing:.06em}
+.by .tag{margin-left:.7em;font-weight:400;color:var(--muted)}
 .kick{font:700 15px/1.4 var(--serif);letter-spacing:.06em;color:var(--red)}
 h1{margin:4px 0 0;font:900 34px/1.25 var(--serif);text-wrap:balance}
 h2{margin:0;font:900 26px/1.3 var(--serif);text-wrap:balance}
 .lead{font-size:16px;color:var(--muted)}
+.lang{margin:4px 0 0;font-size:15px;color:var(--muted)}
+.lang a{color:var(--maroon)}
+.lang b{color:var(--ink)}
 .head{display:flex;flex-direction:column;gap:6px}
 
 .mapbox{width:min(100%,420px);aspect-ratio:1;margin:44px auto 8px;border-radius:50%;overflow:hidden;background:var(--sea);box-shadow:0 0 0 12px var(--goldsoft)}
@@ -201,9 +205,10 @@ b{font-weight:700;color:var(--ink)}
 <body>
 <header class="hero">
   <div class="hero-title">
-    <p class="by">Play Tainan</p>
+    <p class="by">Tainan Yo<span class="tag">Play Tainan with the map</span></p>
     <h1>Tap a place<br>to start playing</h1>
-    <p class="lead">Tainan is the oldest city in Taiwan, in the south of the island. Every dot on the map is a little game.</p><p class="lang" style="margin:4px 0 0;font-size:15px;color:#8A7A70"><a href="../index.html" lang="zh-Hant" style="color:#6C2024">中文</a> · <a href="../ja/index.html" lang="ja" style="color:#6C2024">日本語</a> · <b style="color:#2A2020">English</b></p>
+    <p class="lead">Tainan is the oldest city in Taiwan, in the south of the island. Every dot on the map is a little game.</p>
+    <p class="lang"><a href="../index.html" lang="zh-Hant">中文</a> · <a href="../ja/index.html" lang="ja">日本語</a> · <b>English</b></p>
   </div>
   <div class="bigmap">
     <div class="maptools">
