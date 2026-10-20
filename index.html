@@ -720,6 +720,8 @@ b{font-weight:700;color:var(--ink)}
       if(hit){hit.m.push(j);hit.x=hit.m.reduce(function(a,i){return a+P[i].x},0)/hit.m.length;hit.y=hit.m.reduce(function(a,i){return a+P[i].y},0)/hit.m.length}
       else G.push({x:p.x,y:p.y,m:[j]})});
     var boxes=G.map(function(q){return [q.x-R,q.y-R,q.x+R,q.y+R]});
+    // 電腦上標題浮在地圖左邊的海上：名牌和區名都要避開標題的字（外語的介紹比較長，2026-10-20 會疊到北門）
+    var tb=titleBox();if(tb)boxes.push(tb);
     function free(b){return !boxes.some(function(o){return b[0]<o[2]&&b[2]>o[0]&&b[1]<o[3]&&b[3]>o[1]})}
     var dv=dims(),vx0=cx-dv.W/2/sc,vx1=cx+dv.W/2/sc,vy0=cy-dv.H/2/sc,vy1=cy+dv.H/2/sc;
     function inView(b){return b[0]>=vx0&&b[2]<=vx1&&b[1]>=vy0&&b[3]<=vy1}
@@ -740,6 +742,11 @@ b{font-weight:700;color:var(--ink)}
         '<circle r="34" fill="#DB2E27" opacity=".18"/><circle r="28" fill="#DB2E27" stroke="#fff" stroke-width="4"/><text y="10" font-size="28" font-weight="900" fill="#fff" text-anchor="middle" font-family="Noto Sans TC,sans-serif">'+n+'</text></g>'}).join('');
     dists.forEach(function(d){d.t.style.display=boxes.some(function(o){return d.x>o[0]-10&&d.x<o[2]+10&&d.y>o[1]-6&&d.y<o[3]+12})?'none':''});
   }
+  var heroT=document.querySelector('.hero-title');
+  function titleBox(){if(!heroT)return null;var t=heroT.getBoundingClientRect(),b=box.getBoundingClientRect(),d=dims(),m=10;
+    if(t.bottom<=b.top||t.top>=b.bottom||t.right<=b.left||t.left>=b.right)return null;
+    function X(s){return cx+(s-b.left-d.W/2)/sc}function Y(s){return cy+(s-b.top-d.H/2)/sc}
+    return [X(t.left-m),Y(t.top-m),X(t.right+m),Y(t.bottom+m)]}
   function f2(v){return Math.round(v*10)/10}
   clG.addEventListener('click',function(e){var t=e.target.closest('.cl');if(!t)return;e.stopPropagation();var q=CL[+t.dataset.c];if(!q)return;
     if(sc>=maxS*.98){openList(q.m);return}
