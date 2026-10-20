@@ -52,8 +52,8 @@ function fitStage(){
 }
 new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
 addEventListener('resize',fitStage);
-function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.textContent='Back to game';peek.hidden=!sceneEl.firstChild;fitStage()}
-function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.textContent='Map';peek.hidden=false;fitStage()}
+function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.className='back';peek.textContent='Back to game';peek.hidden=!sceneEl.firstChild;fitStage()}
+function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.className='';peek.textContent='Where is this?';peek.hidden=false;fitStage()}
 function setScene(html,delay){
   clearTimeout(sceneTimer);sceneEl.innerHTML=html;var svg=sceneEl.querySelector('svg');
   if(svg){svg.setAttribute('preserveAspectRatio','xMidYMax meet');sceneEl.style.background=svg.style.background||'#DFF3F8'}

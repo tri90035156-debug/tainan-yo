@@ -202,8 +202,10 @@ main .kick{font:700 15px var(--serif);letter-spacing:.04em}
 #map{width:100%;height:100%}
 #scene{display:flex;align-items:center;justify-content:center}
 #scene svg{flex:none}
-#peek{left:0;top:0}
-.era{right:0;top:0}
+#peek{left:50%;top:calc(50% + var(--d,300px)/2 - 14px);bottom:auto;transform:translateX(-50%);white-space:nowrap;z-index:2;display:flex;align-items:center;gap:5px;padding:6px 14px 6px 10px;font-size:14px;font-weight:700;color:var(--maroon)}
+#peek::before{content:'';flex:none;width:12px;height:15px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 15'%3E%3Cpath d='M6 0a6 6 0 0 1 6 6c0 4-6 9-6 9S0 10 0 6a6 6 0 0 1 6-6z' fill='%23DB2E27'/%3E%3Ccircle cx='6' cy='6' r='2.2' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
+#peek.back{padding-left:14px}#peek.back::before{display:none}
+.era{right:16px;top:0}
 @media (min-width:700px) and (min-aspect-ratio:5/4){.stage{height:auto}}
 /* ===== 不用色塊區分文字：改用粗體和顏色；大按鈕是圓的 ===== */
 .task{background:none;padding:0;border-radius:0;font-weight:700;color:var(--maroon)}
@@ -280,7 +282,7 @@ main .kick+p{font-weight:700;color:var(--ink)}
       <div id="scene" hidden></div>
     </div>
     <div class="era" role="group" aria-label="切換年代"><button type="button" data-era="past" aria-pressed="true">150 年前</button><button type="button" data-era="now" aria-pressed="false">今天</button></div>
-    <button id="peek" type="button" hidden>看地圖</button>
+    <button id="peek" type="button" hidden>這關在哪</button>
   </div>
   <main id="card" aria-live="polite"></main>
   <nav class="foot"><button type="button" id="pv">‹ 上一關</button><span id="pos"></span><button type="button" id="nx">下一關 ›</button></nav>
@@ -358,7 +360,7 @@ var LV=[
   {cam:[110,140,540,405],kick:'第 2 關・穿過台江',h:'划進五條港',
    html:'<p>小竹筏要穿過淺淺的<b>台江</b>，划進<b>府城</b>。</p>',
    task:'一直按<b>划</b>，把竹筏划到<b>府城</b>。',game:'row',stamp:['port','進五條港'],
-   win:'<b>泥沙</b>把<b>台江</b>填滿，變成了陸地。今天那裡蓋滿了房子和馬路！按<b>看地圖</b>，再按右上角的<b>今天</b>看看。<br><b>府城</b>那五條像小河的水道叫<b>五條港</b>，我們走的是<b>南勢港</b>。',
+   win:'<b>泥沙</b>把<b>台江</b>填滿，變成了陸地。今天那裡蓋滿了房子和馬路！按<b>這關在哪</b>，再按右上角的<b>今天</b>看看。<br><b>府城</b>那五條像小河的水道叫<b>五條港</b>，我們走的是<b>南勢港</b>。',
    why:['為什麼台江會變淺？','河水從山上流下來，會帶著很多<b>泥沙</b>。河水流進<b>台江</b>以後變慢，泥沙就沉到水底，一年一年越堆越高。<b>1823 年</b>一場大風雨，讓曾文溪改走新的路，直接流進台江，帶來好多好多泥沙，台江很快就變成陸地了。']},
   {cam:[465,195,320,240],kick:'第 3 關・港口',h:'藥王廟',pin:0,
    html:'<p>竹筏靠岸了！這座廟就在港口旁邊，叫做<b>藥王廟</b>。</p>',
@@ -429,7 +431,7 @@ function fitStage(){
   var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
   if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
   else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
-  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';
+  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';stage.style.setProperty('--d',D+'px');
   if(!svg)return;
   // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
   var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
@@ -442,8 +444,8 @@ function fitStage(){
 // 有些小遊戲會整個換掉遊戲圖（例如擲筊），換完也要重新放進圓裡
 new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
 addEventListener('resize',fitStage);
-function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.textContent='回到遊戲';peek.hidden=!sceneEl.firstChild;fitStage()}
-function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.textContent='看地圖';peek.hidden=false;fitStage()}
+function showMap(){sceneEl.hidden=true;eraBox.hidden=false;peek.className='back';peek.textContent='回到遊戲';peek.hidden=!sceneEl.firstChild;fitStage()}
+function showGame(){if(!sceneEl.firstChild)return;sceneEl.hidden=false;eraBox.hidden=true;peek.className='';peek.textContent='這關在哪';peek.hidden=false;fitStage()}
 function setScene(html,delay){
   clearTimeout(sceneTimer);sceneEl.innerHTML=html;var svg=sceneEl.querySelector('svg');
   if(svg){svg.setAttribute('preserveAspectRatio','xMidYMax meet');sceneEl.style.background=svg.style.background||'#DFF3F8'}

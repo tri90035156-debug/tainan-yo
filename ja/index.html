@@ -88,7 +88,7 @@ b{font-weight:700;color:var(--ink)}
 .hero{position:relative;background:var(--bg)}
 .hero-title{padding:24px 18px 18px;display:flex;flex-direction:column;gap:6px;max-width:520px;margin:0 auto}
 .bigmap{position:relative;background:#A9D8E6}
-.mapscroll{position:relative;height:min(76vh,620px);overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+.mapscroll{position:relative;height:min(64vh,560px);overflow:hidden;touch-action:pan-x pan-y;-webkit-user-select:none;user-select:none}
 #bigmap{display:block;width:100%;height:100%;cursor:grab}
 @media (min-width:700px){.mapscroll{height:min(82vh,900px)}}
 #bigmap.drag{cursor:grabbing}
@@ -102,13 +102,13 @@ b{font-weight:700;color:var(--ink)}
 .zoom button:active{filter:brightness(.92)}
 .zoom button:disabled{color:#C9BDB0}
 .swipe{margin:0;padding:6px 12px;border-radius:999px;background:#FFFDF8;color:var(--maroon);font-size:14px;font-weight:700;box-shadow:0 2px 8px rgba(42,32,32,.15);pointer-events:none}
-.mapnote2{position:static!important;padding:10px 16px 14px;background:var(--bg)}
+.mapnote2{position:static!important;padding:6px 16px 10px;background:var(--bg)}
 .pt{cursor:pointer;outline:none}
 .pt:focus-visible .ring{stroke:var(--maroon);stroke-width:7}
 .pt:hover .ring{stroke:var(--maroon)}
 .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-out infinite}
 @keyframes pulse{from{transform:scale(1);opacity:.7}to{transform:scale(1.6);opacity:0}}
-.mapnote2{position:absolute;left:12px;right:12px;bottom:10px;margin:0;font-size:12px;line-height:1.5;color:#5A4E48;text-align:center;text-shadow:0 0 4px #F6E9D4,0 0 4px #F6E9D4}
+.mapnote2{position:absolute;left:12px;right:12px;bottom:10px;margin:0;font-size:10.5px;line-height:1.45;color:#8A7A70;text-align:center;text-shadow:0 0 4px #F6E9D4,0 0 4px #F6E9D4}
 @media (prefers-reduced-motion:reduce){.pulse{animation:none;opacity:0}}
 /* 電腦、平板橫拿：標題浮在左邊的海上 */
 @media (min-width:900px) and (min-aspect-ratio:5/4){
@@ -190,7 +190,9 @@ b{font-weight:700;color:var(--ink)}
 /* 每排右上角的左右箭頭（取代難看的捲動條） */
 .cntrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .arrows{display:flex;gap:8px;flex:none}
-.arrows button{width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);background:#FFFDF8;color:var(--maroon);font:700 22px/1 var(--f);display:grid;place-items:center;cursor:pointer;padding:0}
+.arrows button{position:relative;width:40px;height:40px;border-radius:50%;border:0;background:none;font-size:0;cursor:pointer;padding:0}
+.arrows button::before{content:'';position:absolute;left:50%;top:50%;width:11px;height:11px;border-left:2.5px solid var(--maroon);border-bottom:2.5px solid var(--maroon);transform:translate(-30%,-50%) rotate(45deg)}
+.arrows button+button::before{transform:translate(-70%,-50%) rotate(-135deg)}
 .arrows button:disabled{opacity:.35;cursor:default}
 .arrows button:not(:disabled):active{background:var(--goldsoft)}
 .app.one .arrows{display:none}
@@ -207,7 +209,7 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
   </div>
   <div class="bigmap">
     <div class="maptools">
-      <p class="swipe"><span class="t-phone">2本の指で拡大、ドラッグで移動</span><span class="t-pc">＋で拡大、ドラッグで移動</span></p>
+      <p class="swipe"><span class="t-phone">2本の指で動かす・拡大</span><span class="t-pc">＋で拡大、ドラッグで移動</span></p>
       <div class="zoom" role="group" aria-label="地図の拡大・縮小"><button type="button" data-z="in" aria-label="拡大">＋</button><button type="button" data-z="out" aria-label="縮小">－</button><button type="button" class="all" data-z="all">全体</button></div>
     </div>
     <div class="mapscroll">
@@ -666,12 +668,12 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
     if(b.dataset.z==='all'){var d=dims(),v=wideQ.matches?base():{cx:540,cy:520,s:baseV.min};animTo(v.cx,v.cy,v.s)}
     else animTo(cx,cy,Math.max(minS,Math.min(maxS,sc*(b.dataset.z==='in'?1.6:1/1.6))));
   });
-  // 手指：一根拖著移動，兩根張開、捏合放大縮小；滑鼠：拖著移動，按兩下放大，⌘／Ctrl＋滾輪或觸控板兩指捏合縮放
+  // 滑鼠：拖著移動，按兩下放大，⌘／Ctrl＋滾輪或觸控板兩指捏合縮放。手指：見下面的 touch（一根手指捲網頁，兩根手指移動、放大）
   var ptrs={},moved=0,pinch=null,capId=null;
   function rel(e){var r=box.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}}
   function two(){var k=Object.keys(ptrs);return k.length===2?[ptrs[k[0]],ptrs[k[1]]]:null}
   function startPinch(){var t=two();if(!t)return pinch=null;var d=dims(),mid={x:(t[0].x+t[1].x)/2,y:(t[0].y+t[1].y)/2};pinch={d0:Math.hypot(t[0].x-t[1].x,t[0].y-t[1].y)||1,s0:sc,mx:cx+(mid.x-d.W/2)/sc,my:cy+(mid.y-d.H/2)/sc}}
-  svgM.addEventListener('pointerdown',function(e){if(e.button>0)return;cancelAnimationFrame(zRaf);ptrs[e.pointerId]=rel(e);if(Object.keys(ptrs).length===1)moved=0;startPinch()});
+  svgM.addEventListener('pointerdown',function(e){if(e.button>0||e.pointerType==='touch')return;cancelAnimationFrame(zRaf);ptrs[e.pointerId]=rel(e);if(Object.keys(ptrs).length===1)moved=0;startPinch()});
   svgM.addEventListener('pointermove',function(e){
     var o=ptrs[e.pointerId];if(!o)return;var p=rel(e);
     if(pinch){ptrs[e.pointerId]=p;var t=two(),d=dims(),mid={x:(t[0].x+t[1].x)/2,y:(t[0].y+t[1].y)/2};sc=Math.max(minS,Math.min(maxS,pinch.s0*Math.hypot(t[0].x-t[1].x,t[0].y-t[1].y)/pinch.d0));cx=pinch.mx-(mid.x-d.W/2)/sc;cy=pinch.my-(mid.y-d.H/2)/sc;apply();moved=99;return}
@@ -680,6 +682,13 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
   });
   function up(e){if(!ptrs[e.pointerId])return;delete ptrs[e.pointerId];if(capId===e.pointerId)capId=null;svgM.classList.remove('drag');startPinch()}
   svgM.addEventListener('pointerup',up);svgM.addEventListener('pointercancel',up);
+  // 手機：一根手指照常捲動網頁（地圖很大，才滑得下去）；兩根手指才移動、放大縮小地圖（使用者 2026-10-20 要求）
+  var tp=null;
+  function tmid(t){var r=box.getBoundingClientRect();return {x:(t[0].clientX+t[1].clientX)/2-r.left,y:(t[0].clientY+t[1].clientY)/2-r.top,d:Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY)||1}}
+  function tstart(e){if(e.touches.length<2){if(e.type==='touchstart')moved=0;tp=null;return}e.preventDefault();cancelAnimationFrame(zRaf);var m=tmid(e.touches),d=dims();tp={d0:m.d,s0:sc,mx:cx+(m.x-d.W/2)/sc,my:cy+(m.y-d.H/2)/sc};moved=99}
+  svgM.addEventListener('touchstart',tstart,{passive:false});
+  svgM.addEventListener('touchmove',function(e){if(e.touches.length<2||!tp)return;e.preventDefault();var m=tmid(e.touches),d=dims();sc=Math.max(minS,Math.min(maxS,tp.s0*m.d/tp.d0));cx=tp.mx-(m.x-d.W/2)/sc;cy=tp.my-(m.y-d.H/2)/sc;apply()},{passive:false});
+  svgM.addEventListener('touchend',tstart);svgM.addEventListener('touchcancel',tstart);
   // 拖過地圖就不算點一下（不會打開遊戲卡）
   svgM.addEventListener('click',function(e){if(moved>8){e.stopPropagation();e.preventDefault();moved=0}},true);
   svgM.addEventListener('dblclick',function(e){var p=rel(e);var d=dims(),f=1.8,ns=Math.min(maxS,sc*f),mx=cx+(p.x-d.W/2)/sc,my=cy+(p.y-d.H/2)/sc;animTo(mx-(p.x-d.W/2)/ns,my-(p.y-d.H/2)/ns,ns)});
