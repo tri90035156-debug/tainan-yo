@@ -40,7 +40,7 @@ function fitStage(){
   var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
   if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
   else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
-  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';
+  D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';stage.style.setProperty('--d',D+'px');
   if(!svg)return;
   // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
   var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
