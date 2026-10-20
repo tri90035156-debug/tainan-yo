@@ -140,8 +140,17 @@ b{font-weight:700;color:var(--ink)}
 .sh-more{display:inline-block;margin-top:16px;color:var(--maroon);font-weight:700}
 
 /* ===== 首頁改版（使用者 2026-10-17）：上面一排篩選按鈕、每個主題一排可以左右滑、說明收起來點卡片才打開 ===== */
-.filters{position:sticky;top:0;z-index:6;display:flex;gap:8px;overflow-x:auto;margin:0 -18px;padding:10px 18px;background:var(--bg);scrollbar-width:none;box-shadow:0 6px 10px -10px rgba(42,32,32,.25)}
-.filters::-webkit-scrollbar{display:none}
+.filters{position:sticky;top:0;z-index:6;margin:0 -18px;padding:10px 0;background:var(--bg);box-shadow:0 6px 10px -10px rgba(42,32,32,.25)}
+.filters .row{position:relative;display:flex;gap:8px;overflow-x:auto;padding:0 18px;scrollbar-width:none}
+.filters .row::-webkit-scrollbar{display:none}
+.filters .sub{margin-top:8px}
+.filters .sub[hidden]{display:none}
+.filters .sub button{min-height:38px;padding:0 14px;border-width:1.5px;border-color:#E2D3BA;font-size:14px;color:var(--ink2,#5A4E48)}
+.filters .sub button[aria-pressed="true"]{background:#F3E8D6;border-color:var(--maroon);color:var(--maroon)}
+.ghead{margin-top:30px;padding-top:18px;border-top:3px solid var(--maroon)}
+.ghead h2{margin:0;font:900 26px/1.25 'Noto Serif',serif;color:var(--maroon)}
+.ghead p{margin:4px 0 0;font-size:14px;font-weight:700;color:var(--muted)}
+.ghead+.theme{border-top:0;margin-top:0;padding-top:12px}
 .filters button{flex:none;min-height:42px;padding:0 16px;border-radius:999px;border:2px solid var(--gold);background:#FFFDF8;color:var(--maroon);font:700 15px var(--f);cursor:pointer}
 .filters button[aria-pressed="true"]{background:var(--maroon);border-color:var(--maroon);color:#fff}
 .app .theme{margin-top:6px;padding-top:22px}
@@ -171,7 +180,7 @@ b{font-weight:700;color:var(--ink)}
 .app.one .games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;overflow:visible;scroll-snap-type:none;margin:0;padding:6px 0 10px}
 .app.one .games .game{width:auto}
 @media (min-width:700px){
-  .filters{margin:0 -36px;padding:12px 36px}
+  .filters{margin:0 -36px;padding:12px 0}.filters .row{padding:0 36px}
   .app .games{margin:-6px -36px 0;padding:8px 36px 18px;scroll-padding-inline:36px}
   .app.one .games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin:0;padding:6px 0 10px}
   .app .games .game{width:220px}
@@ -317,38 +326,60 @@ b{font-weight:700;color:var(--ink)}
     </article>
   </section>
 
-  <section class="theme" id="houniao" aria-label="Birds">
+  <section class="theme" id="guji" aria-label="History">
     <div class="head">
-      <p class="by">Theme · Birds</p>
-      <h2>Winter and summer,<br>birds fly to Tainan</h2>
-      <p class="lead">Every fall, many birds fly down from the north to spend the winter in Tainan. <b>Black-faced spoonbills</b> go to the <b>Zengwen River mouth</b> in <b>Qigu</b>, and <b>whiskered terns</b> go to the <b>Beimen Lagoon</b>. More than half of all the black-faced spoonbills in the world spend the winter in Taiwan. In summer, <b>little terns</b> fly up from <b>Australia</b> to lay their eggs in the salt fields of <b>Dingshan, Qigu</b>.</p>
+      <p class="by">Theme · History</p>
+      <h2>Step into history,<br>back to long ago</h2>
+      <p class="lead">Tainan is the oldest city in Taiwan, and it has <b>historic sites</b> everywhere. About 400 years ago, the <b>Dutch</b> built <b>Fort Zeelandia</b> on a sandbar in Anping. Today it is called <b>Anping Old Fort</b>. That was around the time the Pilgrims sailed to America on the Mayflower. You can visit historic sites any time of year.</p>
     </div>
   </section>
 
-  <section class="games" aria-label="Bird games">
-    <article class="game" id="heipi" data-months="10,11,12,1,2,3">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="68" cy="20" r="8" fill="#F3D38A"/><rect y="64" width="88" height="24" fill="#DCC9A3"/><path d="M48 54L46 70M56 54L58 70" stroke="#2A2020" stroke-width="2.6" stroke-linecap="round"/><path d="M40 46Q32 38 34 28" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/><ellipse cx="52" cy="48" rx="17" ry="10" fill="#FFFFFF"/><circle cx="34" cy="26" r="7" fill="#FFFFFF"/><path d="M34 19A7 7 0 0 0 34 33Q30 31 28 26Q30 21 34 19Z" fill="#2A2020"/><path d="M29 24L14 28Q8 30 9 34Q11 37 16 34L29 29Z" fill="#2A2020"/></svg></div>
-      <p class="kick">Birds · Black-faced spoonbill<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
-      <h3>Spoonbill Winter Mission</h3>
-      <a class="play" href="../heipi.html" data-zh="1">Play</a>
-      <p class="about">Be a young guide at the <b>bird-watching hut</b> and keep the <b>spoonbills</b> company from fall to spring. Wait quietly for them to land, find a <b>leg band</b> with a telescope, turn the <b>water gate</b> to let water out, and wave goodbye as they <b>fly back north</b>.</p>
-<p class="meta"><span class="chip" data-progress="tainan-heipi" data-levels="6" hidden></span></p>
+  <section class="games" aria-label="History games">
+    <article class="game" id="anping" data-months="">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EAF2F4"/><rect y="66" width="88" height="22" fill="#D8CDB4"/><path d="M8 50H80V68H8Z" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><path d="M8 50V45H14V50M20 50V45H26V50M32 50V45H38V50M50 50V45H56V50M62 50V45H68V50M74 50V45H80V50" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="36" y="22" width="16" height="30" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="41" y="30" width="6" height="8" fill="#8AA6B8"/><path d="M33 22L44 6L55 22Z" fill="#C8483A" stroke="#8A2A20" stroke-width="1"/><rect x="58" y="58" width="26" height="10" fill="#B8573E"/><path d="M58 63H84M64 58V63M72 58V63M80 58V63M68 63V68M76 63V68" stroke="#E8C8A8" stroke-width=".7"/><path d="M62 58Q60 64 63 68M74 58Q72 64 75 68" stroke="#6E5A3A" stroke-width="1.6" fill="none"/></svg></div>
+      <p class="kick">History · Anping Old Fort<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
+      <h3>Old Fort Mission</h3>
+      <a class="play" href="../anping.html" data-zh="1">Play</a>
+      <p class="about">Join a volunteer at the old fort and go back 400 years. Mark out Fort Zeelandia on the <b>sandbar</b>, catch the ingredients to mix <b>mortar</b>, push crates in the storehouse, watch soldiers carry bricks away to build the <b>Eternal Golden Castle</b>, let a banyan’s roots grow into the <b>south wall</b>, and help the <b>sword lions</b> (lion faces holding swords in their mouths, to keep bad luck away) find their doors.</p>
+<p class="meta"><span class="chip" data-progress="tainan-anping" data-levels="6" hidden></span></p>
     </article>
-    <article class="game" id="tern" data-months="10,11,12,1,2">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F1C3A8"/><circle cx="66" cy="54" r="9" fill="#F47B4A"/><rect y="56" width="88" height="32" fill="#9DB3C9"/><path d="M8 60H40M50 60H82" stroke="#6E5236" stroke-width="2.2"/><path d="M12 60V70M24 60V70M36 60V70M54 60V70M66 60V70M78 60V70" stroke="#6E5236" stroke-width="1.6"/><g fill="none" stroke="#3B2A35" stroke-width="1.8" stroke-linecap="round"><path d="M22 18Q25 15 28 18Q31 15 34 18"/><path d="M44 12Q47 9 50 12Q53 9 56 12"/><path d="M58 24Q61 21 64 24Q67 21 70 24"/><path d="M34 30Q37 27 40 30Q43 27 46 30"/><path d="M48 38Q50 36 52 38Q54 36 56 38"/><path d="M38 44Q40 42 42 44Q44 42 46 44"/><path d="M16 32Q19 29 22 32Q25 29 28 32"/></g></svg></div>
-      <p class="kick">Birds · Whiskered tern<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
-      <h3>Bird Tornado Mission</h3>
-      <a class="play" href="../tern.html" data-zh="1">Play</a>
-      <p class="about">Go out with Grandpa on the <b>Beimen Lagoon</b> to keep a record of the “black-belly birds.” Spot the <b>whiskered terns</b>, watch them dip down for fish, spin a <b>bird tornado</b> with your finger, and steer the boat quietly home.</p>
-<p class="meta"><span class="chip" data-progress="tainan-tern" data-levels="6" hidden></span></p>
+  </section>
+
+  <section class="theme" id="miaoyu" aria-label="Temples">
+    <div class="head">
+      <p class="by">Theme · Temples</p>
+      <h2>A birthday party<br>for a child god</h2>
+      <p class="lead">The 9th day of the 9th month on the lunar calendar is the Double Ninth Festival. It is also the birthday of <b>Prince Nezha</b>, a god who looks like a boy. <b>Xinying Taizi Temple</b> is a very old and famous Nezha temple. Many Nezha temples around Taiwan began here, so on his birthday they all come back to visit, like going <b>home to Mom’s house</b>. At a temple, please speak softly and don’t disturb people who are praying.</p>
+    </div>
+  </section>
+
+  <section class="games" aria-label="Temple games">
+    <article class="game" id="taizigong" data-months="10">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F6EEDF"/><rect y="74" width="88" height="14" fill="#E4D2B0"/><g transform="translate(46 84) scale(0.47)"><path d="M-18 -76Q-58 -74 -52 -46Q-46 -20 -72 -8" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M18 -76Q50 -98 68 -86" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M31 -150V-4" stroke="#8A6A3A" stroke-width="3.4" stroke-linecap="round"/><path d="M31 -166L25 -148H37Z" fill="#C9CED6" stroke="#8A6A3A" stroke-width="1"/><path d="M27 -146Q22 -138 27 -132M35 -146Q40 -138 35 -132" stroke="#E0453A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-22 -2Q-31 2 -29 8Q-23 4 -18 3ZM-4 -2Q5 2 3 8Q-3 4 -8 3Z" fill="#F5A623"/><circle cx="-13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="-13" cy="-8" r="2.6" fill="#C9402F"/><path d="M4 -2Q-5 2 -3 8Q3 4 8 3ZM22 -2Q31 2 29 8Q23 4 18 3Z" fill="#F5A623"/><circle cx="13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="13" cy="-8" r="2.6" fill="#C9402F"/><rect x="-11" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><rect x="2" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><ellipse cx="-7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><ellipse cx="7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><path d="M-17 -78H17L21 -34H-21Z" fill="#E8B84A" stroke="#A97A1E" stroke-width="1.4"/><rect x="-21" y="-48" width="42" height="6" rx="2" fill="#A97A1E"/><circle cx="0" cy="-62" r="6" fill="none" stroke="#A97A1E" stroke-width="1.6"/><path d="M-15 -72L-34 -66" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="-35" cy="-66" r="4.5" fill="#F6D3B2"/><circle cx="-46" cy="-68" r="11" fill="none" stroke="#F2C14C" stroke-width="4.5"/><path d="M15 -72L29 -60" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="31" cy="-59" r="4.5" fill="#F6D3B2"/><path d="M-17 -75Q0 -62 17 -75" stroke="#E0453A" stroke-width="5" fill="none"/><circle cx="-13" cy="-117" r="7" fill="#2A2020"/><circle cx="13" cy="-117" r="7" fill="#2A2020"/><circle cx="0" cy="-97" r="19" fill="#F6D3B2"/><path d="M-19 -99A19 19 0 0 1 19 -99Q9 -109 0 -104Q-9 -109 -19 -99Z" fill="#2A2020"/><circle cx="-7" cy="-95" r="2.2" fill="#2A2020"/><circle cx="7" cy="-95" r="2.2" fill="#2A2020"/><path d="M-4 -88Q0 -84.5 4 -88" stroke="#2A2020" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="-12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/><circle cx="12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/></g></svg></div>
+      <p class="kick">Temples · Xinying Taizi Temple<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
+      <h3>Nezha’s Birthday Mission</h3>
+      <a class="play" href="../taizigong.html" data-zh="1">Play</a>
+      <p class="about">Join Grandma, who lives next to <b>Taizi Temple</b>, to wish Prince Nezha a happy birthday. Photograph the four <b>magic weapons</b> held by the statue on the roof, circle and pull the weeds in the <b>carp pond</b>, walk softly in the main hall, flip cards to learn about the <b>old temple</b>, count the bats on the <b>big incense burner</b>, and follow the <b>god’s sedan chair</b> back home.</p>
+<p class="meta"><span class="chip" data-progress="tainan-taizigong" data-levels="6" hidden></span></p>
     </article>
-    <article class="game" id="littletern" data-months="4,5,6,7,8">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="18" cy="20" r="8" fill="#F3D38A"/><rect y="54" width="88" height="34" fill="#E6D6B0"/><ellipse cx="34" cy="68" rx="18" ry="7" fill="#CFBB90"/><ellipse cx="28" cy="66" rx="5" ry="6.5" fill="#D9C79F"/><ellipse cx="39" cy="67" rx="5" ry="6.5" fill="#D9C79F"/><g fill="#7A6A55"><circle cx="27" cy="63" r="1"/><circle cx="30" cy="68" r="1"/><circle cx="38" cy="64" r="1"/><circle cx="41" cy="69" r="1"/></g><path d="M62 56V64M68 56V64" stroke="#EBA43C" stroke-width="2.4" stroke-linecap="round"/><path d="M76 46L86 42L83 47L86 51Z" fill="#FFFFFF"/><ellipse cx="66" cy="50" rx="13" ry="7" fill="#FFFFFF"/><path d="M57 46Q68 41 84 47Q70 52 58 51Z" fill="#C9D0D6"/><circle cx="55" cy="38" r="6.5" fill="#FFFFFF"/><path d="M49 37.5L53 36L54 32Q58 31 61 35Q61 40 57 39Q54 38.5 49 39Z" fill="#2A2020"/><path d="M49 37L38 39L49 40.5Z" fill="#F2C230"/></svg></div>
-      <p class="kick">Birds · Little tern<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
-      <h3>Sandy Nest Mission</h3>
-      <a class="play" href="../littletern.html" data-zh="1">Play</a>
-      <p class="about">Be a young ranger at the <b>Qigu salt fields</b> in summer. Launch <b>little terns</b> with a slingshot so they island-hop from Australia, give the eggs <b>camouflage</b>, stack <b>hollow bricks</b> as rain shelters, and spin the 360° camera on the <b>floating ark</b>.</p>
-<p class="meta"><span class="chip" data-progress="tainan-littletern" data-levels="6" hidden></span></p>
+  </section>
+
+  <section class="theme" id="jieqing" aria-label="Festivals">
+    <div class="head">
+      <p class="by">Theme · Festivals</p>
+      <h2>Follow the lunar calendar<br>to Tainan’s festivals</h2>
+      <p class="lead">Tainan has busy festivals all year long. On the night of the Lantern Festival, <b>Yanshui</b> holds the <b>beehive fireworks</b>: huge racks of bottle rockets that all shoot off at once. The story goes that it began as a way to chase away a deadly sickness: people set off fireworks along the path of the sedan chair of the god <b>Guan Gong</b> and prayed to be safe. Beehive fireworks are very dangerous, so <b>children must not go near them</b>. In this game you will learn how to stay safe.</p>
+    </div>
+  </section>
+
+  <section class="games" aria-label="Festival games">
+    <article class="game" id="fengpao" data-months="1,2,3">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#2E3450"/><rect y="70" width="88" height="18" fill="#5A4E48"/><path d="M18 70V30H58V70" fill="none" stroke="#8A6A3A" stroke-width="3"/><path d="M14 27H62" stroke="#8A6A3A" stroke-width="4" stroke-linecap="round"/><rect x="21" y="32" width="34" height="34" fill="#5A3E2B"/><g fill="#E8D8B0" stroke="#5A3E2B" stroke-width=".6"><path d="M27 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M31.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M40.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M27 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/></g><g fill="#DB2E27"><circle cx="27" cy="38.6" r="1.6"/><circle cx="36" cy="38.6" r="1.6"/><circle cx="45" cy="38.6" r="1.6"/><circle cx="31.5" cy="46.6" r="1.6"/><circle cx="40.5" cy="46.6" r="1.6"/><circle cx="27" cy="54.6" r="1.6"/><circle cx="36" cy="54.6" r="1.6"/><circle cx="45" cy="54.6" r="1.6"/></g><g stroke="#FFD86A" stroke-width="1.6" stroke-linecap="round"><path d="M62 30l8 -8M66 40l10 -6M60 20l4 -10"/></g><g transform="translate(74 16)"><path d="M0 -6V-3" stroke="#5A3E2B"/><ellipse rx="5" ry="6" fill="#F04A3A"/></g></svg></div>
+      <p class="kick">Festivals · Yanshui beehive fireworks<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
+      <h3>Fireworks Safety Mission</h3>
+      <a class="play" href="../fengpao.html" data-zh="1">Play</a>
+      <p class="about">Join Great-uncle, who lives in <b>Yanshui</b>. Hear the old story at <b>Yanshui Wu Temple</b> (Guan Gong’s temple), help Great-uncle put on his <b>safety gear</b>, measure a safe distance with a tape measure, draw a <b>beehive</b> design on paper, find the rocket racks with a <b>safety check mark</b>, and sweep up afterward. Beehive fireworks are very dangerous. Children must not go near them.</p>
+<p class="meta"><span class="chip" data-progress="tainan-fengpao" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -438,25 +469,6 @@ b{font-weight:700;color:var(--ink)}
     </article>
   </section>
 
-  <section class="theme" id="miaoyu" aria-label="Temples">
-    <div class="head">
-      <p class="by">Theme · Temples</p>
-      <h2>A birthday party<br>for a child god</h2>
-      <p class="lead">The 9th day of the 9th month on the lunar calendar is the Double Ninth Festival. It is also the birthday of <b>Prince Nezha</b>, a god who looks like a boy. <b>Xinying Taizi Temple</b> is a very old and famous Nezha temple. Many Nezha temples around Taiwan began here, so on his birthday they all come back to visit, like going <b>home to Mom’s house</b>. At a temple, please speak softly and don’t disturb people who are praying.</p>
-    </div>
-  </section>
-
-  <section class="games" aria-label="Temple games">
-    <article class="game" id="taizigong" data-months="10">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F6EEDF"/><rect y="74" width="88" height="14" fill="#E4D2B0"/><g transform="translate(46 84) scale(0.47)"><path d="M-18 -76Q-58 -74 -52 -46Q-46 -20 -72 -8" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M18 -76Q50 -98 68 -86" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M31 -150V-4" stroke="#8A6A3A" stroke-width="3.4" stroke-linecap="round"/><path d="M31 -166L25 -148H37Z" fill="#C9CED6" stroke="#8A6A3A" stroke-width="1"/><path d="M27 -146Q22 -138 27 -132M35 -146Q40 -138 35 -132" stroke="#E0453A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-22 -2Q-31 2 -29 8Q-23 4 -18 3ZM-4 -2Q5 2 3 8Q-3 4 -8 3Z" fill="#F5A623"/><circle cx="-13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="-13" cy="-8" r="2.6" fill="#C9402F"/><path d="M4 -2Q-5 2 -3 8Q3 4 8 3ZM22 -2Q31 2 29 8Q23 4 18 3Z" fill="#F5A623"/><circle cx="13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="13" cy="-8" r="2.6" fill="#C9402F"/><rect x="-11" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><rect x="2" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><ellipse cx="-7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><ellipse cx="7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><path d="M-17 -78H17L21 -34H-21Z" fill="#E8B84A" stroke="#A97A1E" stroke-width="1.4"/><rect x="-21" y="-48" width="42" height="6" rx="2" fill="#A97A1E"/><circle cx="0" cy="-62" r="6" fill="none" stroke="#A97A1E" stroke-width="1.6"/><path d="M-15 -72L-34 -66" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="-35" cy="-66" r="4.5" fill="#F6D3B2"/><circle cx="-46" cy="-68" r="11" fill="none" stroke="#F2C14C" stroke-width="4.5"/><path d="M15 -72L29 -60" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="31" cy="-59" r="4.5" fill="#F6D3B2"/><path d="M-17 -75Q0 -62 17 -75" stroke="#E0453A" stroke-width="5" fill="none"/><circle cx="-13" cy="-117" r="7" fill="#2A2020"/><circle cx="13" cy="-117" r="7" fill="#2A2020"/><circle cx="0" cy="-97" r="19" fill="#F6D3B2"/><path d="M-19 -99A19 19 0 0 1 19 -99Q9 -109 0 -104Q-9 -109 -19 -99Z" fill="#2A2020"/><circle cx="-7" cy="-95" r="2.2" fill="#2A2020"/><circle cx="7" cy="-95" r="2.2" fill="#2A2020"/><path d="M-4 -88Q0 -84.5 4 -88" stroke="#2A2020" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="-12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/><circle cx="12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/></g></svg></div>
-      <p class="kick">Temples · Xinying Taizi Temple<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
-      <h3>Nezha’s Birthday Mission</h3>
-      <a class="play" href="../taizigong.html" data-zh="1">Play</a>
-      <p class="about">Join Grandma, who lives next to <b>Taizi Temple</b>, to wish Prince Nezha a happy birthday. Photograph the four <b>magic weapons</b> held by the statue on the roof, circle and pull the weeds in the <b>carp pond</b>, walk softly in the main hall, flip cards to learn about the <b>old temple</b>, count the bats on the <b>big incense burner</b>, and follow the <b>god’s sedan chair</b> back home.</p>
-<p class="meta"><span class="chip" data-progress="tainan-taizigong" data-levels="6" hidden></span></p>
-    </article>
-  </section>
-
   <section class="theme" id="yangzhi" aria-label="Fish farms">
     <div class="head">
       <p class="by">Theme · Fish farms</p>
@@ -473,6 +485,41 @@ b{font-weight:700;color:var(--ink)}
       <a class="play" href="../milkfish.html" data-zh="1">Play</a>
       <p class="about">Join an uncle who raises milkfish in <b>Xuejia</b>. Scoop up <b>baby fish</b> from below, draw circles so the fish can eat the <b>algae</b>, pull the net from both sides to bring in the fish, herd small fish into a <b>winter ditch</b> when a cold snap comes, scrape off scales at the fish stall, and pick the <b>bones</b> out of your milkfish at breakfast.</p>
 <p class="meta"><span class="chip" data-progress="tainan-milkfish" data-levels="6" hidden></span></p>
+    </article>
+  </section>
+
+  <section class="theme" id="houniao" aria-label="Birds">
+    <div class="head">
+      <p class="by">Theme · Birds</p>
+      <h2>Winter and summer,<br>birds fly to Tainan</h2>
+      <p class="lead">Every fall, many birds fly down from the north to spend the winter in Tainan. <b>Black-faced spoonbills</b> go to the <b>Zengwen River mouth</b> in <b>Qigu</b>, and <b>whiskered terns</b> go to the <b>Beimen Lagoon</b>. More than half of all the black-faced spoonbills in the world spend the winter in Taiwan. In summer, <b>little terns</b> fly up from <b>Australia</b> to lay their eggs in the salt fields of <b>Dingshan, Qigu</b>.</p>
+    </div>
+  </section>
+
+  <section class="games" aria-label="Bird games">
+    <article class="game" id="heipi" data-months="10,11,12,1,2,3">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="68" cy="20" r="8" fill="#F3D38A"/><rect y="64" width="88" height="24" fill="#DCC9A3"/><path d="M48 54L46 70M56 54L58 70" stroke="#2A2020" stroke-width="2.6" stroke-linecap="round"/><path d="M40 46Q32 38 34 28" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/><ellipse cx="52" cy="48" rx="17" ry="10" fill="#FFFFFF"/><circle cx="34" cy="26" r="7" fill="#FFFFFF"/><path d="M34 19A7 7 0 0 0 34 33Q30 31 28 26Q30 21 34 19Z" fill="#2A2020"/><path d="M29 24L14 28Q8 30 9 34Q11 37 16 34L29 29Z" fill="#2A2020"/></svg></div>
+      <p class="kick">Birds · Black-faced spoonbill<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
+      <h3>Spoonbill Winter Mission</h3>
+      <a class="play" href="../heipi.html" data-zh="1">Play</a>
+      <p class="about">Be a young guide at the <b>bird-watching hut</b> and keep the <b>spoonbills</b> company from fall to spring. Wait quietly for them to land, find a <b>leg band</b> with a telescope, turn the <b>water gate</b> to let water out, and wave goodbye as they <b>fly back north</b>.</p>
+<p class="meta"><span class="chip" data-progress="tainan-heipi" data-levels="6" hidden></span></p>
+    </article>
+    <article class="game" id="tern" data-months="10,11,12,1,2">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F1C3A8"/><circle cx="66" cy="54" r="9" fill="#F47B4A"/><rect y="56" width="88" height="32" fill="#9DB3C9"/><path d="M8 60H40M50 60H82" stroke="#6E5236" stroke-width="2.2"/><path d="M12 60V70M24 60V70M36 60V70M54 60V70M66 60V70M78 60V70" stroke="#6E5236" stroke-width="1.6"/><g fill="none" stroke="#3B2A35" stroke-width="1.8" stroke-linecap="round"><path d="M22 18Q25 15 28 18Q31 15 34 18"/><path d="M44 12Q47 9 50 12Q53 9 56 12"/><path d="M58 24Q61 21 64 24Q67 21 70 24"/><path d="M34 30Q37 27 40 30Q43 27 46 30"/><path d="M48 38Q50 36 52 38Q54 36 56 38"/><path d="M38 44Q40 42 42 44Q44 42 46 44"/><path d="M16 32Q19 29 22 32Q25 29 28 32"/></g></svg></div>
+      <p class="kick">Birds · Whiskered tern<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
+      <h3>Bird Tornado Mission</h3>
+      <a class="play" href="../tern.html" data-zh="1">Play</a>
+      <p class="about">Go out with Grandpa on the <b>Beimen Lagoon</b> to keep a record of the “black-belly birds.” Spot the <b>whiskered terns</b>, watch them dip down for fish, spin a <b>bird tornado</b> with your finger, and steer the boat quietly home.</p>
+<p class="meta"><span class="chip" data-progress="tainan-tern" data-levels="6" hidden></span></p>
+    </article>
+    <article class="game" id="littletern" data-months="4,5,6,7,8">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="18" cy="20" r="8" fill="#F3D38A"/><rect y="54" width="88" height="34" fill="#E6D6B0"/><ellipse cx="34" cy="68" rx="18" ry="7" fill="#CFBB90"/><ellipse cx="28" cy="66" rx="5" ry="6.5" fill="#D9C79F"/><ellipse cx="39" cy="67" rx="5" ry="6.5" fill="#D9C79F"/><g fill="#7A6A55"><circle cx="27" cy="63" r="1"/><circle cx="30" cy="68" r="1"/><circle cx="38" cy="64" r="1"/><circle cx="41" cy="69" r="1"/></g><path d="M62 56V64M68 56V64" stroke="#EBA43C" stroke-width="2.4" stroke-linecap="round"/><path d="M76 46L86 42L83 47L86 51Z" fill="#FFFFFF"/><ellipse cx="66" cy="50" rx="13" ry="7" fill="#FFFFFF"/><path d="M57 46Q68 41 84 47Q70 52 58 51Z" fill="#C9D0D6"/><circle cx="55" cy="38" r="6.5" fill="#FFFFFF"/><path d="M49 37.5L53 36L54 32Q58 31 61 35Q61 40 57 39Q54 38.5 49 39Z" fill="#2A2020"/><path d="M49 37L38 39L49 40.5Z" fill="#F2C230"/></svg></div>
+      <p class="kick">Birds · Little tern<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
+      <h3>Sandy Nest Mission</h3>
+      <a class="play" href="../littletern.html" data-zh="1">Play</a>
+      <p class="about">Be a young ranger at the <b>Qigu salt fields</b> in summer. Launch <b>little terns</b> with a slingshot so they island-hop from Australia, give the eggs <b>camouflage</b>, stack <b>hollow bricks</b> as rain shelters, and spin the 360° camera on the <b>floating ark</b>.</p>
+<p class="meta"><span class="chip" data-progress="tainan-littletern" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -495,41 +542,22 @@ b{font-weight:700;color:var(--ink)}
     </article>
   </section>
 
-  <section class="theme" id="jieqing" aria-label="Festivals">
+  <section class="theme" id="laoshu" aria-label="Old trees">
     <div class="head">
-      <p class="by">Theme · Festivals</p>
-      <h2>Follow the lunar calendar<br>to Tainan’s festivals</h2>
-      <p class="lead">Tainan has busy festivals all year long. On the night of the Lantern Festival, <b>Yanshui</b> holds the <b>beehive fireworks</b>: huge racks of bottle rockets that all shoot off at once. The story goes that it began as a way to chase away a deadly sickness: people set off fireworks along the path of the sedan chair of the god <b>Guan Gong</b> and prayed to be safe. Beehive fireworks are very dangerous, so <b>children must not go near them</b>. In this game you will learn how to stay safe.</p>
+      <p class="by">Theme · Old trees</p>
+      <h2>Hug an old tree<br>and hear its 100-year story</h2>
+      <p class="lead">Tainan has <b>342 old trees</b> that are listed and protected. Old trees can get sick, and typhoons can hurt them, so everyone helps look after them. <b>Tainan Park</b> in the North District opened in 1917 and has lots of 100-year-old trees. You can visit any time of year.</p>
     </div>
   </section>
 
-  <section class="games" aria-label="Festival games">
-    <article class="game" id="fengpao" data-months="1,2,3">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#2E3450"/><rect y="70" width="88" height="18" fill="#5A4E48"/><path d="M18 70V30H58V70" fill="none" stroke="#8A6A3A" stroke-width="3"/><path d="M14 27H62" stroke="#8A6A3A" stroke-width="4" stroke-linecap="round"/><rect x="21" y="32" width="34" height="34" fill="#5A3E2B"/><g fill="#E8D8B0" stroke="#5A3E2B" stroke-width=".6"><path d="M27 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M31.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M40.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M27 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/></g><g fill="#DB2E27"><circle cx="27" cy="38.6" r="1.6"/><circle cx="36" cy="38.6" r="1.6"/><circle cx="45" cy="38.6" r="1.6"/><circle cx="31.5" cy="46.6" r="1.6"/><circle cx="40.5" cy="46.6" r="1.6"/><circle cx="27" cy="54.6" r="1.6"/><circle cx="36" cy="54.6" r="1.6"/><circle cx="45" cy="54.6" r="1.6"/></g><g stroke="#FFD86A" stroke-width="1.6" stroke-linecap="round"><path d="M62 30l8 -8M66 40l10 -6M60 20l4 -10"/></g><g transform="translate(74 16)"><path d="M0 -6V-3" stroke="#5A3E2B"/><ellipse rx="5" ry="6" fill="#F04A3A"/></g></svg></div>
-      <p class="kick">Festivals · Yanshui beehive fireworks<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
-      <h3>Fireworks Safety Mission</h3>
-      <a class="play" href="../fengpao.html" data-zh="1">Play</a>
-      <p class="about">Join Great-uncle, who lives in <b>Yanshui</b>. Hear the old story at <b>Yanshui Wu Temple</b> (Guan Gong’s temple), help Great-uncle put on his <b>safety gear</b>, measure a safe distance with a tape measure, draw a <b>beehive</b> design on paper, find the rocket racks with a <b>safety check mark</b>, and sweep up afterward. Beehive fireworks are very dangerous. Children must not go near them.</p>
-<p class="meta"><span class="chip" data-progress="tainan-fengpao" data-levels="6" hidden></span></p>
-    </article>
-  </section>
-
-  <section class="theme" id="guji" aria-label="History">
-    <div class="head">
-      <p class="by">Theme · History</p>
-      <h2>Step into history,<br>back to long ago</h2>
-      <p class="lead">Tainan is the oldest city in Taiwan, and it has <b>historic sites</b> everywhere. About 400 years ago, the <b>Dutch</b> built <b>Fort Zeelandia</b> on a sandbar in Anping. Today it is called <b>Anping Old Fort</b>. That was around the time the Pilgrims sailed to America on the Mayflower. You can visit historic sites any time of year.</p>
-    </div>
-  </section>
-
-  <section class="games" aria-label="History games">
-    <article class="game" id="anping" data-months="">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EAF2F4"/><rect y="66" width="88" height="22" fill="#D8CDB4"/><path d="M8 50H80V68H8Z" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><path d="M8 50V45H14V50M20 50V45H26V50M32 50V45H38V50M50 50V45H56V50M62 50V45H68V50M74 50V45H80V50" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="36" y="22" width="16" height="30" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="41" y="30" width="6" height="8" fill="#8AA6B8"/><path d="M33 22L44 6L55 22Z" fill="#C8483A" stroke="#8A2A20" stroke-width="1"/><rect x="58" y="58" width="26" height="10" fill="#B8573E"/><path d="M58 63H84M64 58V63M72 58V63M80 58V63M68 63V68M76 63V68" stroke="#E8C8A8" stroke-width=".7"/><path d="M62 58Q60 64 63 68M74 58Q72 64 75 68" stroke="#6E5A3A" stroke-width="1.6" fill="none"/></svg></div>
-      <p class="kick">History · Anping Old Fort<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
-      <h3>Old Fort Mission</h3>
-      <a class="play" href="../anping.html" data-zh="1">Play</a>
-      <p class="about">Join a volunteer at the old fort and go back 400 years. Mark out Fort Zeelandia on the <b>sandbar</b>, catch the ingredients to mix <b>mortar</b>, push crates in the storehouse, watch soldiers carry bricks away to build the <b>Eternal Golden Castle</b>, let a banyan’s roots grow into the <b>south wall</b>, and help the <b>sword lions</b> (lion faces holding swords in their mouths, to keep bad luck away) find their doors.</p>
-<p class="meta"><span class="chip" data-progress="tainan-anping" data-levels="6" hidden></span></p>
+  <section class="games" aria-label="Old tree games">
+    <article class="game" id="oldtree" data-months="">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EEF4E2"/><rect y="68" width="88" height="20" fill="#8CB46A"/><path d="M36 70Q40 56 40 40L28 30M48 40L60 28M48 40Q48 56 52 70Z" stroke="#5A3E28" stroke-width="3" fill="#7A5638" stroke-linejoin="round"/><ellipse cx="44" cy="28" rx="30" ry="18" fill="#5E9A44"/><circle cx="26" cy="26" r="11" fill="#3F7A34"/><circle cx="60" cy="24" r="12" fill="#3F7A34"/><circle cx="44" cy="16" r="11" fill="#6EA850"/><path d="M72 46C76 42 82 46 80 52C79 55 76 57 74 63C72 57 69 55 68 52C66 46 70 42 72 46Z" fill="#8CC46A" stroke="#3F7A34" stroke-width=".8"/><circle cx="20" cy="66" r="4" fill="#E2574C"/><circle cx="20" cy="60" r="3" fill="#3A2E28"/><circle cx="66" cy="66" r="4" fill="#3E8ED0"/><circle cx="66" cy="60" r="3" fill="#3A2E28"/></svg></div>
+      <p class="kick">Old trees · Tainan Park<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
+      <h3>Old Tree Mission</h3>
+      <a class="play" href="../oldtree.html" data-zh="1">Play</a>
+      <p class="about">Meet Tainan Park’s old trees with a tree doctor. Water the young trees in one line without lifting your finger, hold hands around a <b>100-year-old bodhi tree</b>, guide birds back to their nests in the <b>rain tree</b>, find out who is singing in the <b>orchid trees</b>, tap trunks to find <b>hollow</b> spots, and tie ropes to hold up young trees after a typhoon.</p>
+<p class="meta"><span class="chip" data-progress="tainan-oldtree" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -549,25 +577,6 @@ b{font-weight:700;color:var(--ink)}
       <a class="play" href="nanke.html">Play</a>
       <p class="about">Dig down with a young archaeologist. Put the <b>layers</b> in order from oldest to newest, find <b>Taiwan’s first dog</b> on a grid, pick up 5,000-year-old <b>charred rice</b> with tweezers, pat a <b>cord-marked pot</b>, draw a whole pot from half, and slowly put the treasures in the <b>display case</b>.</p>
 <p class="meta"><span class="chip" data-progress="tainan-nanke" data-levels="6" hidden></span></p>
-    </article>
-  </section>
-
-  <section class="theme" id="laoshu" aria-label="Old trees">
-    <div class="head">
-      <p class="by">Theme · Old trees</p>
-      <h2>Hug an old tree<br>and hear its 100-year story</h2>
-      <p class="lead">Tainan has <b>342 old trees</b> that are listed and protected. Old trees can get sick, and typhoons can hurt them, so everyone helps look after them. <b>Tainan Park</b> in the North District opened in 1917 and has lots of 100-year-old trees. You can visit any time of year.</p>
-    </div>
-  </section>
-
-  <section class="games" aria-label="Old tree games">
-    <article class="game" id="oldtree" data-months="">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EEF4E2"/><rect y="68" width="88" height="20" fill="#8CB46A"/><path d="M36 70Q40 56 40 40L28 30M48 40L60 28M48 40Q48 56 52 70Z" stroke="#5A3E28" stroke-width="3" fill="#7A5638" stroke-linejoin="round"/><ellipse cx="44" cy="28" rx="30" ry="18" fill="#5E9A44"/><circle cx="26" cy="26" r="11" fill="#3F7A34"/><circle cx="60" cy="24" r="12" fill="#3F7A34"/><circle cx="44" cy="16" r="11" fill="#6EA850"/><path d="M72 46C76 42 82 46 80 52C79 55 76 57 74 63C72 57 69 55 68 52C66 46 70 42 72 46Z" fill="#8CC46A" stroke="#3F7A34" stroke-width=".8"/><circle cx="20" cy="66" r="4" fill="#E2574C"/><circle cx="20" cy="60" r="3" fill="#3A2E28"/><circle cx="66" cy="66" r="4" fill="#3E8ED0"/><circle cx="66" cy="60" r="3" fill="#3A2E28"/></svg></div>
-      <p class="kick">Old trees · Tainan Park<span class="zh" style="color:#8A7A70;font-weight:400"> (in Chinese)</span></p>
-      <h3>Old Tree Mission</h3>
-      <a class="play" href="../oldtree.html" data-zh="1">Play</a>
-      <p class="about">Meet Tainan Park’s old trees with a tree doctor. Water the young trees in one line without lifting your finger, hold hands around a <b>100-year-old bodhi tree</b>, guide birds back to their nests in the <b>rain tree</b>, find out who is singing in the <b>orchid trees</b>, tap trunks to find <b>hollow</b> spots, and tie ropes to hold up young trees after a typhoon.</p>
-<p class="meta"><span class="chip" data-progress="tainan-oldtree" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -751,6 +760,8 @@ b{font-weight:700;color:var(--ink)}
 // 首頁下面的主題區：篩選按鈕（這個月推薦／全部／各主題）、每個主題一排、點卡片打開說明
 (function(){
   var app=document.querySelector('main.app'),bar=document.getElementById('filters'),M=new Date().getMonth()+1,MN=['January','February','March','April','May','June','July','August','September','October','November','December'][M-1],GN=function(n){return n+(n>1?' games':' game')};
+  // 大類（由 工具/更新遊戲清單.py 從 遊戲清單.json 的 groups 產生，不要手改）
+  var G=[{id:'lishi',name:'History & temples',themes:['wutiaogang','guji','miaoyu','jieqing']},{id:'wuchan',name:'Farms & fisheries',themes:['shuiguo','daomi','yangzhi']},{id:'ziran',name:'Nature',themes:['houniao','wenquan','laoshu']},{id:'jianshe',name:'Landmarks & museums',themes:['kaogu']},{id:'yeshi',name:'Night markets & snacks',themes:[]}];
   // 主題和它的遊戲（.theme 後面緊接著 .games）
   var T=[].slice.call(app.querySelectorAll('section.theme')).map(function(t){var g=t.nextElementSibling;return {id:t.id,name:t.getAttribute('aria-label'),t:t,g:g}});
   T.forEach(function(o){var n=o.g.querySelectorAll('.game').length,h=o.t.querySelector('h2');if(h)h.insertAdjacentHTML('afterend','<p class="cnt">'+GN(n)+' · swipe for more</p>')});
@@ -778,22 +789,36 @@ b{font-weight:700;color:var(--ink)}
     function go(e){if(e.target.closest('.play'))return;window.tgOpen&&window.tgOpen(a.dataset.ref||a.id,a)}
     a.addEventListener('click',go);a.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target===a){e.preventDefault();go(e)}});
   });
-  // 篩選按鈕
-  var F=[{v:'all',n:'All'},{v:'tuijian',n:MN+' picks'}].concat(T.slice(1).map(function(o){return {v:o.id,n:o.name}}));
-  bar.innerHTML=F.map(function(f){return '<button type="button" data-v="'+f.v+'" aria-pressed="false">'+f.n+'</button>'}).join('');
+  // 大類：只留有遊戲的主題；還沒有遊戲的大類不顯示。每個大類前面放一個標題
+  var byId={};T.forEach(function(o){byId[o.id]=o});
+  G=G.map(function(g){return {id:g.id,name:g.name,themes:g.themes.filter(function(t){return byId[t]})}}).filter(function(g){return g.themes.length});
+  var gOf={};G.forEach(function(g){var n=0;g.themes.forEach(function(t){gOf[t]=g;n+=byId[t].g.querySelectorAll('.game').length});
+    g.h=document.createElement('div');g.h.className='ghead';g.h.innerHTML='<h2>'+g.name+'</h2><p>'+GN(n)+'</p>';byId[g.themes[0]].t.insertAdjacentElement('beforebegin',g.h)});
+  // 篩選按鈕：上排是全部／○ 月推薦／大類；選了大類，下排出現那個大類的主題（小類）
+  var F=[{v:'all',n:'All'},{v:'tuijian',n:MN+' picks'}].concat(G.map(function(g){return {v:g.id,n:g.name}}));
+  function btns(L){return L.map(function(f){return '<button type="button" data-v="'+f.v+'" aria-pressed="false">'+f.n+'</button>'}).join('')}
+  bar.innerHTML='<div class="row main">'+btns(F)+'</div><div class="row sub" aria-label="Choose a topic" hidden></div>';
+  var r1=bar.querySelector('.main'),r2=bar.querySelector('.sub');
   function setF(v,scroll){
-    [].forEach.call(bar.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===v?'true':'false')});
-    T.forEach(function(o){var show=v==='all'||o.id===v;o.t.hidden=!show;o.g.hidden=!show});
-    app.classList.toggle('one',v!=='all');
+    var g=G.filter(function(x){return x.id===v})[0]||gOf[v]||null,theme=byId[v]&&v!=='tuijian'?v:null;
+    if(g&&!theme&&g.themes.length===1)theme=g.themes[0];
+    var top=g?g.id:v;
+    [].forEach.call(r1.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===top?'true':'false')});
+    if(g&&g.themes.length>1){r2.innerHTML=btns([{v:g.id,n:'All'}].concat(g.themes.map(function(t){return {v:t,n:byId[t].name}})));r2.hidden=false;
+      [].forEach.call(r2.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===(theme||g.id)?'true':'false')})}
+    else{r2.hidden=true;r2.innerHTML=''}
+    T.forEach(function(o){var show=v==='all'||(v==='tuijian'?o.id==='tuijian':theme?o.id===theme:(g&&gOf[o.id]===g));o.t.hidden=!show;o.g.hidden=!show});
+    G.forEach(function(x){x.h.hidden=!(v==='all'||(g===x&&!theme))});
+    app.classList.toggle('one',v==='tuijian'||!!theme);
     T.forEach(function(o){var c=o.t.querySelector('.cnt');if(c)c.textContent=GN(o.g.querySelectorAll('.game').length)+(app.classList.contains('one')?'':' · swipe for more')});
     T.forEach(function(o){if(o.upd)setTimeout(o.upd,50)});
-    var on=bar.querySelector('[aria-pressed="true"]');if(on&&on.scrollIntoView)on.scrollIntoView({block:'nearest',inline:'center'});
+    [].forEach.call(bar.querySelectorAll('[aria-pressed="true"]'),function(on){var row=on.parentNode;row.scrollLeft=Math.max(0,on.offsetLeft-(row.clientWidth-on.offsetWidth)/2)});
     if(scroll)bar.scrollIntoView({behavior:'smooth',block:'start'});
   }
   bar.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setF(b.dataset.v,true)});
   // 最上面的主題按鈕、地圖卡片裡「看○○的介紹」：改成切到那個主題
   document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);
-    if(T.some(function(o){return o.id===id})){e.preventDefault();setF(id,true);return}
+    if(byId[id]||G.some(function(g){return g.id===id})){e.preventDefault();setF(id,true);return}
     var g=document.getElementById(id);if(g&&g.classList.contains('game')){var o=T.filter(function(o){return o.g.contains(g)})[0];if(o&&o.g.hidden){setF(o.id,false)}}});
   setF('all',false);
 })();

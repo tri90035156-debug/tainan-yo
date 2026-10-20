@@ -142,8 +142,17 @@ b{font-weight:700;color:var(--ink)}
 .sh-more{display:inline-block;margin-top:16px;color:var(--maroon);font-weight:700}
 
 /* ===== 首頁改版（使用者 2026-10-17）：上面一排篩選按鈕、每個主題一排可以左右滑、說明收起來點卡片才打開 ===== */
-.filters{position:sticky;top:0;z-index:6;display:flex;gap:8px;overflow-x:auto;margin:0 -18px;padding:10px 18px;background:var(--bg);scrollbar-width:none;box-shadow:0 6px 10px -10px rgba(42,32,32,.25)}
-.filters::-webkit-scrollbar{display:none}
+.filters{position:sticky;top:0;z-index:6;margin:0 -18px;padding:10px 0;background:var(--bg);box-shadow:0 6px 10px -10px rgba(42,32,32,.25)}
+.filters .row{position:relative;display:flex;gap:8px;overflow-x:auto;padding:0 18px;scrollbar-width:none}
+.filters .row::-webkit-scrollbar{display:none}
+.filters .sub{margin-top:8px}
+.filters .sub[hidden]{display:none}
+.filters .sub button{min-height:38px;padding:0 14px;border-width:1.5px;border-color:#E2D3BA;font-size:14px;color:var(--ink2,#5A4E48)}
+.filters .sub button[aria-pressed="true"]{background:#F3E8D6;border-color:var(--maroon);color:var(--maroon)}
+.ghead{margin-top:30px;padding-top:18px;border-top:3px solid var(--maroon)}
+.ghead h2{margin:0;font:900 26px/1.25 'Noto Serif TC',serif;color:var(--maroon)}
+.ghead p{margin:4px 0 0;font-size:14px;font-weight:700;color:var(--muted)}
+.ghead+.theme{border-top:0;margin-top:0;padding-top:12px}
 .filters button{flex:none;min-height:42px;padding:0 16px;border-radius:999px;border:2px solid var(--gold);background:#FFFDF8;color:var(--maroon);font:700 15px var(--f);cursor:pointer}
 .filters button[aria-pressed="true"]{background:var(--maroon);border-color:var(--maroon);color:#fff}
 .app .theme{margin-top:6px;padding-top:22px}
@@ -173,7 +182,7 @@ b{font-weight:700;color:var(--ink)}
 .app.one .games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;overflow:visible;scroll-snap-type:none;margin:0;padding:6px 0 10px}
 .app.one .games .game{width:auto}
 @media (min-width:700px){
-  .filters{margin:0 -36px;padding:12px 36px}
+  .filters{margin:0 -36px;padding:12px 0}.filters .row{padding:0 36px}
   .app .games{margin:-6px -36px 0;padding:8px 36px 18px;scroll-padding-inline:36px}
   .app.one .games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin:0;padding:6px 0 10px}
   .app .games .game{width:220px}
@@ -319,38 +328,60 @@ b{font-weight:700;color:var(--ink)}
     </article>
   </section>
 
-  <section class="theme" id="houniao" aria-label="候鳥">
+  <section class="theme" id="guji" aria-label="古蹟">
     <div class="head">
-      <p class="by">主題・候鳥</p>
-      <h2>冬天和夏天，<br>候鳥飛來臺南</h2>
-      <p class="lead">每年秋天，很多候鳥從北方飛來臺南過冬：<b>黑面琵鷺</b>到<b>七股</b>的<b>曾文溪口</b>，<b>黑腹燕鷗</b>到<b>北門潟湖</b>。全世界的黑琵，有一大半在臺灣。到了夏天，換<b>小燕鷗</b>從南邊的<b>澳洲</b>飛來，在<b>七股頂山</b>的鹽田生蛋。</p>
+      <p class="by">主題・古蹟</p>
+      <h2>走進古蹟，<br>回到很久以前</h2>
+      <p class="lead">臺南是臺灣最老的城市，到處都是<b>古蹟</b>。大約 400 年前，<b>荷蘭人</b>在安平的沙洲上蓋了<b>熱蘭遮城</b>，就是今天的<b>安平古堡</b>。古蹟一年四季都可以去看。</p>
     </div>
   </section>
 
-  <section class="games" aria-label="候鳥的遊戲">
-    <article class="game" id="heipi" data-months="10,11,12,1,2,3">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="68" cy="20" r="8" fill="#F3D38A"/><rect y="64" width="88" height="24" fill="#DCC9A3"/><path d="M48 54L46 70M56 54L58 70" stroke="#2A2020" stroke-width="2.6" stroke-linecap="round"/><path d="M40 46Q32 38 34 28" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/><ellipse cx="52" cy="48" rx="17" ry="10" fill="#FFFFFF"/><circle cx="34" cy="26" r="7" fill="#FFFFFF"/><path d="M34 19A7 7 0 0 0 34 33Q30 31 28 26Q30 21 34 19Z" fill="#2A2020"/><path d="M29 24L14 28Q8 30 9 34Q11 37 16 34L29 29Z" fill="#2A2020"/></svg></div>
-      <p class="kick">候鳥・黑面琵鷺</p>
-      <h3>黑琵度冬任務</h3>
-      <a class="play" href="heipi.html">開始玩</a>
-      <p class="about">當<b>賞鳥亭</b>的小小解說員，從秋天到春天陪<b>黑琵</b>：安靜等牠降落、用望遠鏡找<b>腳環</b>、轉<b>水門</b>放水，最後送牠<b>飛回北方</b>。</p>
-<p class="meta"><span class="chip" data-progress="tainan-heipi" data-levels="6" hidden></span></p>
+  <section class="games" aria-label="古蹟的遊戲">
+    <article class="game" id="anping" data-months="">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EAF2F4"/><rect y="66" width="88" height="22" fill="#D8CDB4"/><path d="M8 50H80V68H8Z" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><path d="M8 50V45H14V50M20 50V45H26V50M32 50V45H38V50M50 50V45H56V50M62 50V45H68V50M74 50V45H80V50" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="36" y="22" width="16" height="30" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="41" y="30" width="6" height="8" fill="#8AA6B8"/><path d="M33 22L44 6L55 22Z" fill="#C8483A" stroke="#8A2A20" stroke-width="1"/><rect x="58" y="58" width="26" height="10" fill="#B8573E"/><path d="M58 63H84M64 58V63M72 58V63M80 58V63M68 63V68M76 63V68" stroke="#E8C8A8" stroke-width=".7"/><path d="M62 58Q60 64 63 68M74 58Q72 64 75 68" stroke="#6E5A3A" stroke-width="1.6" fill="none"/></svg></div>
+      <p class="kick">古蹟・安平古堡</p>
+      <h3>古堡任務</h3>
+      <a class="play" href="anping.html">開始玩</a>
+      <p class="about">跟著古堡的志工伯伯回到 400 年前：在<b>沙洲</b>上圍出熱蘭遮城、接住材料調<b>灰漿</b>、在倉庫推箱子、看清朝的兵把磚搬去蓋<b>億載金城</b>、讓老榕樹的根長進<b>南牆</b>，再幫<b>劍獅</b>找到自己的門。</p>
+<p class="meta"><span class="chip" data-progress="tainan-anping" data-levels="6" hidden></span></p>
     </article>
-    <article class="game" id="tern" data-months="10,11,12,1,2">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F1C3A8"/><circle cx="66" cy="54" r="9" fill="#F47B4A"/><rect y="56" width="88" height="32" fill="#9DB3C9"/><path d="M8 60H40M50 60H82" stroke="#6E5236" stroke-width="2.2"/><path d="M12 60V70M24 60V70M36 60V70M54 60V70M66 60V70M78 60V70" stroke="#6E5236" stroke-width="1.6"/><g fill="none" stroke="#3B2A35" stroke-width="1.8" stroke-linecap="round"><path d="M22 18Q25 15 28 18Q31 15 34 18"/><path d="M44 12Q47 9 50 12Q53 9 56 12"/><path d="M58 24Q61 21 64 24Q67 21 70 24"/><path d="M34 30Q37 27 40 30Q43 27 46 30"/><path d="M48 38Q50 36 52 38Q54 36 56 38"/><path d="M38 44Q40 42 42 44Q44 42 46 44"/><path d="M16 32Q19 29 22 32Q25 29 28 32"/></g></svg></div>
-      <p class="kick">候鳥・黑腹燕鷗</p>
-      <h3>鳥龍捲任務</h3>
-      <a class="play" href="tern.html">開始玩</a>
-      <p class="about">跟阿公在<b>北門潟湖</b>記錄黑肚鳥：認出<b>黑腹燕鷗</b>、看牠點水抓魚、用手指轉出<b>鳥龍捲</b>，再帶小船安靜回港。</p>
-<p class="meta"><span class="chip" data-progress="tainan-tern" data-levels="6" hidden></span></p>
+  </section>
+
+  <section class="theme" id="miaoyu" aria-label="廟宇">
+    <div class="head">
+      <p class="by">主題・廟宇</p>
+      <h2>九月初九，<br>給太子爺拜壽</h2>
+      <p class="lead">農曆九月初九是重陽節，也是<b>三太子</b>的生日。<b>新營太子宮</b>是一座很老、很有名的太子爺廟，很多地方的太子爺都從這裡分出去，生日那天會<b>回娘家</b>。去廟裡的時候，記得小聲、不打擾拜拜的人。</p>
+    </div>
+  </section>
+
+  <section class="games" aria-label="廟宇的遊戲">
+    <article class="game" id="taizigong" data-months="10">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F6EEDF"/><rect y="74" width="88" height="14" fill="#E4D2B0"/><g transform="translate(46 84) scale(0.47)"><path d="M-18 -76Q-58 -74 -52 -46Q-46 -20 -72 -8" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M18 -76Q50 -98 68 -86" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M31 -150V-4" stroke="#8A6A3A" stroke-width="3.4" stroke-linecap="round"/><path d="M31 -166L25 -148H37Z" fill="#C9CED6" stroke="#8A6A3A" stroke-width="1"/><path d="M27 -146Q22 -138 27 -132M35 -146Q40 -138 35 -132" stroke="#E0453A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-22 -2Q-31 2 -29 8Q-23 4 -18 3ZM-4 -2Q5 2 3 8Q-3 4 -8 3Z" fill="#F5A623"/><circle cx="-13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="-13" cy="-8" r="2.6" fill="#C9402F"/><path d="M4 -2Q-5 2 -3 8Q3 4 8 3ZM22 -2Q31 2 29 8Q23 4 18 3Z" fill="#F5A623"/><circle cx="13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="13" cy="-8" r="2.6" fill="#C9402F"/><rect x="-11" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><rect x="2" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><ellipse cx="-7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><ellipse cx="7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><path d="M-17 -78H17L21 -34H-21Z" fill="#E8B84A" stroke="#A97A1E" stroke-width="1.4"/><rect x="-21" y="-48" width="42" height="6" rx="2" fill="#A97A1E"/><circle cx="0" cy="-62" r="6" fill="none" stroke="#A97A1E" stroke-width="1.6"/><path d="M-15 -72L-34 -66" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="-35" cy="-66" r="4.5" fill="#F6D3B2"/><circle cx="-46" cy="-68" r="11" fill="none" stroke="#F2C14C" stroke-width="4.5"/><path d="M15 -72L29 -60" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="31" cy="-59" r="4.5" fill="#F6D3B2"/><path d="M-17 -75Q0 -62 17 -75" stroke="#E0453A" stroke-width="5" fill="none"/><circle cx="-13" cy="-117" r="7" fill="#2A2020"/><circle cx="13" cy="-117" r="7" fill="#2A2020"/><circle cx="0" cy="-97" r="19" fill="#F6D3B2"/><path d="M-19 -99A19 19 0 0 1 19 -99Q9 -109 0 -104Q-9 -109 -19 -99Z" fill="#2A2020"/><circle cx="-7" cy="-95" r="2.2" fill="#2A2020"/><circle cx="7" cy="-95" r="2.2" fill="#2A2020"/><path d="M-4 -88Q0 -84.5 4 -88" stroke="#2A2020" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="-12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/><circle cx="12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/></g></svg></div>
+      <p class="kick">廟宇・新營太子宮</p>
+      <h3>太子爺生日任務</h3>
+      <a class="play" href="taizigong.html">開始玩</a>
+      <p class="about">跟著住在<b>太子宮</b>旁邊的外婆，去給太子爺拜壽：拍下屋頂銅像的四樣<b>法器</b>、畫圈清掉<b>鯉魚真穴</b>的藺草、在大殿輕輕走路、翻牌認識<b>舊廟</b>的故事、數<b>天公爐</b>上的蝙蝠，最後跟著<b>神轎</b>回娘家。</p>
+<p class="meta"><span class="chip" data-progress="tainan-taizigong" data-levels="6" hidden></span></p>
     </article>
-    <article class="game" id="littletern" data-months="4,5,6,7,8">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="18" cy="20" r="8" fill="#F3D38A"/><rect y="54" width="88" height="34" fill="#E6D6B0"/><ellipse cx="34" cy="68" rx="18" ry="7" fill="#CFBB90"/><ellipse cx="28" cy="66" rx="5" ry="6.5" fill="#D9C79F"/><ellipse cx="39" cy="67" rx="5" ry="6.5" fill="#D9C79F"/><g fill="#7A6A55"><circle cx="27" cy="63" r="1"/><circle cx="30" cy="68" r="1"/><circle cx="38" cy="64" r="1"/><circle cx="41" cy="69" r="1"/></g><path d="M62 56V64M68 56V64" stroke="#EBA43C" stroke-width="2.4" stroke-linecap="round"/><path d="M76 46L86 42L83 47L86 51Z" fill="#FFFFFF"/><ellipse cx="66" cy="50" rx="13" ry="7" fill="#FFFFFF"/><path d="M57 46Q68 41 84 47Q70 52 58 51Z" fill="#C9D0D6"/><circle cx="55" cy="38" r="6.5" fill="#FFFFFF"/><path d="M49 37.5L53 36L54 32Q58 31 61 35Q61 40 57 39Q54 38.5 49 39Z" fill="#2A2020"/><path d="M49 37L38 39L49 40.5Z" fill="#F2C230"/></svg></div>
-      <p class="kick">候鳥・小燕鷗</p>
-      <h3>沙地小窩任務</h3>
-      <a class="play" href="littletern.html">開始玩</a>
-      <p class="about">夏天在<b>七股鹽田</b>當小小巡守員：拉彈弓讓<b>小燕鷗</b>從澳洲跳島飛回來、替蛋換上<b>保護色</b>、疊<b>空心磚</b>躲雨，再轉動<b>方舟</b>的 360 度鏡頭。</p>
-<p class="meta"><span class="chip" data-progress="tainan-littletern" data-levels="6" hidden></span></p>
+  </section>
+
+  <section class="theme" id="jieqing" aria-label="節慶">
+    <div class="head">
+      <p class="by">主題・節慶</p>
+      <h2>跟著農曆，<br>過臺南的節慶</h2>
+      <p class="lead">臺南一年到頭都有熱鬧的節慶。元宵節晚上，<b>鹽水</b>會放<b>蜂炮</b>：相傳是為了趕走瘟疫，跟著<b>關聖帝君</b>的神轎放炮祈求平安。蜂炮很危險，<b>小朋友不能靠近</b>，在遊戲裡學會怎麼保護自己。</p>
+    </div>
+  </section>
+
+  <section class="games" aria-label="節慶的遊戲">
+    <article class="game" id="fengpao" data-months="1,2,3">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#2E3450"/><rect y="70" width="88" height="18" fill="#5A4E48"/><path d="M18 70V30H58V70" fill="none" stroke="#8A6A3A" stroke-width="3"/><path d="M14 27H62" stroke="#8A6A3A" stroke-width="4" stroke-linecap="round"/><rect x="21" y="32" width="34" height="34" fill="#5A3E2B"/><g fill="#E8D8B0" stroke="#5A3E2B" stroke-width=".6"><path d="M27 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M31.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M40.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M27 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/></g><g fill="#DB2E27"><circle cx="27" cy="38.6" r="1.6"/><circle cx="36" cy="38.6" r="1.6"/><circle cx="45" cy="38.6" r="1.6"/><circle cx="31.5" cy="46.6" r="1.6"/><circle cx="40.5" cy="46.6" r="1.6"/><circle cx="27" cy="54.6" r="1.6"/><circle cx="36" cy="54.6" r="1.6"/><circle cx="45" cy="54.6" r="1.6"/></g><g stroke="#FFD86A" stroke-width="1.6" stroke-linecap="round"><path d="M62 30l8 -8M66 40l10 -6M60 20l4 -10"/></g><g transform="translate(74 16)"><path d="M0 -6V-3" stroke="#5A3E2B"/><ellipse rx="5" ry="6" fill="#F04A3A"/></g></svg></div>
+      <p class="kick">節慶・鹽水蜂炮</p>
+      <h3>蜂炮平安任務</h3>
+      <a class="play" href="fengpao.html">開始玩</a>
+      <p class="about">跟著住在<b>鹽水</b>的叔公：在<b>鹽水武廟</b>聽相傳的由來、幫叔公穿好<b>防護裝備</b>、拉捲尺量出安全距離、在紙上畫<b>蜂巢</b>設計圖、找有<b>檢查合格標誌</b>的炮城，再把炮屑掃乾淨。蜂炮很危險，小朋友不能靠近。</p>
+<p class="meta"><span class="chip" data-progress="tainan-fengpao" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -440,25 +471,6 @@ b{font-weight:700;color:var(--ink)}
     </article>
   </section>
 
-  <section class="theme" id="miaoyu" aria-label="廟宇">
-    <div class="head">
-      <p class="by">主題・廟宇</p>
-      <h2>九月初九，<br>給太子爺拜壽</h2>
-      <p class="lead">農曆九月初九是重陽節，也是<b>三太子</b>的生日。<b>新營太子宮</b>是一座很老、很有名的太子爺廟，很多地方的太子爺都從這裡分出去，生日那天會<b>回娘家</b>。去廟裡的時候，記得小聲、不打擾拜拜的人。</p>
-    </div>
-  </section>
-
-  <section class="games" aria-label="廟宇的遊戲">
-    <article class="game" id="taizigong" data-months="10">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F6EEDF"/><rect y="74" width="88" height="14" fill="#E4D2B0"/><g transform="translate(46 84) scale(0.47)"><path d="M-18 -76Q-58 -74 -52 -46Q-46 -20 -72 -8" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M18 -76Q50 -98 68 -86" stroke="#E0453A" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M31 -150V-4" stroke="#8A6A3A" stroke-width="3.4" stroke-linecap="round"/><path d="M31 -166L25 -148H37Z" fill="#C9CED6" stroke="#8A6A3A" stroke-width="1"/><path d="M27 -146Q22 -138 27 -132M35 -146Q40 -138 35 -132" stroke="#E0453A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-22 -2Q-31 2 -29 8Q-23 4 -18 3ZM-4 -2Q5 2 3 8Q-3 4 -8 3Z" fill="#F5A623"/><circle cx="-13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="-13" cy="-8" r="2.6" fill="#C9402F"/><path d="M4 -2Q-5 2 -3 8Q3 4 8 3ZM22 -2Q31 2 29 8Q23 4 18 3Z" fill="#F5A623"/><circle cx="13" cy="-8" r="9" fill="none" stroke="#C9402F" stroke-width="4"/><circle cx="13" cy="-8" r="2.6" fill="#C9402F"/><rect x="-11" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><rect x="2" y="-38" width="9" height="22" rx="3" fill="#D8372C"/><ellipse cx="-7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><ellipse cx="7" cy="-16" rx="6" ry="3" fill="#A97A1E"/><path d="M-17 -78H17L21 -34H-21Z" fill="#E8B84A" stroke="#A97A1E" stroke-width="1.4"/><rect x="-21" y="-48" width="42" height="6" rx="2" fill="#A97A1E"/><circle cx="0" cy="-62" r="6" fill="none" stroke="#A97A1E" stroke-width="1.6"/><path d="M-15 -72L-34 -66" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="-35" cy="-66" r="4.5" fill="#F6D3B2"/><circle cx="-46" cy="-68" r="11" fill="none" stroke="#F2C14C" stroke-width="4.5"/><path d="M15 -72L29 -60" stroke="#E8B84A" stroke-width="8" stroke-linecap="round"/><circle cx="31" cy="-59" r="4.5" fill="#F6D3B2"/><path d="M-17 -75Q0 -62 17 -75" stroke="#E0453A" stroke-width="5" fill="none"/><circle cx="-13" cy="-117" r="7" fill="#2A2020"/><circle cx="13" cy="-117" r="7" fill="#2A2020"/><circle cx="0" cy="-97" r="19" fill="#F6D3B2"/><path d="M-19 -99A19 19 0 0 1 19 -99Q9 -109 0 -104Q-9 -109 -19 -99Z" fill="#2A2020"/><circle cx="-7" cy="-95" r="2.2" fill="#2A2020"/><circle cx="7" cy="-95" r="2.2" fill="#2A2020"/><path d="M-4 -88Q0 -84.5 4 -88" stroke="#2A2020" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="-12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/><circle cx="12" cy="-89" r="3.4" fill="#F2A3A0" opacity=".7"/></g></svg></div>
-      <p class="kick">廟宇・新營太子宮</p>
-      <h3>太子爺生日任務</h3>
-      <a class="play" href="taizigong.html">開始玩</a>
-      <p class="about">跟著住在<b>太子宮</b>旁邊的外婆，去給太子爺拜壽：拍下屋頂銅像的四樣<b>法器</b>、畫圈清掉<b>鯉魚真穴</b>的藺草、在大殿輕輕走路、翻牌認識<b>舊廟</b>的故事、數<b>天公爐</b>上的蝙蝠，最後跟著<b>神轎</b>回娘家。</p>
-<p class="meta"><span class="chip" data-progress="tainan-taizigong" data-levels="6" hidden></span></p>
-    </article>
-  </section>
-
   <section class="theme" id="yangzhi" aria-label="養殖漁業">
     <div class="head">
       <p class="by">主題・養殖漁業</p>
@@ -475,6 +487,41 @@ b{font-weight:700;color:var(--ink)}
       <a class="play" href="milkfish.html">開始玩</a>
       <p class="about">跟著<b>學甲</b>養虱目魚的叔叔：從下面往上撈<b>魚苗</b>、畫圈圈讓魚去吃<b>藻</b>、兩邊一起拉網子收魚、寒流來時把小魚趕進<b>越冬溝</b>，再到魚攤刮魚鱗、早餐挑出虱目魚的<b>刺</b>。</p>
 <p class="meta"><span class="chip" data-progress="tainan-milkfish" data-levels="6" hidden></span></p>
+    </article>
+  </section>
+
+  <section class="theme" id="houniao" aria-label="候鳥">
+    <div class="head">
+      <p class="by">主題・候鳥</p>
+      <h2>冬天和夏天，<br>候鳥飛來臺南</h2>
+      <p class="lead">每年秋天，很多候鳥從北方飛來臺南過冬：<b>黑面琵鷺</b>到<b>七股</b>的<b>曾文溪口</b>，<b>黑腹燕鷗</b>到<b>北門潟湖</b>。全世界的黑琵，有一大半在臺灣。到了夏天，換<b>小燕鷗</b>從南邊的<b>澳洲</b>飛來，在<b>七股頂山</b>的鹽田生蛋。</p>
+    </div>
+  </section>
+
+  <section class="games" aria-label="候鳥的遊戲">
+    <article class="game" id="heipi" data-months="10,11,12,1,2,3">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="68" cy="20" r="8" fill="#F3D38A"/><rect y="64" width="88" height="24" fill="#DCC9A3"/><path d="M48 54L46 70M56 54L58 70" stroke="#2A2020" stroke-width="2.6" stroke-linecap="round"/><path d="M40 46Q32 38 34 28" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/><ellipse cx="52" cy="48" rx="17" ry="10" fill="#FFFFFF"/><circle cx="34" cy="26" r="7" fill="#FFFFFF"/><path d="M34 19A7 7 0 0 0 34 33Q30 31 28 26Q30 21 34 19Z" fill="#2A2020"/><path d="M29 24L14 28Q8 30 9 34Q11 37 16 34L29 29Z" fill="#2A2020"/></svg></div>
+      <p class="kick">候鳥・黑面琵鷺</p>
+      <h3>黑琵度冬任務</h3>
+      <a class="play" href="heipi.html">開始玩</a>
+      <p class="about">當<b>賞鳥亭</b>的小小解說員，從秋天到春天陪<b>黑琵</b>：安靜等牠降落、用望遠鏡找<b>腳環</b>、轉<b>水門</b>放水，最後送牠<b>飛回北方</b>。</p>
+<p class="meta"><span class="chip" data-progress="tainan-heipi" data-levels="6" hidden></span></p>
+    </article>
+    <article class="game" id="tern" data-months="10,11,12,1,2">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#F1C3A8"/><circle cx="66" cy="54" r="9" fill="#F47B4A"/><rect y="56" width="88" height="32" fill="#9DB3C9"/><path d="M8 60H40M50 60H82" stroke="#6E5236" stroke-width="2.2"/><path d="M12 60V70M24 60V70M36 60V70M54 60V70M66 60V70M78 60V70" stroke="#6E5236" stroke-width="1.6"/><g fill="none" stroke="#3B2A35" stroke-width="1.8" stroke-linecap="round"><path d="M22 18Q25 15 28 18Q31 15 34 18"/><path d="M44 12Q47 9 50 12Q53 9 56 12"/><path d="M58 24Q61 21 64 24Q67 21 70 24"/><path d="M34 30Q37 27 40 30Q43 27 46 30"/><path d="M48 38Q50 36 52 38Q54 36 56 38"/><path d="M38 44Q40 42 42 44Q44 42 46 44"/><path d="M16 32Q19 29 22 32Q25 29 28 32"/></g></svg></div>
+      <p class="kick">候鳥・黑腹燕鷗</p>
+      <h3>鳥龍捲任務</h3>
+      <a class="play" href="tern.html">開始玩</a>
+      <p class="about">跟阿公在<b>北門潟湖</b>記錄黑肚鳥：認出<b>黑腹燕鷗</b>、看牠點水抓魚、用手指轉出<b>鳥龍捲</b>，再帶小船安靜回港。</p>
+<p class="meta"><span class="chip" data-progress="tainan-tern" data-levels="6" hidden></span></p>
+    </article>
+    <article class="game" id="littletern" data-months="4,5,6,7,8">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#DCEFF3"/><circle cx="18" cy="20" r="8" fill="#F3D38A"/><rect y="54" width="88" height="34" fill="#E6D6B0"/><ellipse cx="34" cy="68" rx="18" ry="7" fill="#CFBB90"/><ellipse cx="28" cy="66" rx="5" ry="6.5" fill="#D9C79F"/><ellipse cx="39" cy="67" rx="5" ry="6.5" fill="#D9C79F"/><g fill="#7A6A55"><circle cx="27" cy="63" r="1"/><circle cx="30" cy="68" r="1"/><circle cx="38" cy="64" r="1"/><circle cx="41" cy="69" r="1"/></g><path d="M62 56V64M68 56V64" stroke="#EBA43C" stroke-width="2.4" stroke-linecap="round"/><path d="M76 46L86 42L83 47L86 51Z" fill="#FFFFFF"/><ellipse cx="66" cy="50" rx="13" ry="7" fill="#FFFFFF"/><path d="M57 46Q68 41 84 47Q70 52 58 51Z" fill="#C9D0D6"/><circle cx="55" cy="38" r="6.5" fill="#FFFFFF"/><path d="M49 37.5L53 36L54 32Q58 31 61 35Q61 40 57 39Q54 38.5 49 39Z" fill="#2A2020"/><path d="M49 37L38 39L49 40.5Z" fill="#F2C230"/></svg></div>
+      <p class="kick">候鳥・小燕鷗</p>
+      <h3>沙地小窩任務</h3>
+      <a class="play" href="littletern.html">開始玩</a>
+      <p class="about">夏天在<b>七股鹽田</b>當小小巡守員：拉彈弓讓<b>小燕鷗</b>從澳洲跳島飛回來、替蛋換上<b>保護色</b>、疊<b>空心磚</b>躲雨，再轉動<b>方舟</b>的 360 度鏡頭。</p>
+<p class="meta"><span class="chip" data-progress="tainan-littletern" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -497,41 +544,22 @@ b{font-weight:700;color:var(--ink)}
     </article>
   </section>
 
-  <section class="theme" id="jieqing" aria-label="節慶">
+  <section class="theme" id="laoshu" aria-label="老樹">
     <div class="head">
-      <p class="by">主題・節慶</p>
-      <h2>跟著農曆，<br>過臺南的節慶</h2>
-      <p class="lead">臺南一年到頭都有熱鬧的節慶。元宵節晚上，<b>鹽水</b>會放<b>蜂炮</b>：相傳是為了趕走瘟疫，跟著<b>關聖帝君</b>的神轎放炮祈求平安。蜂炮很危險，<b>小朋友不能靠近</b>，在遊戲裡學會怎麼保護自己。</p>
+      <p class="by">主題・老樹</p>
+      <h2>抱抱老樹，<br>聽它說 100 年的故事</h2>
+      <p class="lead">臺南市有 <b>342 棵</b>被登記保護的<b>老樹</b>。老樹也會生病、也怕颱風，要大家一起照顧。北區的<b>臺南公園</b>從 1917 年開園，裡面有好多 100 歲的老樹，一年四季都可以去看。</p>
     </div>
   </section>
 
-  <section class="games" aria-label="節慶的遊戲">
-    <article class="game" id="fengpao" data-months="1,2,3">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#2E3450"/><rect y="70" width="88" height="18" fill="#5A4E48"/><path d="M18 70V30H58V70" fill="none" stroke="#8A6A3A" stroke-width="3"/><path d="M14 27H62" stroke="#8A6A3A" stroke-width="4" stroke-linecap="round"/><rect x="21" y="32" width="34" height="34" fill="#5A3E2B"/><g fill="#E8D8B0" stroke="#5A3E2B" stroke-width=".6"><path d="M27 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 34l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M31.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M40.5 42l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M27 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M36 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/><path d="M45 50l4 2.3v4.6l-4 2.3-4-2.3v-4.6z"/></g><g fill="#DB2E27"><circle cx="27" cy="38.6" r="1.6"/><circle cx="36" cy="38.6" r="1.6"/><circle cx="45" cy="38.6" r="1.6"/><circle cx="31.5" cy="46.6" r="1.6"/><circle cx="40.5" cy="46.6" r="1.6"/><circle cx="27" cy="54.6" r="1.6"/><circle cx="36" cy="54.6" r="1.6"/><circle cx="45" cy="54.6" r="1.6"/></g><g stroke="#FFD86A" stroke-width="1.6" stroke-linecap="round"><path d="M62 30l8 -8M66 40l10 -6M60 20l4 -10"/></g><g transform="translate(74 16)"><path d="M0 -6V-3" stroke="#5A3E2B"/><ellipse rx="5" ry="6" fill="#F04A3A"/></g></svg></div>
-      <p class="kick">節慶・鹽水蜂炮</p>
-      <h3>蜂炮平安任務</h3>
-      <a class="play" href="fengpao.html">開始玩</a>
-      <p class="about">跟著住在<b>鹽水</b>的叔公：在<b>鹽水武廟</b>聽相傳的由來、幫叔公穿好<b>防護裝備</b>、拉捲尺量出安全距離、在紙上畫<b>蜂巢</b>設計圖、找有<b>檢查合格標誌</b>的炮城，再把炮屑掃乾淨。蜂炮很危險，小朋友不能靠近。</p>
-<p class="meta"><span class="chip" data-progress="tainan-fengpao" data-levels="6" hidden></span></p>
-    </article>
-  </section>
-
-  <section class="theme" id="guji" aria-label="古蹟">
-    <div class="head">
-      <p class="by">主題・古蹟</p>
-      <h2>走進古蹟，<br>回到很久以前</h2>
-      <p class="lead">臺南是臺灣最老的城市，到處都是<b>古蹟</b>。大約 400 年前，<b>荷蘭人</b>在安平的沙洲上蓋了<b>熱蘭遮城</b>，就是今天的<b>安平古堡</b>。古蹟一年四季都可以去看。</p>
-    </div>
-  </section>
-
-  <section class="games" aria-label="古蹟的遊戲">
-    <article class="game" id="anping" data-months="">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EAF2F4"/><rect y="66" width="88" height="22" fill="#D8CDB4"/><path d="M8 50H80V68H8Z" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><path d="M8 50V45H14V50M20 50V45H26V50M32 50V45H38V50M50 50V45H56V50M62 50V45H68V50M74 50V45H80V50" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="36" y="22" width="16" height="30" fill="#F4EFE6" stroke="#B8A890" stroke-width="1"/><rect x="41" y="30" width="6" height="8" fill="#8AA6B8"/><path d="M33 22L44 6L55 22Z" fill="#C8483A" stroke="#8A2A20" stroke-width="1"/><rect x="58" y="58" width="26" height="10" fill="#B8573E"/><path d="M58 63H84M64 58V63M72 58V63M80 58V63M68 63V68M76 63V68" stroke="#E8C8A8" stroke-width=".7"/><path d="M62 58Q60 64 63 68M74 58Q72 64 75 68" stroke="#6E5A3A" stroke-width="1.6" fill="none"/></svg></div>
-      <p class="kick">古蹟・安平古堡</p>
-      <h3>古堡任務</h3>
-      <a class="play" href="anping.html">開始玩</a>
-      <p class="about">跟著古堡的志工伯伯回到 400 年前：在<b>沙洲</b>上圍出熱蘭遮城、接住材料調<b>灰漿</b>、在倉庫推箱子、看清朝的兵把磚搬去蓋<b>億載金城</b>、讓老榕樹的根長進<b>南牆</b>，再幫<b>劍獅</b>找到自己的門。</p>
-<p class="meta"><span class="chip" data-progress="tainan-anping" data-levels="6" hidden></span></p>
+  <section class="games" aria-label="老樹的遊戲">
+    <article class="game" id="oldtree" data-months="">
+      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EEF4E2"/><rect y="68" width="88" height="20" fill="#8CB46A"/><path d="M36 70Q40 56 40 40L28 30M48 40L60 28M48 40Q48 56 52 70Z" stroke="#5A3E28" stroke-width="3" fill="#7A5638" stroke-linejoin="round"/><ellipse cx="44" cy="28" rx="30" ry="18" fill="#5E9A44"/><circle cx="26" cy="26" r="11" fill="#3F7A34"/><circle cx="60" cy="24" r="12" fill="#3F7A34"/><circle cx="44" cy="16" r="11" fill="#6EA850"/><path d="M72 46C76 42 82 46 80 52C79 55 76 57 74 63C72 57 69 55 68 52C66 46 70 42 72 46Z" fill="#8CC46A" stroke="#3F7A34" stroke-width=".8"/><circle cx="20" cy="66" r="4" fill="#E2574C"/><circle cx="20" cy="60" r="3" fill="#3A2E28"/><circle cx="66" cy="66" r="4" fill="#3E8ED0"/><circle cx="66" cy="60" r="3" fill="#3A2E28"/></svg></div>
+      <p class="kick">老樹・臺南公園</p>
+      <h3>老樹任務</h3>
+      <a class="play" href="oldtree.html">開始玩</a>
+      <p class="about">跟著樹醫生阿姨認識臺南公園的老樹：一筆畫幫小樹澆水、手牽手圍住<b>百年菩提樹</b>、讓小鳥回到<b>雨豆樹</b>上的巢、在<b>羊蹄甲林</b>聽出是誰在叫、敲一敲找出老樹<b>空心</b>的地方，再幫颱風後新種的小樹綁好繩子。</p>
+<p class="meta"><span class="chip" data-progress="tainan-oldtree" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -551,25 +579,6 @@ b{font-weight:700;color:var(--ink)}
       <a class="play" href="nanke.html">開始玩</a>
       <p class="about">跟著考古姊姊往下挖：把<b>土層</b>排成越下面越老、看方格找到<b>臺灣第一隻狗</b>、用鑷子夾起 5000 年前的<b>碳化稻米</b>、拍出<b>繩紋陶罐</b>、照一半畫出整個陶罐，再把寶貝慢慢放進<b>展示櫃</b>。</p>
 <p class="meta"><span class="chip" data-progress="tainan-nanke" data-levels="6" hidden></span></p>
-    </article>
-  </section>
-
-  <section class="theme" id="laoshu" aria-label="老樹">
-    <div class="head">
-      <p class="by">主題・老樹</p>
-      <h2>抱抱老樹，<br>聽它說 100 年的故事</h2>
-      <p class="lead">臺南市有 <b>342 棵</b>被登記保護的<b>老樹</b>。老樹也會生病、也怕颱風，要大家一起照顧。北區的<b>臺南公園</b>從 1917 年開園，裡面有好多 100 歲的老樹，一年四季都可以去看。</p>
-    </div>
-  </section>
-
-  <section class="games" aria-label="老樹的遊戲">
-    <article class="game" id="oldtree" data-months="">
-      <div class="pic" aria-hidden="true"><svg viewBox="0 0 88 88"><rect width="88" height="88" fill="#EEF4E2"/><rect y="68" width="88" height="20" fill="#8CB46A"/><path d="M36 70Q40 56 40 40L28 30M48 40L60 28M48 40Q48 56 52 70Z" stroke="#5A3E28" stroke-width="3" fill="#7A5638" stroke-linejoin="round"/><ellipse cx="44" cy="28" rx="30" ry="18" fill="#5E9A44"/><circle cx="26" cy="26" r="11" fill="#3F7A34"/><circle cx="60" cy="24" r="12" fill="#3F7A34"/><circle cx="44" cy="16" r="11" fill="#6EA850"/><path d="M72 46C76 42 82 46 80 52C79 55 76 57 74 63C72 57 69 55 68 52C66 46 70 42 72 46Z" fill="#8CC46A" stroke="#3F7A34" stroke-width=".8"/><circle cx="20" cy="66" r="4" fill="#E2574C"/><circle cx="20" cy="60" r="3" fill="#3A2E28"/><circle cx="66" cy="66" r="4" fill="#3E8ED0"/><circle cx="66" cy="60" r="3" fill="#3A2E28"/></svg></div>
-      <p class="kick">老樹・臺南公園</p>
-      <h3>老樹任務</h3>
-      <a class="play" href="oldtree.html">開始玩</a>
-      <p class="about">跟著樹醫生阿姨認識臺南公園的老樹：一筆畫幫小樹澆水、手牽手圍住<b>百年菩提樹</b>、讓小鳥回到<b>雨豆樹</b>上的巢、在<b>羊蹄甲林</b>聽出是誰在叫、敲一敲找出老樹<b>空心</b>的地方，再幫颱風後新種的小樹綁好繩子。</p>
-<p class="meta"><span class="chip" data-progress="tainan-oldtree" data-levels="6" hidden></span></p>
     </article>
   </section>
 
@@ -753,6 +762,8 @@ b{font-weight:700;color:var(--ink)}
 // 首頁下面的主題區：篩選按鈕（這個月推薦／全部／各主題）、每個主題一排、點卡片打開說明
 (function(){
   var app=document.querySelector('main.app'),bar=document.getElementById('filters'),M=new Date().getMonth()+1;
+  // 大類（由 工具/更新遊戲清單.py 從 遊戲清單.json 的 groups 產生，不要手改）
+  var G=[{id:'lishi',name:'古蹟和廟宇',themes:['wutiaogang','guji','miaoyu','jieqing']},{id:'wuchan',name:'農漁物產',themes:['shuiguo','daomi','yangzhi']},{id:'ziran',name:'大自然',themes:['houniao','wenquan','laoshu']},{id:'jianshe',name:'建設和博物館',themes:['kaogu']},{id:'yeshi',name:'夜市小吃',themes:[]}];
   // 主題和它的遊戲（.theme 後面緊接著 .games）
   var T=[].slice.call(app.querySelectorAll('section.theme')).map(function(t){var g=t.nextElementSibling;return {id:t.id,name:t.getAttribute('aria-label'),t:t,g:g}});
   T.forEach(function(o){var n=o.g.querySelectorAll('.game').length,h=o.t.querySelector('h2');if(h)h.insertAdjacentHTML('afterend','<p class="cnt">'+n+' 個遊戲・往右滑看更多</p>')});
@@ -780,22 +791,36 @@ b{font-weight:700;color:var(--ink)}
     function go(e){if(e.target.closest('.play'))return;window.tgOpen&&window.tgOpen(a.dataset.ref||a.id,a)}
     a.addEventListener('click',go);a.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target===a){e.preventDefault();go(e)}});
   });
-  // 篩選按鈕
-  var F=[{v:'all',n:'全部'},{v:'tuijian',n:M+' 月推薦'}].concat(T.slice(1).map(function(o){return {v:o.id,n:o.name}}));
-  bar.innerHTML=F.map(function(f){return '<button type="button" data-v="'+f.v+'" aria-pressed="false">'+f.n+'</button>'}).join('');
+  // 大類：只留有遊戲的主題；還沒有遊戲的大類不顯示。每個大類前面放一個標題
+  var byId={};T.forEach(function(o){byId[o.id]=o});
+  G=G.map(function(g){return {id:g.id,name:g.name,themes:g.themes.filter(function(t){return byId[t]})}}).filter(function(g){return g.themes.length});
+  var gOf={};G.forEach(function(g){var n=0;g.themes.forEach(function(t){gOf[t]=g;n+=byId[t].g.querySelectorAll('.game').length});
+    g.h=document.createElement('div');g.h.className='ghead';g.h.innerHTML='<h2>'+g.name+'</h2><p>'+n+' 個遊戲</p>';byId[g.themes[0]].t.insertAdjacentElement('beforebegin',g.h)});
+  // 篩選按鈕：上排是全部／○ 月推薦／大類；選了大類，下排出現那個大類的主題（小類）
+  var F=[{v:'all',n:'全部'},{v:'tuijian',n:M+' 月推薦'}].concat(G.map(function(g){return {v:g.id,n:g.name}}));
+  function btns(L){return L.map(function(f){return '<button type="button" data-v="'+f.v+'" aria-pressed="false">'+f.n+'</button>'}).join('')}
+  bar.innerHTML='<div class="row main">'+btns(F)+'</div><div class="row sub" aria-label="選小類" hidden></div>';
+  var r1=bar.querySelector('.main'),r2=bar.querySelector('.sub');
   function setF(v,scroll){
-    [].forEach.call(bar.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===v?'true':'false')});
-    T.forEach(function(o){var show=v==='all'||o.id===v;o.t.hidden=!show;o.g.hidden=!show});
-    app.classList.toggle('one',v!=='all');
+    var g=G.filter(function(x){return x.id===v})[0]||gOf[v]||null,theme=byId[v]&&v!=='tuijian'?v:null;
+    if(g&&!theme&&g.themes.length===1)theme=g.themes[0];
+    var top=g?g.id:v;
+    [].forEach.call(r1.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===top?'true':'false')});
+    if(g&&g.themes.length>1){r2.innerHTML=btns([{v:g.id,n:'全部'}].concat(g.themes.map(function(t){return {v:t,n:byId[t].name}})));r2.hidden=false;
+      [].forEach.call(r2.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===(theme||g.id)?'true':'false')})}
+    else{r2.hidden=true;r2.innerHTML=''}
+    T.forEach(function(o){var show=v==='all'||(v==='tuijian'?o.id==='tuijian':theme?o.id===theme:(g&&gOf[o.id]===g));o.t.hidden=!show;o.g.hidden=!show});
+    G.forEach(function(x){x.h.hidden=!(v==='all'||(g===x&&!theme))});
+    app.classList.toggle('one',v==='tuijian'||!!theme);
     T.forEach(function(o){var c=o.t.querySelector('.cnt');if(c)c.textContent=o.g.querySelectorAll('.game').length+' 個遊戲'+(app.classList.contains('one')?'':'・往右滑看更多')});
     T.forEach(function(o){if(o.upd)setTimeout(o.upd,50)});
-    var on=bar.querySelector('[aria-pressed="true"]');if(on&&on.scrollIntoView)on.scrollIntoView({block:'nearest',inline:'center'});
+    [].forEach.call(bar.querySelectorAll('[aria-pressed="true"]'),function(on){var row=on.parentNode;row.scrollLeft=Math.max(0,on.offsetLeft-(row.clientWidth-on.offsetWidth)/2)});
     if(scroll)bar.scrollIntoView({behavior:'smooth',block:'start'});
   }
   bar.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setF(b.dataset.v,true)});
   // 最上面的主題按鈕、地圖卡片裡「看○○的介紹」：改成切到那個主題
   document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);
-    if(T.some(function(o){return o.id===id})){e.preventDefault();setF(id,true);return}
+    if(byId[id]||G.some(function(g){return g.id===id})){e.preventDefault();setF(id,true);return}
     var g=document.getElementById(id);if(g&&g.classList.contains('game')){var o=T.filter(function(o){return o.g.contains(g)})[0];if(o&&o.g.hidden){setF(o.id,false)}}});
   setF('all',false);
 })();
