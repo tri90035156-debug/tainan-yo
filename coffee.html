@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/coffee.html#game","name":"咖啡任務","alternateName":"咖啡任務・水果・東山咖啡","url":"https://tainanyo.tw/coffee.html","description":"跟著東山種咖啡的大哥哥：拼出崁頭山的第一棵咖啡樹、撥開葉子只摘紅咖啡果、扭開果子看到兩顆種子、跟著太陽曬咖啡果、搖著網子烘豆子，再沿著市道 175 去咖啡節。","image":"https://tainanyo.tw/img/coffee.png","inLanguage":"zh-Hant","genre":"水果","keywords":"臺南, 台南, 水果, 東山, 東山區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・崁頭山（日本時代）：東山咖啡從哪裡來","position":1},{"@type":"CreativeWork","name":"第 2 關・咖啡園（秋冬）：撥開葉子，只摘紅的","position":2},{"@type":"CreativeWork","name":"第 3 關・剝開咖啡果：扭開來，裡面有兩顆","position":3},{"@type":"CreativeWork","name":"第 4 關・175 線路邊日曬：跟著太陽曬咖啡果","position":4},{"@type":"CreativeWork","name":"第 5 關・烘豆子：一直搖，不要烤焦","position":5},{"@type":"CreativeWork","name":"第 6 關・咖啡公路（10 月）：沿著市道 175 去咖啡節","position":6}],"contentLocation":{"@type":"Place","name":"東山（臺南市東山區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"東山區"},"geo":{"@type":"GeoCoordinates","latitude":23.3262,"longitude":120.4036}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/coffee.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"水果","item":"https://tainanyo.tw/#shuiguo"},{"@type":"ListItem","position":3,"name":"咖啡任務","item":"https://tainanyo.tw/coffee.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=b53166db">
+<link rel="stylesheet" href="core/game.css?v=f5392a1a">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -258,18 +258,18 @@ var GAMES={
   pick:function(area,i,l){
     var C=[{x:66,y:62,c:['red','red','green']},{x:160,y:52,c:['red','green','black']},{x:254,y:64,c:['red','red','black']},{x:104,y:126,c:['green','red','black']},{x:216,y:128,c:['red','red','green']}],
       N=8,n=0,done=false,st=null,moved=0,raf=0,last=performance.now(),fly=[];
-    C.forEach(function(g){g.o=0;g.k=g.c.map(function(c,j){return {c:c,x:g.x+(j-1)*17,y:g.y+(j===1?6:0),on:1}})});
+    C.forEach(function(g){g.o=0;g.k=g.c.map(function(c,j){return {c:c,x:g.x+(j-1)*25,y:g.y+(j===1?8:0),on:1}})});
     var s='<svg class="mini" viewBox="0 0 320 190" style="background:#EAF1E6"><rect x="-400" y="166" width="1200" height="80" fill="#CDBB8E"/>'+
       '<path d="M-20 40Q80 30 160 44T340 40M60 60Q80 100 104 120M200 50Q220 100 216 122" stroke="#7A5A3A" stroke-width="5" fill="none" stroke-linecap="round"/>'+
-      '<g id="ck"></g><g id="lf"></g><path d="M134 158H186L180 182H140Z" fill="#B88A55" stroke="#7A5530" stroke-width="1.2"/><g id="bk"></g><g id="fl"></g></svg>';
-    var sc=setScene(s,1100),svg=sc.querySelector('svg'),ck=svg.querySelector('#ck'),lf=svg.querySelector('#lf'),bk=svg.querySelector('#bk'),flG=svg.querySelector('#fl');
+      '<g id="lb"></g><g id="ck"></g><g id="lf"></g><path d="M134 158H186L180 182H140Z" fill="#B88A55" stroke="#7A5530" stroke-width="1.2"/><g id="bk"></g><g id="fl"></g></svg>';
+    var sc=setScene(s,1100),svg=sc.querySelector('svg'),ck=svg.querySelector('#ck'),lf=svg.querySelector('#lf'),lb=svg.querySelector('#lb'),bk=svg.querySelector('#bk'),flG=svg.querySelector('#fl');
     area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
     var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
     function leaf(x,y,a,c){return '<ellipse cx="'+f1(x)+'" cy="'+f1(y)+'" rx="27" ry="13" fill="'+c+'" stroke="#2C501E" stroke-width=".8" transform="rotate('+a+' '+f1(x)+' '+f1(y)+')"/><path d="M'+f1(x-22)+' '+f1(y)+'H'+f1(x+22)+'" stroke="#2C501E" stroke-width=".8" transform="rotate('+a+' '+f1(x)+' '+f1(y)+')"/>'}
     (function loop(now){var dt=Math.min(50,now-last)/1000;last=now;
       C.forEach(function(g){if(g.open&&g.o<1)g.o=Math.min(1,g.o+dt*4)});
-      ck.innerHTML=C.map(function(g){return g.k.filter(function(k){return k.on}).map(function(k){return cherry(k.x,k.y,9,k.c)}).join('')}).join('');
-      lf.innerHTML=C.map(function(g){var d=g.o*30;return leaf(g.x-8-d,g.y+2,-15-g.o*20,LEAFC)+leaf(g.x+8+d,g.y+2,15+g.o*20,LEAFD)}).join('');
+      ck.innerHTML=C.map(function(g){return g.k.filter(function(k){return k.on}).map(function(k){return cherry(k.x,k.y,11,k.c)}).join('')}).join('');
+      var LF=function(g){var d=g.o*44;return leaf(g.x-8-d,g.y+2-g.o*16,-15-g.o*30,LEAFC)+leaf(g.x+8+d,g.y+2-g.o*16,15+g.o*30,LEAFD)};lf.innerHTML=C.filter(function(g){return g.o<.6}).map(LF).join('');lb.innerHTML=C.filter(function(g){return g.o>=.6}).map(LF).join('');
       fly=fly.filter(function(o){o.t+=dt/.5;return o.t<1});
       flG.innerHTML=fly.map(function(o){var q=o.t;return cherry(o.x+(160-o.x)*q,o.y+(162-o.y)*q-30*Math.sin(Math.PI*q),9*(1-q*.4),'red')}).join('');
       bk.innerHTML=n?Array.apply(null,{length:n}).map(function(_,j){return cherry(144+(j%4)*10,162+(j>3?-6:0),5,'red')}).join(''):'';
@@ -277,7 +277,7 @@ var GAMES={
     loops.push(function(){cancelAnimationFrame(raf)});
     function openNear(p){var g=null,bd=40;C.forEach(function(o){var d=Math.hypot(p.x-o.x,p.y-o.y);if(!o.open&&d<bd){bd=d;g=o}});if(g){g.open=1;if(C.filter(function(o){return o.open}).length===1)say(msg,'撥開了！看到咖啡果了。只點<b>紅色</b>的摘下來。')}return g}
     function tap(p){
-      var best=null,bd=17;C.forEach(function(g){g.k.forEach(function(k){if(!k.on)return;var d=Math.hypot(p.x-k.x,p.y-k.y);if(d<bd){bd=d;best={g:g,k:k}}})});
+      var best=null,bd=22;C.forEach(function(g){g.k.forEach(function(k){if(!k.on)return;var d=Math.hypot(p.x-k.x,p.y-k.y);if(d<bd){bd=d;best={g:g,k:k}}})});
       if(!best){if(C.some(function(g){return !g.open&&Math.hypot(p.x-g.x,p.y-g.y)<36}))say(msg,'先用手指<b>左右撥</b>，把葉子撥開。',1);return}
       if(!best.g.open){say(msg,'葉子擋住了！先<b>左右撥</b>開葉子。',1);return}
       var k=best.k;
@@ -440,6 +440,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=b53166db"></script>
+<script src="core/game.js?v=f5392a1a"></script>
 </body>
 </html>

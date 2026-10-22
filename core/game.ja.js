@@ -45,10 +45,10 @@ function fitStage(){
   // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
   var vb=svg.viewBox.baseVal,a=vb.height/vb.width,sw=D*Math.min(.93,Math.cos(Math.atan(a))*1.06),sh=sw*a,k=sw/vb.width,top=(D-sh)/2,g=null,gy=-1;
   svg.style.width=sw+'px';svg.style.height=sh+'px';
-  // 遊戲圖最下面那條地面或水面，往下延伸到圓的底部
-  [].forEach.call(svg.children,function(r){if(r.tagName!=='rect')return;var x=+r.getAttribute('x')||0,w=+r.getAttribute('width')||0,y=+r.getAttribute('y')||0,h=+r.getAttribute('height')||0;if(x<=0&&x+w>=vb.width&&y>0&&y+h>=vb.height-1&&y>gy){g=r;gy=y}});
+  // 遊戲圖最下面那條地面或水面，往下延伸到圓的底部（viewBox 可以不從 0 0 開始，用來把圖放大）
+  [].forEach.call(svg.children,function(r){if(r.tagName!=='rect')return;var x=+r.getAttribute('x')||0,w=+r.getAttribute('width')||0,y=+r.getAttribute('y')||0,h=+r.getAttribute('height')||0;if(x<=vb.x&&x+w>=vb.x+vb.width&&y>vb.y&&y+h>=vb.y+vb.height-1&&y>gy){g=r;gy=y}});
   var sky=svg.style.background||'#DFF3F8';
-  sceneEl.style.background=g?'linear-gradient('+sky+' '+(top+gy*k)+'px,'+g.getAttribute('fill')+' 0)':sky;
+  sceneEl.style.background=g?'linear-gradient('+sky+' '+(top+(gy-vb.y)*k)+'px,'+g.getAttribute('fill')+' 0)':sky;
 }
 new MutationObserver(function(){if(!sceneEl.hidden)fitStage()}).observe(sceneEl,{childList:true});
 addEventListener('resize',fitStage);

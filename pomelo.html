@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/pomelo.html#game","name":"大白柚任務","alternateName":"大白柚任務・水果・麻豆大白柚","url":"https://tainanyo.tw/pomelo.html","description":"跟著麻豆種柚子的阿姨，從冬天到秋天：拖著剪刀修剪樹枝、跟著香味找柚子花、替柚子套紙袋、讓土裡的水不要忽多忽少，霜降時扶著柚子剪兩次，最後剝開厚厚的皮。","image":"https://tainanyo.tw/img/pomelo.png","inLanguage":"zh-Hant","genre":"水果","keywords":"臺南, 台南, 水果, 麻豆, 麻豆區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・麻口里的柚子園（12 月底）：冬天，幫柚子樹剪頭髮","position":1},{"@type":"CreativeWork","name":"第 2 關・柚子園（3 月）：跟著香味找花","position":2},{"@type":"CreativeWork","name":"第 3 關・柚子園（6 到 7 月）：幫柚子穿紙衣","position":3},{"@type":"CreativeWork","name":"第 4 關・柚子園（7 到 9 月）：水不能忽多忽少","position":4},{"@type":"CreativeWork","name":"第 5 關・霜降，採柚子（10 月下旬）：扶著柚子，剪兩次","position":5},{"@type":"CreativeWork","name":"第 6 關・阿姨家：剝開大白柚","position":6}],"contentLocation":{"@type":"Place","name":"麻豆（臺南市麻豆區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"麻豆區"},"geo":{"@type":"GeoCoordinates","latitude":23.1776,"longitude":120.2218}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/pomelo.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"水果","item":"https://tainanyo.tw/#shuiguo"},{"@type":"ListItem","position":3,"name":"大白柚任務","item":"https://tainanyo.tw/pomelo.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=b53166db">
+<link rel="stylesheet" href="core/game.css?v=f5392a1a">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -241,9 +241,9 @@ var GAMES={
 
   /* 第 1 關：拖著剪刀，停在沒有用的樹枝上，剪下來 */
   prune:function(area,i,l){
-    var B=[{p:[160,112,112,70],k:'ok'},{p:[160,108,214,66],k:'ok'},{p:[160,106,160,42],k:'ok'},{p:[152,120,80,112],k:'dead'},{p:[170,118,252,152],k:'droop'},{p:[156,94,102,50],k:'sick'},{p:[198,96,128,58],k:'cross'}],
+    var B=[{p:[160,110,124,56],k:'ok'},{p:[160,108,196,56],k:'ok'},{p:[160,106,160,42],k:'ok'},{p:[152,122,78,116],k:'dead'},{p:[170,118,252,152],k:'droop'},{p:[155,100,84,72],k:'sick'},{p:[150,104,238,74],k:'cross'}],
       N=4,n=0,done=false,act=false,pt=null,cur=null,t0=0,raf=0;
-    var s='<svg class="mini" viewBox="0 0 320 190" style="background:#E9F0F2"><rect x="-400" y="168" width="1200" height="100" fill="#C9B98E"/><path d="M153 170L156 106H164L167 170Z" fill="#7A5A3A"/><g id="br"></g><g id="fx"></g><g id="sc" style="display:none"></g></svg>';
+    var s='<svg class="mini" viewBox="34 26 252 150" style="background:#E9F0F2"><rect x="-400" y="168" width="1200" height="100" fill="#C9B98E"/><path d="M153 170L156 106H164L167 170Z" fill="#7A5A3A"/><g id="br"></g><g id="fx"></g><g id="sc" style="display:none"></g></svg>';
     var sc=setScene(s,1100),svg=sc.querySelector('svg'),br=svg.querySelector('#br'),fx=svg.querySelector('#fx'),scG=svg.querySelector('#sc');
     area.insertAdjacentHTML('beforeend','<div class="bar"><b></b></div>');var bar=area.querySelector('.bar b');
     var msg=document.createElement('p');msg.hidden=true;area.appendChild(msg);
@@ -260,7 +260,7 @@ var GAMES={
       g.innerHTML=h;br.appendChild(g);b.g=g;
     });
     function segD(px,py,b){var p=b.p,dx=p[2]-p[0],dy=p[3]-p[1],t=((px-p[0])*dx+(py-p[1])*dy)/(dx*dx+dy*dy);if(t<.3||t>1.05)return 99;return Math.hypot(p[0]+dx*t-px,p[1]+dy*t-py)}
-    function find(p){var best=null,bd=10;B.forEach(function(b){if(b.cut)return;var d=segD(p.x,p.y,b);if(d<bd){bd=d;best=b}});return best}
+    function find(p){var best=null,bd=22;B.forEach(function(b){if(b.cut)return;var d=segD(p.x,p.y,b);if(d<bd){bd=d;best=b}});return best}
     function drawSc(q){scG.innerHTML='<g transform="translate('+f1(pt.x)+' '+f1(pt.y)+')">'+(q>0?'<circle r="15" fill="none" stroke="#EADFD3" stroke-width="3"/><path d="M0 -15A15 15 0 '+(q>.5?1:0)+' 1 '+f1(Math.sin(q*6.283)*15)+' '+f1(-Math.cos(q*6.283)*15)+'" stroke="#DB2E27" stroke-width="3" fill="none"/>':'')+
       '<g transform="rotate(-30) scale(1.6)"><circle cx="-4" cy="10" r="3.6" fill="none" stroke="#C0583F" stroke-width="2.2"/><circle cx="4" cy="10" r="3.6" fill="none" stroke="#C0583F" stroke-width="2.2"/><path d="M-2.6 7L2 -6M2.6 7L-2 -6" stroke="#6E777D" stroke-width="2.4" stroke-linecap="round"/></g></g>'}
     var M={dead:'<b>乾枯</b>的樹枝，沒有葉子了，剪掉。',droop:'<b>往下垂</b>的樹枝，快碰到地了，剪掉。',sick:'<b>生病</b>的樹枝，葉子上有斑點，剪掉。',cross:'這枝<b>交叉</b>擋住別的樹枝，剪掉。'};
@@ -281,7 +281,7 @@ var GAMES={
       raf=requestAnimationFrame(loop)})(performance.now());
     loops.push(function(){cancelAnimationFrame(raf)});
     drag(svg,function(t,p){
-      if(done)return;pt={x:p.x,y:p.y-10};
+      if(done)return;pt={x:p.x,y:p.y-20};
       if(t==='down'||t==='hover'){act=true;scG.style.display='';if(t==='down')cur=null;return}
       if(t==='move'){act=true;return}
       if(t==='up'){act=false;cur=null;drawSc(0)}
@@ -440,7 +440,7 @@ var GAMES={
     function tapAt(p){
       var hitF=null,hitS=null;
       F.forEach(function(f){if(f.st>=3)return;var y=f.st>=2?f.y+12:f.y;if(Math.hypot((p.x-f.x)/30,(p.y-y)/26)<1)hitF=f;
-        var sTop=f.st>=2?y+TOPY-26:22,sBot=y+TOPY+2;if(Math.abs(p.x-f.x)<14&&p.y>sTop&&p.y<sBot)hitS=f});
+        var sTop=f.st>=2?y+TOPY-26:22,sBot=y+TOPY+2;if(Math.abs(p.x-f.x)<22&&p.y>sTop&&p.y<sBot)hitS=f});
       if(hitS){var f=hitS;
         if(f.st===0){flash(p.x,p.y,0);say(msg,'要先<b>扶著</b>柚子！不然剪下來，柚子會掉下去摔傷。先點一下柚子。',1);return}
         if(f.st===1){f.st=2;step();flash(p.x,p.y,1);draw(f);say(msg,'剪下來了！可是柚子上面的果梗還留<b>很長</b>，再點一次，把它<b>剪短</b>。');return}
@@ -507,6 +507,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=b53166db"></script>
+<script src="core/game.js?v=f5392a1a"></script>
 </body>
 </html>
