@@ -57,6 +57,8 @@ main .note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
 .bar{height:12px;background:#F0E2CC;border-radius:999px;overflow:hidden;margin:4px 0 8px}
 .bar b{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width .3s}
 .opt{display:block;width:100%;text-align:left;font:20px/1.5 var(--f);background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 8px;cursor:pointer}
+.opt{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.redo{display:block;margin:14px 0 0}
 .opt.no{color:#C3AE97;border-style:dashed;text-decoration:line-through}
 .opt.yes{border-color:var(--green);background:#EEF8EC}
 .opt:disabled{cursor:default}

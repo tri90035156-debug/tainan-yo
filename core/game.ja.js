@@ -35,11 +35,13 @@ var stage=document.getElementById('stage'),loops=[];
 function stopLoops(){loops.forEach(function(f){f()});loops=[]}
 // 寬螢幕（左右兩欄）時舞台填滿左欄；手機直拿時舞台縮到剛好放得下遊戲圖
 var wide=window.matchMedia?matchMedia('(min-width:700px) and (min-aspect-ratio:5/4)'):{matches:false};
+// 手機上捲動時，網址列會縮起來、畫面變高；圓的大小只在轉方向（寬度變了）時才重算，免得文字和按鈕跟著跳（2026-10-25）
+var baseW=innerWidth,baseH=innerHeight;
 function fitStage(){
   // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
   var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
   if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
-  else{D=Math.min(W-28,Math.round(innerHeight*.5));stage.style.height=(D+32)+'px'}
+  else{if(innerWidth!==baseW){baseW=innerWidth;baseH=innerHeight}D=Math.min(W-28,Math.round(baseH*.5));stage.style.height=(D+32)+'px'}
   D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';stage.style.setProperty('--d',D+'px');
   if(!svg)return;
   // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）
@@ -73,7 +75,20 @@ function chips(pop){
 function el(html){var d=document.createElement('div');d.innerHTML=html;return d}
 function say(box,text,again){box.hidden=false;box.className='say'+(again?' again':'');box.innerHTML=text}
 function later(fn,ms){var t=setTimeout(fn,reduce?0:ms);loops.push(function(){clearTimeout(t)})}
-function into(node){setTimeout(function(){node.scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'})},50)}
+// 捲到看得到 node：手機上圓黏在畫面上方、上一關／下一關黏在下面，要捲到兩個中間，不能躲在圓的後面（2026-10-25：選項的上半被圓蓋住，按不到）
+function into(node){setTimeout(function(){var bh=reduce?'auto':'smooth';
+  if(getComputedStyle(stage).position!=='sticky'){node.scrollIntoView({block:'nearest',behavior:bh});return}
+  // 圓黏住以後的下緣＝圓的高度；捲完還沒黏住的話，圓會跟著往上，不會蓋到
+  var r=node.getBoundingClientRect(),ft=document.querySelector('.foot'),H=stage.offsetHeight+12,bot=(ft?ft.getBoundingClientRect().top:innerHeight)-10,
+    nat=document.getElementById('top').getBoundingClientRect().bottom,d=Math.max(0,r.bottom-bot);
+  if(nat-d<=0&&r.top-d<H)d=r.top-H;
+  if(Math.abs(d)>1)window.scrollBy({top:d,behavior:bh})},50)}
+// 按鈕：手指放開就算（手機上 click 有時候會被吃掉，要按很用力才有反應）；滑動捲頁不算
+function tap(b,fn){var id=null,sx=0,sy=0,t=0;
+  b.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse')return;id=e.pointerId;sx=e.clientX;sy=e.clientY});
+  b.addEventListener('pointerup',function(e){if(e.pointerId!==id)return;id=null;if(!b.disabled&&Math.hypot(e.clientX-sx,e.clientY-sy)<16){t=Date.now();fn()}});
+  b.addEventListener('pointercancel',function(){id=null});
+  b.addEventListener('click',function(){if(Date.now()-t<700||b.disabled)return;fn()})}
 function onKey(node,fn){node.addEventListener('click',fn);node.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})}
 function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;area.appendChild(b);into(b);return b}
 
@@ -81,7 +96,7 @@ function whyHTML(l){return l.why?'<details class="why"><summary>'+l.why[0]+'</su
 function win(i){
   if(st.done[i])return;st.done[i]=1;st.far=Math.max(st.far,i+1);save();chips(i);paint();
   var l=LV[i],box=el('<div class="got"><span class="seal'+(reduce?'':' pop')+'">'+icon(l.stamp[0])+'</span><p>スタンプ：'+l.stamp[1]+'！<br>「つぎへ」をおしてね。</p></div>'+whyHTML(l));
-  var nb=card.querySelector('.notes');if(nb)card.insertBefore(box,nb);else card.appendChild(box);into(box);
+  var nb=card.querySelector('.redo')||card.querySelector('.notes');if(nb)card.insertBefore(box,nb);else card.appendChild(box);into(box);
 }
 function render(i){
   var l=LV[i];
@@ -102,14 +117,19 @@ function render(i){
     nb3.insertAdjacentHTML('beforeend','<p class="note maps">おうちの方へ：<a href="'+LEARN+'" target="_blank" rel="noopener">もっと詳しく</a>（背景、現地での楽しみ方、出典）</p>')}
   if(st.done[i]&&l.stamp){
     area.innerHTML=(l.win?'<p class="say">'+l.win+'</p>':'')+(l.q?'<p class="say">'+l.q.e+'</p>':'')+whyHTML(l)+'<div class="got"><span class="seal">'+icon(l.stamp[0])+'</span><p>スタンプずみ：'+l.stamp[1]+'</p></div><button class="again-btn" type="button">このステージをもういちど</button>';
-    area.querySelector('.again-btn').addEventListener('click',function(){var keep=st.done[i];delete st.done[i];render(i);st.done[i]=keep;replay=i;paint()});
+    tap(area.querySelector('.again-btn'),function(){restart(i)});
     return;
   }
   GAMES[l.game](area,i,l);
+  // 每一關都可以重來（2026-10-25 使用者反映：玩壞了只能從第 1 關重玩）
+  if(l.game!=='start'&&l.game!=='end'){var rb=el('<button class="again-btn redo" type="button">このステージをはじめから</button>').firstChild;card.insertBefore(rb,area.nextSibling);
+    tap(rb,function(){restart(i)})}
   // 開場「出發」旁邊：延伸閱讀的小圓按鈕（玩過的人不用再玩一次就能看；另開分頁）
   if(l.game==='start'&&LEARN){var b0=area.querySelector('.big');if(b0){var row=document.createElement('div');row.className='go-row';b0.parentNode.insertBefore(row,b0);row.appendChild(b0);row.insertAdjacentHTML('beforeend','<a class="learn-round" href="'+LEARN+'" target="_blank" rel="noopener">もっと<br>知る</a>')}}
 }
 var replay=-1;
+// 同一關重新玩：停掉動畫，遊戲從頭開始（玩過的關卡，章還是留著）
+function restart(i){stopLoops();var keep=st.done[i];delete st.done[i];render(i);if(keep)st.done[i]=keep;replay=keep?i:-1;paint();if(!wide.matches)window.scrollTo(0,0)}
 function finish(i){if(replay===i){replay=-1;render(i);return}win(i)}
 
 function quiz(area,l,done){
@@ -117,12 +137,12 @@ function quiz(area,l,done){
   var opts=document.createElement('div');
   q.o.forEach(function(t,j){
     var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
-    b.addEventListener('click',function(){
+    tap(b,function(){if(b.disabled)return;
       if(j===q.a){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add('yes');say(msg,q.e);if(sk)sk.remove();done()}
       else{b.classList.add('no');b.disabled=true;say(msg,q.hint,1)}
     });opts.appendChild(b)});
   box.appendChild(opts);var msg=document.createElement('p');msg.hidden=true;box.appendChild(msg);
-  var sk=null;if(q.field){sk=el('<button class="skip" type="button">いまは現地にいないので、とばす</button>').firstChild;sk.addEventListener('click',function(){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});say(msg,'とばしました。'+q.e);sk.remove();done()});box.appendChild(sk)}
+  var sk=null;if(q.field){sk=el('<button class="skip" type="button">いまは現地にいないので、とばす</button>').firstChild;tap(sk,function(){opts.querySelectorAll('.opt').forEach(function(x){x.disabled=true});say(msg,'とばしました。'+q.e);sk.remove();done()});box.appendChild(sk)}
   area.appendChild(box);into(box);
 }
 // 把螢幕上的點換成插圖裡的座標
