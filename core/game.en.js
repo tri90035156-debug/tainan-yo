@@ -41,7 +41,7 @@ function fitStage(){
   // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
   var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
   if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
-  else{if(innerWidth!==baseW){baseW=innerWidth;baseH=innerHeight}D=Math.min(W-28,Math.round(baseH*.5));stage.style.height=(D+32)+'px'}
+  else{if(innerWidth!==baseW){baseW=innerWidth;baseH=innerHeight}D=Math.min(W-10,Math.round(baseH*.6));stage.style.height=(D+32)+'px'}
   D=Math.max(180,D);disc.style.width=disc.style.height=D+'px';stage.style.setProperty('--d',D+'px');
   if(!svg)return;
   // 長方形的遊戲圖剛好放進圓裡（四個角都不被切掉）

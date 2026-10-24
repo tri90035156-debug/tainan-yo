@@ -225,6 +225,8 @@ main b,main strong{font-weight:700;color:var(--ink)}
   /* 圓黏在畫面上方：往下捲找按鈕時，圓和按鈕一定同時看得到 */
   .stage{position:sticky;top:0;z-index:4;background:var(--bg)}
   main *{scroll-margin-bottom:76px}
+  /* 圓盡量大：幾乎滿版寬、最多六成高（2026-10-25 使用者選的），外圈光暈變細 */
+  .disc{box-shadow:0 0 0 5px var(--goldsoft)}
   .big{width:96px;height:96px;margin:12px auto;font-size:19px}
 }
 /* ===== 卡片文字角色（使用者定的規則） ===== */
