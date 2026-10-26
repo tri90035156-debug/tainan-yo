@@ -213,7 +213,7 @@ var GAMES={
     var art='<rect x="-400" y="70" width="1200" height="34" fill="#D8C49C"/><rect x="-400" y="104" width="1200" height="34" fill="#C0A87C"/><rect x="-400" y="138" width="1200" height="32" fill="#A88E64"/>'+
       '<g transform="translate(150 140)">'+rhino(0,14,1.25,1,true).replace(/#E8DCC0/g,FOS).replace(/#A8987A/g,FOS2)+'</g>'+
       '<path d="M266 92q8 -8 16 0q-8 8 -16 0Z" fill="'+FOS+'" stroke="'+FOS2+'" stroke-width="1.2"/><path d="M268 92h12M274 86v12" stroke="'+FOS2+'" stroke-width="1"/>';
-    setScene(idCard('化石','很久以前的生物，變成石頭留下來',art,[['一層一層的地層',70,62,40,80],['犀牛骨頭化石',150,62,170,108],['貝殼化石',272,62,274,88]]));
+    setScene(idCard('化石','很久以前的生物，變成石頭留下來',art,[['一層一層的地層',78,62,40,80],['犀牛骨頭化石',186,62,170,108],['貝殼化石',272,62,274,88]]));
     var b=el('<button class="big" type="button">出發</button>').firstChild;fastClick(b);b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
 
   /* 第 1 關：放大鏡跟著手指，看到小孔紋路就點那顆石頭；找出 3 個化石 */

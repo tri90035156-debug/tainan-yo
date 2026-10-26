@@ -207,7 +207,7 @@ var NOTE='給大人：安平古堡要買票入園（臺南市民憑證件免費�
 var GAMES={
   start:function(area){
     var art=fortNow(110,118,1.7)+bricks(204,108,96,44)+'<path d="M210 108Q204 128 212 152M236 108Q230 130 238 152M266 108Q262 126 270 152" stroke="#6E5A3A" stroke-width="3" fill="none"/><ellipse cx="248" cy="96" rx="58" ry="22" fill="#4E8A3A"/><ellipse cx="226" cy="88" rx="26" ry="12" fill="#5E9A46"/>';
-    setScene(idCard('安平古堡','以前叫熱蘭遮城，大約 400 年前荷蘭人蓋的',art,[['紅色尖頂的瞭望台',100,52,110,66],['白色的牆',70,166,80,150],['荷蘭時代的紅磚牆',250,176,236,140]]));
+    setScene(idCard('安平古堡','以前叫熱蘭遮城，大約 400 年前荷蘭人蓋的',art,[['紅色尖頂的瞭望台',100,52,110,66],['白色的牆',60,160,100,140],['荷蘭時代的紅磚牆',250,160,236,132]]));
     var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
 
   /* 第 1 關：在沙洲上拉出一個方框，圍出城堡的位置 */

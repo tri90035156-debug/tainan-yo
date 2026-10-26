@@ -217,7 +217,7 @@ var NOTE='給大人：赤崁樓在中西區民族路二段，全票 70 元，臺
 var GAMES={
   start:function(area){
     var art='<rect x="40" y="128" width="240" height="40" fill="'+BRICK+'" stroke="'+BRICK2+'" stroke-width="1.6"/><path d="M110 168V152Q124 138 138 152V168M182 168V152Q196 138 210 152V168" fill="#5A3020"/>'+pavilion(110,128,.9)+pavilion(212,128,.9);
-    setScene(idCard('赤崁樓','荷蘭城堡上的清朝樓閣',art,[['清朝的樓閣',86,42,98,62],['荷蘭的紅磚台基',236,108,250,140],['拱門',160,186,124,152]]));
+    setScene(idCard('赤崁樓','荷蘭城堡上的清朝樓閣',art,[['清朝的樓閣',86,42,98,62],['荷蘭的紅磚台基',236,108,250,140],['拱門',160,158,124,152]]));
     var b=el('<button class="big" type="button">出發</button>').firstChild;fastClick(b);b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
 
   /* 第 1 關：把一捆一捆的布拖給原住民，每 5 匹換一排地，換滿 15 匹 */
