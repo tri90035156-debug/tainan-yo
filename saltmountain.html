@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/saltmountain.html#game","name":"鹽山任務","alternateName":"鹽山任務・鹽田・七股鹽山","url":"https://tainanyo.tw/saltmountain.html","description":"跟著以前在七股鹽場工作的阿公看七股鹽山：猜鹽山有多高、繞著山腳走 400 公尺、找出鹽山最怕的雨季、用澳洲的鹽補好裂縫、一階一階爬上山頂，再蓋好鹽博館的白色金字塔。","image":"https://tainanyo.tw/img/saltmountain.png","inLanguage":"zh-Hant","genre":"鹽田","keywords":"臺南, 台南, 鹽田, 七股鹽山, 七股區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・鹽山腳下：鹽山有多高","position":1},{"@type":"CreativeWork","name":"第 2 關・繞一圈：繞著鹽山走一圈","position":2},{"@type":"CreativeWork","name":"第 3 關・雨季：鹽山最怕雨","position":3},{"@type":"CreativeWork","name":"第 4 關・修補：補好鹽山的裂縫","position":4},{"@type":"CreativeWork","name":"第 5 關・登頂：一階一階爬上去","position":5},{"@type":"CreativeWork","name":"第 6 關・鹽博館：白色的金字塔","position":6}],"contentLocation":{"@type":"Place","name":"七股鹽山（臺南市七股區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"七股區"},"geo":{"@type":"GeoCoordinates","latitude":23.163,"longitude":120.104}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/saltmountain.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"鹽田","item":"https://tainanyo.tw/#yantian"},{"@type":"ListItem","position":3,"name":"鹽山任務","item":"https://tainanyo.tw/saltmountain.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -198,6 +198,16 @@ var LV=[
    html:'<p>你猜了鹽山多高、繞著山腳走了 400 公尺、找出鹽山最怕的雨季、用澳洲的鹽補好裂縫、一階一階爬上山頂，還蓋好兩座白色金字塔。到七股，看看這座最後一批曬鹽堆成的鹽山！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#DFF3F8',W_LAND='#F1E6CC';
+var WORDS={
+  '七股鹽場':['1938 年開始曬鹽，是臺灣以前最大的曬鹽場。','<rect x="-44" y="0" width="88" height="24" fill="#9AC6D6"/><path d="M-44 8H44M-44 16H44M-14 0V24M14 0V24" stroke="#E8E0CC" stroke-width="2"/>'+mountain(0,0,20,20,false),W_SKY],
+  '堆置場':['曬好的鹽堆放的地方。鹽越堆越高，就變成了鹽山。',mountain(0,0,40,40,false),W_SKY],
+  '七股鹽山':['七股鹽場留下來的大鹽山，2018 年量大約 18 公尺高。',mountain(0,0,40,40,true),W_SKY],
+  '艙底鹽':['從澳洲用船運來的鹽。臺灣不曬鹽了，鹽場就用艙底鹽補鹽山的裂縫。','<path d="M-40 4H40L32 22H-32Z" fill="#3E6A9A"/><rect x="-20" y="-12" width="30" height="16" fill="#E8E0CC"/><path d="M-44 24Q-30 18 -16 24T12 24T40 24" stroke="#7EB6CC" stroke-width="3" fill="none"/>'+mountain(-5,-12,12,14,false),'#CFE6EC'],
+  '台灣鹽博物館':['七股鹽山旁邊的博物館，屋頂就是照著鹽山的樣子做的，像兩座白白的金字塔。',pyramid(-14,20,40)+pyramid(18,20,30),W_SKY]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["七股鹽山","七股鹽山"]]};
 
@@ -213,6 +223,9 @@ function wait(fn,ms){var t=setTimeout(fn,ms);loops.push(function(){clearTimeout(
 var LEARN='learn/saltmountain.html';  // 延伸閱讀頁
 var KEY='tainan-saltmountain';
 var NOTE='給大人：七股鹽山在七股區鹽埕里；鹽山的鹽有灰塵，不要舔、不要吃；夏天太陽大，戴帽子、多喝水；颱風和下大雨時可能休園，出發前先確認開放時間和能不能登頂。台灣鹽博物館整修中（改名台灣鹽產業展示館）。<br>資料來源：自由時報 2018（約 1 公頃、底座周長約 400 公尺、總重約 3 萬 5000 公噸、高約 6 層樓 18 公尺；最怕雨，5 到 8 月雨季溶損崩塌，少了 3 公尺；每 1、2 個月用澳洲進口艙底鹽修補；2 個階梯登頂；卡灰塵變黑）、公視 2018（2002 年停止生產工業用鹽、隔年開放觀光、澳洲艙底鹽修補）、輕旅行（臺灣最大的曬鹽場、6 層樓 3.9 萬噸、幸福之路）、遠見城市學 2023（1938 年創立、2003 年 5 月停止曬鹽）、自由時報 2026（3.9 萬噸末代曬鹽；台灣鹽博物館白色金字塔，改造為台灣鹽產業展示館）。猜高度、插旗子、長條圖的高低、大袋小袋、一階一階點、拉三角形，都是遊戲示意。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"七股鹽場":"ㄑㄧ ㄍㄨˇ ㄧㄢˊ ㄔㄤˇ","堆置場":"ㄉㄨㄟ ㄓˋ ㄔㄤˇ","七股鹽山":"ㄑㄧ ㄍㄨˇ ㄧㄢˊ ㄕㄢ","艙底鹽":"ㄘㄤ ㄉㄧˇ ㄧㄢˊ","台灣鹽博物館":"ㄊㄞˊ ㄨㄢ ㄧㄢˊ ㄅㄛˊ ㄨˋ ㄍㄨㄢˇ"};
 
 var GAMES={
   start:function(area){
@@ -385,6 +398,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

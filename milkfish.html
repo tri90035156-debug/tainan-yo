@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/milkfish.html#game","name":"虱目魚任務","alternateName":"虱目魚任務・養殖漁業・學甲虱目魚","url":"https://tainanyo.tw/milkfish.html","description":"跟著學甲養虱目魚的叔叔：從下面往上撈魚苗、畫圈圈讓魚去吃藻、兩邊一起拉網子收魚、寒流來時把小魚趕進越冬溝，再到魚攤刮魚鱗、早餐挑出虱目魚的刺。","image":"https://tainanyo.tw/img/milkfish.png","inLanguage":"zh-Hant","genre":"養殖漁業","keywords":"臺南, 台南, 養殖漁業, 學甲, 學甲區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・以前撈魚苗：從下面往上撈","position":1},{"@type":"CreativeWork","name":"第 2 關・淺淺的魚塭（夏天）：圈起藻，讓魚去吃","position":2},{"@type":"CreativeWork","name":"第 3 關・收虱目魚（秋天）：兩邊一起拉網子","position":3},{"@type":"CreativeWork","name":"第 4 關・越冬溝（寒流來了）：把小魚趕進深溝","position":4},{"@type":"CreativeWork","name":"第 5 關・菜市場的魚攤：刮魚鱗","position":5},{"@type":"CreativeWork","name":"第 6 關・早餐吃虱目魚粥：一根一根挑刺","position":6}],"contentLocation":{"@type":"Place","name":"學甲（臺南市學甲區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"學甲區"},"geo":{"@type":"GeoCoordinates","latitude":23.2325,"longitude":120.1808}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/milkfish.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"養殖漁業","item":"https://tainanyo.tw/#yangzhi"},{"@type":"ListItem","position":3,"name":"虱目魚任務","item":"https://tainanyo.tw/milkfish.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -205,6 +205,22 @@ var LV=[
 ];
 
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#DFF3F8',W_POND='#CFE6EC',W_LAND='#F1E6CC';
+var WORDS={
+  '虱目魚粥':['用虱目魚煮的粥，是臺南人常吃的早餐。','<path d="M-34 -4H34Q32 24 0 26Q-32 24 -34 -4Z" fill="#F4F0E8" stroke="#8A8A84" stroke-width="1.6"/><ellipse cx="0" cy="-4" rx="34" ry="8" fill="#FBF8F0" stroke="#8A8A84" stroke-width="1.6"/><path d="M-16 -6Q-8 -10 0 -6M6 -4Q14 -8 20 -3" stroke="#C8B8A0" stroke-width="4" stroke-linecap="round"/><circle cx="-4" cy="-2" r="1.5" fill="#6AAA48"/><circle cx="12" cy="-6" r="1.5" fill="#6AAA48"/>',W_LAND],
+  '魚塭':['養魚的池子。學甲的四周，到處都是一格一格的魚塭。','<rect x="-40" y="-24" width="80" height="48" rx="3" fill="#A9CFD8" stroke="#B49A70" stroke-width="5"/>'+mfish(-6,-6,.5)+mfish(10,10,.5,{dir:-1}),W_LAND],
+  '魚苗':['剛出生、小小的魚寶寶。以前要到海邊和河口，用網子撈天然的魚苗。',fry(-6,-4,0,1.6)+fry(6,2,20,1.6)+fry(-2,8,-10,1.6),W_POND],
+  '淺坪':['臺南沿海傳統的魚塭，水只有大人的膝蓋那麼深。','<rect x="-46" y="0" width="92" height="20" fill="#A9CFD8"/><rect x="-46" y="20" width="92" height="8" fill="#9A7A56"/>'+mfish(-8,10,.4)+'<circle cx="26" cy="-22" r="9" fill="#F5C842"/>',W_SKY],
+  '藻':['長在水裡的小植物。淺坪的水曬了太陽，就會長出藻，虱目魚吃藻長大。',alga(0,0,1),W_POND],
+  '越冬溝':['魚塭旁邊挖的一條深深的溝。寒流來的時候，魚躲到深溝裡過冬。','<path d="M-46 -4H-12V24H12V-4H46V30H-46Z" fill="#9A7A56"/><path d="M-46 -4H-12V22H12V-4H46" fill="none"/><rect x="-46" y="-12" width="34" height="8" fill="#A9CFD8"/><rect x="12" y="-12" width="34" height="8" fill="#A9CFD8"/><rect x="-12" y="-12" width="24" height="34" fill="#6EA8BE"/>'+mfish(0,10,.3),W_SKY],
+  '防風棚':['搭在越冬溝北邊的棚子，擋住冬天的北風。',shed(0,0,70),W_SKY],
+  '水門':['魚塭的門。漲潮時打開讓海水流進來；寒流來時關上，把水留住。','<rect x="-40" y="-6" width="80" height="30" fill="#A9CFD8"/><rect x="-12" y="-28" width="24" height="40" fill="#8A8A84" stroke="#5A5A54" stroke-width="2"/><path d="M-12 -14H12" stroke="#5A5A54" stroke-width="2"/>',W_LAND],
+  '魚肚':['虱目魚肚子那一塊肉。魚攤老闆會當場把魚切成魚肚、魚皮、魚背肉。',mfish(0,0,1)+'<ellipse cx="0" cy="6" rx="14" ry="6" fill="none" stroke="#DB2E27" stroke-width="1.6" stroke-dasharray="3 2"/>',W_POND],
+  '魚鱗':['魚身上一片一片的小硬片，從頭往尾巴疊。所以要從尾巴往頭刮。',mfish(0,0,1),W_POND],
+  '刀背':['刀子沒有刀口的那一邊。刮魚鱗用刀背，比較不會切到魚肉。','<path d="M-36 4H20L30 -6H-36Z" fill="#C8CDD2" stroke="#7A7268" stroke-width="1.4"/><rect x="-52" y="-6" width="18" height="10" rx="2" fill="#6A4A30"/><path d="M-30 -10H26" stroke="#DB2E27" stroke-width="2.4" stroke-dasharray="4 3"/>',W_LAND]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0": [["學甲區", "台南市學甲區"]]};
 
@@ -212,6 +228,9 @@ var MAPS={"0": [["學甲區", "台南市學甲區"]]};
 var LEARN='learn/milkfish.html';  // 延伸閱讀頁
 var KEY='tainan-milkfish';
 var NOTE='給大人：插畫地圖是示意，不是真實比例。魚塭是漁民的地，有的很深，請不要自己走到池邊。<br>資料來源：臺南虱目魚約占全國一半（中央社 2020/7/29）；虱目魚怕冷、10°C 以下會凍死、學甲是主要產區（海洋大學 經濟魚蝦養殖實習；中央社 2017、2018；公視）；8 到 12 月捕撈、挑大放小（遠見雜誌）；天亮前收魚（微笑台灣，七股）；越冬溝、防風棚、關水門（農業部農業知識入口網；中時新聞 2025/11/13）；淺坪式養殖、底藻（農業部；微笑台灣）；魚苗靠河口撈、1978 年人工繁殖成功（農業部漁業署；食力）；222 根刺（農業部）；無刺魚肚的切魚方法、臺南虱目魚攤、從頭吃到尾、府城人的早餐虱目魚粥（食力；TVBS 健康）。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"虱目魚粥":"ㄕ ㄇㄨˋ ㄩˊ ㄓㄡ","魚塭":"ㄩˊ ㄨㄣ","魚苗":"ㄩˊ ㄇㄧㄠˊ","淺坪":"ㄑㄧㄢˇ ㄆㄧㄥˊ","藻":"ㄗㄠˇ","越冬溝":"ㄩㄝˋ ㄉㄨㄥ ㄍㄡ","防風棚":"ㄈㄤˊ ㄈㄥ ㄆㄥˊ","水門":"ㄕㄨㄟˇ ㄇㄣˊ","魚肚":"ㄩˊ ㄉㄨˋ","魚鱗":"ㄩˊ ㄌㄧㄣˊ","刀背":"ㄉㄠ ㄅㄟˋ"};
 
 var GAMES={
   start:function(area){
@@ -456,6 +475,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

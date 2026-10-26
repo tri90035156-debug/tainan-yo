@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/mullet.html#game","name":"烏金任務","alternateName":"烏金任務・漁港・冬至烏魚","url":"https://tainanyo.tw/mullet.html","description":"跟著將軍區青鯤鯓的阿伯和阿嬤：撕節氣日曆等到冬至烏魚游來、在青山漁港用手指頭比出價、兩根手指托著魚卵去洗、顧好曬烏魚子的一整天，再畫出扇形鹽田、把手機倒過來看倒立水母。","image":"https://tainanyo.tw/img/mullet.png","inLanguage":"zh-Hant","genre":"漁港","keywords":"臺南, 台南, 漁港, 青鯤鯓, 將軍區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-21","datePublished":"2026-10-21","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・冬天的海上：一頁一頁撕日曆","position":1},{"@type":"CreativeWork","name":"第 2 關・青山漁港：用手指頭出價","position":2},{"@type":"CreativeWork","name":"第 3 關・做烏魚子：兩根手指托著魚卵","position":3},{"@type":"CreativeWork","name":"第 4 關・曬烏魚子：太陽太大，收進來","position":4},{"@type":"CreativeWork","name":"第 5 關・扇形鹽田：畫出鹽田的形狀","position":5},{"@type":"CreativeWork","name":"第 6 關・生命之樹：把手機倒過來看","position":6}],"contentLocation":{"@type":"Place","name":"青鯤鯓（臺南市將軍區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"將軍區"},"geo":{"@type":"GeoCoordinates","latitude":23.1891,"longitude":120.0889}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/mullet.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"漁港","item":"https://tainanyo.tw/#yugang"},{"@type":"ListItem","position":3,"name":"烏金任務","item":"https://tainanyo.tw/mullet.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 <style>
 /* 這個遊戲自己的樣式（共用的在 共用/遊戲核心.css） */
 .alt-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:16px;color:#5A4E48}
@@ -254,6 +254,28 @@ var LV=[
    html:'<p>你撕日曆等到冬至、用手指頭出價買到烏魚、用兩根手指托著魚卵去洗、顧好曬烏魚子的一整天，再畫出扇形鹽田、倒過來看倒立水母。冬天到青鯤鯓走走，看看<b>烏金</b>是怎麼來的！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SEA='#CFE6EC',W_LAND='#F1E6CC',W_SKY='#DFF3F8';
+var WORDS={
+  '烏魚':['一種背灰灰黑黑、肚子銀白色的魚。每年冬天，從北邊的海游到臺灣西南邊的海裡產卵。',mullet(0,0,1),W_SEA],
+  '烏魚子':['母烏魚肚子裡的魚卵做成的，金黃色、扁扁長長的一對。很珍貴，大家叫它<b>烏金</b>。',roe(0,0,1),W_LAND],
+  '烏金':['就是<b>烏魚子</b>。很少又很難做，像金子一樣珍貴，所以叫烏金。',roe(0,0,1),W_LAND],
+  '產卵':['魚媽媽生下魚卵。烏魚游到臺灣西南邊的海裡產卵。',mullet(-6,-6,.8)+'<g fill="#F2B632">'+[[14,8],[20,12],[17,16],[24,8],[22,18]].map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.4"/>'}).join('')+'</g>',W_SEA],
+  '冬至':['<b>二十四節氣</b>之一，在 12 月 22 日左右，是一年裡晚上最長的一天。烏魚在冬至前後最多。','<rect x="-24" y="-28" width="48" height="56" rx="4" fill="#fff" stroke="#BD9558" stroke-width="2"/><rect x="-24" y="-28" width="48" height="14" rx="4" fill="#DB2E27"/><text y="12" font-size="20" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,serif">冬至</text>',W_LAND],
+  '信魚':['烏魚每年冬至前後都準時游來，很守信用，所以也叫信魚。',mullet(0,0,1),W_SEA],
+  '喊魚仔':['青山漁港的人說的「拍賣」。漁船回來，大家搶著出價，出最高價的人買走這箱魚。','<rect x="-30" y="0" width="60" height="22" fill="#5E9AC8" stroke="#2E5A88" stroke-width="1.4"/>'+mullet(-10,8,.4)+mullet(12,10,.4,-1)+'<path d="M-6 -30V-12M2 -30V-12M10 -26V-12M-14 -24V-12" stroke="#E8B898" stroke-width="5" stroke-linecap="round"/>',W_LAND],
+  '拍賣':['大家搶著出價，出最高價的人，就能買走這箱魚。',mullet(0,0,.8)+'<text y="-16" font-size="14" font-weight="900" fill="#DB2E27" text-anchor="middle">$$$</text>',W_LAND],
+  '烏魚膘':['公烏魚肚子裡的東西，也可以吃。','<path d="M-26 -6Q0 -16 26 -6Q30 0 26 6Q0 16 -26 6Q-30 0 -26 -6Z" fill="#F4ECE0" stroke="#C8B8A0" stroke-width="1.4"/>',W_LAND],
+  '去血':['做烏魚子的第一步：放進水裡洗，把血管裡的血弄乾淨。血沒弄乾淨，烏魚子會變黑。','<ellipse cx="0" cy="8" rx="38" ry="14" fill="#A9CFD8" stroke="#7E9DAA" stroke-width="2"/>'+roe(0,4,.7),W_LAND],
+  '陰乾':['放在陰涼的地方吹風，慢慢變乾。曬烏魚子太陽太大的時候，就收進屋裡陰乾。','<path d="M-36 -10L0 -30L36 -10Z" fill="#8A6A4A"/><rect x="-30" y="-10" width="60" height="6" fill="#6A4A30"/>'+rack(0,16,.8,true),W_LAND],
+  '曬架':['曬烏魚子用的架子，一層木板上排著烏魚子。',rack(0,0,1,true),W_SKY],
+  '扇形鹽田':['將軍的一片鹽田，1977 年做好。一格一格從中間往外排開，從天空看像一把打開的扇子。',fan(0,30,60,200,340,{}),W_LAND],
+  '招潮蟹':['住在海邊泥灘的小螃蟹，公蟹有一隻大大的螯（大鉗子）。','<ellipse cx="0" cy="6" rx="16" ry="10" fill="#C86A3A"/><path d="M14 2Q30 -10 32 -24Q22 -24 18 -10" fill="#E8C060" stroke="#B8902E" stroke-width="1.4"/><path d="M-14 2Q-20 -4 -22 -10" stroke="#C86A3A" stroke-width="3" stroke-linecap="round"/><path d="M-12 12L-24 20M-6 14L-14 24M6 14L12 24M12 12L22 20" stroke="#A85A2A" stroke-width="2.4" stroke-linecap="round"/><circle cx="-5" cy="-4" r="2" fill="#2A2020"/><circle cx="5" cy="-4" r="2" fill="#2A2020"/>',W_LAND],
+  '生命之樹':['扇形鹽田中間，一棵用木頭做的大樹（裝置藝術）。',tree(0,0,1),W_SKY],
+  '倒立水母':['一種很少見的水母。牠倒過來躺在淺淺的水底，觸手朝上，像一朵花。',jelly(0,0,1),W_SEA],
+  '共生藻':['住在倒立水母觸手裡、很小很小的藻。牠們和水母住在一起，互相幫忙。',jelly(0,0,1),W_SEA]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["青山漁港","將軍區青山漁港"]],"2":[["青山漁港","將軍區青山漁港"]],"5":[["青鯤鯓扇形鹽田","青鯤鯓扇形鹽田"]],"6":[["青鯤鯓扇形鹽田（生命之樹）","青鯤鯓扇形鹽田 生命之樹"]]};
 
@@ -276,6 +298,9 @@ function fingers(svg,fn){var P={};svg.style.touchAction='none';
 var LEARN='learn/mullet.html';  // 延伸閱讀頁
 var KEY='tainan-mullet';
 var NOTE='給大人：青鯤鯓在臺南市將軍區的海邊。農業部說，在臺灣捕到的野生烏魚一年比一年少，現在做烏魚子的母魚多半是臺灣自己養的，也有進口的魚卵；遊戲裡出海捕烏魚是示意。青山漁港的拍賣看天氣和漁獲，不是每天都有；到扇形鹽田要把車停在外面，走生態步道，不要碰水母和小生物。<br>資料來源：農業部（烏魚 11 月到隔年 1 月跟著約 19 到 21 度的海水南下，冬至前後約 10 天最多，叫信魚；一尾母烏只有一副卵巢可做烏魚子，叫烏金；野生烏魚減少，母魚多來自養殖）；風傳媒（青鯤鯓冬烏魚銳減，市場由養殖烏魚和進口魚卵補上）；2016 年報導、臺南旅遊網（青山漁港下午約 2 點拍賣，俗稱喊魚仔）；食力（魚市場買家用暗號出價，基隆崁仔頂）；農業部漁業署烏魚子產製指引、微笑台灣（去血、鹽漬、壓板、早上曬約 3 小時後陰乾、傍晚再曬，3 到 5 天）；天下雜誌（去血不乾淨會變黑）；康健雜誌（公烏的精囊叫烏魚膘）；Spectral Codex、食尚玩家（扇形鹽田 1977 年建成，臺灣最後一座新建鹽田）；內政部國家公園署（扇形鹽田在七股鹽田國家級重要濕地範圍內）；中央社 2023（扇形鹽田發現倒立水母，觸鬚有弱毒性、身體脆弱）；公視（倒立水母的觸手有共生藻，倒立曬太陽）；NOWnews（市府修復扇骨中軸道路、生命之樹、生態步道）。喊魚仔用手勢出價、遊客能不能自己喊價，要到現場確認。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"烏魚":"ㄨ ㄩˊ","烏魚子":"ㄨ ㄩˊ ㄗˇ","烏金":"ㄨ ㄐㄧㄣ","產卵":"ㄔㄢˇ ㄌㄨㄢˇ","冬至":"ㄉㄨㄥ ㄓˋ","信魚":"ㄒㄧㄣˋ ㄩˊ","喊魚仔":"ㄏㄢˇ ㄩˊ ㄗˇ","拍賣":"ㄆㄞ ㄇㄞˋ","烏魚膘":"ㄨ ㄩˊ ㄅㄧㄠ","去血":"ㄑㄩˋ ㄒㄧㄝˇ","陰乾":"ㄧㄣ ㄍㄢ","曬架":"ㄕㄞˋ ㄐㄧㄚˋ","扇形鹽田":"ㄕㄢˋ ㄒㄧㄥˊ ㄧㄢˊ ㄊㄧㄢˊ","招潮蟹":"ㄓㄠ ㄔㄠˊ ㄒㄧㄝˋ","生命之樹":"ㄕㄥ ㄇㄧㄥˋ ㄓ ㄕㄨˋ","倒立水母":"ㄉㄠˋ ㄌㄧˋ ㄕㄨㄟˇ ㄇㄨˇ","共生藻":"ㄍㄨㄥˋ ㄕㄥ ㄗㄠˇ"};
 
 var GAMES={
   start:function(area){
@@ -550,6 +575,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

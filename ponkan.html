@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/ponkan.html#game","name":"椪柑任務","alternateName":"椪柑任務・水果・東山椪柑","url":"https://tainanyo.tw/ponkan.html","description":"跟著東山種椪柑的舅舅：颱風前用竹竿撐住樹枝、拖著太陽看青皮椪柑綠綠的也熟了、斜斜的分級板分大小、翻過來挑出壞的、在水果攤秤一台斤，再把椪柑一瓣一瓣分給大家。","image":"https://tainanyo.tw/img/ponkan.png","inLanguage":"zh-Hant","genre":"水果","keywords":"臺南, 台南, 水果, 東山, 東山區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・山坡上的椪柑園（10 月初）：颱風要來了","position":1},{"@type":"CreativeWork","name":"第 2 關・青皮也熟了（10 月）：綠綠的，可以吃嗎？","position":2},{"@type":"CreativeWork","name":"第 3 關・分大小：大的、中的、小的","position":3},{"@type":"CreativeWork","name":"第 4 關・裝箱：翻過來看一看","position":4},{"@type":"CreativeWork","name":"第 5 關・路邊的水果攤：剛好一台斤","position":5},{"@type":"CreativeWork","name":"第 6 關・舅舅家：大家一起吃","position":6}],"contentLocation":{"@type":"Place","name":"東山（臺南市東山區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"東山區"},"geo":{"@type":"GeoCoordinates","latitude":23.3262,"longitude":120.4036}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/ponkan.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"水果","item":"https://tainanyo.tw/#shuiguo"},{"@type":"ListItem","position":3,"name":"椪柑任務","item":"https://tainanyo.tw/ponkan.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -196,6 +196,17 @@ var LV=[
 ];
 
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC';
+var WORDS={
+  '椪柑':['一種橘子，扁扁圓圓的。有一說：它的皮<b>蓬蓬鬆鬆</b>的，所以叫椪柑。',ponkan(-12,0,1,.9)+ponkan(14,2,1,.2),W_SKY],
+  '青皮椪柑':['東山有名的椪柑。皮還是綠綠的，可是裡面已經熟了、甜了，是秋天最早上市的橘子之一。',ponkan(0,0,1,0),W_SKY],
+  '防風網':['架在果園旁邊擋風的大網子。山坡上的果園沒辦法架防風網。','<path d="M-36 30V-26M0 30V-26M36 30V-26" stroke="#7A5A3A" stroke-width="3"/>'+(function(){var h='';for(var k=-24;k<=26;k+=6)h+='<path d="M-36 '+k+'H36" stroke="#5A8A5A" stroke-width=".8"/>';for(var x=-36;x<=36;x+=6)h+='<path d="M'+x+' -26V30" stroke="#5A8A5A" stroke-width=".8"/>';return h})(),W_SKY],
+  '分級板':['斜斜的板子，上面有大小不一樣的洞。小的椪柑先掉下去，大的滾到後面，就分好大小了。','<g transform="rotate(-12)"><rect x="-44" y="-6" width="88" height="10" rx="2" fill="#C8A878" stroke="#8A6A4A"/><circle cx="-24" cy="-1" r="4" fill="#5A4030"/><circle cx="0" cy="-1" r="6" fill="#5A4030"/><circle cx="26" cy="-1" r="8" fill="#5A4030"/></g>'+ponkan(-20,-18,.5,.3)+ponkan(10,-20,.6,.3),W_LAND],
+  '一台斤':['臺灣常用的重量。一台斤就是 <b>600 公克</b>。','<rect x="-30" y="10" width="60" height="14" rx="3" fill="#B8B8B0"/><path d="M-26 -30H26V6H-26Z" fill="#F4F4EC" stroke="#8A8A84" stroke-width="2"/><path d="M-18 -12A18 18 0 0 1 18 -12" stroke="#3F6B2E" stroke-width="3" fill="none"/><path d="M0 2L6 -18" stroke="#DB2E27" stroke-width="2"/><text x="0" y="-20" font-size="8" font-weight="900" fill="#2A2020" text-anchor="middle">600</text>'+ponkan(-14,-34,.4,.3)+ponkan(4,-36,.4,.3),W_LAND],
+  '陳皮':['椪柑的皮曬乾以後，就是陳皮。','<path d="M-30 -8Q-20 -20 -6 -14Q-8 0 -24 4Q-34 2 -30 -8Z" fill="#B8762E"/><path d="M4 -4Q14 -18 28 -10Q28 4 12 8Q2 6 4 -4Z" fill="#A86A2A"/><path d="M-14 12Q-4 6 6 14Q0 24 -12 22Z" fill="#C0803A"/>',W_LAND]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0": [["東山區", "台南市東山區"]]};
 
@@ -203,6 +214,9 @@ var MAPS={"0": [["東山區", "台南市東山區"]]};
 var LEARN='learn/ponkan.html';  // 延伸閱讀頁
 var KEY='tainan-ponkan';
 var NOTE='給大人：青皮椪柑大約 10 到 11 月上市，之後慢慢轉黃，每年不同。果園是農民的地，要經過同意才能進去。<br>資料來源：聯合報元氣網 2024/1/31（引農糧署：青皮椪柑 10–11 月、挑大果、不要冰、陰涼通風、挑出發霉損傷）；公視台語新聞 2023/10/4（東山果農颱風前用竹架固定果樹、山坡地不能用防風網）；微笑台灣（青皮椪柑是東山特產、秋冬第一批水果）；早安健康（椪柑名字的一種說法）；農業部《農政與農情》（東山咖啡節加入青皮椪柑）。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"椪柑":"ㄆㄥˋ ㄍㄢ","青皮椪柑":"ㄑㄧㄥ ㄆㄧˊ ㄆㄥˋ ㄍㄢ","防風網":"ㄈㄤˊ ㄈㄥ ㄨㄤˇ","分級板":"ㄈㄣ ㄐㄧˊ ㄅㄢˇ","一台斤":"ㄧ ㄊㄞˊ ㄐㄧㄣ","陳皮":"ㄔㄣˊ ㄆㄧˊ"};
 
 var GAMES={
   start:function(area){
@@ -429,6 +443,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

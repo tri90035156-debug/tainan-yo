@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/sicao.html#game","name":"綠色隧道任務","alternateName":"綠色隧道任務・候鳥・四草","url":"https://tainanyo.tw/sicao.html","description":"跟著開船的阿姨到安南四草：扣好救生衣、在綠色隧道找到綠色之眼、把水筆仔的胎生苗種進泥巴、偷偷靠近招潮蟹、算出保護區有多少雁鴨，最後從四草砲台的砲孔看出去。","image":"https://tainanyo.tw/img/sicao.png","inLanguage":"zh-Hant","genre":"候鳥","keywords":"臺南, 台南, 候鳥, 四草, 安南區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・四草大眾廟：扣好救生衣","position":1},{"@type":"CreativeWork","name":"第 2 關・綠色隧道：找到綠色之眼","position":2},{"@type":"CreativeWork","name":"第 3 關・水筆仔：幫胎生苗種下去","position":3},{"@type":"CreativeWork","name":"第 4 關・泥灘：一二三，木頭人","position":4},{"@type":"CreativeWork","name":"第 5 關・保護區：鴨子有多少隻","position":5},{"@type":"CreativeWork","name":"第 6 關・四草砲台：從砲孔看出去","position":6}],"contentLocation":{"@type":"Place","name":"四草（臺南市安南區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"安南區"},"geo":{"@type":"GeoCoordinates","latitude":23.0147,"longitude":120.1325}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/sicao.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"候鳥","item":"https://tainanyo.tw/#houniao"},{"@type":"ListItem","position":3,"name":"綠色隧道任務","item":"https://tainanyo.tw/sicao.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -229,6 +229,29 @@ var LV=[
    html:'<p>你在大眾廟旁扣好救生衣、在綠色隧道找到綠色之眼、幫水筆仔的胎生苗種進泥巴、慢慢靠近招潮蟹、算出保護區有多少鴨子，最後從砲孔看到海口。冬天到四草，搭船看紅樹林和候鳥！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#DFF3F8',W_SEA='#CFE6EC',W_LAND='#F1E6CC',W_MUD='#D8CCB0';
+var WORDS={
+  '紅樹林':['長在海邊泥灘、海水和淡水交會的地方的樹林。四草有一大片紅樹林。',mangrove(-14,0,1,true)+mangrove(14,2,.9,true)+'<path d="M-36 8H36" stroke="#6EA8BE" stroke-width="3"/>',W_SEA],
+  '雁鴨':['就是野鴨。冬天一群一群從北方飛來四草過冬。',duck(-12,0,1,1)+duck(12,4,1,-1),W_SEA],
+  '黑面琵鷺':['冬天從北方飛來的鳥，臉黑黑的，嘴巴像一支湯匙。',spoon(0,0,1),W_SEA],
+  '綠色隧道':['兩邊的紅樹林長到中間連在一起，船從下面穿過，像一條綠色的隧道。','<path d="M-46 30V-4Q-46 -36 0 -36Q46 -36 46 -4V30H30V0Q30 -20 0 -20Q-30 -20 -30 0V30Z" fill="#4E8A44"/><rect x="-30" y="16" width="60" height="14" fill="#6EA8BE"/><path d="M-10 18H10L8 22H-8Z" fill="#C0583F"/>',W_SKY],
+  '大將爺':['四草大眾廟拜的鎮海元帥，大家叫他大將爺。',temple(0,0,1),W_SKY],
+  '鎮海元帥':['四草大眾廟拜的神，大家叫他<b>大將爺</b>。傳說他力氣非常大。',temple(0,0,1),W_SKY],
+  '竹筏港':['四草的一條水道。坐船開進竹筏港，就能穿過綠色隧道。','<rect x="-46" y="-6" width="92" height="20" fill="#6EA8BE"/>'+mangrove(-26,-6,.7)+mangrove(24,-6,.7)+'<path d="M-8 4H8L6 8H-6Z" fill="#C0583F"/>',W_SEA],
+  '綠色之眼':['綠色隧道裡，樹和水裡的倒影拼成一個像眼睛的形狀，有人叫它綠色之眼，也有人叫天使之吻。','<path d="M-40 0Q0 -34 40 0Q0 34 -40 0Z" fill="#4E8A44"/><path d="M-26 0Q0 -18 26 0Q0 18 -26 0Z" fill="#BFE0EA"/><path d="M-40 0H40" stroke="#fff" stroke-opacity=".6"/>',W_SKY],
+  '水筆仔':['四草的一種紅樹林。種子還掛在樹上，就先長成一根長長的<b>胎生苗</b>，像一支筆。',mangrove(0,0,1)+prop(-6,6,1,0)+prop(8,8,1,0),W_SEA],
+  '五梨跤':['四草的一種紅樹林，也叫紅海欖，下面有很多像腳一樣的根。',mangrove(0,0,1,true),W_SEA],
+  '胎生苗':['水筆仔的種子在樹上就先長成的苗，像一支筆，大約 15 到 20 公分。掉下來就插進泥巴裡長大。',prop(0,0,1.4,0),W_MUD],
+  '泥灘':['退潮時露出來的爛泥地，招潮蟹、彈塗魚都住在這裡。','<rect x="-46" y="0" width="92" height="30" fill="#9A8A6A"/>'+crab(-12,4,1,false,true)+skipper(16,6,1,1),W_SKY],
+  '招潮蟹':['住在泥灘的小螃蟹。雄的有一隻特別大的白色螯（大鉗子），常常舉起來揮。',crab(0,0,1,true,true),W_MUD],
+  '彈塗魚':['住在泥灘上的魚，可以在泥巴上跳來跳去。',skipper(0,0,1,1),W_MUD],
+  '四草砲台':['清朝大約 1840 年蓋的砲台，和對面的安平砲台一左一右，守住進出台江的船。','<path d="M-40 26V-6H40V26Z" fill="#B8B0A0" stroke="#7A7268" stroke-width="1.6"/><path d="M-40 -6H40" stroke="#8A8478" stroke-width="3"/>'+[-24,0,24].map(function(x){return '<circle cx="'+x+'" cy="8" r="6" fill="#3A3430"/>'}).join(''),W_SKY],
+  '台江':['以前臺南西邊的一大片內海，船從這裡進出府城。後來慢慢淤積，變成陸地。','<rect x="-46" y="-20" width="92" height="40" fill="#7EB6CC"/><path d="M-46 -20H-20Q-30 0 -20 20H-46Z" fill="#E8D9A8"/><path d="M6 -2H22L18 4H10Z" fill="#8A5A3A"/><path d="M14 -2V-16L22 -4Z" fill="#F4ECD8"/>',W_SEA],
+  '花崗石':['一種很硬的石頭，上面有小小的黑白點點。四草砲台的外牆就是花崗石。','<path d="M-30 -18H30L36 18H-36Z" fill="#C8C4BC" stroke="#8A8680" stroke-width="1.6"/>'+(function(){var h='',r=[[-20,-8],[-6,-12],[10,-6],[22,4],[-14,6],[0,2],[14,12],[-24,12]];r.forEach(function(p,k){h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2" fill="'+(k%2?'#3A3430':'#F4F0E8')+'"/>'});return h})(),W_LAND],
+  '砲孔':['砲台牆上圓圓的洞，大砲從這裡往外打。四草砲台有 13 個砲孔。','<rect x="-40" y="-30" width="80" height="60" fill="#B8B0A0"/><circle r="18" fill="#3A3430"/><circle r="12" fill="#BFE0EA"/>',W_LAND]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["四草綠色隧道","四草綠色隧道"],["四草野生動物保護區","四草野生動物保護區"]],"1":[["四草大眾廟","四草大眾廟"]],"2":[["四草綠色隧道","四草綠色隧道"]],"5":[["四草野生動物保護區","四草野生動物保護區"]],"6":[["四草砲台","四草砲台"]]};
 
@@ -244,6 +267,9 @@ function wait(fn,ms){var t=setTimeout(fn,ms);loops.push(function(){clearTimeout(
 var LEARN='learn/sicao.html';  // 延伸閱讀頁
 var KEY='tainan-sicao';
 var NOTE='給大人：四草綠色隧道從四草大眾廟旁搭船，來回約 30 分鐘，船班和票價常常變，出發前先看台南旅遊網。搭船要穿救生衣、戴斗笠，不要站起來、手不要伸出船外。看鳥要小聲、不靠近、不餵食；紅樹林和泥灘的生物都受保護，不要摘、不要抓。<br>資料來源：台南旅遊網（四草綠色隧道、四草大眾廟、四草野生動物保護區、四草砲台；專欄〈坐船遊潟湖〉）、公視 2024（四草雁鴨族群增加、候鳥先到四草等主要濕地）、中央社 2025（黑面琵鷺在四草保護區度冬）、台灣林業 2006 范貴珠（臺灣西海岸 4 種紅樹林、水筆仔胎生苗）、公視 2026（中興大學臺灣旱招潮行為目錄）。扣救生衣、綠色之眼要對齊、插胎生苗、一二三木頭人、鴨子的數量、從砲孔看到的景色，都是遊戲示意。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"紅樹林":"ㄏㄨㄥˊ ㄕㄨˋ ㄌㄧㄣˊ","雁鴨":"ㄧㄢˋ ㄧㄚ","黑面琵鷺":"ㄏㄟ ㄇㄧㄢˋ ㄆㄧˊ ㄌㄨˋ","綠色隧道":"ㄌㄩˋ ㄙㄜˋ ㄙㄨㄟˋ ㄉㄠˋ","大將爺":"ㄉㄚˋ ㄐㄧㄤˋ ㄧㄝˊ","鎮海元帥":"ㄓㄣˋ ㄏㄞˇ ㄩㄢˊ ㄕㄨㄞˋ","竹筏港":"ㄓㄨˊ ㄈㄚˊ ㄍㄤˇ","綠色之眼":"ㄌㄩˋ ㄙㄜˋ ㄓ ㄧㄢˇ","水筆仔":"ㄕㄨㄟˇ ㄅㄧˇ ㄗˇ","五梨跤":"ㄨˇ ㄌㄧˊ ㄐㄧㄠ","胎生苗":"ㄊㄞ ㄕㄥ ㄇㄧㄠˊ","泥灘":"ㄋㄧˊ ㄊㄢ","招潮蟹":"ㄓㄠ ㄔㄠˊ ㄒㄧㄝˋ","彈塗魚":"ㄊㄢˊ ㄊㄨˊ ㄩˊ","四草砲台":"ㄙˋ ㄘㄠˇ ㄆㄠˋ ㄊㄞˊ","台江":"ㄊㄞˊ ㄐㄧㄤ","花崗石":"ㄏㄨㄚ ㄍㄤ ㄕˊ","砲孔":"ㄆㄠˋ ㄎㄨㄥˇ"};
 
 var GAMES={
   start:function(area){
@@ -473,6 +499,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

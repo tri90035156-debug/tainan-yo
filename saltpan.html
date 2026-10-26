@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/saltpan.html#game","name":"曬鹽任務","alternateName":"曬鹽任務・鹽田・北門井仔腳","url":"https://tainanyo.tw/saltpan.html","description":"跟著井仔腳的老鹽工阿伯曬鹽：看海水一池一池變鹹、把瓦盤敲成碎片、比出瓦片底的鹽比較白、輕輕耙鹽、堆出尖尖的小鹽山，再記住一年的曬鹽季。","image":"https://tainanyo.tw/img/saltpan.png","inLanguage":"zh-Hant","genre":"鹽田","keywords":"臺南, 台南, 鹽田, 北門, 北門區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・蒸發池：一池一池變鹹","position":1},{"@type":"CreativeWork","name":"第 2 關・瓦盤：把瓦盤敲成碎片","position":2},{"@type":"CreativeWork","name":"第 3 關・結晶池：泥土底和瓦片底","position":3},{"@type":"CreativeWork","name":"第 4 關・收鹽：耙鹽不要刮到底","position":4},{"@type":"CreativeWork","name":"第 5 關・鹽山：堆一座小鹽山","position":5},{"@type":"CreativeWork","name":"第 6 關・看夕陽：哪幾個月可以曬鹽","position":6}],"contentLocation":{"@type":"Place","name":"北門（臺南市北門區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"北門區"},"geo":{"@type":"GeoCoordinates","latitude":23.272,"longitude":120.112}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/saltpan.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"鹽田","item":"https://tainanyo.tw/#yantian"},{"@type":"ListItem","position":3,"name":"曬鹽任務","item":"https://tainanyo.tw/saltpan.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -204,6 +204,22 @@ var LV=[
    html:'<p>你看著海水一池一池變鹹、把瓦盤敲成碎片、比出瓦片底的鹽比較白、輕輕耙鹽不刮到泥、堆出尖尖的小鹽山，還記住了一年的曬鹽季。秋冬到北門井仔腳，看瓦盤鹽田和最後一道夕陽！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#DFF3F8',W_LAND='#F1E6CC';
+var WORDS={
+  '井仔腳瓦盤鹽田':['北門的老鹽田，1818 年就開始曬鹽，是現在留下來最老的<b>瓦盤鹽田</b>。',mosaic(-40,-20,80,40,3,8)+saltpile(-14,-14,1)+saltpile(14,-12,.8),W_SKY],
+  '蒸發池':['海水先流進的大池子。太陽一直曬，水變少，剩下的水就越來越鹹。','<rect x="-44" y="-20" width="40" height="18" fill="#7EB6CC" stroke="#C8B898" stroke-width="2"/><rect x="0" y="-8" width="40" height="18" fill="#9AC6D6" stroke="#C8B898" stroke-width="2"/><rect x="-24" y="12" width="40" height="18" fill="#BCD8E2" stroke="#C8B898" stroke-width="2"/><circle cx="34" cy="-26" r="8" fill="#F5C842"/>',W_LAND],
+  '鹹度':['水有多鹹，鹽工用「度」來算。夠鹹了，才放進結晶池。','<path d="M-20 -28H20V20Q20 30 0 30Q-20 30 -20 20Z" fill="#BCD8E2" stroke="#7E9DAA" stroke-width="2"/><text y="10" font-size="16" font-weight="900" fill="#2E5A88" text-anchor="middle">20°</text>',W_LAND],
+  '結晶池':['最後一池。很鹹的水在這裡再曬 3 到 5 天，池底就長出一層白白的鹽。',mosaic(-40,-12,80,30,5,8)+'<rect x="-40" y="-12" width="80" height="30" fill="#fff" opacity=".45"/>',W_SKY],
+  '瓦盤':['用來鋪結晶池池底的瓦片。鹽工把瓦盤敲碎，再一片一片拼貼上去。',mosaic(-30,-20,60,40,7,10),W_LAND],
+  '瓦盤鹽田':['結晶池池底鋪著碎瓦片的鹽田。瓦片會吸熱，鹽曬得比較快，也不會沾到泥土。',mosaic(-40,-16,80,32,9,8)+saltpile(0,-14,.9),W_SKY],
+  '鹽埕':['海邊做得平平的、用來曬鹽的地方。',mosaic(-44,-10,88,24,11,8)+'<path d="M-44 -10H44" stroke="#7EB6CC" stroke-width="3"/>',W_SKY],
+  '耙子':['長長的、T 字形的工具。鹽工用它把池底的鹽耙到一邊，集中起來。',rake(0,0,1),W_LAND],
+  '扁擔':['挑東西用的長木棍，兩頭各掛一籃。以前的鹽工用扁擔把鹽一擔一擔挑走。','<path d="M-40 -16Q0 -24 40 -16" stroke="#8A6A4A" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M-34 -16V0M-26 -16V0M26 -16V0M34 -16V0" stroke="#8A7A64"/><path d="M-40 0H-20L-24 14H-36Z" fill="#C8A878"/><path d="M20 0H40L36 14H24Z" fill="#C8A878"/>'+saltpile(-30,0,.4)+saltpile(30,0,.4),W_LAND],
+  '小汛季':['秋天雨變少，又可以曬鹽，一直到隔年 3 月。鹽工叫它小汛季。','<circle cx="0" cy="0" r="22" fill="#F5C842"/><path d="M-26 22Q-14 14 0 22T26 22" stroke="#7EB6CC" stroke-width="3" fill="none"/>',W_SKY],
+  '大汛季':['3 到 5 月，太陽大、雨很少，是曬鹽最忙的時候，叫大汛季。','<circle cx="0" cy="0" r="26" fill="#F5B02A"/>'+(function(){var h='';for(var k=0;k<8;k++){var a=k*Math.PI/4;h+='<path d="M'+(Math.cos(a)*32).toFixed(1)+' '+(Math.sin(a)*32).toFixed(1)+'L'+(Math.cos(a)*42).toFixed(1)+' '+(Math.sin(a)*42).toFixed(1)+'" stroke="#F5B02A" stroke-width="4" stroke-linecap="round"/>'}return h})(),W_SKY]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["井仔腳瓦盤鹽田","井仔腳瓦盤鹽田"]],"6":[["北門潟湖","北門潟湖"]]};
 
@@ -219,6 +235,9 @@ function wait(fn,ms){var t=setTimeout(fn,ms);loops.push(function(){clearTimeout(
 var LEARN='learn/saltpan.html';  // 延伸閱讀頁
 var KEY='tainan-saltpan';
 var NOTE='給大人：井仔腳瓦盤鹽田在北門區，開放時間 9:00 到 18:00；2025 年 7 月丹娜絲颱風重創，10 月 16 日修好重新開放，出發前先確認。鹽田的堤岸窄，小朋友不要跑；傍晚看夕陽的人多，注意安全。<br>資料來源：輕旅行（1818 年興建、北門第一座鹽田；碎瓦盤拼貼在結晶池；瓦片讓鹽不黏土、結晶快、鹽粒小又白；大小蒸發池和結晶池的鹹度；一年約 180 天收鹽；耙子不刮到底部泥土；小鹽山；陳永華築埕鋪碎瓦片；大汛季 3 到 5 月、5 到 9 月雨季停產、10 月起到翌年 3 月小汛季；2002 年結束 338 年曬鹽業；台灣最後一道夕陽）、台南旅遊網（2002 年因人工成本結束、可體驗曬鹽耙鹽收鹽、夕陽倒映天空）、食尚玩家（結晶池曬 3 到 5 天收鹽）、Wikipedia（1818 年瀨東鹽田、碎陶片不讓鹽黏泥土）、鉅亨網 2025、TVBS 2025（丹娜絲颱風毀損、10 月 16 日重新開放）。鹹度上升的速度、敲瓦盤、兩種池底比比看、耙子的深度、倒鹽堆鹽山、圓圈塗月份，都是遊戲示意。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"井仔腳瓦盤鹽田":"ㄐㄧㄥˇ ㄗˇ ㄐㄧㄠˇ ㄨㄚˇ ㄆㄢˊ ㄧㄢˊ ㄊㄧㄢˊ","蒸發池":"ㄓㄥ ㄈㄚ ㄔˊ","鹹度":"ㄒㄧㄢˊ ㄉㄨˋ","結晶池":"ㄐㄧㄝˊ ㄐㄧㄥ ㄔˊ","瓦盤":"ㄨㄚˇ ㄆㄢˊ","瓦盤鹽田":"ㄨㄚˇ ㄆㄢˊ ㄧㄢˊ ㄊㄧㄢˊ","鹽埕":"ㄧㄢˊ ㄔㄥˊ","耙子":"ㄆㄚˊ ㄗ˙","扁擔":"ㄅㄧㄢˇ ㄉㄢˋ","小汛季":"ㄒㄧㄠˇ ㄒㄩㄣˋ ㄐㄧˋ","大汛季":"ㄉㄚˋ ㄒㄩㄣˋ ㄐㄧˋ"};
 
 var GAMES={
   start:function(area){
@@ -448,6 +467,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

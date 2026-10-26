@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/pomelo.html#game","name":"大白柚任務","alternateName":"大白柚任務・水果・麻豆大白柚","url":"https://tainanyo.tw/pomelo.html","description":"跟著麻豆種柚子的阿姨，從冬天到秋天：拖著剪刀修剪樹枝、跟著香味找柚子花、替柚子套紙袋、讓土裡的水不要忽多忽少，霜降時扶著柚子剪兩次，最後剝開厚厚的皮。","image":"https://tainanyo.tw/img/pomelo.png","inLanguage":"zh-Hant","genre":"水果","keywords":"臺南, 台南, 水果, 麻豆, 麻豆區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-22","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・麻口里的柚子園（12 月底）：冬天，幫柚子樹剪頭髮","position":1},{"@type":"CreativeWork","name":"第 2 關・柚子園（3 月）：跟著香味找花","position":2},{"@type":"CreativeWork","name":"第 3 關・柚子園（6 到 7 月）：幫柚子穿紙衣","position":3},{"@type":"CreativeWork","name":"第 4 關・柚子園（7 到 9 月）：水不能忽多忽少","position":4},{"@type":"CreativeWork","name":"第 5 關・霜降，採柚子（10 月下旬）：扶著柚子，剪兩次","position":5},{"@type":"CreativeWork","name":"第 6 關・阿姨家：剝開大白柚","position":6}],"contentLocation":{"@type":"Place","name":"麻豆（臺南市麻豆區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"麻豆區"},"geo":{"@type":"GeoCoordinates","latitude":23.1776,"longitude":120.2218}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/pomelo.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"水果","item":"https://tainanyo.tw/#shuiguo"},{"@type":"ListItem","position":3,"name":"大白柚任務","item":"https://tainanyo.tw/pomelo.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -226,6 +226,26 @@ var LV=[
 ];
 
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_SEA='#CFE6EC';
+var WORDS={
+  '大白柚':['麻豆的大柚子，一顆有 1 到 2 公斤多，捧在手上沉沉的。也叫<b>麻豆白柚</b>。',pom(-10,0,1)+pomCut(20,6,.7),W_SKY],
+  '麻豆白柚':['就是<b>大白柚</b>，從臺南的麻豆來的。',pom(0,0,1),W_SKY],
+  '倒風內海':['很久很久以前，麻豆旁邊的一片海，是一個港口。後來海被填平，變成平原，現在種滿了柚子。','<rect x="-46" y="-20" width="92" height="40" fill="#7EB6CC"/><path d="M-46 14Q0 6 46 16V30H-46Z" fill="#E8D9A8"/><path d="M-6 4H14L10 10H-2Z" fill="#8A5A3A"/><path d="M4 4V-16L16 2Z" fill="#F4ECD8"/>',W_SEA],
+  '修剪':['剪掉沒有用的樹枝：乾枯的、往下垂的、生病的、交叉擋住別人的，讓樹長得更好。',ptree(0,0,1)+'<g transform="translate(18 -6) rotate(30)"><circle cx="-3" cy="6" r="3" fill="none" stroke="#DB2E27" stroke-width="1.6"/><circle cx="3" cy="6" r="3" fill="none" stroke="#DB2E27" stroke-width="1.6"/><path d="M-2 3L3 -8M2 3L-3 -8" stroke="#5A5A54" stroke-width="1.6"/></g>',W_SKY],
+  '花苞':['還沒開的花。春天，柚子樹冒出一串一串的花苞。','<path d="M-6 8Q0 0 2 -8M0 0Q4 -2 6 -4M-3 4Q-6 2 -7 -2" stroke="#6E8F55" stroke-width=".8" fill="none"/>'+pbud(2,-9,1)+pbud(6.5,-5,1)+pbud(-7,-3,1)+pflower(-2,9,.25),W_SKY],
+  '柚子花':['柚子樹 3 月開的白色小花，有 4 片花瓣。開車經過麻豆，就聞得到它的香味。',pflower(0,0,1),W_SKY],
+  '疏果':['把太多、長歪和太小的柚子摘掉。不然柚子太多，樹枝會被壓斷。','<path d="M-34 -30Q0 -38 34 -26" stroke="#8A6A4A" stroke-width="3" fill="none"/>'+pom(-14,-6,.6)+pom(16,-4,.45)+'<path d="M8 -12L24 4M24 -12L8 4" stroke="#DB2E27" stroke-width="3" stroke-linecap="round"/>',W_SKY],
+  '套袋':['替每一顆柚子套上紙袋，擋住<b>果實蠅</b>，也讓柚子不被太陽曬傷。',pbag(0,0,1),W_SKY],
+  '果實蠅':['一種小小的蒼蠅，會在柚子旁邊飛，害柚子受傷、流出黏黏的膠。',fly(0,0,1),W_SKY],
+  '立春':['<b>二十四節氣</b>的第一個，在 2 月 4 日左右。春天要開始了。',ptree(0,0,1,'flower'),W_SKY],
+  '霜降':['<b>二十四節氣</b>裡的一個，在 10 月 23 日左右。麻豆的大白柚，就在這時候採收。',pom(0,0,1),'#F4E2C4'],
+  '二十四節氣':['古時候的人把一年分成 24 段，每一段有一個名字，像<b>立春</b>、<b>霜降</b>。農夫看節氣，就知道什麼時候該做什麼。','<circle r="34" fill="none" stroke="#BD9558" stroke-width="2"/>'+(function(){var h='';for(var k=0;k<24;k++){var a=k*15*Math.PI/180;h+='<circle cx="'+(Math.cos(a)*34).toFixed(1)+'" cy="'+(Math.sin(a)*34).toFixed(1)+'" r="3" fill="'+(k%6?'#BD9558':'#DB2E27')+'"/>'}return h})()+'<text y="7" font-size="20" font-weight="900" fill="#6C2024" text-anchor="middle">24</text>','#FFF8EC'],
+  '採果剪':['採水果用的剪刀。大白柚很重，不能用拉的，要一手扶著、一手用採果剪剪兩次。','<g transform="rotate(-20)"><circle cx="-8" cy="16" r="8" fill="none" stroke="#DB2E27" stroke-width="3"/><circle cx="8" cy="16" r="8" fill="none" stroke="#DB2E27" stroke-width="3"/><path d="M-5 9L5 -30M5 9L-5 -30" stroke="#6A6A64" stroke-width="3.4" stroke-linecap="round"/></g>','#F1E6CC'],
+  '果梗':['連著果子的小柄。採柚子時剪兩次：先剪下來，再把留在柚子上的長果梗剪短。',pom(0,0,1,{stem:16}),W_SKY],
+  '果蒂':['果子上面連著果梗的地方。用拉的，果蒂和果皮會受傷，所以要用剪的。',pom(0,0,1),W_SKY]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0": [["麻豆區", "台南市麻豆區"]], "1": [["麻口里", "台南市麻豆區麻口里"]], "2": [["總爺藝文中心", "總爺藝文中心"]]};
 
@@ -233,6 +253,9 @@ var MAPS={"0": [["麻豆區", "台南市麻豆區"]], "1": [["麻口里", "台�
 var LEARN='learn/pomelo.html';  // 延伸閱讀頁
 var KEY='tainan-pomelo';
 var NOTE='給大人：插畫地圖是示意，不是真實比例。每年大白柚的採收時間和產量都不一樣；柚子園是農民的地，請不要自己走進去摘。<br>資料來源：麻豆白柚的由來（相傳 1826 年麻口里陳丁通種下、1904 年陳自西分苗、1927 年起叫麻豆白柚）、果實大小、花期（臺南區農業改良場〈麻豆白柚〉）；12 月下旬以後修剪、立春前後灌溉、開花時換葉、兩次生理落果、疏果和套袋（防果實蠅、避免日曬、讓顏色漂亮）、夏天的水和裂果、採收前一個月少給水、盛花後 28 到 30 週成熟、霜降前後採收、扶著用剪刀剪兩次不能拉、果皮厚度和瓣數（張汶肇〈麻豆白柚生育特性與管理要點〉，臺南區農業專訊 112 期，2020；臺南區農業改良場〈麻豆白柚栽培管理要點〉）；挑選和保存（臺南區農業改良場，經台灣英文新聞 2020 轉載）；麻豆以前是倒風內海的港口（微笑台灣；天下雜誌）；3 月柚子花香和柚花季（微笑台灣；新頭殼 2026）；柚子蔘（麻豆區農會）。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"大白柚":"ㄉㄚˋ ㄅㄞˊ ㄧㄡˋ","麻豆白柚":"ㄇㄚˊ ㄉㄡˋ ㄅㄞˊ ㄧㄡˋ","倒風內海":"ㄉㄠˋ ㄈㄥ ㄋㄟˋ ㄏㄞˇ","修剪":"ㄒㄧㄡ ㄐㄧㄢˇ","花苞":"ㄏㄨㄚ ㄅㄠ","柚子花":"ㄧㄡˋ ㄗ˙ ㄏㄨㄚ","疏果":"ㄕㄨ ㄍㄨㄛˇ","套袋":"ㄊㄠˋ ㄉㄞˋ","果實蠅":"ㄍㄨㄛˇ ㄕˊ ㄧㄥˊ","立春":"ㄌㄧˋ ㄔㄨㄣ","霜降":"ㄕㄨㄤ ㄐㄧㄤˋ","二十四節氣":"ㄦˋ ㄕˊ ㄙˋ ㄐㄧㄝˊ ㄑㄧˋ","採果剪":"ㄘㄞˇ ㄍㄨㄛˇ ㄐㄧㄢˇ","果梗":"ㄍㄨㄛˇ ㄍㄥˇ","果蒂":"ㄍㄨㄛˇ ㄉㄧˋ"};
 
 var GAMES={
   start:function(area){
@@ -507,6 +530,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

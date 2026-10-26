@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/sesame.html#game","name":"芝麻開門任務","alternateName":"芝麻開門任務・雜糧・西港胡麻","url":"https://tainanyo.tw/sesame.html","description":"跟著西港的阿伯和阿嬤：在白露前後播種、一手抓住一手割胡麻、把三把胡麻靠成三角錐的胡麻架、敲出芝麻、搖篩子篩乾淨，最後在麻油間仔把芝麻變成麻油。","image":"https://tainanyo.tw/img/sesame.png","inLanguage":"zh-Hant","genre":"雜糧","keywords":"臺南, 台南, 雜糧, 西港, 西港區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-23","datePublished":"2026-10-23","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・胡麻田：白露前後播種","position":1},{"@type":"CreativeWork","name":"第 2 關・割胡麻：一手抓住，一手割","position":2},{"@type":"CreativeWork","name":"第 3 關・胡麻架：三把靠在一起站好","position":3},{"@type":"CreativeWork","name":"第 4 關・敲胡麻：敲一敲，芝麻掉下來","position":4},{"@type":"CreativeWork","name":"第 5 關・篩芝麻：搖一搖篩子","position":5},{"@type":"CreativeWork","name":"第 6 關・麻油間仔：芝麻變麻油","position":6}],"contentLocation":{"@type":"Place","name":"西港（臺南市西港區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"西港區"},"geo":{"@type":"GeoCoordinates","latitude":23.1236,"longitude":120.2026}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/sesame.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"雜糧","item":"https://tainanyo.tw/#zaliang"},{"@type":"ListItem","position":3,"name":"芝麻開門任務","item":"https://tainanyo.tw/sesame.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 <style>
 /* 這個遊戲自己的樣式（共用的在 共用/遊戲核心.css） */
 .link-btn{background:none;border:0;padding:8px 0;color:#8A7A70;font-size:15px;text-decoration:underline;cursor:pointer;min-height:44px}
@@ -233,6 +233,19 @@ var LV=[
    html:'<p>你在白露前後播種、一手抓住一手割胡麻、把三把胡麻靠成胡麻架、敲出芝麻、搖篩子篩乾淨，最後在麻油間仔把芝麻變成麻油。11 月到西港走走，看看田裡一個一個的<b>胡麻架</b>！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC';
+var WORDS={
+  '胡麻':['就是<b>芝麻</b>。全臺灣的胡麻，大約有 7 成種在臺南，西港是種最多的地方之一。',plant(0,0,1,1),W_SKY],
+  '麻油':['用芝麻榨出來的油，香香的。冬天的<b>麻油雞</b>就是用麻油煮的。',bottle(0,0,1,.8),W_LAND],
+  '麻油雞':['用麻油煮的雞湯，臺灣人冬天常吃。','<path d="M-34 -4H34Q32 24 0 26Q-32 24 -34 -4Z" fill="#F4F0E8" stroke="#8A8A84" stroke-width="1.6"/><ellipse cx="0" cy="-4" rx="34" ry="8" fill="#C8902E"/><path d="M-14 -6Q-6 -12 2 -6M8 -4Q14 -10 20 -4" stroke="#F4E0C0" stroke-width="5" stroke-linecap="round"/>',W_LAND],
+  '白露':['<b>二十四節氣</b>之一，在 9 月 7 日左右。西港的阿伯在白露前後種胡麻。','<rect x="-24" y="-28" width="48" height="56" rx="4" fill="#fff" stroke="#BD9558" stroke-width="2"/><rect x="-24" y="-28" width="48" height="14" rx="4" fill="#DB2E27"/><text y="12" font-size="20" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,serif">白露</text>',W_LAND],
+  '莢':['包著種子的長長的殼。胡麻結出一節一節的莢，莢裡就是芝麻。',plant(0,0,1,2),W_SKY],
+  '三角錐':['底下寬、上面尖的樣子。阿嬤把幾把胡麻斜斜地靠在一起，綁成三角錐，立在田裡曬乾。',cone(0,0,1,true),W_LAND],
+  '篩網':['有很多小洞的網子。一直搖，小小的芝麻從洞裡掉下去，碎殼和碎葉子留在上面。',sieve(0,0,1),W_LAND],
+  '麻油間仔':['西港區農會的榨油工廠，大家這樣叫它。芝麻要經過 6 個步驟，才會變成麻油。','<path d="M-34 24V-8L-14 -20V-8L6 -20V-8L26 -20V24Z" fill="#C8A878" stroke="#8A6A4A" stroke-width="1.4"/><rect x="-6" y="6" width="12" height="18" fill="#6A4A30"/>'+bottle(18,20,.4,.8),W_SKY]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["西港區農會","臺南市西港區農會"]],"6":[["西港區農會","臺南市西港區農會"]]};
 
@@ -253,6 +266,9 @@ function touches(svg,fn){var P={};svg.style.touchAction='none';
 var LEARN='learn/sesame.html';  // 延伸閱讀頁
 var KEY='tainan-sesame';
 var NOTE='給大人：西港在臺南市的北邊，是全臺灣種最多胡麻的地方之一。胡麻田是農民的田，不要走進去踩；麻油間仔能不能參觀，要先問西港區農會。胡麻文化祭每年 11、12 月在西港舉辦，日期每年不同。<br>資料來源：工商時報 2026（臺南胡麻約占全國七成）；臺南市政府電子報（西港是臺灣胡麻最大產區、胡麻文化祭在後營）；佳里區農會、yam 2025（8 月到 9 月初白露前後播種，約 90 天後採收）；台南區農業改良場胡麻栽培技術專刊 2018（太冷會停止開花；臺灣以黑胡麻為主）；台南區農業改良場（台南 1 號蒴果容易裂開要人工採收、台南 2 號可機械採收、改良割捆機）；TVBS（割捆機一台可抵 24 人）；微笑台灣（採收後綁成三角錐在田裡曬約兩週、日曬裂果後敲打和層層篩選、篩網反覆搖晃、麻油間仔六大步驟、約 45 萬粒一瓶 500 毫升麻油）；中央社 2017（胡麻文化祭）。用兩根手指割、三把綁一個胡麻架、敲胡麻的工具、每一站機器的樣子是遊戲示意，要到現場確認。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"胡麻":"ㄏㄨˊ ㄇㄚˊ","麻油":"ㄇㄚˊ ㄧㄡˊ","麻油雞":"ㄇㄚˊ ㄧㄡˊ ㄐㄧ","白露":"ㄅㄞˊ ㄌㄨˋ","莢":"ㄐㄧㄚˊ","三角錐":"ㄙㄢ ㄐㄧㄠˇ ㄓㄨㄟ","篩網":"ㄕㄞ ㄨㄤˇ","麻油間仔":"ㄇㄚˊ ㄧㄡˊ ㄐㄧㄢ ㄗˇ"};
 
 var GAMES={
   start:function(area){
@@ -526,6 +542,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

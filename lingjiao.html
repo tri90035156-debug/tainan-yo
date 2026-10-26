@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/lingjiao.html#game","name":"採菱角任務","alternateName":"採菱角任務・水果・官田菱角","url":"https://tainanyo.tw/lingjiao.html","description":"跟著官田種菱角的阿嬤，從 6 月到 10 月：放大看烏山頭水庫的水流進田裡、掀開菱盤找菱角、幫水雉爸爸帶寶寶躲雨，再壓一壓尖角，把菱角倒進水裡分出硬的和嫩的。","image":"https://tainanyo.tw/img/lingjiao.png","inLanguage":"zh-Hant","genre":"水果","keywords":"臺南, 台南, 水果, 官田, 官田區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・烏山頭水庫的水（6 月）：水從哪裡來？","position":1},{"@type":"CreativeWork","name":"第 2 關・從栽仔堀到大田（端午節前後）：一叢一叢種下去","position":2},{"@type":"CreativeWork","name":"第 3 關・菱角田（7 到 9 月）：水面下的秘密","position":3},{"@type":"CreativeWork","name":"第 4 關・水雉生態教育園區旁（8 月）：菱角鳥的家","position":4},{"@type":"CreativeWork","name":"第 5 關・採菱角（10 月）：壓一壓，熟了沒？","position":5},{"@type":"CreativeWork","name":"第 6 關・台 1 線旁的菱角攤：浮起來，還是沉下去？","position":6}],"contentLocation":{"@type":"Place","name":"官田（臺南市官田區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"官田區"},"geo":{"@type":"GeoCoordinates","latitude":23.1959,"longitude":120.3178}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/lingjiao.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"水果","item":"https://tainanyo.tw/#shuiguo"},{"@type":"ListItem","position":3,"name":"採菱角任務","item":"https://tainanyo.tw/lingjiao.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -264,6 +264,26 @@ var LV=[
 ];
 
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做；圖的範圍 -50 -50 100 100，放在圓裡） ---------- */
+var W_WATER='<rect x="-60" y="-60" width="120" height="120" fill="#A3C4BE"/>',W_SOIL='<rect x="-60" y="-60" width="120" height="120" fill="#E9DDBE"/>';
+function sprout(x,y,s){return '<g transform="translate('+f1(x)+' '+f1(y)+') scale('+s+')"><path d="M0 0V-14M0 0L-4 5M0 0L3 6M0 0L1 7" stroke="#8C6E4A" stroke-width="1.2" stroke-linecap="round" fill="none"/>'+pan(0,-16,.42)+'</g>'}
+var WORDS={
+  '菱':['一種長在水裡的植物。葉子浮在水面上，<b>菱角</b>是它的果實，長在水面下。',W_WATER+'<rect x="-60" y="-8" width="120" height="70" fill="#8DB7B4"/><path d="M-60 -8H60" stroke="#fff" stroke-opacity=".7" stroke-width="2"/><g transform="scale(1 .42) translate(0 -22)">'+pan(0,0,2.1)+'</g><path d="M0 -6Q-6 10 -14 20M0 -6Q6 10 14 22" stroke="#6E8F55" stroke-width="2" fill="none"/>'+lj(-16,26,1.15,RIPE)+lj(16,28,1.15,RED)],
+  '蝙蝠形':['像蝙蝠張開翅膀的形狀。官田路邊賣菱角的招牌，就是這個樣子，也很像菱角本身。',W_SOIL+bat(0,4,1.35)],
+  '嘉南大圳':['一條很長很長的大水溝，把<b>烏山頭水庫</b>的水，送到一塊一塊的田裡。',
+    '<rect x="-60" y="-60" width="120" height="120" fill="#B9D38F"/><path d="M-50 -16H50M-50 16H50M-16 -50V50M16 -50V50" stroke="#9FBE74" stroke-width="2"/><path d="M60 -46Q20 -40 6 -10Q-8 22 -60 30" stroke="#5E9FC2" stroke-width="13" fill="none" stroke-linecap="round"/><path d="M40 -40Q20 -34 10 -16" stroke="#fff" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/>'],
+  '栽仔堀':['臺語。田邊養<b>菱角苗</b>的小水池，苗長大了，再搬到大田裡種。',W_SOIL+'<ellipse cx="0" cy="6" rx="44" ry="26" fill="#A3C4BE" stroke="#B49A62" stroke-width="2.4"/>'+pan(-20,4,.62)+pan(2,-4,.62)+pan(22,10,.62)+pan(-2,20,.5)],
+  '竹篾':['把竹子剖成細細長長的竹片。阿嬤用它夾住<b>菱角苗</b>的根，塞進泥土裡。',W_WATER+'<rect x="-60" y="20" width="120" height="40" fill="#8A7558"/><path d="M-60 20H60" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>'+sprout(-4,28,2.3)+'<path d="M40 -46L0 26" stroke="#C9A866" stroke-width="5" stroke-linecap="round"/><path d="M39 -46L1 24" stroke="#E4CC92" stroke-width="1.4" stroke-linecap="round"/>'],
+  '菱盤':['一叢菱的葉子圍成一圈，像一個盤子，浮在水面上。',W_WATER+pan(0,0,2.75,'flower')],
+  '葉柄':['連著葉子的小柄。菱的葉柄鼓鼓的，裡面有空氣，像小氣球，讓葉子浮起來。',W_WATER+'<path d="M-60 -18H60" stroke="#fff" stroke-opacity=".7" stroke-width="2"/><path d="M0 50V6" stroke="#6E8F55" stroke-width="3"/><ellipse cx="0" cy="-2" rx="7" ry="13" fill="#8CC064" stroke="#3F7A2C" stroke-width="1.6"/><path d="M0 -14L22 -22L0 -30L-22 -22Z" fill="#6AAA48" stroke="#3F7A2C" stroke-width="1.6" stroke-linejoin="round"/><path d="M-3 -6Q-4 0 -2 5" stroke="#fff" stroke-opacity=".6" stroke-width="1.6" fill="none" stroke-linecap="round"/>'],
+  '水雉':['一種鳥，腳和腳趾很長很長，可以走在浮浮的菱葉上。大家也叫牠<b>菱角鳥</b>。',W_WATER+pan(-30,40,1.3)+pan(24,46,1.1)+jac(-8,34,1.55)],
+  '菱角鳥':['就是<b>水雉</b>。牠常常住在菱角田裡，在菱葉上做窩，所以叫菱角鳥。',W_WATER+pan(-30,40,1.3)+pan(24,46,1.1)+jac(-8,34,1.55)],
+  '青蛙裝':['防水的連身褲，連著靴子。穿著它走進水裡，衣服不會濕。',W_WATER+'<path d="M-60 34H60" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>'+ama(-6,34,1.75)],
+  '腳桶':['臺語。採菱角時綁在腰上、浮在水面的大鋁盆，採到的菱角就放在裡面。',W_WATER+'<ellipse cx="0" cy="-4" rx="40" ry="13" fill="#DADFE3" stroke="#8F969C" stroke-width="2"/><path d="M-40 -4L-32 20H32L40 -4" fill="#C8CDD2" stroke="#8F969C" stroke-width="2" stroke-linejoin="round"/><ellipse cx="0" cy="-4" rx="34" ry="9" fill="#B9BFC4"/>'+lj(-14,-6,1.1,RIPE)+lj(8,-8,1.1,RED)+lj(20,-3,1,RIPE)],
+  '水選':['把菱角倒進一大桶水裡。<b>沉下去</b>的是硬的，拿去水煮；<b>浮起來</b>的是嫩的。',W_SOIL+'<path d="M-36 -30H36L30 40H-30Z" fill="#B7D8E2" stroke="#7E9DAA" stroke-width="2.4" stroke-linejoin="round"/><path d="M-34 -18Q-17 -22 0 -18T34 -18" stroke="#fff" stroke-width="2" fill="none"/>'+lj(-14,-20,1.05,YOUNG)+lj(14,-19,1.05,YOUNG)+lj(-12,30,1.05,RIPE)+lj(13,31,1.05,RIPE)],
+  '菱角仁':['把菱角殼剝開，裡面白白的那一塊，就是可以吃的菱角仁。',W_SOIL+ljOpen(0,2,2.5)]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0": [["官田區", "台南市官田區"]], "1": [["烏山頭水庫", "烏山頭水庫"], ["嘉南大圳", "嘉南大圳"]], "4": [["水雉生態教育園區", "水雉生態教育園區"]], "6": [["官田的菱角攤（台 1 線）", "官田 菱角 台1線"]]};
 
@@ -271,6 +291,9 @@ var MAPS={"0": [["官田區", "台南市官田區"]], "1": [["烏山頭水庫", 
 var LEARN='learn/lingjiao.html';  // 延伸閱讀頁
 var KEY='tainan-lingjiao';
 var NOTE='給大人：插畫地圖是示意，不是真實比例。每年菱角採收的時間和數量都不一樣；菱角田是農民的田，請不要自己走進去。遊戲裡的水圳、田和攤子都是畫的示意。<br>資料來源：官田是全臺菱角最主要的產區、葫蘆埤約 1770 年挖好、1980 年代把二角菱移到水田、1983 年稻田轉作計畫和稻菱輪作、栽仔堀育苗、端午節前後用竹篾定植、移苗到採收都靠人工、穿沼澤衣綁腳桶採收、每 2 到 3 週採一次（一水、二水）、壓尖角看熟了沒、水選法（沉的硬、浮的嫩）、嫩的趕快剝仁冷凍、9 月底起的蝙蝠形招牌（微笑台灣〈為菱角鳥留個家〉，人田 吳克威、蔡郁柔）；官田因為烏山頭水庫的水而成為菱角之鄉（自由時報；農業部）；烏山頭水庫 1920 到 1930 年興建、是嘉南大圳的水源（行政院、文化部資料）；菱的葉柄膨大成氣囊、花有 4 片花瓣（農業知識入口網《水生植物手冊》）；吃法和菱角料理（天下雜誌；官田菱角節新聞）；剝菱角仁缺工（公視新聞網）；菱殼炭（公視新聞網；遠見雜誌）；水雉又叫菱角鳥、走在菱葉上、二級保育類、公鳥孵蛋 25 到 27 天、園區的由來、農民通報鳥巢的獎勵金（公視新聞網；微笑台灣；自由時報）。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"菱":"ㄌㄧㄥˊ","蝙蝠形":"ㄅㄧㄢ ㄈㄨˊ ㄒㄧㄥˊ","嘉南大圳":"ㄐㄧㄚ ㄋㄢˊ ㄉㄚˋ ㄗㄨㄣˋ","栽仔堀":"ㄗㄞ ㄗˇ ㄎㄨ","竹篾":"ㄓㄨˊ ㄇㄧㄝˋ","菱盤":"ㄌㄧㄥˊ ㄆㄢˊ","葉柄":"ㄧㄝˋ ㄅㄧㄥˇ","水雉":"ㄕㄨㄟˇ ㄓˋ","菱角鳥":"ㄌㄧㄥˊ ㄐㄧㄠˇ ㄋㄧㄠˇ","青蛙裝":"ㄑㄧㄥ ㄨㄚ ㄓㄨㄤ","腳桶":"ㄐㄧㄠˇ ㄊㄨㄥˇ","水選":"ㄕㄨㄟˇ ㄒㄩㄢˇ","菱角仁":"ㄌㄧㄥˊ ㄐㄧㄠˇ ㄖㄣˊ"};
 
 var GAMES={
   start:function(area){setScene(idCard('菱角','菱的果實・長在水面下',lj(128,104,4.6,RED)+ljOpen(262,122,3),[['兩個尖角',58,64,62,100],['紫紅色的硬殼',112,166,118,132],['白白的菱角仁',262,80,262,114]]));var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
@@ -585,6 +608,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

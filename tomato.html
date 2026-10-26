@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/tomato.html#game","name":"牛番茄任務","alternateName":"牛番茄任務・蔬菜・官田牛番茄","url":"https://tainanyo.tw/tomato.html","description":"跟著官田種番茄的阿伯：把番茄苗接在茄子的根上、補好網室的破洞、讓番茄靠著吊繩長高、摘掉側芽、帶熊蜂幫花授粉，最後把牛番茄分好大小。","image":"https://tainanyo.tw/img/tomato.png","inLanguage":"zh-Hant","genre":"蔬菜","keywords":"臺南, 台南, 蔬菜, 官田, 官田區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・育苗場：接在茄子的根上","position":1},{"@type":"CreativeWork","name":"第 2 關・網室：把網子補好","position":2},{"@type":"CreativeWork","name":"第 3 關・吊繩：讓番茄靠著繩子長高","position":3},{"@type":"CreativeWork","name":"第 4 關・側芽：找出偷偷長的側芽","position":4},{"@type":"CreativeWork","name":"第 5 關・番茄花：熊蜂抖一抖","position":5},{"@type":"CreativeWork","name":"第 6 關・集貨場：分大小，送出去","position":6}],"contentLocation":{"@type":"Place","name":"官田（臺南市官田區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"官田區"},"geo":{"@type":"GeoCoordinates","latitude":23.1959,"longitude":120.3178}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/tomato.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"蔬菜","item":"https://tainanyo.tw/#shucai"},{"@type":"ListItem","position":3,"name":"牛番茄任務","item":"https://tainanyo.tw/tomato.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -223,6 +223,22 @@ var LV=[
    html:'<p>你幫番茄苗接上茄子的根、補好網室的破洞、讓番茄靠著吊繩長高、摘掉側芽、帶熊蜂幫花授粉，最後把紅紅的牛番茄分好大小。冬天到官田，嚐嚐又大又紅的牛番茄！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC';
+var WORDS={
+  '牛番茄':['又大又紅的番茄。牛番茄怕熱，在臺南冬天最好吃。官田是臺灣數一數二的產地。',tomato(-10,0,14)+tomato(14,4,10,'#E8823A'),W_SKY],
+  '育苗場':['讓小苗先長大的地方。番茄的小苗，先在育苗場長大，再種到田裡。','<rect x="-36" y="0" width="72" height="16" fill="#8A6A4A"/>'+[-24,-8,8,24].map(function(x){return '<path d="M'+x+' 2V-14M'+x+' -6Q'+(x-8)+' -12 '+(x-8)+' -18Q'+(x-2)+' -14 '+x+' -8M'+x+' -10Q'+(x+8)+' -16 '+(x+8)+' -22Q'+(x+2)+' -18 '+x+' -12" stroke="#5E9A48" stroke-width="2" fill="#7DB357"/>'}).join(''),W_SKY],
+  '嫁接':['把番茄苗的上半截，接到茄子的根上，長成一棵。上面結番茄，下面是茄子的根，比較不怕生病和淹水。','<path d="M0 34V0" stroke="#5A4A70" stroke-width="5"/><path d="M0 0V-30" stroke="#5E9A48" stroke-width="4"/>'+tleaf(-8,-20,-30,.5)+tleaf(8,-14,30,.5)+'<rect x="-5" y="-4" width="10" height="8" rx="2" fill="#E8D8B4" stroke="#B89A6A"/>',W_LAND],
+  '青枯病':['細菌造成的病，躲在土裡，從根跑進去。番茄的葉子還綠綠的，整棵就枯萎垂下來了。','<path d="M0 30V-6Q-2 -16 -14 -22" stroke="#7A9A48" stroke-width="3" fill="none"/>'+tleaf(-14,-10,60,.5)+tleaf(6,4,100,.5)+'<path d="M-30 30H30" stroke="#8A6A4A" stroke-width="3"/>',W_LAND],
+  '網室':['用細細的網子圍起來的房子。番茄種在裡面，小蟲就鑽不進去。',nethouse(0,0,70,44),W_SKY],
+  '粉蝨':['白色的小飛蟲，會吸番茄的汁。',fly(0,0,1),W_SKY],
+  '吊繩':['從上面垂下來的繩子。番茄靠著吊繩往上長，葉子曬得到太陽，果子也比較好採。','<path d="M-30 -36H30" stroke="#8A8A84" stroke-width="3"/><path d="M0 -36V34" stroke="#C8B88A" stroke-width="1.6"/><path d="M0 34Q-4 10 2 -10Q4 -20 0 -30" stroke="#5E9A48" stroke-width="3" fill="none"/>'+tleaf(-6,-4,-40,.45)+tomato(6,10,6),W_SKY],
+  '側芽':['葉子和莖的中間，偷偷冒出來的小芽。不摘掉，會把養分分走，番茄就長不大。','<path d="M0 34V-34" stroke="#5E9A48" stroke-width="4"/><path d="M0 4Q16 -4 28 -18" stroke="#5E9A48" stroke-width="3" fill="none"/>'+tleaf(28,-18,30,.4)+'<path d="M2 0Q8 -10 6 -18" stroke="#8ACB5A" stroke-width="2.4" fill="none"/><circle cx="7" cy="-12" r="9" fill="none" stroke="#DB2E27" stroke-width="1.6" stroke-dasharray="3 2"/>',W_SKY],
+  '授粉':['花粉跑到花的中間，花才會長出果子。番茄的花要授粉，才會長出番茄。',tflower(0,0,1),W_SKY],
+  '熊蜂':['圓滾滾、黑黃條紋的蜂。牠抱住番茄花，身體震動，把花粉抖出來。',bee(0,0,1,0),W_SKY],
+  '集貨場':['把大家採的番茄集中起來、分大小、裝箱的地方。','<rect x="-36" y="-6" width="72" height="30" fill="#C8B8A0" stroke="#8A7A64" stroke-width="1.4"/><path d="M-40 -6L0 -26L40 -6Z" fill="#8A6A4A"/>'+tomato(-16,8,6)+tomato(0,10,6)+tomato(16,8,6),W_SKY]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["官田區農會","官田區農會"]]};
 
@@ -240,6 +256,9 @@ function segD(p,a,b){var dx=b.x-a.x,dy=b.y-a.y,L=dx*dx+dy*dy,t=L?clamp(((p.x-a.x
 var LEARN='learn/tomato.html';  // 延伸閱讀頁
 var KEY='tainan-tomato';
 var NOTE='給大人：官田的牛番茄大多在冬天到春天採收，每年天氣不同，熟的時間也不一樣。番茄園、網室是農民的地方，要經過主人同意才能進去；網室裡有熊蜂，不要抓、不要拍。<br>資料來源：公視 2019（官田約 45 公頃種牛番茄，國內數一數二的產區；暖冬提早熟成，台南番茄北送）、公視 2024（牛番茄產季 11 月到隔年 4 月）、中興大學（牛番茄在臺灣冬季盛產；高溫多濕易病蟲害，很多農民用網室；夏天太熱花柱太長、不易著果、尻腐病）、台南區農業改良場 2014 設施小果番茄栽培管理（番茄老家在南美洲安地斯山、別名柑仔蜜；大果番茄歸蔬菜、小果番茄歸水果；除側芽、整枝、電子振動器和熊蜂授粉）、農業知識入口網番茄嫁接苗、食力 2025（茄砧臺南1號）、臺大昆蟲系碩士論文 2024（番茄震動授粉）、臺南區農業專訊 2012（防蟲網擋粉蝨、分級）、中央社 2018（官田的溫室小番茄）。切苗、粉蝨鑽破洞、靠吊繩、熊蜂抖花、分級板都是遊戲示意。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"牛番茄":"ㄋㄧㄡˊ ㄈㄢ ㄑㄧㄝˊ","育苗場":"ㄩˋ ㄇㄧㄠˊ ㄔㄤˇ","嫁接":"ㄐㄧㄚˋ ㄐㄧㄝ","青枯病":"ㄑㄧㄥ ㄎㄨ ㄅㄧㄥˋ","網室":"ㄨㄤˇ ㄕˋ","粉蝨":"ㄈㄣˇ ㄕ","吊繩":"ㄉㄧㄠˋ ㄕㄥˊ","側芽":"ㄘㄜˋ ㄧㄚˊ","授粉":"ㄕㄡˋ ㄈㄣˇ","熊蜂":"ㄒㄩㄥˊ ㄈㄥ","集貨場":"ㄐㄧˊ ㄏㄨㄛˋ ㄔㄤˇ"};
 
 var GAMES={
   start:function(area){
@@ -503,6 +522,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

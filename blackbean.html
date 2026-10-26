@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/blackbean.html#game","name":"黑豆任務","alternateName":"黑豆任務・雜糧・下營黑豆","url":"https://tainanyo.tw/blackbean.html","description":"跟著下營區農會的阿伯認識下營三寶之一的黑豆：用燈光分出青仁和黃仁、讓田淹水趕走害蟲、田乾了才灌水、葉子掉光才開收穫機、曬乾裝進兩層袋子，再把甕搬到太陽下曬黑豆蔭油。","image":"https://tainanyo.tw/img/blackbean.png","inLanguage":"zh-Hant","genre":"雜糧","keywords":"臺南, 台南, 雜糧, 下營, 下營區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・展示館：青仁和黃仁","position":1},{"@type":"CreativeWork","name":"第 2 關・田：先讓田淹水","position":2},{"@type":"CreativeWork","name":"第 3 關・灌溉：乾了才灌水","position":3},{"@type":"CreativeWork","name":"第 4 關・收成：葉子掉光才收","position":4},{"@type":"CreativeWork","name":"第 5 關・曬豆：曬乾再裝兩層袋","position":5},{"@type":"CreativeWork","name":"第 6 關・曬甕：甕裡的黑豆蔭油","position":6}],"contentLocation":{"@type":"Place","name":"下營（臺南市下營區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"下營區"},"geo":{"@type":"GeoCoordinates","latitude":23.2359,"longitude":120.2643}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/blackbean.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"雜糧","item":"https://tainanyo.tw/#zaliang"},{"@type":"ListItem","position":3,"name":"黑豆任務","item":"https://tainanyo.tw/blackbean.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -208,6 +208,21 @@ var LV=[
    html:'<p>你用燈光分出青仁和黃仁、讓田淹水趕走害蟲、看田乾了才灌水、等葉子掉光才開收穫機、把黑豆曬乾裝進兩層袋子，還把甕搬到太陽下曬蔭油。到下營區農會的展示館，看看下營三寶！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC';
+var WORDS={
+  '蠶桑':['養蠶和種桑樹。蠶寶寶吃桑葉長大。蠶桑是下營三寶之一。','<path d="M0 0Q-26 -6 -30 -24Q-8 -24 0 -4Q8 -26 30 -24Q26 -6 0 0Z" fill="#6AAA48"/><path d="M0 0V-26" stroke="#3F7A2C" stroke-width="1.4"/><path d="M-18 14Q-10 6 -2 14Q6 6 14 14" stroke="#F4F0E0" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="16" cy="12" r="3" fill="#F4F0E0"/>',W_SKY],
+  '穀倉':['放稻穀等糧食的倉庫。下營區農會把一間空了 30 年的穀倉，改成了展示館。','<path d="M-34 24V-6L0 -26L34 -6V24Z" fill="#C8A878" stroke="#8A6A4A" stroke-width="1.6"/><rect x="-10" y="4" width="20" height="20" fill="#6A4A30"/>',W_SKY],
+  '黑豆蔭油':['用黑豆釀的醬油。下營的黑豆，大多拿來做黑豆蔭油。',jar(0,0,1,true),W_LAND],
+  '子葉':['把黑豆的黑皮剝開，裡面的豆仁叫子葉。有綠的<b>青仁</b>，也有黃的<b>黃仁</b>。',bean(-12,0,1)+'<ellipse cx="12" cy="0" rx="9" ry="7" fill="#9CC46A" stroke="#6A8A3A"/>',W_LAND],
+  '青仁':['皮剝開，裡面是綠色的黑豆。適合做黑豆茶、黑豆粉。','<ellipse cx="0" cy="0" rx="14" ry="11" fill="#9CC46A" stroke="#6A8A3A" stroke-width="1.4"/>',W_LAND],
+  '黃仁':['皮剝開，裡面是黃色的黑豆。','<ellipse cx="0" cy="0" rx="14" ry="11" fill="#E8D070" stroke="#B8A040" stroke-width="1.4"/>',W_LAND],
+  '豆類聯合收穫機':['收黑豆的機器。開過去一次，就把豆株割下來、把豆子從莢裡打出來，再把碎葉和莢殼篩掉。','<rect x="-30" y="-14" width="44" height="26" rx="4" fill="#3E7AB0"/><rect x="-24" y="-24" width="18" height="12" fill="#BFD8E8" stroke="#2E5A88"/><rect x="14" y="-4" width="16" height="12" fill="#E8C060"/><circle cx="-18" cy="16" r="7" fill="#2A2020"/><circle cx="4" cy="16" r="7" fill="#2A2020"/>',W_SKY],
+  '含水量':['東西裡面有多少水。黑豆要曬到每 100 份重量裡，水只占 9 到 12 份。',bean(-8,4,1)+'<path d="M14 -16C10 -8 8 -4 8 0A6 6 0 0 0 20 0C20 -4 18 -8 14 -16Z" fill="#7EB8D6"/>',W_LAND],
+  '麴':['一種好的黴菌，可以讓東西發酵。做蔭油時，蒸熟的黑豆要拌上麴。','<ellipse cx="0" cy="6" rx="30" ry="12" fill="#B8C890"/>'+[[-14,2],[-4,6],[8,0],[16,8],[-20,10],[2,12]].map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5" fill="#2A2020"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" fill="#E8F0C8" opacity=".8"/>'}).join(''),W_LAND],
+  '甕':['大肚子的陶罐。做蔭油時，黑豆放進甕裡，在太陽下曬好幾個月。',jar(0,0,1,true),W_LAND]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["下營區農會（產業文化展示館）","下營區農會"]]};
 
@@ -223,6 +238,9 @@ function wait(fn,ms){var t=setTimeout(fn,ms);loops.push(function(){clearTimeout(
 var LEARN='learn/blackbean.html';  // 延伸閱讀頁
 var KEY='tainan-blackbean';
 var NOTE='給大人：下營區農會在下營區中山路一段 322 號，產業文化展示館介紹下營三寶（蠶桑、黑豆、白鵝），出發前先確認開放時間。黑豆田是農民的，田埂窄，不要踩進田裡。<br>資料來源：台南區農業改良場連大進、游添榮〈國產蔭油加工用黑豆新品種－台南5號〉《農政與農情》95 期 2000（黃仁、適合蔭油；秋作 8 月中到 10 月中播種、生育 83 到 88 天；整地前淹水 2 天防地下害蟲；乾旱時播種後 20、40、55、70 天灌溉；葉片黃化落葉、子實乾硬時用豆類聯合收穫機一次收割脫粒篩選；曬 2 到 3 天含水量 9 到 12% 後裝內層 PE 外層編織袋）、下營鄉農會黃銘鋒〈下營三寶 田園曼波〉《農政與農情》133 期 2003（三寶、穀倉改建展示館、台南 5 號、入甕日曝 120 天）、下營區農會「神奇的黑豆」（種皮黑色的大豆、青仁黃仁和用途、蔭油製程）、農業易遊網（熟成 4 到 6 個月）、北農嚴選（A贏台語雙諧音）、食力 2022（台南區農業改良場說明黃豆種植忌多水）。燈光看仁、劃開田埂、田裂開、三塊田、含水量每天降多少、屋簷影子，都是遊戲示意。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"蠶桑":"ㄘㄢˊ ㄙㄤ","穀倉":"ㄍㄨˇ ㄘㄤ","黑豆蔭油":"ㄏㄟ ㄉㄡˋ ㄧㄣˋ ㄧㄡˊ","子葉":"ㄗˇ ㄧㄝˋ","青仁":"ㄑㄧㄥ ㄖㄣˊ","黃仁":"ㄏㄨㄤˊ ㄖㄣˊ","豆類聯合收穫機":"ㄉㄡˋ ㄌㄟˋ ㄌㄧㄢˊ ㄏㄜˊ ㄕㄡ ㄏㄨㄛˋ ㄐㄧ","含水量":"ㄏㄢˊ ㄕㄨㄟˇ ㄌㄧㄤˋ","麴":"ㄑㄩˊ","甕":"ㄨㄥˋ"};
 
 var GAMES={
   start:function(area){
@@ -436,6 +454,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

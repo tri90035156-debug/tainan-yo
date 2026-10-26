@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/tern.html#game","name":"鳥龍捲任務","alternateName":"鳥龍捲任務・候鳥・黑腹燕鷗","url":"https://tainanyo.tw/tern.html","description":"跟阿公在北門潟湖記錄黑肚鳥：認出黑腹燕鷗、看牠點水抓魚、用手指轉出鳥龍捲，再帶小船安靜回港。","image":"https://tainanyo.tw/img/tern.png","inLanguage":"zh-Hant","genre":"候鳥","keywords":"臺南, 台南, 候鳥, 北門, 北門區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・北門潟湖（10 月）：哪一隻是黑腹燕鷗？","position":1},{"@type":"CreativeWork","name":"第 2 關・魚塭（白天）：燕鷗的午餐","position":2},{"@type":"CreativeWork","name":"第 3 關・井仔腳瓦盤鹽田（黃昏）：黃昏的鳥龍捲","position":3},{"@type":"CreativeWork","name":"第 4 關・北門潟湖的蚵棚（天快黑了）：今晚睡哪一排？","position":4},{"@type":"CreativeWork","name":"第 5 關・回蘆竹溝漁港（晚上）：小船安靜回家","position":5},{"@type":"CreativeWork","name":"第 6 關・飛回北方（11 月底到 12 月）：回家的路","position":6}],"contentLocation":{"@type":"Place","name":"北門（臺南市北門區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"北門區"},"geo":{"@type":"GeoCoordinates","latitude":23.272,"longitude":120.112}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/tern.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"候鳥","item":"https://tainanyo.tw/#houniao"},{"@type":"ListItem","position":3,"name":"鳥龍捲任務","item":"https://tainanyo.tw/tern.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -249,6 +249,24 @@ var LV=[
    html:'<p>從秋天到冬天，你認出了<b>黑腹燕鷗</b>，看牠點水抓魚，看了一場<b>鳥龍捲</b>，還帶小船安靜回家。明年秋天，黑肚鳥還會再回到<b>北門潟湖</b>。</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#DFF3F8',W_SEA='#CFE6EC',W_LAND='#EFE3C8';
+var WORDS={
+  '潟湖':['被長長的<b>沙洲</b>圍起來、像一個大湖的海水。','<rect x="-46" y="-30" width="92" height="60" fill="#7EB6CC"/><path d="M-46 -6Q-10 -22 46 -8V30H-46Z" fill="#E8D9A8"/><path d="M-40 4Q-6 -10 40 2Q20 22 -20 22Q-40 18 -40 4Z" fill="#A9D3DF"/>',W_SKY],
+  '沙洲':['海裡長長一條的沙地，露出水面。北門的沙洲把潟湖和大海隔開。','<rect x="-46" y="-20" width="92" height="40" fill="#7EB6CC"/><path d="M-46 4Q-10 -10 46 0Q10 10 -46 12Z" fill="#E8D9A8"/>',W_SKY],
+  '黑腹燕鷗':['冬天從北方飛來北門潟湖過冬的小鳥。白白小小的，眼睛後面有一塊黑。有漁民叫牠<b>黑肚鳥</b>。',tern(0,0,1),W_SKY],
+  '黑肚鳥':['就是<b>黑腹燕鷗</b>，北門的漁民這樣叫牠。',tern(0,0,1),W_SKY],
+  '鳥龍捲':['黃昏時，好幾千隻黑腹燕鷗在天上一起轉圈圈，看起來像一陣龍捲風。',(function(){var h='';for(var k=0;k<22;k++){var a=k*.8,r=8+k*1.6;h+=tern(Math.cos(a)*r*1.3,Math.sin(a)*r*.45-k*2.6,.5,k%2?'fly':'down')}return h})(),'#F6D9B8'],
+  '蚵棚':['養<b>牡蠣</b>（蚵仔）的竹架子，一排一排插在潟湖裡。晚上，黑腹燕鷗會停在上面休息。',rackSvg(0,0,1,['sit','sleep','sit']),W_SEA],
+  '冬羽':['冬天的羽毛，顏色淡淡的。到了要生寶寶的季節，黑腹燕鷗的頭頂會變黑、肚子變成深灰色。',tern(0,0,1),W_SKY],
+  '魚塭':['養魚的池子。白天，黑腹燕鷗會飛到魚塭找小蟲和小魚吃。','<rect x="-40" y="-6" width="80" height="34" rx="4" fill="#A9CFD8" stroke="#B49A70" stroke-width="4"/><g transform="translate(-10 14)">'+fishSvg(0)+'</g>'+tern(8,-20,.8,'fly'),W_LAND],
+  '井仔腳瓦盤鹽田':['北門的老鹽田，地上鋪著碎<b>瓦片</b>，用來曬鹽。從 1818 年起就在曬鹽了。',(function(){var h='';for(var r=0;r<3;r++)for(var c=0;c<4;c++)h+='<rect x="'+(-40+c*20)+'" y="'+(-10+r*14)+'" width="18" height="12" fill="#9AA6AA" stroke="#C9B48C" stroke-width="1.6"/>';return h+'<path d="M-8 -16L0 -28L8 -16Z" fill="#fff" stroke="#D8D0C0"/><path d="M20 -16L26 -25L32 -16Z" fill="#fff" stroke="#D8D0C0"/>'})(),W_LAND],
+  '隼':['一種很會抓鳥的猛禽，飛得很快。有一說：很多鳥擠在一起飛，隼就很難盯住其中一隻。','<path d="M0 -4Q-20 -20 -40 -16Q-22 -8 -6 4ZM0 -4Q20 -20 40 -16Q22 -8 6 4Z" fill="#6A5A50"/><ellipse cx="0" cy="2" rx="7" ry="13" fill="#7A6A5E"/><circle cx="0" cy="-12" r="5" fill="#5A4A40"/><path d="M-2 -10L0 -6L2 -10Z" fill="#F2B632"/><path d="M-5 14L0 24L5 14Z" fill="#6A5A50"/>',W_SKY],
+  '牡蠣':['就是<b>蚵仔</b>，住在硬殼裡的貝類。在蚵棚上一串一串養大。','<path d="M0 -36V30" stroke="#8A6A4A" stroke-width="2"/>'+[-24,-6,12].map(function(y,k){return '<g transform="translate('+(k%2?4:-4)+' '+y+')"><path d="M-12 0Q-10 -10 0 -10Q12 -8 12 2Q8 12 -2 12Q-12 10 -12 0Z" fill="#B8B0A0" stroke="#7A7268" stroke-width="1.4"/><path d="M-6 -2Q0 -6 6 0" stroke="#7A7268" stroke-width="1" fill="none"/></g>'}).join(''),W_SEA],
+  '潮水':['海水每天會漲上來、退下去，這就是潮水。漲潮時，蚵棚露出水面的地方也會變。',rackSvg(0,0,.8,[])+'<path d="M-40 0Q-30 -6 -20 0T0 0T20 0T40 0" stroke="#3E8AB0" stroke-width="3" fill="none"/><path d="M44 -14V14M38 -8L44 -14L50 -8M38 8L44 14L50 8" stroke="#DB2E27" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',W_SEA],
+  '漁港':['讓漁船停靠的港口。阿公的小船晚上就回到漁港。',boatSvg(0,0,1)+'<path d="M-26 10H26" stroke="#3E8AB0" stroke-width="2"/>',W_SEA]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"1": [["北門潟湖", "台南 北門潟湖"]], "3": [["井仔腳瓦盤鹽田", "井仔腳瓦盤鹽田"]], "5": [["蘆竹溝漁港", "蘆竹溝漁港"]]};
 
@@ -257,6 +275,9 @@ var LEARN='learn/tern.html';  // 延伸閱讀頁
 var KEY='tainan-tern';
 var ERA0='past';  // 地圖一開始是哪一邊
 var NOTE='給大人：插畫地圖是示意，不是真實比例。阿公的小船路線是遊戲編的。黑腹燕鷗每年來的時間、數量和停的地方都不一樣，出發前可以先問北門當地的觀光協會或鳥友；井仔腳瓦盤鹽田 2025 年曾被颱風破壞，請先確認開放情形。<br>資料來源：黑腹燕鷗的羽色和居留狀況（農業部農業知識入口網，文字出自《台灣鳥類誌》第 2 版；臺北市野鳥學會〈家住海邊—臺灣的燕鷗〉摺頁，2024）；從北方來臺過冬、白天到雲嘉南潟湖覓食、傍晚約 5 點回北門潟湖（公視新聞網，2019）；漁民叫黑肚鳥、停在蚵棚上並隨潮水換位置、鳥龍捲、數量變少和提早離開（自由時報，2023）；吃小魚和昆蟲、貼著水面取食（澳洲的研究：CSIRO《Australian Wildlife Research》、澳洲博物館）；鳥群盤旋的說法（英國的椋鳥研究，薩里野生動物信託）；井仔腳瓦盤鹽田 1818 年遷到現址、現存最老的瓦盤鹽田（鉅亨網、微笑台灣）；北門潟湖的蚵棚和蘆竹溝漁港（臺南旅遊網、公視新聞網）。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"潟湖":"ㄒㄧˋ ㄏㄨˊ","沙洲":"ㄕㄚ ㄓㄡ","黑腹燕鷗":"ㄏㄟ ㄈㄨˋ ㄧㄢˋ ㄡ","黑肚鳥":"ㄏㄟ ㄉㄨˋ ㄋㄧㄠˇ","鳥龍捲":"ㄋㄧㄠˇ ㄌㄨㄥˊ ㄐㄩㄢˇ","蚵棚":"ㄜˊ ㄆㄥˊ","冬羽":"ㄉㄨㄥ ㄩˇ","魚塭":"ㄩˊ ㄨㄣ","井仔腳瓦盤鹽田":"ㄐㄧㄥˇ ㄗˇ ㄐㄧㄠˇ ㄨㄚˇ ㄆㄢˊ ㄧㄢˊ ㄊㄧㄢˊ","隼":"ㄓㄨㄣˇ","牡蠣":"ㄇㄨˇ ㄌㄧˋ","潮水":"ㄔㄠˊ ㄕㄨㄟˇ","漁港":"ㄩˊ ㄍㄤˇ"};
 
 var GAMES={
   start:function(area){setScene(idCard('黑腹燕鷗','冬天的羽毛',tern(168,170,6,''),[['眼睛後面黑一塊',112,68,128,83],['黑色的嘴',58,118,82,92],['尾巴短短的分兩叉',236,72,272,114],['紅色的腳',248,158,180,166]]));var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
@@ -566,6 +587,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

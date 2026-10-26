@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/heipi.html#game","name":"黑琵度冬任務","alternateName":"黑琵度冬任務・候鳥・黑面琵鷺","url":"https://tainanyo.tw/heipi.html","description":"當賞鳥亭的小小解說員，從秋天到春天陪黑琵：安靜等牠降落、用望遠鏡找腳環、轉水門放水，最後送牠飛回北方。","image":"https://tainanyo.tw/img/heipi.png","inLanguage":"zh-Hant","genre":"候鳥","keywords":"臺南, 台南, 候鳥, 曾文溪口, 七股區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・曾文溪口（10 月）：黑琵飛來了","position":1},{"@type":"CreativeWork","name":"第 2 關・黑面琵鷺賞鳥亭：找找戴腳環的黑琵","position":2},{"@type":"CreativeWork","name":"第 3 關・七股的淺魚塭（晚上）：晚上出門吃飯","position":3},{"@type":"CreativeWork","name":"第 4 關・友善魚塭（冬天）：把水放淺一點","position":4},{"@type":"CreativeWork","name":"第 5 關・一月數鳥：一起數黑琵","position":5},{"@type":"CreativeWork","name":"第 6 關・春天（3 到 5 月）：換上新羽毛，飛回北方","position":6}],"contentLocation":{"@type":"Place","name":"曾文溪口（臺南市七股區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"七股區"},"geo":{"@type":"GeoCoordinates","latitude":23.064,"longitude":120.078}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/heipi.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"候鳥","item":"https://tainanyo.tw/#houniao"},{"@type":"ListItem","position":3,"name":"黑琵度冬任務","item":"https://tainanyo.tw/heipi.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -231,6 +231,23 @@ var LV=[
    html:'<p>從秋天到春天，你陪<b>黑琵</b>降落、吃飯、數數、換羽毛，也學會了怎麼安靜看鳥。明年秋天，牠們還會再回到<b>臺南</b>。</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#DFF3F8',W_MUD='#E3D3B0',W_POND='#CFE6EC';
+var WORDS={
+  '黑面琵鷺':['一種冬天從北方飛來臺南過冬的鳥。臉黑黑的，嘴巴前面扁扁圓圓的，像一支<b>湯匙</b>。',bird(0,0,1),W_SKY],
+  '黑琵':['就是<b>黑面琵鷺</b>，大家叫牠黑琵。臉黑黑的，嘴巴像一支湯匙。',bird(0,0,1),W_SKY],
+  '泥灘':['退潮時露出來的爛泥地。黑琵飛累了，會停在這裡休息。','<path d="M-46 22Q-20 12 0 18T46 16V30H-46Z" fill="#B49A70"/>'+bird(-14,8,.8,'sleep')+bird(16,6,.8),W_MUD],
+  '賞鳥亭':['讓人躲在裡面看鳥的小房子。人躲起來，鳥就不會被嚇到。','<path d="M-34 -6L0 -28L34 -6Z" fill="#8A6A4A"/><rect x="-28" y="-6" width="56" height="34" fill="#C8A878"/><rect x="-20" y="2" width="40" height="7" rx="2" fill="#3A2E28"/><rect x="-6" y="14" width="12" height="14" fill="#8A6A4A"/>',W_SKY],
+  '腳環':['套在鳥腳上、有號碼的小環。研究的人看到號碼，就能查到這隻鳥是從哪裡來的。','<path d="M-4 -30V30M6 -30V30" stroke="#5A5048" stroke-width="3" stroke-linecap="round"/><rect x="-10" y="-6" width="22" height="14" rx="3" fill="#F2B632" stroke="#B88A1E" stroke-width="1.4"/><text x="1" y="5" font-size="8" font-weight="900" fill="#2A2020" text-anchor="middle">A07</text>',W_SKY],
+  '衛星發報器':['小小的機器，背在鳥的背上。它會送出訊號，研究的人就知道鳥飛到哪裡去了。','<rect x="-14" y="-6" width="28" height="16" rx="4" fill="#6A7A86"/><path d="M8 -6L18 -26" stroke="#5A5048" stroke-width="2" stroke-linecap="round"/><path d="M22 -34Q28 -30 26 -24M26 -40Q36 -32 32 -20" stroke="#DB2E27" stroke-width="2" fill="none" stroke-linecap="round"/>',W_SKY],
+  '魚塭':['養魚的池子。黑琵冬天常在魚塭裡找小魚小蝦吃。','<rect x="-40" y="-26" width="80" height="52" rx="4" fill="#A9CFD8" stroke="#B49A70" stroke-width="5"/><g transform="translate(-14 -6)">'+fishSvg(0)+'</g><g transform="translate(14 10)">'+fishSvg(0)+'</g><g transform="translate(10 -12)">'+fishSvg(1)+'</g>',W_MUD],
+  '水門':['魚塭旁邊的門，打開就能放水，讓池子的水變淺。','<rect x="-40" y="-8" width="80" height="34" fill="#A9CFD8"/><rect x="-12" y="-30" width="24" height="44" fill="#8A8A84" stroke="#5A5A54" stroke-width="2"/><circle cy="-34" r="10" fill="none" stroke="#5A5A54" stroke-width="3"/><path d="M-10 -34H10M0 -44V-24" stroke="#5A5A54" stroke-width="2"/>',W_MUD],
+  '淺坪魚塭':['水放得淺淺的魚塭。冬天水淺，就變成候鳥吃飯的好地方。','<rect x="-46" y="4" width="92" height="22" fill="#A9CFD8"/>'+bird(-16,8,.7)+bird(16,10,.7),W_MUD],
+  '同步普查':['世界各地看鳥的人，約好在同一個週末一起數黑琵。大家同時數，才不會重複數到同一隻。',bird(-22,0,.7)+bird(0,4,.7)+bird(22,0,.7)+'<text x="0" y="-26" font-size="14" font-weight="900" fill="#DB2E27" text-anchor="middle">1、2、3⋯</text>',W_SKY],
+  '畫正字':['數一隻，畫一筆。「正」字剛好有 <b>5 筆</b>，寫好一個正字就是 5 隻。','<text x="-16" y="12" font-size="34" font-weight="900" fill="#2A2020" text-anchor="middle" font-family="Noto Serif TC,serif">正</text><text x="18" y="12" font-size="34" font-weight="900" fill="#BD9558" text-anchor="middle" font-family="Noto Serif TC,serif">丅</text>','#FFF8EC'],
+  '繁殖羽':['準備生寶寶時才長出來的漂亮羽毛。春天，黑琵的頭和脖子會變成金黃色。',bird(0,0,1,'gold'),W_SKY]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"1": [["曾文溪口", "台南 七股 曾文溪口"]], "2": [["黑面琵鷺賞鳥亭", "七股 黑面琵鷺賞鳥亭"], ["黑面琵鷺生態展示館", "黑面琵鷺生態展示館"]]};
 
@@ -239,6 +256,9 @@ var LEARN='learn/heipi.html';  // 延伸閱讀頁
 var KEY='tainan-heipi';
 var ERA0='past';  // 地圖一開始是哪一邊
 var NOTE='給大人：插畫地圖是示意，不是真實比例。腳環號碼 A07 是遊戲編的。出發前請先確認七股黑面琵鷺賞鳥亭、生態展示館的開放時間（曾有報導說第 3 賞鳥亭很久沒有開放）。<br>資料來源：2026 年黑面琵鷺全球同步普查結果（香港觀鳥會統籌；林業及自然保育署、中華民國野鳥學會公布；公視、Yahoo 新聞報導）；普查在每年 1 月舉行（NOWnews、中央社）；黑琵在淺水左右擺嘴覓食、晚上活動、白天休息（台灣英文新聞、公視）；水深約 20 公分以下的淺水與淺坪魚塭（台灣英文新聞、關鍵評論網）；生態服務給付（udn 聯合新聞網）；繁殖羽、3 到 5 月北返與 2026 年衛星追蹤（工商時報、新頭殼）；腳環與衛星發報器（公視）；賞鳥亭（微笑台灣、TVBS）。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"黑面琵鷺":"ㄏㄟ ㄇㄧㄢˋ ㄆㄧˊ ㄌㄨˋ","黑琵":"ㄏㄟ ㄆㄧˊ","泥灘":"ㄋㄧˊ ㄊㄢ","賞鳥亭":"ㄕㄤˇ ㄋㄧㄠˇ ㄊㄧㄥˊ","腳環":"ㄐㄧㄠˇ ㄏㄨㄢˊ","衛星發報器":"ㄨㄟˋ ㄒㄧㄥ ㄈㄚ ㄅㄠˋ ㄑㄧˋ","魚塭":"ㄩˊ ㄨㄣ","水門":"ㄕㄨㄟˇ ㄇㄣˊ","淺坪魚塭":"ㄑㄧㄢˇ ㄆㄧㄥˊ ㄩˊ ㄨㄣ","同步普查":"ㄊㄨㄥˊ ㄅㄨˋ ㄆㄨˇ ㄔㄚˊ","畫正字":"ㄏㄨㄚˋ ㄓㄥˋ ㄗˋ","繁殖羽":"ㄈㄢˊ ㄓˊ ㄩˇ"};
 
 var GAMES={
   start:function(area){setScene(idCard('黑面琵鷺','大家都叫牠黑琵',bird(176,116,2.4,''),[['黑色的臉',92,62,150,63],['像湯匙的扁嘴',60,116,97,73],['白色的羽毛',268,92,192,110],['黑色的長腳',262,150,182,152]]));var b=el('<button class="big" type="button">出發</button>').firstChild;b.addEventListener('click',function(){go(1)});area.appendChild(b);area.insertAdjacentHTML('beforeend',LV[0].after)},
@@ -441,6 +461,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

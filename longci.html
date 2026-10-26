@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/longci.html#game","name":"月世界任務","alternateName":"月世界任務・山和大地・龍崎牛埔","url":"https://tainanyo.tw/longci.html","description":"跟著來爬山的阿伯走龍崎：讓雨水在月世界的泥岩沖出雨溝、在溪谷最窄的地方蓋土壩、一上一下編竹藤椅面、把竹子悶成竹炭、拼出「龍崎」的名字，晚上再到空山祭點亮整座山。","image":"https://tainanyo.tw/img/longci.png","inLanguage":"zh-Hant","genre":"山和大地","keywords":"臺南, 台南, 山和大地, 龍崎, 龍崎區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・月世界：下雨沖出一條條溝","position":1},{"@type":"CreativeWork","name":"第 2 關・埤仔溝溪：在最窄的地方蓋土壩","position":2},{"@type":"CreativeWork","name":"第 3 關・竹林：一上一下編椅面","position":3},{"@type":"CreativeWork","name":"第 4 關・竹炭窯：把竹子悶成竹炭","position":4},{"@type":"CreativeWork","name":"第 5 關・龍船：龍崎這個名字","position":5},{"@type":"CreativeWork","name":"第 6 關・虎形山公園：晚上會發光的山","position":6}],"contentLocation":{"@type":"Place","name":"龍崎（臺南市龍崎區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"龍崎區"},"geo":{"@type":"GeoCoordinates","latitude":22.9284,"longitude":120.4108}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/longci.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"山和大地","item":"https://tainanyo.tw/#dadi"},{"@type":"ListItem","position":3,"name":"月世界任務","item":"https://tainanyo.tw/longci.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -202,6 +202,22 @@ var LV=[
    html:'<p>你讓雨水在月世界沖出 5 條溝、在溪谷最窄的地方蓋了土壩、一上一下編好竹藤椅面、把竹子悶成竹炭、拼出龍崎的名字，還在黑黑的山裡找到 5 件發光的作品。冬天來龍崎，白天看月世界，晚上看空山祭！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC',W_MOON='#DCD8CE';
+var WORDS={
+  '月世界':['灰灰白白、光禿禿的山，上面一條一條的溝，像月亮的表面。','<path d="M-46 24L-30 -8L-20 4L-6 -24L8 2L20 -12L34 10L46 24Z" fill="#B8B4A8"/><path d="M-26 0L-24 22M-8 -18L-6 22M6 -2L8 22M20 -8L22 22" stroke="#9A968C" stroke-width="1.4"/>',W_MOON],
+  '采竹之鄉':['龍崎竹子很多，所以有「采竹之鄉」的美名。',bamboo(-12,0,1)+bamboo(12,4,.9),W_SKY],
+  '泥岩':['泥巴變硬做成的石頭。牛埔的泥岩一碰到水就散開，跟著雨水流走。','<path d="M-40 20L-20 -14L0 -4L20 -20L40 20Z" fill="#B8B4A8"/><path d="M-6 -30V-20M2 -34V-24M10 -30V-20" stroke="#7EB8D6" stroke-width="2.4" stroke-linecap="round"/><path d="M-10 20Q0 26 12 20" stroke="#9A8A6A" stroke-width="3" fill="none"/>',W_MOON],
+  '土壩':['用土堆成的壩。攔住泥沙，也把水存起來，變成小湖。','<path d="M-46 -10Q-20 -4 -10 10L10 10Q20 -4 46 -10V24H-46Z" fill="#B8B4A8"/><path d="M-30 -2Q-20 4 -12 6V10H-30Z" fill="#7EB6CC"/><path d="M-12 10H12V-2H-12Z" fill="#9A8A6A"/>',W_SKY],
+  '生態工法':['順著大自然的樣子來做工程，例如用土壩攔泥沙、在光禿禿的坡上種草。','<path d="M-46 24L-20 -10L10 0L46 24Z" fill="#B8B4A8"/><path d="M-30 6L-28 0M-22 2L-20 -4M-12 0L-10 -6M0 2L2 -4M12 6L14 0" stroke="#6AAA48" stroke-width="2.4" stroke-linecap="round"/>',W_SKY],
+  '水中樓台':['土壩的排水管上面，蓋了一座涼亭，叫水中樓台。','<rect x="-46" y="8" width="92" height="20" fill="#7EB6CC"/><path d="M-20 -6L0 -22L20 -6Z" fill="#8A5A3A"/><path d="M-14 -6V8M14 -6V8" stroke="#8A5A3A" stroke-width="3"/><rect x="-18" y="6" width="36" height="4" fill="#9A8A6A"/>',W_SKY],
+  '竹藤家具':['用竹子做骨架，再把細細的藤條編上去做成的椅子、桌子。以前龍崎是主要的產地。','<path d="M-20 -30V24M18 -30V24M-20 -4H18M-20 24H-20" stroke="#B8902E" stroke-width="4" stroke-linecap="round"/>'+(function(){var h='';for(var k=0;k<4;k++)h+='<path d="M-18 '+(-26+k*6)+'H16" stroke="#D8B860" stroke-width="2.4"/>';return h})()+'<path d="M-20 -4L-26 24M18 -4L24 24" stroke="#B8902E" stroke-width="4" stroke-linecap="round"/>',W_LAND],
+  '竹炭窯':['把竹子悶成竹炭的土窯。崎頂有少見的竹炭窯。',kilnArt(0,0,1),W_LAND],
+  '竹炭':['竹子在空氣很少的窯裡慢慢「悶」成的黑黑的炭。身上有很多看不見的小洞。','<g transform="rotate(-20)"><rect x="-34" y="-7" width="68" height="14" rx="4" fill="#2A2622"/><path d="M-12 -7V7M12 -7V7" stroke="#4A4440" stroke-width="2"/></g>',W_LAND],
+  '進氣口':['窯下面讓空氣進去的洞。關小一點，空氣少，竹子才不會燒成灰。',kilnArt(0,0,1)+'<circle cx="0" cy="-4" r="10" fill="none" stroke="#DB2E27" stroke-width="1.6" stroke-dasharray="3 2"/>',W_LAND],
+  '龍崎光節—空山祭':['冬天晚上，龍崎崎頂的虎形山公園會變成一座發光的山，藝術作品藏在竹林裡發亮。',bamboo(-10,0,1,'#3E5A44')+'<circle cx="10" cy="-10" r="9" fill="#F5D060" opacity=".9"/><circle cx="-18" cy="-20" r="5" fill="#F5D060" opacity=".8"/>','#2A3040']
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["牛埔泥岩水土保持教學園區","牛埔泥岩水土保持教學園區"]],"4":[["竹炭故事館","龍崎竹炭故事館"]],"6":[["虎形山公園","龍崎虎形山公園"]]};
 
@@ -217,6 +233,9 @@ function wait(fn,ms){var t=setTimeout(fn,ms);loops.push(function(){clearTimeout(
 var LEARN='learn/longci.html';  // 延伸閱讀頁
 var KEY='tainan-longci';
 var NOTE='給大人：牛埔泥岩水土保持教學園區在龍崎區牛埔里；泥岩下過雨很滑、容易崩，請走步道。空山祭（龍崎光節）在冬天晚上、虎形山公園，展場不能開車進去，要停文衡殿停車場搭接駁車；每年展期和作品不同，出發前先查。<br>資料來源：農業部《農政與農情》第 136 期 2003〈惡地創生機─台南縣埤仔溝溪泥岩自然生態工法示範〉（泥岩遇水迅速崩解、含可溶性鹽分、年沖蝕深度約 6–8 公分）、第 144 期 2004〈牛埔泥岩水土保持教學園區〉（埤仔溝溪、民國 87 年起生態工法土壩土堤和植生、水中樓台、2004 年開園）、第 210 期 2009〈竹香好味 足以回味〉（采竹之鄉、龍崎鄉農會 2 座竹炭窯、竹炭皂和除臭包）、臺南旅遊網〈竹炭故事館〉、台灣英文新聞 2023-09-21（地名一說取自龍船和崎頂、竹藤家具主要供應處、采竹之鄉）、1111 產經新聞網 2022-12-13（2022 年納入西拉雅國家風景區、龍船窩日出）、遠見城市學 2024-12-25 和美麗佳人 2026（空山祭在虎形山公園、逾 10 萬遊客、夜間展出、接駁車）。雨溝的樣子、蓋在最窄處、椅面編法、熱度條、作品的樣子，都是遊戲示意。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"月世界":"ㄩㄝˋ ㄕˋ ㄐㄧㄝˋ","采竹之鄉":"ㄘㄞˇ ㄓㄨˊ ㄓ ㄒㄧㄤ","泥岩":"ㄋㄧˊ ㄧㄢˊ","土壩":"ㄊㄨˇ ㄅㄚˋ","生態工法":"ㄕㄥ ㄊㄞˋ ㄍㄨㄥ ㄈㄚˇ","水中樓台":"ㄕㄨㄟˇ ㄓㄨㄥ ㄌㄡˊ ㄊㄞˊ","竹藤家具":"ㄓㄨˊ ㄊㄥˊ ㄐㄧㄚ ㄐㄩˋ","竹炭窯":"ㄓㄨˊ ㄊㄢˋ ㄧㄠˊ","竹炭":"ㄓㄨˊ ㄊㄢˋ","進氣口":"ㄐㄧㄣˋ ㄑㄧˋ ㄎㄡˇ","龍崎光節—空山祭":"ㄌㄨㄥˊ ㄑㄧˊ ㄍㄨㄤ ㄐㄧㄝˊ ㄎㄨㄥ ㄕㄢ ㄐㄧˋ"};
 
 var GAMES={
   start:function(area){
@@ -450,6 +469,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

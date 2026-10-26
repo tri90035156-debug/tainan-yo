@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/avocado.html#game","name":"酪梨任務","alternateName":"酪梨任務・水果・大內酪梨","url":"https://tainanyo.tw/avocado.html","description":"跟著大內種酪梨的阿伯，從 1 月到 10 月：把好吃的品種嫁接上去、幫蜜蜂畫路線送花粉、摘掉多的小酪梨、挖土看淺淺的根、劃過果梗剪下熟酪梨，再找出讓酪梨變軟的地方。","image":"https://tainanyo.tw/img/avocado.png","inLanguage":"zh-Hant","genre":"水果","keywords":"臺南, 台南, 水果, 大內・山上, 大內區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・苗圃（1 月）：把好吃的接上去","position":1},{"@type":"CreativeWork","name":"第 2 關・曾文溪邊的果園（2 到 3 月）：一朵花開兩次","position":2},{"@type":"CreativeWork","name":"第 3 關・酪梨園（4 到 5 月）：一串只留兩顆","position":3},{"@type":"CreativeWork","name":"第 4 關・曾文溪河堤旁（7 月）：大雨過後，挖開看看","position":4},{"@type":"CreativeWork","name":"第 5 關・採酪梨（10 月）：熟了沒？剪下來","position":5},{"@type":"CreativeWork","name":"第 6 關・阿伯家：放在哪裡會變軟？","position":6}],"contentLocation":{"@type":"Place","name":"大內・山上（臺南市大內區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"大內區"},"geo":{"@type":"GeoCoordinates","latitude":23.12,"longitude":120.3485}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/avocado.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"水果","item":"https://tainanyo.tw/#shuiguo"},{"@type":"ListItem","position":3,"name":"酪梨任務","item":"https://tainanyo.tw/avocado.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -240,6 +240,20 @@ var LV=[
 ];
 
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC';
+var WORDS={
+  '酪梨':['一種水果，摸起來硬硬的、綠綠的，切開來，中間有一顆大大的種子。一百多年前從美洲來到臺灣。',avo(-14,0,1)+avoHalf(16,2,1),W_SKY],
+  '幸福果':['就是<b>酪梨</b>，臺灣人又叫它幸福果。',avo(0,0,1),W_SKY],
+  '嫁接':['把好吃酪梨的小樹枝，接到另一棵小樹上，讓它們長成一棵樹。這樣結的果子才會一樣好吃。','<path d="M0 40V0" stroke="#8A6A4A" stroke-width="6" stroke-linecap="round"/><path d="M0 2V-30" stroke="#6E8F55" stroke-width="4" stroke-linecap="round"/><path d="M0 -20Q-14 -30 -20 -24Q-12 -16 0 -20M0 -28Q12 -40 20 -34Q12 -24 0 -28" fill="#7DB357"/><rect x="-5" y="-4" width="10" height="10" rx="2" fill="#E8D8B4" stroke="#B89A6A"/><path d="M-30 46H30" stroke="#8A6A4A" stroke-width="3"/>',W_LAND],
+  '媽媽花':['酪梨的花會開兩次。第一次開，它是媽媽花，等著接花粉。',flw(0,0,1,'f'),W_SKY],
+  '爸爸花':['同一朵花關起來以後再開第二次，就變成爸爸花，放出花粉。',flw(0,0,1,'m'),W_SKY],
+  '疏果':['把多的果子摘掉。留下來的少一點，每一顆分到的養分就多，才長得又大又好。','<path d="M-40 -30Q0 -40 40 -26" stroke="#8A6A4A" stroke-width="3" fill="none"/>'+avo(-20,-8,.6)+avo(4,-6,.6)+avo(26,-4,.45)+'<path d="M18 -14L34 6M34 -14L18 6" stroke="#DB2E27" stroke-width="3" stroke-linecap="round"/>',W_SKY],
+  '套袋':['替留下來的果子套上紙袋，保護它長大。','<path d="M0 -40V-24" stroke="#8A6A4A" stroke-width="3"/><path d="M-14 -24H14L20 20H-20Z" fill="#E8D8B4" stroke="#B89A6A" stroke-width="1.4"/><path d="M-10 -24H10" stroke="#8A6A3A" stroke-width="2"/>',W_SKY],
+  '果梗':['連著果子的小柄。酪梨的果梗變黃了，就是熟了。',avo(0,0,1,{stem:14})+'<circle cx="0" cy="-30" r="12" fill="none" stroke="#DB2E27" stroke-width="2" stroke-dasharray="3 3"/>',W_SKY],
+  '蒂頭':['果子上面、連著果梗的一小段。採的時候要留一小段蒂頭，細菌才不會跑進去，讓酪梨爛掉。',avo(0,0,1,{stem:4}),W_SKY]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0": [["大內區", "台南市大內區"]], "4": [["曾文溪（大內）", "台南市大內區 曾文溪"]]};
 
@@ -247,6 +261,9 @@ var MAPS={"0": [["大內區", "台南市大內區"]], "4": [["曾文溪（大內
 var LEARN='learn/avocado.html';  // 延伸閱讀頁
 var KEY='tainan-avocado';
 var NOTE='給大人：插畫地圖是示意，不是真實比例。每年酪梨的產季和產量都不一樣；果園是農民的地，請不要自己走進去摘。<br>資料來源：大內是全國最大的酪梨產區、產季大約 6 月到隔年 2 月（自由時報、聯合報 2026；公視新聞網 2026）；很多酪梨園在曾文溪河堤旁（大內區公所電子報 2017）；酪梨原產中美洲、臺灣又叫幸福果、1918 年從美國引進（農業試驗所資料）；嫁接保持品種的特性、11 月到隔年 2 月嫁接、結果率約千分之一、每一串留 1 到 2 顆、疏果和套袋、根大多在 30 公分內、怕積水、要排水好的土、用採果剪留果梗、在樹上不會變軟、放在 20 到 25 度 5 到 10 天會變軟、還沒變軟不能放冰箱、太熱軟不起來、酪梨牛奶和沙拉等吃法（農業試驗所嘉義分所 蔡惠文〈酪梨入門栽培管理技術〉2018、〈酪梨果實成熟度指標與採收期〉2021）；一朵花開兩次、A 型和 B 型、靠蜜蜂傳花粉、1 到 4 月開花（臺大園藝所 陸明德〈低溫對酪梨開花行為的影響〉，農業知識入口網）；「酪梨愛水又怕水」（自由時報 2026）；大拇指輕壓看熟了沒（農業部資料）。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"酪梨":"ㄌㄠˋ ㄌㄧˊ","幸福果":"ㄒㄧㄥˋ ㄈㄨˊ ㄍㄨㄛˇ","嫁接":"ㄐㄧㄚˋ ㄐㄧㄝ","媽媽花":"ㄇㄚ ㄇㄚ˙ ㄏㄨㄚ","爸爸花":"ㄅㄚˋ ㄅㄚ˙ ㄏㄨㄚ","疏果":"ㄕㄨ ㄍㄨㄛˇ","套袋":"ㄊㄠˋ ㄉㄞˋ","果梗":"ㄍㄨㄛˇ ㄍㄥˇ","蒂頭":"ㄉㄧˋ ㄊㄡˊ"};
 
 var GAMES={
   start:function(area){
@@ -532,6 +549,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

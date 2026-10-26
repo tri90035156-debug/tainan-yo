@@ -5,6 +5,8 @@
 var ERA0=typeof ERA0==='string'?ERA0:'now';
 var LEARN=typeof LEARN==='string'?LEARN:'';
 var NOTE=typeof NOTE==='string'?NOTE:'';
+// 注音（ZY，工具/做注音.py 做的）和詞卡（WORDS：點粗體字看小圖），遊戲沒有就不出現（2026-10-26）
+var ZY=typeof ZY==='object'?ZY:null,WORDS=typeof WORDS==='object'?WORDS:null;
 
 /* ---------- 狀態 ---------- */
 var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -38,7 +40,7 @@ var wide=window.matchMedia?matchMedia('(min-width:700px) and (min-aspect-ratio:5
 // 手機上捲動時，網址列會縮起來、畫面變高；圓的大小只在轉方向（寬度變了）時才重算，免得文字和按鈕跟著跳（2026-10-25）
 var baseW=innerWidth,baseH=innerHeight;
 function fitStage(){
-  // 圓的大小：手機看螢幕寬和高；寬螢幕填滿左欄
+  // 圓的大小：手機上幾乎滿版寬、最多六成高（2026-10-25 放大）；寬螢幕填滿左欄
   var svg=sceneEl.hidden?null:sceneEl.querySelector('svg'),disc=stage.querySelector('.disc'),W=stage.clientWidth,D;
   if(wide.matches){stage.style.height='';D=Math.min(W,stage.clientHeight)-36}
   else{if(innerWidth!==baseW){baseW=innerWidth;baseH=innerHeight}D=Math.min(W-10,Math.round(baseH*.6));stage.style.height=(D+32)+'px'}
@@ -90,7 +92,13 @@ function tap(b,fn){var id=null,sx=0,sy=0,t=0;
   b.addEventListener('pointercancel',function(){id=null});
   b.addEventListener('click',function(){if(Date.now()-t<700||b.disabled)return;fn()})}
 function onKey(node,fn){node.addEventListener('click',fn);node.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})}
-function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;area.appendChild(b);into(b);return b}
+// 按鈕手指一放開就送出 click（遊戲自己綁的 click 照常會收到），之後瀏覽器自己的 click 不再重複
+function fastClick(b){var id=null,sx=0,sy=0,t=0;
+  b.addEventListener('click',function(e){if(e._fast)return;if(Date.now()-t<700){e.stopImmediatePropagation();e.preventDefault()}},true);
+  b.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse')return;id=e.pointerId;sx=e.clientX;sy=e.clientY});
+  b.addEventListener('pointerup',function(e){if(e.pointerId!==id)return;id=null;if(b.disabled||Math.hypot(e.clientX-sx,e.clientY-sy)>=16)return;t=Date.now();var ev=new MouseEvent('click',{bubbles:true,cancelable:true});ev._fast=1;b.dispatchEvent(ev)});
+  b.addEventListener('pointercancel',function(){id=null});return b}
+function bigBtn(area,text,blue){var b=el('<button class="big'+(blue?' blue':'')+'" type="button">'+text+'</button>').firstChild;fastClick(b);area.appendChild(b);into(b);return b}
 
 function whyHTML(l){return l.why?'<details class="why"><summary>'+l.why[0]+'</summary><p>'+l.why[1]+'</p></details>':''}
 function win(i){
@@ -102,6 +110,7 @@ function render(i){
   var l=LV[i];
   var top=document.getElementById('top');top.innerHTML='<p class="kick">'+l.kick+'</p><h2>'+l.h+'</h2>';
   card.innerHTML=l.html+(l.task?'<p class="task">'+l.task+'</p>':'');
+  if(WORDS&&l.game==='start')card.insertAdjacentHTML('beforeend','<p class="whint">ヒント：下に<b class="w demo">点々</b>がある言葉をタップすると、絵が見られます。</p>');
   [top,card].forEach(function(n){n.classList.remove('enter');void n.offsetWidth;n.classList.add('enter')});
   card.scrollTop=0;if(!wide.matches)window.scrollTo(0,0);
   var area=document.createElement('div');card.appendChild(area);
@@ -180,6 +189,52 @@ GAMES.end=function(area,i,l){
 };
 
 function confetti(){var cs=['#E2574C','#F5A623','#7BC47F','#6EC3DD','#F7A8C4'];for(var k=0;k<36;k++){var c=document.createElement('i');c.className='conf';c.style.left=(Math.random()*100)+'vw';c.style.background=cs[k%5];c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){return function(){x.remove()}}(c),3600)}}
+
+/* ---------- 詞卡和關鍵字注音（2026-10-26 朋友試玩的建議） ---------- */
+// 注音：只加在關鍵字上（詞卡的字，直排在字的右邊），不是整篇都加（使用者 2026-10-26 定的）；讀音在 ZY，一個詞一筆
+var HANRE=/[㐀-䶿一-鿿豈-﫿]/;
+function plainTxt(n){return n.textContent.replace(/[ㄅ-ㄯˊˇˋ˙]/g,'').trim()}
+function zyChar(ch,r){
+  var m=r.match(/[ˊˇˋ˙]$/),tone=m?m[0]:'';if(tone)r=r.slice(0,-1);
+  return '<span class="zy">'+ch+'<i class="bp" aria-hidden="true">'+(tone==='˙'?'<u class="lt">˙</u>':'')+r.split('').map(function(c){return '<s>'+c+'</s>'}).join('')+(tone&&tone!=='˙'?'<u>'+tone+'</u>':'')+'</i></span>';
+}
+function zyApply(n){
+  if(n._zy||!ZY)return;var t=plainTxt(n),r=ZY[t];if(!r)return;r=r.split(' ');
+  var hans=t.match(/[㐀-䶿一-鿿豈-﫿]/g);if(!hans||hans.length!==r.length)return;
+  var k=0,w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT),list=[];while(w.nextNode())list.push(w.currentNode);
+  list.forEach(function(tn){var h='',any=false;
+    Array.from(tn.nodeValue).forEach(function(c){if(HANRE.test(c)){h+=zyChar(c,r[k++]);any=true}else h+=c.replace(/&/g,'&amp;').replace(/</g,'&lt;')});
+    if(any){var tp=document.createElement('template');tp.innerHTML=h;tn.parentNode.replaceChild(tp.content,tn)}});
+  n._zy=1;n.classList.add('has-zy');
+}
+// 詞卡：關鍵字（粗體）旁邊有注音、下面有點點；點了跳出一個小圓圖、這個詞和一句解釋
+var wpop=null;
+function wordScan(){if(WORDS)document.querySelectorAll('#top b,#card b').forEach(function(b){
+  if(b._w||b.closest('.notes'))return;b._w=1;var k=plainTxt(b);if(!WORDS[k]&&!b.classList.contains('demo'))return;
+  b.classList.add('w');if(b.classList.contains('demo'))return;b.tabIndex=0;b.setAttribute('role','button');b.setAttribute('aria-label',k+'、タップすると絵が見られます');zyApply(b)})}
+// WORDS 的圖：['解釋', 圖] 圖的範圍是 -50 -50 100 100；['解釋', 圖, 底色] 圖畫在哪裡、多大都可以，會自動放大縮小到圓的中間
+function wordSvg(w){return '<svg viewBox="-50 -50 100 100" aria-hidden="true">'+(w[2]?'<rect x="-50" y="-50" width="100" height="100" fill="'+w[2]+'"/><g class="wa">'+w[1]+'</g>':w[1])+'</svg>'}
+function fitWord(root){root.querySelectorAll('.wa').forEach(function(g){var b=g.getBBox();if(!b.width)return;var k=Math.min(8,78/Math.hypot(b.width,b.height));
+  var r=function(v){return Math.round(v*10)/10};g.setAttribute('transform','scale('+r(k)+') translate('+r(-b.x-b.width/2)+' '+r(-b.y-b.height/2)+')')})}
+function closeWord(){if(wpop){wpop.remove();wpop=null}}
+function openWord(b){
+  var k=plainTxt(b),w=WORDS[k];closeWord();if(!w)return;
+  wpop=el('<div class="wpop" role="dialog" aria-label="'+k+'"><span class="wpic">'+wordSvg(w)+'</span><div class="wtx"><p class="wt">'+k+'</p><p>'+w[0]+'</p></div><button class="wx" type="button" aria-label="とじる">×</button></div>').firstChild;
+  document.body.appendChild(wpop);fitWord(wpop);wpop._y=scrollY;var wt=wpop.querySelector('.wt');zyApply(wt);
+  // 放在詞的下面；下面放不下（會被上一關／下一關擋到）就放上面
+  var r=b.getClientRects()[0]||b.getBoundingClientRect(),W=wpop.offsetWidth,H=wpop.offsetHeight,ft=document.querySelector('.foot'),bot=ft?ft.getBoundingClientRect().top:innerHeight;
+  var x=Math.max(12,Math.min(innerWidth-W-12,r.left+r.width/2-W/2)),below=r.bottom+H+16<bot||r.top-H-16<0;
+  wpop.style.left=x+'px';wpop.style.top=(below?r.bottom+12:r.top-H-12)+'px';wpop.classList.add(below?'below':'above');
+  wpop.style.setProperty('--ax',Math.max(22,Math.min(W-22,r.left+r.width/2-x))+'px');
+  tap(wpop.querySelector('.wx'),closeWord);
+}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('b.w');
+  if(b&&!b.classList.contains('demo')){openWord(b);return}if(wpop&&!e.target.closest('.wpop'))closeWord()});
+document.addEventListener('keydown',function(e){var b=e.target.closest&&e.target.closest('b.w');if(b&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openWord(b)}else if(e.key==='Escape')closeWord()});
+// 捲動超過一點點才關（手機網址列縮放、捲動的尾巴也會送出捲動，不能一捲就關）
+addEventListener('scroll',function(){if(wpop&&Math.abs(scrollY-wpop._y)>60)closeWord()},{passive:true});
+if(WORDS){var zyObs=new MutationObserver(wordScan);
+  zyObs.observe(document.getElementById('top'),{childList:true,subtree:true});zyObs.observe(card,{childList:true,subtree:true})}
 
 /* ---------- 換關 ---------- */
 var pv=document.getElementById('pv'),nx=document.getElementById('nx');

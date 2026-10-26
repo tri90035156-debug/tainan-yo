@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/oufen.html#game","name":"藕粉任務","alternateName":"藕粉任務・蓮花・白河藕粉","url":"https://tainanyo.tw/oufen.html","description":"跟著白河的阿嬤：放乾蓮田的水、在泥巴裡摸出蓮藕、提起過濾布洗出粉水、畫線倒掉上面的水、把粉塊壓成小片，最後吹涼一杯熱熱的藕粉。","image":"https://tainanyo.tw/img/oufen.png","inLanguage":"zh-Hant","genre":"蓮花","keywords":"臺南, 台南, 蓮花, 白河, 白河區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・蓮田：放乾水，等兩個月","position":1},{"@type":"CreativeWork","name":"第 2 關・挖藕：在泥巴裡摸蓮藕","position":2},{"@type":"CreativeWork","name":"第 3 關・洗粉：把布的四個角提起來","position":3},{"@type":"CreativeWork","name":"第 4 關・沉澱：水在上面，粉在下面","position":4},{"@type":"CreativeWork","name":"第 5 關・刨粉曬粉：壓成小片","position":5},{"@type":"CreativeWork","name":"第 6 關・泡一杯：吹涼熱熱的藕粉","position":6}],"contentLocation":{"@type":"Place","name":"白河（臺南市白河區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"白河區"},"geo":{"@type":"GeoCoordinates","latitude":23.37,"longitude":120.41}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/oufen.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"蓮花","item":"https://tainanyo.tw/#lianhua"},{"@type":"ListItem","position":3,"name":"藕粉任務","item":"https://tainanyo.tw/oufen.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 <style>
 /* 這個遊戲自己的樣式（共用的在 共用/遊戲核心.css） */
 .link-btn{background:none;border:0;padding:8px 0;color:#8A7A70;font-size:15px;text-decoration:underline;cursor:pointer;min-height:44px}
@@ -222,6 +222,18 @@ var LV=[
    html:'<p>你放乾了蓮田、在泥巴裡摸出蓮藕、提起布洗出粉水、畫線倒掉上面的水、把粉塊壓成小片，最後吹涼一杯熱熱的藕粉。冬天到白河走走，看看蓮田裡的枯荷梗，也嚐嚐看藕粉！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC',W_MUD='#D8CCB0';
+var WORDS={
+  '蓮藕':['蓮花長在泥巴裡的莖，一節一節的，切開來有很多洞。白河是全臺灣種最多蓮藕的地方。',lotusRoot(-8,0,1)+slice(26,4,9),W_MUD],
+  '藕粉':['蓮藕裡的澱粉做成的。大約 10 斤蓮藕，才做得出 1 斤藕粉。用熱開水沖，就能吃。','<path d="M-30 -4H30Q28 22 0 24Q-28 22 -30 -4Z" fill="#fff" stroke="#BD9558" stroke-width="1.6"/><ellipse cx="0" cy="-4" rx="30" ry="7" fill="#C89A9A"/>',W_LAND],
+  '蓮花':['長在水田裡的花，夏天開。花謝了會長出蓮子，泥巴裡的莖就是蓮藕。',flower(0,0,1)+leaf(18,10,.7),W_SKY],
+  '西施臂':['蓮藕白白嫩嫩的，像古代美女西施的手臂，所以也叫西施臂。',lotusRoot(0,0,1),W_MUD],
+  '澱粉':['植物存起來的養分，摸起來粉粉的。藕粉就是蓮藕裡的澱粉。','<path d="M-24 14Q0 -22 24 14Z" fill="#F4F0E8" stroke="#C8C0B0" stroke-width="1.4"/>',W_LAND],
+  '沉澱':['水放著不動，重重的粉會慢慢沉到下面，上面變成清清的水。',bucket(0,0,40,46)+'<rect x="-14" y="-14" width="28" height="12" fill="#F0E8E0"/><rect x="-16" y="-40" width="32" height="26" fill="#D8E8F0" opacity=".8"/>',W_LAND],
+  '刨':['用刀子一片一片削下來。阿嬤把乾掉的大粉塊刨成小片，再曬乾。','<rect x="-30" y="0" width="34" height="20" rx="3" fill="#F4F0E8" stroke="#C8C0B0" stroke-width="1.4"/><path d="M4 0L24 -18L30 -12L10 6Z" fill="#C8CDD2" stroke="#7A7268"/><path d="M14 10L22 14M18 18L28 16M8 18L12 26" stroke="#F0E8E0" stroke-width="4" stroke-linecap="round"/>',W_LAND]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["白河蓮花公園（蓮田）","白河蓮花公園"],["白河區農會","臺南市白河區農會"]],"6":[["白河區農會","臺南市白河區農會"]]};
 
@@ -237,6 +249,9 @@ function wait(fn,ms){var t=setTimeout(fn,ms);loops.push(function(){clearTimeout(
 var LEARN='learn/oufen.html';  // 延伸閱讀頁
 var KEY='tainan-oufen';
 var NOTE='給大人：白河是全臺灣種最多蓮子、蓮藕的地方。蓮田是農民的田，泥巴很深，不要自己走進去；冬天去可以看到放乾水的蓮田和枯荷梗，夏天去看蓮花。熱開水要請大人沖。<br>資料來源：中央社、TVBS 2017（全國蓮藕約 870 公頃、白河約 300 公頃最多；南部蓮藕採收約 11 月到隔年 1 月；西施臂；皮肉淡紅的澱粉多做藕粉；白河蓮藕大多製成藕粉；做藕粉 3 到 4 天，挖掘、切節、清洗、碾碎、洗粉、過濾、沉澱、濾砂、刨粉、曬粉；10 台斤蓮藕做 1 台斤藕粉；純手工藕粉是小片狀、米白或帶粉紅、開水沖泡很快溶解成深紅褐色）；微笑台灣（10 到 12 月白河人家做蓮藕粉；蓮田要放兩個月等水收乾才能挖；用小鐮刀去頭尾）；TVBS 健康 2024（白河是全臺最大蓮子、蓮藕產區）。斜手機放水、摸到會冒泡、提布的四個角、畫線倒水、點成小片都是遊戲示意，挖藕和做藕粉的工具要到現場確認。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"蓮藕":"ㄌㄧㄢˊ ㄡˇ","藕粉":"ㄡˇ ㄈㄣˇ","蓮花":"ㄌㄧㄢˊ ㄏㄨㄚ","西施臂":"ㄒㄧ ㄕ ㄅㄧˋ","澱粉":"ㄉㄧㄢˋ ㄈㄣˇ","沉澱":"ㄔㄣˊ ㄉㄧㄢˋ","刨":"ㄅㄠˋ"};
 
 var GAMES={
   start:function(area){
@@ -472,6 +487,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

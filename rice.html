@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/rice.html#game","name":"割稻任務","alternateName":"割稻任務・稻米・後壁菁寮","url":"https://tainanyo.tw/rice.html","description":"跟著菁寮種稻的阿公，從老街到稻田：把白布泡進染缸看菁寮名字的由來、托一托找出飽滿的稻穗、開割稻機割完整片田、用摔桶打下稻穀、在稻埕推平穀子曬乾，最後搓出白米。","image":"https://tainanyo.tw/img/rice.png","inLanguage":"zh-Hant","genre":"稻米","keywords":"臺南, 台南, 稻米, 菁寮, 後壁區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-20","datePublished":"2026-10-19","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・菁寮老街：菁寮的名字從哪裡來","position":1},{"@type":"CreativeWork","name":"第 2 關・稻田（10 月）：稻穗低頭了","position":2},{"@type":"CreativeWork","name":"第 3 關・收割（11 月中）：開割稻機，把整片田割完","position":3},{"@type":"CreativeWork","name":"第 4 關・以前的割稻：用力摔，稻穀掉下來","position":4},{"@type":"CreativeWork","name":"第 5 關・稻埕曬穀：推開穀子，曬太陽","position":5},{"@type":"CreativeWork","name":"第 6 關・碾米廠：從稻穀到白米","position":6}],"contentLocation":{"@type":"Place","name":"菁寮（臺南市後壁區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"後壁區"},"geo":{"@type":"GeoCoordinates","latitude":23.3748,"longitude":120.3615}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/rice.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"稻米","item":"https://tainanyo.tw/#daomi"},{"@type":"ListItem","position":3,"name":"割稻任務","item":"https://tainanyo.tw/rice.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -225,6 +225,29 @@ var LV=[
 ];
 
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC',W_GOLD='#F6E9C4';
+function w_people(){return '<g fill="#8A6A4A"><circle cx="-14" cy="-14" r="6"/><path d="M-22 14V0Q-22 -6 -14 -6Q-6 -6 -6 0V14Z"/><circle cx="14" cy="-14" r="6"/><path d="M6 14V0Q6 -6 14 -6Q22 -6 22 0V14Z"/></g><path d="M-6 2H6" stroke="#DB2E27" stroke-width="3" stroke-linecap="round"/>'}
+var WORDS={
+  '二期稻':['一年裡第二次種的稻子，秋天收。臺南天氣暖，一年可以種兩次稻。',clump(-12,0,1,true)+clump(12,2,1,true),W_GOLD],
+  '一期稻':['一年裡第一次種的稻子，春天種、夏天收。',clump(-12,0,1)+clump(12,2,1),W_SKY],
+  '嫁妝街':['菁寮老街的別名。以前結婚要用的東西，在這條街上一次就能買齊。','<path d="M-40 10V-10L-28 -18L-16 -10V10ZM-16 10V-12L-2 -20L12 -12V10ZM12 10V-8L24 -16L36 -8V10Z" fill="#C8A878" stroke="#8A6A4A" stroke-width="1.4"/><rect x="-32" y="-2" width="8" height="12" fill="#6A4A30"/><rect x="-6" y="-4" width="8" height="14" fill="#6A4A30"/><rect x="20" y="-2" width="8" height="12" fill="#6A4A30"/>',W_LAND],
+  '菁仔':['有一說，很久以前菁寮種一種植物叫菁仔，用它做<b>藍色的染料</b>染布。','<path d="M0 30V-6" stroke="#5E8A3A" stroke-width="3"/><path d="M0 0Q-18 -6 -22 -20Q-6 -18 0 -4M0 -6Q16 -14 22 -28Q6 -24 0 -10M0 10Q-14 6 -20 -4Q-6 -4 0 8" fill="#7DB357"/><path d="M20 10Q24 18 20 24Q16 18 20 10Z" fill="#2E5AA8"/>',W_SKY],
+  '染缸':['泡布、把布染上顏色的大缸。白布泡一泡、拉起來，就慢慢變藍了。','<path d="M-26 -10H26L20 26H-20Z" fill="#8A6A4A"/><ellipse cx="0" cy="-10" rx="26" ry="6" fill="#2E5AA8"/><path d="M6 -40V-10" stroke="#5A8AC8" stroke-width="10"/>',W_LAND],
+  '秧苗':['剛長出來的小稻子。夏天，阿公在田裡放水，把秧苗一株一株插下去。','<rect x="-46" y="4" width="92" height="20" fill="#A9CFD8"/>'+[-30,-10,10,30].map(function(x){return '<path d="M'+x+' 10V-6M'+x+' 6L'+(x-6)+' -4M'+x+' 6L'+(x+6)+' -4" stroke="#6AAA48" stroke-width="2" stroke-linecap="round"/>'}).join(''),W_SKY],
+  '稻穗':['稻子頂端結滿稻穀的那一串。稻穀飽滿了很重，稻穗就會低下頭。',ear(-8,-20,30,1,true)+ear(10,-18,40,1,true),W_GOLD],
+  '稻穀':['一粒一粒還包著殼的米。',grain(-12,0,1,0)+grain(0,4,1,0)+grain(12,0,1,0),W_GOLD],
+  '割稻機':['一邊往前開，一邊把稻子割下來，把稻穀打下來裝進機器裡的機器。',combine(0,0,0,1),W_GOLD],
+  '換工':['今天大家幫你家割稻，明天大家幫他家割，不收工錢，互相幫忙。',w_people(),W_GOLD],
+  '摔桶':['以前割稻用的木頭大桶子。抓著一把稻子用力摔在桶子上，稻穀就掉進桶子裡。',tub(0,0,1),W_GOLD],
+  '稻埕':['曬穀子的空地。以前大家把剛收的穀子倒在稻埕上曬太陽，才不會發霉。','<rect x="-44" y="4" width="88" height="20" fill="#D8C8A8"/><path d="M-36 6H36" stroke="#E8C060" stroke-width="5"/><circle cx="26" cy="-24" r="9" fill="#F5C842"/>',W_SKY],
+  '穀耙':['推穀子用的耙子。把穀子推開、推平，薄薄的一層，才曬得乾。',rakeArt(0,0,1),W_GOLD],
+  '碾米廠':['把稻穀磨成白米的工廠。','<path d="M-34 24V-6L-14 -18V-6L6 -18V-6L26 -18V24Z" fill="#B8B0A0" stroke="#7A7268" stroke-width="1.4"/><rect x="-6" y="6" width="12" height="18" fill="#6A6258"/>'+grain(-24,14,.8,2)+grain(16,14,.8,2),W_SKY],
+  '粗糠':['稻穀外面那一層硬硬的殼。剝掉粗糠，裡面就是糙米。',grain(0,0,1,0),W_GOLD],
+  '糙米':['剝掉粗糠以後，裡面褐色的米。',grain(0,0,1,1),W_GOLD],
+  '米糠':['糙米外面還有一層，叫米糠。磨掉米糠，就是白白的白米。米糠可以當動物的飼料。',grain(-14,0,1,1)+'<path d="M-4 0H6M2 -4L6 0L2 4" stroke="#8A6A4A" stroke-width="1.4" fill="none"/>'+grain(16,0,1,2),W_GOLD]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0": [["後壁區", "台南市後壁區"]], "1": [["菁寮老街", "菁寮老街"], ["菁寮聖十字架天主堂", "菁寮聖十字架天主堂"]]};
 
@@ -232,6 +255,9 @@ var MAPS={"0": [["後壁區", "台南市後壁區"]], "1": [["菁寮老街", "�
 var LEARN='learn/rice.html';  // 延伸閱讀頁
 var KEY='tainan-rice';
 var NOTE='給大人：插畫地圖是示意，不是真實比例。每年後壁二期稻的收割時間不一樣；稻田是農民的地，請不要走進田裡。<br>資料來源：後壁二期稻 10 月出穗、11 月中收割、颱風前搶收（公視新聞網 2024/10/29）；二期作的定義（農業部農業知識入口網）；菁寮地名由來「菁仔寮」、藍染（蕃薯藤旅遊；微笑台灣〈新和源餅舖〉）；菁寮老街、嫁妝街、往府城和嘉義的交通要道、《無米樂》（微笑台灣〈無米樂10年後〉）；菁寮聖十字架天主堂（淡江時報 952 期；世界宗教博物館）；割稻機一邊割一邊脫穀（Getty AAT「combine」詞條）；摔桶（台灣數位典藏，台灣民俗文物館館藏）；換工、割稻飯（中時新聞網 2019/9/27；bring-you.info）；稻穀收穫後要立即乾燥、含水率 14 到 15%（農業部農業知識入口網 食米主題）；穀耙翻穀、現在多送烘乾（微笑台灣〈晒穀場上的不死精神〉）；糙米去掉米糠變白米、米糠當飼料（農業部）。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"二期稻":"ㄦˋ ㄑㄧˊ ㄉㄠˋ","一期稻":"ㄧ ㄑㄧˊ ㄉㄠˋ","嫁妝街":"ㄐㄧㄚˋ ㄓㄨㄤ ㄐㄧㄝ","菁仔":"ㄐㄧㄥ ㄗˇ","染缸":"ㄖㄢˇ ㄍㄤ","秧苗":"ㄧㄤ ㄇㄧㄠˊ","稻穗":"ㄉㄠˋ ㄙㄨㄟˋ","稻穀":"ㄉㄠˋ ㄍㄨˇ","割稻機":"ㄍㄜ ㄉㄠˋ ㄐㄧ","換工":"ㄏㄨㄢˋ ㄍㄨㄥ","摔桶":"ㄕㄨㄞ ㄊㄨㄥˇ","稻埕":"ㄉㄠˋ ㄔㄥˊ","穀耙":"ㄍㄨˇ ㄆㄚˊ","碾米廠":"ㄋㄧㄢˇ ㄇㄧˇ ㄔㄤˇ","粗糠":"ㄘㄨ ㄎㄤ","糙米":"ㄘㄠ ㄇㄧˇ","米糠":"ㄇㄧˇ ㄎㄤ"};
 
 var GAMES={
   start:function(area){
@@ -487,6 +513,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>

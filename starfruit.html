@@ -26,7 +26,7 @@
 <meta name="robots" content="max-image-preview:large, max-snippet:-1">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Game","LearningResource"],"@id":"https://tainanyo.tw/starfruit.html#game","name":"楊桃任務","alternateName":"楊桃任務・水果・楠西楊桃","url":"https://tainanyo.tw/starfruit.html","description":"跟著楠西種楊桃的阿姨走楊桃路：切出五個角的星星、掛誘蟲盒抓公蛾、幫小楊桃套袋、把落果撿乾淨、每天巡園只摘黃的，再抽查要出國的楊桃。","image":"https://tainanyo.tw/img/starfruit.png","inLanguage":"zh-Hant","genre":"水果","keywords":"臺南, 台南, 水果, 楠西, 楠西區, 兒童, 國小, 鄉土教育, 小遊戲","isAccessibleForFree":true,"learningResourceType":"互動小遊戲","educationalLevel":"國小","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"國小學生、親子、老師"},"numberOfPlayers":{"@type":"QuantitativeValue","value":1},"dateModified":"2026-10-24","datePublished":"2026-10-24","publisher":{"@id":"https://tainanyo.tw/#org"},"isPartOf":{"@id":"https://tainanyo.tw/#site"},"hasPart":[{"@type":"CreativeWork","name":"第 1 關・楊桃路：切出一顆星星","position":1},{"@type":"CreativeWork","name":"第 2 關・果園：掛上誘蟲盒","position":2},{"@type":"CreativeWork","name":"第 3 關・套袋：幫楊桃穿紙衣","position":3},{"@type":"CreativeWork","name":"第 4 關・撿落果：把落果撿乾淨","position":4},{"@type":"CreativeWork","name":"第 5 關・採收：每天都要巡一次","position":5},{"@type":"CreativeWork","name":"第 6 關・包裝場：抽查以後再出國","position":6}],"contentLocation":{"@type":"Place","name":"楠西（臺南市楠西區）","address":{"@type":"PostalAddress","addressRegion":"臺南市","addressCountry":"TW","addressLocality":"楠西區"},"geo":{"@type":"GeoCoordinates","latitude":23.1736,"longitude":120.4857}},"subjectOf":{"@type":"Article","url":"https://tainanyo.tw/learn/starfruit.html"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"臺南yo","item":"https://tainanyo.tw/"},{"@type":"ListItem","position":2,"name":"水果","item":"https://tainanyo.tw/#shuiguo"},{"@type":"ListItem","position":3,"name":"楊桃任務","item":"https://tainanyo.tw/starfruit.html"}]},{"@type":"Organization","@id":"https://tainanyo.tw/#org","name":"三角影像有限公司","url":"https://www.trimedia.tw/","email":"tri90035156@gmail.com","logo":{"@type":"ImageObject","url":"https://tainanyo.tw/logo.png","width":512,"height":512}},{"@type":"WebSite","@id":"https://tainanyo.tw/#site","name":"臺南yo","alternateName":["台南yo","Tainan Yo","臺南 yo","台南 yo"],"url":"https://tainanyo.tw/","description":"臺南yo（台南yo）：跟著地圖玩臺南。給國小學生玩的手機小遊戲，一個地方一個遊戲，玩一玩認識臺南的歷史、文化、古蹟、水果和候鳥。","inLanguage":"zh-Hant","publisher":{"@id":"https://tainanyo.tw/#org"}}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
-<link rel="stylesheet" href="core/game.css?v=6d60ad78">
+<link rel="stylesheet" href="core/game.css?v=71199e15">
 </head>
 <body>
 <noscript><main class="noscript" style="max-width:640px;margin:0 auto;padding:20px;line-height:1.8">
@@ -213,6 +213,23 @@ var LV=[
    html:'<p>你切出了五個角的星星、掛好誘蟲盒、幫楊桃穿上紙衣、把落果撿乾淨、每天巡園摘黃楊桃，還抽查好要出國的楊桃。秋冬到楠西，沿著 188 縣道的楊桃路走走看！</p>',game:'end'}
 ];
 
+/* ---------- 詞卡：點粗體字跳出小圖和一句解釋（共用核心看到 WORDS 就會做）。[解釋, 圖, 底色]：圖會自動縮放到圓的中間 ---------- */
+var W_SKY='#E6F2E0',W_LAND='#F1E6CC';
+var WORDS={
+  '楊桃':['黃黃的水果，有 5 條凸凸的<b>稜</b>，切開來像一顆星星。楠西是臺灣種最多楊桃的地方。',sfruit(-10,0,1)+star(18,4,9),W_SKY],
+  '稜':['像屋頂的屋脊那樣，凸起來的長長的邊。楊桃有 5 條稜。',sfruit(0,0,1),W_SKY],
+  '五斂子':['楊桃的另一個名字，因為它有 5 條稜。也叫<b>五稜子</b>。',star(0,0,10),W_LAND],
+  '五稜子':['楊桃的另一個名字，因為它有 5 條稜。',star(0,0,10),W_LAND],
+  '楊桃花姬捲葉蛾':['一種小蛾。牠在小楊桃上產卵，小蟲孵出來，就鑽進果肉裡吃，楊桃就壞了。',moth(0,0,1),W_SKY],
+  '誘蟲盒':['掛在果園裡的小盒子。盒子裡有母蛾的味道，公蛾聞到就飛進去，被抓起來。',trap(0,0,1),W_SKY],
+  '性費洛蒙':['蟲身上發出來的特別味道。誘蟲盒用母蛾的味道，把公蛾騙進去。',trap(0,0,1)+'<path d="M8 -6Q12 -10 16 -6T24 -6M8 0Q12 -4 16 0T24 0" stroke="#DB2E27" stroke-width=".8" fill="none"/>'+moth(30,-4,.7),W_SKY],
+  '套袋':['用紙袋把小楊桃整顆包起來。這樣捲葉蛾和果實蠅就沒辦法在上面產卵。',bag(0,0,22,30),W_SKY],
+  '落果':['從樹上掉下來的果子。有的落果裡面，還住著小蟲。','<rect x="-40" y="10" width="80" height="16" fill="#B49A70"/>'+sfruit(-12,6,.8,null,20)+sfruit(14,8,.8,null,-30),W_SKY],
+  '清園':['把落果撿乾淨。小蟲才不會在落果裡長大變成蛾，再去害新的楊桃。','<path d="M-22 -6H22L18 22H-18Z" fill="#C8A878" stroke="#8A6A4A" stroke-width="1.4"/>'+sfruit(-6,-8,.6)+sfruit(8,-10,.6,null,30),W_LAND],
+  '蒂頭':['楊桃連著果柄的那一頭。出國前要看蒂頭有沒有小蟲。',sfruit(0,0,1)+'<circle cx="-20" cy="0" r="8" fill="none" stroke="#DB2E27" stroke-width="1.6" stroke-dasharray="2 2"/>',W_SKY],
+  '燻蒸':['用特別的氣體把小蟲殺死。出國的楊桃只要找到一隻蟲，整批都要送去燻蒸。','<rect x="-26" y="-10" width="52" height="34" rx="3" fill="#C8A878" stroke="#8A6A4A" stroke-width="1.4"/><path d="M-14 -16Q-20 -24 -12 -30Q-4 -36 -10 -44M4 -16Q-2 -24 6 -30Q14 -36 8 -44" stroke="#9AA6AA" stroke-width="4" fill="none" stroke-linecap="round"/>',W_LAND]
+};
+
 /* ---------- 去現場看看：每一關的地點（Google 地圖搜尋） ---------- */
 var MAPS={"0":[["楠西區灣丘里（188 縣道楊桃路）","臺南市楠西區灣丘里"]]};
 
@@ -228,6 +245,9 @@ function wait(fn,ms){var t=setTimeout(fn,ms);loops.push(function(){clearTimeout(
 var LEARN='learn/starfruit.html';  // 延伸閱讀頁
 var KEY='tainan-starfruit';
 var NOTE='給大人：楠西的楊桃園大多是私人果園，沒有主人同意不要進去、不要摘；188 縣道車子多，走路要靠邊。<br>資料來源：上下游新聞市集 2025（2023 年全臺楊桃 378 公頃、楠西 138 公頃，是最大的出口產區；灣丘里是最後的楊桃村、188 縣道叫楊桃路；出口主要靠美國、加拿大）、上下游新聞市集 2017（農曆年前後盛產；成熟不一致要每天巡、人工逐顆採收、容易碰傷；外銷前抽樣檢查蒂頭，有蟲整批燻蒸）、台南區農業改良場《台南區農業專訊》45 期 2003（楠西栽培面積全省之冠；約 10 月開花結小果；花姬捲葉蛾；性費洛蒙誘蟲器每分地 4 到 8 個；約 5 公分套袋、封口要封緊；12 月大多已套袋；清除落果；可低溫檢疫外銷歐美）、農業知識入口網（五斂子、五稜子；原產大致是馬來西亞，清朝引入；彰化觀光果園選金黃色果實連袋採）、謝慶昌等 1985《中國園藝》（花白天開、晚上合）。切的方向、誘蟲盒的範圍、折袋口、袋子越裝越慢、每天黃幾顆、哪一箱有蟲，都是遊戲示意。地圖是示意圖，不是真實比例。';
+
+/* 注音（工具/做注音.py 做的，不要手改；要改請改 工具/注音/<資料夾>.txt） */
+var ZY={"楊桃":"ㄧㄤˊ ㄊㄠˊ","稜":"ㄌㄥˊ","五斂子":"ㄨˇ ㄌㄧㄢˋ ㄗˇ","五稜子":"ㄨˇ ㄌㄥˊ ㄗˇ","楊桃花姬捲葉蛾":"ㄧㄤˊ ㄊㄠˊ ㄏㄨㄚ ㄐㄧ ㄐㄩㄢˇ ㄧㄝˋ ㄜˊ","誘蟲盒":"ㄧㄡˋ ㄔㄨㄥˊ ㄏㄜˊ","性費洛蒙":"ㄒㄧㄥˋ ㄈㄟˋ ㄌㄨㄛˋ ㄇㄥˊ","套袋":"ㄊㄠˋ ㄉㄞˋ","落果":"ㄌㄨㄛˋ ㄍㄨㄛˇ","清園":"ㄑㄧㄥ ㄩㄢˊ","蒂頭":"ㄉㄧˋ ㄊㄡˊ","燻蒸":"ㄒㄩㄣ ㄓㄥ"};
 
 var GAMES={
   start:function(area){
@@ -468,6 +488,6 @@ var GAMES={
   }
 };
 </script>
-<script src="core/game.js?v=6d60ad78"></script>
+<script src="core/game.js?v=71199e15"></script>
 </body>
 </html>
