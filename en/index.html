@@ -862,6 +862,11 @@ b{font-weight:700;color:var(--ink)}
   // 這個月推薦：卡片上 data-months 有這個月的；太少就補一年四季都能玩的
   var all=[].slice.call(app.querySelectorAll('section.games .game')),pick=all.filter(function(a){return (','+a.dataset.months+',').indexOf(','+M+',')>=0});
   if(pick.length<4)pick=pick.concat(all.filter(function(a){return !a.dataset.months}).slice(0,4-pick.length));
+  // 一年四季的古蹟、廟宇和民俗，每個月都放進推薦；再照大類輪流排，水果不會擠成一整排（使用者 2026-10-26：11 月都是水果，太無聊）
+  var EXTRA=['guji','miaoyu','minsu'],thOf=function(a){var s=a.closest('section.games').previousElementSibling;return s?s.id:''};
+  pick=pick.concat(all.filter(function(a){return !a.dataset.months&&EXTRA.indexOf(thOf(a))>=0&&pick.indexOf(a)<0}));
+  var bk=G.map(function(g){return pick.filter(function(a){return g.themes.indexOf(thOf(a))>=0})}),rest=pick.filter(function(a){return !G.some(function(g){return g.themes.indexOf(thOf(a))>=0})});
+  bk.push(rest);pick=[];for(var i=0;bk.some(function(b){return b.length>i});i++)bk.forEach(function(b){if(b[i])pick.push(b[i])});
   var rt=document.createElement('section');rt.className='theme';rt.id='tuijian';rt.setAttribute('aria-label','Picks for this month');
   rt.innerHTML='<div class="head"><p class="by">Picks for this month</p><h2>Places to play in '+MN+'</h2><p class="cnt">'+GN(pick.length)+' · swipe for more</p></div>';
   var rg=document.createElement('section');rg.className='games';rg.setAttribute('aria-label','Games picked for '+MN);
