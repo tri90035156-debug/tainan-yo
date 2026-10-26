@@ -152,7 +152,8 @@ b{font-weight:700;color:var(--ink)}
   .mapscroll{height:min(94vh,1000px)}
   .maptools{position:absolute;left:0;right:0;top:0;height:min(94vh,1000px);z-index:3;padding:0;background:none;pointer-events:none}
   .zoom{position:absolute;right:24px;bottom:72px;flex-direction:column;align-items:flex-end;pointer-events:auto}
-  .swipe{position:absolute;right:24px;top:20px}
+  .swipe{position:absolute;right:24px;top:20px;transition:opacity .25s}
+  .swipe.gone{opacity:0}
   .t-phone{display:none}.t-pc{display:inline}
   .mapnote2{padding:8px 24px 12px}
 }
@@ -707,6 +708,9 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
   var svgM=document.getElementById('bigmap'),wideQ=matchMedia('(min-width:900px) and (min-aspect-ratio:5/4)');
   // 地圖可以放大、縮小、拖著移動：改 viewBox，字和線都保持清楚
   var box=svgM.parentNode,cx=0,cy=0,sc=1,minS=1,maxS=4,baseV=null,zRaf=0,reduceM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 府城一帶（中西、北、南、安平）點很擠：鏡頭在這一區時可以再放大 3 倍；放得比平常大時，只能在這一區移動（使用者 2026-10-26 選的 A）
+  var OLD=[250,760,400,860],DEEP=3;
+  function maxAt(x,y){return x>=OLD[0]&&x<=OLD[2]&&y>=OLD[1]&&y<=OLD[3]?maxS*DEEP:maxS}
   function dims(){return {W:box.clientWidth||1,H:box.clientHeight||1}}
   function base(){
     var d=dims();
@@ -722,15 +726,28 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
   }
   var zIn=document.querySelector('[data-z=in]'),zOut=document.querySelector('[data-z=out]');
   function apply(){
-    sc=Math.max(minS,Math.min(maxS,sc));clamp();var d=dims();
+    sc=Math.max(minS,Math.min(maxS*DEEP,sc));if(sc>maxS*1.001){cx=Math.max(OLD[0],Math.min(OLD[2],cx));cy=Math.max(OLD[1],Math.min(OLD[3],cy))}clamp();var d=dims();
     svgM.setAttribute('viewBox',[cx-d.W/2/sc,cy-d.H/2/sc,d.W/sc,d.H/sc].map(function(v){return Math.round(v*10)/10}).join(' '));
-    zIn.disabled=sc>=maxS*.999;zOut.disabled=sc<=minS*1.001;
-    updMini();
+    zIn.disabled=sc>=maxAt(cx,cy)*.999;zOut.disabled=sc<=minS*1.001;
+    updMini();fitArt();
     placePts(ptPx()/sc);
   }
+  // 放得比平常最大還大（府城一帶）時，溪、區界、字和橋的小圖示維持平常最大時的大小，不然溪會變很粗、區名很大
+  var art=[],artF=1;
+  [].slice.call(svgM.querySelectorAll('[stroke-width],[font-size],g[transform]')).forEach(function(e){
+    if(e.closest('#pts')||e.closest('#cls'))return;var tf=e.getAttribute('transform');
+    if(e.tagName==='g'&&!/^translate\([^)]*\)$/.test(tf||''))tf=null;
+    // 橋的小圖示整組縮小，裡面的線就不用再縮
+    if(art.some(function(a){return a.tf&&a.e.contains(e)}))return;
+    art.push({e:e,tf:tf,sw:e.getAttribute('stroke-width'),fs:e.getAttribute('font-size'),da:e.getAttribute('stroke-dasharray')})});
+  function fitArt(){var f=Math.round(Math.min(1,maxS/sc)*1000)/1000;if(f===artF)return;artF=f;
+    art.forEach(function(a){var e=a.e;
+      if(a.tf){e.setAttribute('transform',f<1?a.tf+' scale('+f+')':a.tf);return}
+      if(a.sw)e.setAttribute('stroke-width',+a.sw*f);if(a.fs)e.setAttribute('font-size',+a.fs*f);
+      if(a.da)e.setAttribute('stroke-dasharray',a.da.split(/[ ,]+/).map(function(v){return +v*f}).join(' '))})}
   function reset(){baseV=base();cx=baseV.cx;cy=baseV.cy;sc=baseV.s;minS=baseV.min;maxS=baseV.s*4;apply()}
   // 以螢幕上的一點為中心放大縮小
-  function zoomAt(px,py,f){var d=dims(),mx=cx+(px-d.W/2)/sc,my=cy+(py-d.H/2)/sc,ns=Math.max(minS,Math.min(maxS,sc*f));cx=mx-(px-d.W/2)/ns;cy=my-(py-d.H/2)/ns;sc=ns;apply()}
+  function zoomAt(px,py,f){var d=dims(),mx=cx+(px-d.W/2)/sc,my=cy+(py-d.H/2)/sc,ns=Math.max(minS,Math.min(maxAt(mx,my),sc*f));cx=mx-(px-d.W/2)/ns;cy=my-(py-d.H/2)/ns;sc=ns;apply()}
   function animTo(tcx,tcy,ts){
     cancelAnimationFrame(zRaf);var f0={cx:cx,cy:cy,s:sc},t0=performance.now(),D=reduceM?1:280;
     (function st(now){var q=Math.min(1,(now-t0)/D),e=1-Math.pow(1-q,3);cx=f0.cx+(tcx-f0.cx)*e;cy=f0.cy+(tcy-f0.cy)*e;sc=f0.s*Math.pow(ts/f0.s,e);apply();if(q<1)zRaf=requestAnimationFrame(st)})(t0);
@@ -738,7 +755,7 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
   document.querySelector('.zoom').addEventListener('click',function(e){
     var b=e.target.closest('button');if(!b)return;e.stopPropagation();
     if(b.dataset.z==='all'){var d=dims(),v=wideQ.matches?base():{cx:540,cy:520,s:baseV.min};animTo(v.cx,v.cy,v.s)}
-    else animTo(cx,cy,Math.max(minS,Math.min(maxS,sc*(b.dataset.z==='in'?1.6:1/1.6))));
+    else animTo(cx,cy,Math.max(minS,Math.min(maxAt(cx,cy),sc*(b.dataset.z==='in'?1.6:1/1.6))));
   });
   // 滑鼠：拖著移動，按兩下放大，⌘／Ctrl＋滾輪或觸控板兩指捏合縮放。手指：見下面的 touch（一根手指捲網頁，兩根手指移動、放大）
   var ptrs={},moved=0,pinch=null,capId=null;
@@ -748,7 +765,7 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
   svgM.addEventListener('pointerdown',function(e){if(e.button>0)return;cancelAnimationFrame(zRaf);ptrs[e.pointerId]=rel(e);if(Object.keys(ptrs).length===1)moved=0;startPinch()});
   svgM.addEventListener('pointermove',function(e){
     var o=ptrs[e.pointerId];if(!o)return;var p=rel(e);
-    if(pinch){ptrs[e.pointerId]=p;var t=two(),d=dims(),mid={x:(t[0].x+t[1].x)/2,y:(t[0].y+t[1].y)/2};sc=Math.max(minS,Math.min(maxS,pinch.s0*Math.hypot(t[0].x-t[1].x,t[0].y-t[1].y)/pinch.d0));cx=pinch.mx-(mid.x-d.W/2)/sc;cy=pinch.my-(mid.y-d.H/2)/sc;apply();moved=99;return}
+    if(pinch){ptrs[e.pointerId]=p;var t=two(),d=dims(),mid={x:(t[0].x+t[1].x)/2,y:(t[0].y+t[1].y)/2};sc=Math.max(minS,Math.min(maxAt(pinch.mx,pinch.my),pinch.s0*Math.hypot(t[0].x-t[1].x,t[0].y-t[1].y)/pinch.d0));cx=pinch.mx-(mid.x-d.W/2)/sc;cy=pinch.my-(mid.y-d.H/2)/sc;apply();moved=99;return}
     var dx=p.x-o.x,dy=p.y-o.y;ptrs[e.pointerId]=p;moved+=Math.abs(dx)+Math.abs(dy);
     if(moved>8){if(capId===null){capId=e.pointerId;try{svgM.setPointerCapture(e.pointerId)}catch(_){}svgM.classList.add('drag')}cx-=dx/sc;cy-=dy/sc;apply()}
   });
@@ -756,7 +773,7 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
   svgM.addEventListener('pointerup',up);svgM.addEventListener('pointercancel',up);
   // 拖過地圖就不算點一下（不會打開遊戲卡）
   svgM.addEventListener('click',function(e){if(moved>8){e.stopPropagation();e.preventDefault();moved=0}},true);
-  svgM.addEventListener('dblclick',function(e){var p=rel(e);var d=dims(),f=1.8,ns=Math.min(maxS,sc*f),mx=cx+(p.x-d.W/2)/sc,my=cy+(p.y-d.H/2)/sc;animTo(mx-(p.x-d.W/2)/ns,my-(p.y-d.H/2)/ns,ns)});
+  svgM.addEventListener('dblclick',function(e){var p=rel(e);var d=dims(),f=1.8,mx=cx+(p.x-d.W/2)/sc,my=cy+(p.y-d.H/2)/sc,ns=Math.min(maxAt(mx,my),sc*f);animTo(mx-(p.x-d.W/2)/ns,my-(p.y-d.H/2)/ns,ns)});
   box.addEventListener('wheel',function(e){if(!e.ctrlKey&&!e.metaKey)return;e.preventDefault();var p=rel(e);zoomAt(p.x,p.y,Math.exp(-e.deltaY*.01))},{passive:false});
   reset();
   if(wideQ.addEventListener)wideQ.addEventListener('change',reset);
@@ -800,13 +817,14 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
     clG.innerHTML=CL.map(function(q,c){var n=q.m.reduce(function(a,i){return a+nGames(P[i])},0),names=q.m.map(function(i){return P[i].name}).join('、');
       return '<g class="cl" tabindex="0" role="button" data-c="'+c+'" aria-label="ここにゲームが '+n+' こ：'+names+'。タップで拡大" transform="translate('+f2(q.x)+' '+f2(q.y)+') scale('+kk+')" style="cursor:pointer">'+
         '<circle r="34" fill="#DB2E27" opacity=".18"/><circle r="28" fill="#DB2E27" stroke="#fff" stroke-width="4"/><text y="10" font-size="28" font-weight="900" fill="#fff" text-anchor="middle" font-family="Noto Sans JP,sans-serif">'+n+'</text></g>'}).join('');
-    dists.forEach(function(d){d.t.style.display=boxes.some(function(o){return d.x>o[0]-10&&d.x<o[2]+10&&d.y>o[1]-6&&d.y<o[3]+12})?'none':''});
+    var a=artF;dists.forEach(function(d){d.t.style.display=boxes.some(function(o){return d.x>o[0]-10*a&&d.x<o[2]+10*a&&d.y>o[1]-6*a&&d.y<o[3]+12*a})?'none':''});
   }
   var heroT=document.querySelector('.hero-title');
   // 電腦上（標題浮在地圖上）地圖被拖動或放大了，標題就縮成小名牌
   function updMini(){var h=document.querySelector('.hero-title');if(!h||!baseV)return;
     var moved=getComputedStyle(h).position==='absolute'&&(sc>baseV.s*1.03||Math.abs(cx-baseV.cx)*sc>12||Math.abs(cy-baseV.cy)*sc>12);
-    h.classList.toggle('mini',moved)}
+    h.classList.toggle('mini',moved);var w=document.querySelector('.maptools .swipe');if(w)w.classList.toggle('gone',moved)}
+  if(heroT)heroT.addEventListener('transitionend',function(e){if(e.target.tagName==='H1'&&e.propertyName==='font-size'&&baseV)placePts(ptPx()/sc)});
   if(heroT)heroT.querySelector('h1').addEventListener('click',function(){if(heroT.classList.contains('mini'))document.querySelector('[data-z=all]').click()});
   function titleBox(){if(!heroT)return null;var t=(heroT.classList.contains('mini')?heroT.querySelector('h1'):heroT).getBoundingClientRect(),b=box.getBoundingClientRect(),d=dims(),m=10;
     if(t.bottom<=b.top||t.top>=b.bottom||t.right<=b.left||t.left>=b.right)return null;
@@ -814,8 +832,8 @@ rt{font-size:.5em;font-weight:400;letter-spacing:0}
     return [X(t.left-m),Y(t.top-m),X(t.right+m),Y(t.bottom+m)]}
   function f2(v){return Math.round(v*10)/10}
   clG.addEventListener('click',function(e){var t=e.target.closest('.cl');if(!t)return;e.stopPropagation();var q=CL[+t.dataset.c];if(!q)return;
-    if(sc>=maxS*.98){openList(q.m);return}
-    animTo(q.x,q.y,Math.min(maxS,sc*2.2))});
+    if(sc>=maxAt(q.x,q.y)*.98){openList(q.m);return}
+    animTo(q.x,q.y,Math.min(maxAt(q.x,q.y),sc*2.2))});
   clG.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var t=e.target.closest('.cl');if(t){e.preventDefault();t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}}});
   if(baseV)placePts(ptPx()/sc);
   var sh=document.getElementById('sheet2'),body=document.getElementById('shBody'),last=null;
