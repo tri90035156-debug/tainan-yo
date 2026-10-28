@@ -120,13 +120,23 @@ b{font-weight:700;color:var(--ink)}
 #bigmap.drag{cursor:grabbing}
 .t-pc{display:none}
 /* 地圖放大、縮小、看全部（右下角的圓形按鈕） */
-.maptools{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 12px;background:var(--bg)}
+.maptools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 12px;background:var(--bg)}
 .zoom{display:flex;flex-direction:row;align-items:center;gap:10px;flex:none}
 .maptools .swipe{white-space:nowrap;font-size:13px}
 .zoom button{min-width:46px;height:46px;padding:0;border:0;border-radius:999px;background:#FFFDF8;color:var(--maroon);font:700 26px/1 var(--f,sans-serif);box-shadow:0 0 0 5px var(--goldsoft),0 2px 8px rgba(42,32,32,.18);cursor:pointer;touch-action:manipulation}
 .zoom button.all{font-size:14px;padding:0 14px}
 .zoom button:active{filter:brightness(.92)}
 .zoom button:disabled{color:#C9BDB0}
+/* 地圖上只亮重點的點（預設是這個月推薦，使用者 2026-10-28 選的）：左邊的切換鈕「○ 月推薦／全部」；其他點縮成灰色小點，點了一樣開遊戲卡 */
+.lit{display:flex;gap:2px;padding:3px;border-radius:999px;background:#FFFDF8;box-shadow:0 0 0 2px var(--goldsoft),0 2px 8px rgba(42,32,32,.15);flex:none}
+.lit button{min-height:38px;padding:0 10px;border:0;border-radius:999px;background:none;color:var(--maroon);font:700 14px var(--f);cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.lit button[aria-pressed="true"]{background:var(--maroon);color:#fff}
+.pt .hit{display:none}
+.pt.dim .tg,.pt.dim .pulse,.pt.dim .art{display:none}.pt.dim .hit{display:block}
+.pt.dim .bg{fill:#C9BCAE}.pt.dim .ring{stroke:#FFFDF8;stroke-width:5}
+.pt.dim:hover .ring,.pt.dim:focus-visible .ring{stroke:var(--maroon)}
+.hint-sm{display:none}
+@media (max-width:699px){.maptools .swipe{display:none}.hint-sm{display:inline}}
 .swipe{margin:0;padding:6px 12px;border-radius:999px;background:#FFFDF8;color:var(--maroon);font-size:14px;font-weight:700;box-shadow:0 2px 8px rgba(42,32,32,.15);pointer-events:none}
 .mapnote2{position:static!important;padding:6px 16px 10px;background:var(--bg)}
 .pt{cursor:pointer;outline:none}
@@ -152,7 +162,8 @@ b{font-weight:700;color:var(--ink)}
   .mapscroll{height:min(94vh,1000px)}
   .maptools{position:absolute;left:0;right:0;top:0;height:min(94vh,1000px);z-index:3;padding:0;background:none;pointer-events:none}
   .zoom{position:absolute;right:24px;bottom:72px;flex-direction:column;align-items:flex-end;pointer-events:auto}
-  .swipe{position:absolute;right:24px;top:20px;transition:opacity .25s}
+  .lit{position:absolute;right:24px;top:20px;pointer-events:auto}
+  .swipe{position:absolute;right:24px;top:76px;transition:opacity .25s}
   .swipe.gone{opacity:0}
   .t-phone{display:none}.t-pc{display:inline}
   .mapnote2{padding:8px 24px 12px}
@@ -245,6 +256,7 @@ b{font-weight:700;color:var(--ink)}
   </div>
   <div class="bigmap">
     <div class="maptools">
+      <div class="lit" role="group" aria-label="地圖上亮哪些點"><button type="button" data-l="focus" aria-pressed="true">推薦</button><button type="button" data-l="all" aria-pressed="false">所有遊戲</button></div>
       <p class="swipe"><span class="t-phone">拖著移動，兩根手指放大</span><span class="t-pc">按 ＋ 放大，拖著移動</span></p>
       <div class="zoom" role="group" aria-label="地圖放大縮小"><button type="button" data-z="in" aria-label="放大">＋</button><button type="button" data-z="out" aria-label="縮小">－</button><button type="button" class="all" data-z="all">看全部</button></div>
     </div>
@@ -281,7 +293,7 @@ b{font-weight:700;color:var(--ink)}
       <g id="pts"></g>
     </svg>
     </div>
-    <p class="mapnote2">臺南 37 個區。一個點就是一個遊戲，點越來越多，之後會連成路線。<br>地圖資料：內政部國土測繪中心、© OpenStreetMap 貢獻者。</p>
+    <p class="mapnote2"><span class="hint-sm">拖著移動，兩根手指放大。</span>臺南 37 個區。一個點就是一個遊戲：紅色是推薦的，灰色小點是其他的，按「所有遊戲」就都亮起來；點越來越多，之後會連成路線。<br>地圖資料：內政部國土測繪中心、© OpenStreetMap 貢獻者。</p>
   </div>
 </header>
 <div class="sheet2" id="sheet2" hidden>
@@ -1008,8 +1020,8 @@ b{font-weight:700;color:var(--ink)}
       '<text y="56" text-anchor="middle" font-size="22" font-weight="900" fill="#2A2020" font-family="Noto Serif TC,Songti TC,serif">'+p.name+'</text>'+
       '<text y="76" text-anchor="middle" font-size="15" font-weight="700" fill="#6C2024" font-family="Noto Sans TC,PingFang TC,sans-serif">'+p.sub+'</text></g>';
     h+='<g class="pt" tabindex="0" role="button" data-k="'+k+'" aria-label="'+p.name+'：'+p.sub+'" transform="translate('+p.x+' '+p.y+')">'+tag(0)+tag(1)+tagB+
-      '<circle class="pulse" r="30" fill="none" stroke="#DB2E27" stroke-width="3"/><circle r="30" fill="#fff"/>'+
-      '<g clip-path="url(#pc)"><g transform="translate(-25 -25) scale(.568)">'+pic+'</g></g><circle class="ring" r="28" fill="none" stroke="#DB2E27" stroke-width="4"/></g>';
+      '<circle class="hit" r="48" fill="transparent"/><circle class="pulse" r="30" fill="none" stroke="#DB2E27" stroke-width="3"/><circle class="bg" r="30" fill="#fff"/>'+
+      '<g class="art" clip-path="url(#pc)"><g transform="translate(-25 -25) scale(.568)">'+pic+'</g></g><circle class="ring" r="28" fill="none" stroke="#DB2E27" stroke-width="4"/></g>';
   });
   g.innerHTML=h;
   var clG=document.createElementNS('http://www.w3.org/2000/svg','g');clG.id='cls';g.parentNode.insertBefore(clG,g.nextSibling);
@@ -1099,10 +1111,19 @@ b{font-weight:700;color:var(--ink)}
   // 3. 被圓圈或名牌蓋到的區名藏起來
   var CL=[];
   function nGames(p){return p.ids?p.ids.length:1}
+  // 地圖上只亮「重點」的點（預設是這個月推薦；下面的篩選按鈕選了大類或主題，就亮那一類的點）：其他點縮成灰色小點、不合成圓圈、沒有名牌，點了一樣開遊戲卡（使用者 2026-10-28 選的）
+  var LIT=null,focus={ids:null},litBtns=[].slice.call(document.querySelectorAll('.lit button'));
+  function lit(p){if(!LIT)return true;return (p.ids||[p.id]).some(function(i){return LIT[i]})}
+  function setLit(ids){LIT=null;if(ids){LIT={};ids.forEach(function(i){LIT[i]=true})}
+    ptEls.forEach(function(e,j){var on=lit(P[j]);e.classList.toggle('dim',!on);if(on)g.appendChild(e);else g.insertBefore(e,g.firstChild)});
+    litBtns.forEach(function(b){b.setAttribute('aria-pressed',(b.dataset.l==='all')===!LIT?'true':'false')});
+    if(baseV)placePts(ptPx()/sc)}
+  window.tgFocus=function(ids,label){focus={ids:ids};if(litBtns[0])litBtns[0].textContent=label;setLit(ids)};
+  litBtns.forEach(function(b){b.addEventListener('click',function(){setLit(b.dataset.l==='all'?null:focus.ids)})});
   function placePts(k){
     if(!ptEls)return;
     var R=30*k,G=[];
-    P.forEach(function(p,j){var hit=null;G.forEach(function(q){if(!hit&&Math.hypot(q.x-p.x,q.y-p.y)<R*2.15)hit=q});
+    P.forEach(function(p,j){if(!lit(p))return;var hit=null;G.forEach(function(q){if(!hit&&Math.hypot(q.x-p.x,q.y-p.y)<R*2.15)hit=q});
       if(hit){hit.m.push(j);hit.x=hit.m.reduce(function(a,i){return a+P[i].x},0)/hit.m.length;hit.y=hit.m.reduce(function(a,i){return a+P[i].y},0)/hit.m.length}
       else G.push({x:p.x,y:p.y,m:[j]})});
     var boxes=G.map(function(q){return [q.x-R,q.y-R,q.x+R,q.y+R]});
@@ -1119,8 +1140,9 @@ b{font-weight:700;color:var(--ink)}
       tries.forEach(function(t){if(!got&&free(t[1])&&inView(t[1])){got=t[0];boxes.push(t[1])}});
       tries.forEach(function(t){if(!got&&free(t[1])){got=t[0];boxes.push(t[1])}});side[q.m[0]]=got});
     var kk=Math.round(k*1000)/1000;
-    ptEls.forEach(function(e,j){var inC=G.some(function(q){return q.m.length>1&&q.m.indexOf(j)>=0});e.style.display=inC?'none':'';if(inC)return;
-      var p=P[j];e.setAttribute('transform','translate('+p.x+' '+p.y+') scale('+kk+')');
+    ptEls.forEach(function(e,j){var p=P[j];if(!lit(p)){e.style.display='';e.setAttribute('transform','translate('+p.x+' '+p.y+') scale('+Math.round(kk*500)/1000+')');return}
+      var inC=G.some(function(q){return q.m.length>1&&q.m.indexOf(j)>=0});e.style.display=inC?'none':'';if(inC)return;
+      e.setAttribute('transform','translate('+p.x+' '+p.y+') scale('+kk+')');
       e.querySelector('.tr').style.display=side[j]==='R'?'':'none';e.querySelector('.tl').style.display=side[j]==='L'?'':'none';e.querySelector('.tb').style.display=side[j]==='B'?'':'none'});
     CL=G.filter(function(q){return q.m.length>1});
     clG.innerHTML=CL.map(function(q,c){var n=q.m.reduce(function(a,i){return a+nGames(P[i])},0),names=q.m.map(function(i){return P[i].name}).join('、');
@@ -1198,6 +1220,7 @@ b{font-weight:700;color:var(--ink)}
   pick=pick.concat(all.filter(function(a){return !a.dataset.months&&EXTRA.indexOf(thOf(a))>=0&&pick.indexOf(a)<0}));
   var bk=G.map(function(g){return pick.filter(function(a){return g.themes.indexOf(thOf(a))>=0})}),rest=pick.filter(function(a){return !G.some(function(g){return g.themes.indexOf(thOf(a))>=0})});
   bk.push(rest);pick=[];for(var i=0;bk.some(function(b){return b.length>i});i++)bk.forEach(function(b){if(b[i])pick.push(b[i])});
+  var pickIds=pick.map(function(a){return a.id});
   var rt=document.createElement('section');rt.className='theme';rt.id='tuijian';rt.setAttribute('aria-label','這個月推薦');
   rt.innerHTML='<div class="head"><p class="by">'+(M===now.getMonth()+1?'這個月推薦':'下個月推薦')+'</p><h2>'+M+' 月，去這些地方玩</h2><p class="cnt">'+pick.length+' 個遊戲・往右滑看更多</p></div>';
   var rg=document.createElement('section');rg.className='games';rg.setAttribute('aria-label',M+' 月推薦的遊戲');
@@ -1225,6 +1248,9 @@ b{font-weight:700;color:var(--ink)}
     var g=G.filter(function(x){return x.id===v})[0]||gOf[v]||null,theme=byId[v]&&v!=='tuijian'?v:null;
     if(g&&!theme&&g.themes.length===1)theme=g.themes[0];
     var top=g?g.id:v;
+    // 地圖跟著亮：全部／○ 月推薦 → 推薦的點；大類或主題 → 那一類的點
+    if(window.tgFocus){var ts=theme?[theme]:g?g.themes:null,ids=pickIds;if(ts){ids=[];ts.forEach(function(t){[].forEach.call(byId[t].g.querySelectorAll('.game'),function(a){ids.push(a.id)})})}
+      tgFocus(ids,theme?byId[theme].name:g?g.name:F[1].n)}
     [].forEach.call(r1.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===top?'true':'false')});
     if(g&&g.themes.length>1){r2.innerHTML=btns([{v:g.id,n:'全部'}].concat(g.themes.map(function(t){return {v:t,n:byId[t].name}})));r2.hidden=false;
       [].forEach.call(r2.children,function(b){b.setAttribute('aria-pressed',b.dataset.v===(theme||g.id)?'true':'false')})}
