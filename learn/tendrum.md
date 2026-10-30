@@ -76,4 +76,4 @@
 - 臺灣糖廠陸續關廠的原因：[新聞] 中央社 2016-12-09 https://www.cna.com.tw/news/afe/201612090456.aspx
 
 ---
-出處：臺南yo（https://tainanyo.tw/learn/tendrum.html），最後更新 2026-10-29。
+出處：臺南yo（https://tainanyo.tw/learn/tendrum.html），最後更新 2026-10-31。
