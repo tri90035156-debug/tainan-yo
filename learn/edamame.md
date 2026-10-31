@@ -62,4 +62,4 @@
 - 新市區農會地址、毛豆麵和拌麵、保鮮不易、茶豆香酥、社區小舖、臺南好麵系列：[政府] 臺南市政府農業局《臺南好麵》 https://twtainan.net/file/18128
 
 ---
-出處：臺南yo（https://tainanyo.tw/learn/edamame.html），最後更新 2026-10-29。
+出處：臺南yo（https://tainanyo.tw/learn/edamame.html），最後更新 2026-10-31。

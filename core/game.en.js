@@ -240,7 +240,7 @@ if(WORDS){var zyObs=new MutationObserver(wordScan);
 var pv=document.getElementById('pv'),nx=document.getElementById('nx');
 function paint(){
   nx.disabled=cur===LV.length-1||!st.done[cur];nx.textContent=st.done[cur]||cur===LV.length-1?'Next ›':'Finish first';
-  pv.disabled=cur===0;nx.style.visibility=cur===LV.length-1?'hidden':'';document.getElementById('pos').textContent=cur===0?'Start':(cur===LV.length-1?'Done!':'Level '+cur+' of 6');
+  pv.disabled=cur===0;nx.style.visibility=cur===LV.length-1?'hidden':'';document.getElementById('pos').textContent=cur===0?'Start':(cur===LV.length-1?'Done!':'Level '+cur+' of '+(LV.length-2));
   map.querySelectorAll('.stop').forEach(function(g){g.classList.toggle('lock',+g.dataset.lv>st.far)});
 }
 // 鏡頭：每一關都把那一關的地點放在圓的正中間；全景（正方形鏡頭）照原樣
