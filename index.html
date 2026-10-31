@@ -1368,14 +1368,20 @@ b{font-weight:700;color:var(--ink)}
     function upd(){var max=g.scrollWidth-g.clientWidth;bs[0].disabled=g.scrollLeft<4;bs[1].disabled=g.scrollLeft>max-4;row.querySelector('.arrows').style.display=max>4?'':'none';c.textContent=g.querySelectorAll('.game').length+' 個遊戲'+(max>4&&!app.classList.contains('one')?'・往右滑看更多':'')}
     bs[0].addEventListener('click',function(){step(-1)});bs[1].addEventListener('click',function(){step(1)});
     g.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);o.upd=upd;setTimeout(upd,50)}
-  // 這個月推薦：卡片上 data-months 有這個月的；太少就補一年四季都能玩的
-  var all=[].slice.call(app.querySelectorAll('section.games .game')),pick=all.filter(function(a){return (','+a.dataset.months+',').indexOf(','+M+',')>=0});
-  if(pick.length<4)pick=pick.concat(all.filter(function(a){return !a.dataset.months}).slice(0,4-pick.length));
-  // 一年四季的古蹟、廟宇和民俗，每個月都放進推薦；再照大類輪流排，水果不會擠成一整排（使用者 2026-10-26：11 月都是水果，太無聊）
-  var EXTRA=['guji','miaoyu','minsu'],thOf=function(a){var s=a.closest('section.games').previousElementSibling;return s?s.id:''};
-  pick=pick.concat(all.filter(function(a){return !a.dataset.months&&EXTRA.indexOf(thOf(a))>=0&&pick.indexOf(a)<0}));
-  var bk=G.map(function(g){return pick.filter(function(a){return g.themes.indexOf(thOf(a))>=0})}),rest=pick.filter(function(a){return !G.some(function(g){return g.themes.indexOf(thOf(a))>=0})});
-  bk.push(rest);pick=[];for(var i=0;bk.some(function(b){return b.length>i});i++)bk.forEach(function(b){if(b[i])pick.push(b[i])});
+  // 這個月推薦（使用者 2026-11-01：32 個太多，減少、重點往前排）：只挑 10 個。
+  // 當季的照「季節多短」排（只有這一兩個月能玩的最前面；一樣短的，越快過季越前面），同一個主題最多 2 個（水果不會擠滿）；
+  // 最後放 1 個一年四季都能去的古蹟、廟宇或民俗，每個月輪一個。
+  var MAXPICK=10,PER_THEME=2,EXTRA=['guji','miaoyu','minsu'],thOf=function(a){var s=a.closest('section.games').previousElementSibling;return s?s.id:''};
+  var all=[].slice.call(app.querySelectorAll('section.games .game'));
+  function ms(a){return a.dataset.months?a.dataset.months.split(',').map(Number):[]}
+  function left(a){var m=ms(a),i=m.indexOf(M),n=0;while(i+1<m.length&&m[i+1]===m[i]%12+1){n++;i++}return n} // 這個月以後還能玩幾個月
+  var seas=all.filter(function(a){return ms(a).indexOf(M)>=0}).map(function(a,k){return {a:a,k:k}});
+  seas.sort(function(x,y){return ms(x.a).length-ms(y.a).length||left(x.a)-left(y.a)||x.k-y.k});
+  var pick=[],per={};
+  seas.forEach(function(o){var t=thOf(o.a);if(pick.length<MAXPICK-1&&(per[t]||0)<PER_THEME){pick.push(o.a);per[t]=(per[t]||0)+1}});
+  var yr=all.filter(function(a){return !a.dataset.months&&EXTRA.indexOf(thOf(a))>=0});
+  if(yr.length)pick.push(yr[M%yr.length]);
+  if(pick.length<4)pick=pick.concat(all.filter(function(a){return !a.dataset.months&&pick.indexOf(a)<0}).slice(0,4-pick.length));
   var pickIds=pick.map(function(a){return a.id});
   var rt=document.createElement('section');rt.className='theme';rt.id='tuijian';rt.setAttribute('aria-label','這個月推薦');
   rt.innerHTML='<div class="head"><p class="by">'+(M===now.getMonth()+1?'這個月推薦':'下個月推薦')+'</p><h2>'+M+' 月，去這些地方玩</h2><p class="cnt">'+pick.length+' 個遊戲・往右滑看更多</p></div>';
